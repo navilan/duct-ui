@@ -2,6 +2,8 @@ import { getDuct } from "./runtime"
 import { observeLifecycle } from "./lifecycle"
 import { ObservableV2 as Observable } from 'lib0/observable'
 
+export type BProps<Props> = Props & { "data-duct-id": string }
+
 interface ComponentEvents<Logic extends Record<string, any>> {
   bound: (logic: Logic) => void
 }
