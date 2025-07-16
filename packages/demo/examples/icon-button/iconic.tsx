@@ -1,4 +1,4 @@
-import { makeIconButton } from "@duct-ui/components/button/icon-button"
+import makeIconButton from "@duct-ui/components/button/icon-button"
 import iconOne from "../../src/icons/one.svg"
 import iconTwo from "../../src/icons/two.svg"
 import iconThree from "../../src/icons/three.svg"

@@ -1,4 +1,4 @@
-import { makeButton } from "@duct-ui/components/button/button"
+import makeButton from "@duct-ui/components/button/button"
 
 const handler = (el: HTMLElement) => {
   const message = el.dataset['message']
