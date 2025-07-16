@@ -1,2 +1,10 @@
-import rootConfig from '../tailwind.config'
-export default rootConfig
+export default {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './index.html'
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark, cupcake, dracula, nord, abyss;
-  root: "#example-container";
+  themes: light, dark, cupcake --default, dracula, nord, abyss;
+  root: "#app";
 };
 
 @layer base {

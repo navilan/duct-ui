@@ -7,12 +7,11 @@ export default defineConfig({
   server: {
     port: 3000
   },
-  // Add multiple entry points for the demo
   build: {
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        button: resolve(__dirname, "examples/button/index.html")
+        main: resolve(__dirname, "index.html")
       },
       output: {
         format: "es",

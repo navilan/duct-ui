@@ -60,7 +60,7 @@ export interface BlueprintConfig<
   // Custom event names that components can emit
   customEvents?: (keyof Events)[]
   // Logic binding function - now optional
-  bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>) => Logic
+  bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>) => Omit<Logic, 'on' | 'off'>
   // Cleanup function
   release?: (el: HTMLElement, logic: Logic) => void
 }
@@ -143,6 +143,7 @@ export function createBlueprint<
       if (config.bind) {
         const customLogic = config.bind(htmlEl, eventEmitter)
         // Merge default on/off with custom logic
+        // @ts-expect-error
         logic = {
           ...createDefaultLogic(eventEmitter),
           ...customLogic
