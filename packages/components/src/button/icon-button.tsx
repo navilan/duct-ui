@@ -1,5 +1,5 @@
 import { type BProps, createBlueprint } from "@duct-ui/core/blueprint"
-import { ButtonEvents, ButtonLogic, ButtonProps } from "./button"
+import { ButtonEvents, ButtonProps } from "./button"
 
 export type IconPosition = "start" | "end"
 
@@ -28,30 +28,16 @@ function render(props: BProps<IconButtonProps>) {
 }
 
 
-function bind(el: HTMLElement, eventEmitter: any): ButtonLogic {
-  return {
-    on: eventEmitter.on.bind(eventEmitter),
-    off: eventEmitter.off.bind(eventEmitter)
-  }
-}
-
-
-function release(el: HTMLElement) {
-  console.debug('icon button released')
-}
 // Define a unique ID for this component
 const id = { id: "duct/icon-button" }
 
 // Create the final component
 export default () => {
-  return createBlueprint<IconButtonProps, ButtonEvents, ButtonLogic>(
+  return createBlueprint<IconButtonProps, ButtonEvents>(
     id,
     render,
     {
-
       domEvents: ['click', 'dblclick'], // Automatically bind these DOM events
       customEvents: ['bind', 'release'], // Custom lifecycle events
-      bind,
-      release
     })
 }

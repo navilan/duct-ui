@@ -44,19 +44,25 @@ function extractEventProps<P extends Record<string, any>>(props: P) {
   return { eventProps, regularProps }
 }
 
+// Default logic interface with on/off methods
+export interface DefaultLogic<Events extends Record<string, (...args: any[]) => void>> {
+  on: <K extends keyof Events>(event: K, callback: Events[K]) => void
+  off: <K extends keyof Events>(event: K, callback: Events[K]) => void
+}
+
 // Configuration for component blueprint
 export interface BlueprintConfig<
   Events extends Record<string, (...args: any[]) => void>,
-  Logic extends Record<string, any>
+  Logic extends Record<string, any> = DefaultLogic<Events>
 > {
   // Event names that should be automatically bound to DOM events
   domEvents?: (keyof HTMLElementEventMap)[]
   // Custom event names that components can emit
   customEvents?: (keyof Events)[]
-  // Logic binding function
-  bind: (el: HTMLElement, eventEmitter: EventEmitter<Events>) => Logic
+  // Logic binding function - now optional
+  bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>) => Logic
   // Cleanup function
-  release: (el: HTMLElement, logic: Logic) => void
+  release?: (el: HTMLElement, logic: Logic) => void
 }
 
 // Event emitter interface provided to component logic
@@ -66,11 +72,21 @@ export interface EventEmitter<Events extends Record<string, (...args: any[]) => 
   off<K extends keyof Events>(event: K, callback: Events[K]): void
 }
 
-// Create an evented component with automatic on:* prop parsing
+// Create default logic with on/off methods
+function createDefaultLogic<Events extends Record<string, (...args: any[]) => void>>(
+  eventEmitter: EventEmitter<Events>
+): DefaultLogic<Events> {
+  return {
+    on: eventEmitter.on.bind(eventEmitter),
+    off: eventEmitter.off.bind(eventEmitter)
+  }
+}
+
+// Create an event-aware component blueprint with automatic on:* prop parsing
 export function createBlueprint<
   Props extends Record<string, any>,
   Events extends Record<string, (...args: any[]) => void>,
-  Logic extends Record<string, any>
+  Logic extends Record<string, any> = DefaultLogic<Events>
 >(
   id: { id: string },
   render: (props: Props & { "data-duct-id": string }) => JSX.Element,
@@ -124,7 +140,18 @@ export function createBlueprint<
       eventEmitter.emit('bind' as keyof Events, htmlEl)
 
       // Create component logic
-      logic = config.bind(htmlEl, eventEmitter)
+      if (config.bind) {
+        const customLogic = config.bind(htmlEl, eventEmitter)
+        // Merge default on/off with custom logic
+        logic = {
+          ...createDefaultLogic(eventEmitter),
+          ...customLogic
+        } as Logic
+      } else {
+        // Use default logic with on/off methods
+        // @ts-expect-error
+        logic = createDefaultLogic(eventEmitter) as Logic
+      }
       getDuct().register(htmlEl, logic)
       componentObservable.emit('bound', [logic])
     },
@@ -140,7 +167,9 @@ export function createBlueprint<
       // Emit release event and cleanup
       if (logic) {
         eventEmitter.emit('release' as keyof Events, htmlEl)
-        config.release(htmlEl, logic)
+        if (config.release) {
+          config.release(htmlEl, logic)
+        }
         logic = undefined
       }
     }
@@ -166,21 +195,4 @@ export function createBlueprint<
   return Object.assign(component, {
     getLogic: () => onBound
   }) as ((props: Props) => JSX.Element) & { getLogic: () => Promise<Logic> }
-}
-
-// Legacy component API for backward compatibility
-export function createComponent<
-  Props extends Record<string, any>,
-  L extends Record<string, any>
->(
-  id: { id: string },
-  render: (props: Props & { "data-duct-id": string }) => JSX.Element,
-  bind: (el: HTMLElement) => L,
-  release: (el: HTMLElement) => void
-): ((props: Props) => JSX.Element) & { getLogic: () => Promise<L> } {
-
-  return createBlueprint(id, render, {
-    bind: (el, eventEmitter) => bind(el),
-    release: (el, logic) => release(el)
-  })
 }
