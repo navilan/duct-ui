@@ -1,0 +1,72 @@
+import { getDuct } from "./runtime"
+import { observeLifecycle } from "./lifecycle"
+import { ObservableV2 as Observable } from 'lib0/observable'
+
+interface ComponentEvents {
+  bound: (logic: Record<string, any>) => void
+}
+let instanceCounter = 0
+
+
+let eventObservable = new Observable<any>()
+
+function _instanceSubscribe<EventType extends string>(id: string, event: EventType, consumer: (el: HTMLElement, ...args: any[]) => void) {
+  eventObservable.on(event, (el: HTMLElement, ...args: any[]) => {
+    const dataId = el.dataset['ductId']
+    if (dataId === id) {
+      consumer(el, ...args)
+    }
+  })
+}
+
+export interface EventConfig {
+  readonly domEventKeys: readonly (keyof HTMLElementEventMap)[]
+  readonly customEventKeys: readonly string[]
+}
+
+export interface ComponentConfig<L extends Record<string, any>> extends EventConfig {
+  readonly bind: (el: HTMLElement) => L
+  readonly release: (el: HTMLElement) => void
+}
+
+export function createComponent<
+  Props extends Record<string, any>,
+  L extends Record<string, any>,
+>(
+  id: { id: string },
+  render: (props: Props & { "data-duct-id": string }) => JSX.Element,
+  config: ComponentConfig<L>
+): ((props: Props) => JSX.Element) {
+
+  const instanceId = `${id.id}--${instanceCounter++}`
+
+  let logic: L | undefined
+
+  observeLifecycle(instanceId, {
+    onInsert(el) {
+      logic = config.bind(el as HTMLElement)
+      getDuct().register(el, logic)
+    },
+    onRemove(el) {
+      config.release(el as HTMLElement)
+      logic = undefined
+    }
+  })
+
+  const component = function (props: Props): JSX.Element {
+    // Extract event props
+    const newProps: Partial<Props> = {}
+
+    // If DOM event list is mentioned, bind them automatically
+    return render({
+      ...props,
+      "data-duct-id": instanceId
+    })
+  }
+
+  const result = Object.assign(component, {
+    getLogic: () => (onBound as Promise<L>)
+  }) as ((props: Props) => JSX.Element) & { getLogic: () => Promise<L> }
+
+  return result
+}

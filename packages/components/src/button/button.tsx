@@ -37,7 +37,6 @@ function idCheckWrapper(id: string, event: ButtonEventType, consumer: (el: HTMLE
       consumer(el, ...args)
     }
   })
-
 }
 
 function render(props: ButtonProps & { "data-duct-id": string }) {
