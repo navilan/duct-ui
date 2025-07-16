@@ -1,0 +1,39 @@
+{
+  "folders": [
+    {
+      "name": "Duct",
+      "path": ".."
+    },
+    {
+      "name": "Core",
+      "path": "../packages/core"
+    },
+    {
+      "name": "Components",
+      "path": "../packages/components"
+    },
+    {
+      "name": "Demo",
+      "path": "../packages/demo"
+    }
+  ],
+  "settings": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true,
+    "[javascript]": {
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true
+    },
+    "[typescript]": {
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true
+    },
+    "[json]": {
+      "editor.tabSize": 2,
+      "editor.insertSpaces": true
+    },
+    "prettier.tabWidth": 2,
+    "prettier.useTabs": false
+  }
+}

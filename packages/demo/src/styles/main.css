@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark, cupcake, dracula, nord, abyss;
+  root: "#example-container";
+};
+
+@layer base {
+  h1 {
+    @apply text-4xl mb-4;
+  }
+  h2 {
+    @apply text-3xl mb-4;
+  }
+  .container {
+    @apply p-8;
+  }
+}
+
+.tiny-button-image .btn img {
+  @apply aspect-square;
+  @apply h-6;
+}

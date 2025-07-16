@@ -1,0 +1,14 @@
+{
+  "name": "duct-ui",
+  "version": "0.1.0",
+  "description": "Mono-repo for Duct UI components",
+  "author": "navilan<navilan@folds.in>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "build": "pnpm -r run build"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.11"
+  }
+}

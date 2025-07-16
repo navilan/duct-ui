@@ -1,0 +1,35 @@
+{
+  "name": "@duct-ui/core",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.mts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "clean": "tsc -b tsconfig.build.json --clean"
+  },
+  "keywords": [
+    "ui",
+    "components",
+    "framework"
+  ],
+  "author": "navilan<navilan@folds.in>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "@kitajs/html": "^4.2.9",
+    "lib0": "^0.2.111",
+    "typescript": "^5.8.3"
+  }
+}
