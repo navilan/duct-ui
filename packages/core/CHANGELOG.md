@@ -1,5 +1,11 @@
 # @duct-ui/core
 
+## 0.1.2
+
+### Patch Changes
+
+- [#4](https://github.com/navilan/duct-ui/pull/4) [`02bbba9`](https://github.com/navilan/duct-ui/commit/02bbba9b9ceeeb4a605b39036728f9deb8707f19) Thanks [@navilan](https://github.com/navilan)! - Add select component
+
 ## 0.1.1
 
 ### Patch Changes
