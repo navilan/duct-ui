@@ -1,0 +1,48 @@
+/* Sidebar Navigation Component Styles */
+.sidebar-nav {
+  @apply h-screen overflow-y-auto border-r border-base-300 bg-base-200;
+}
+
+.sidebar-nav-header {
+  @apply p-4 border-b border-base-300;
+}
+
+.sidebar-nav-content {
+  @apply p-2;
+}
+
+.sidebar-nav-section {
+  @apply mb-4;
+}
+
+.sidebar-nav-section-title {
+  @apply px-4 py-2 text-sm font-semibold text-base-content/60 uppercase tracking-wider;
+}
+
+.sidebar-nav-items {
+  @apply menu menu-sm;
+}
+
+.sidebar-nav-item {
+  /* Base list item styles */
+}
+
+.sidebar-nav-item-link {
+  @apply block px-4 py-2 rounded-lg hover:bg-base-300 transition-colors text-base-content;
+}
+
+.sidebar-nav-item-link.active {
+  @apply bg-primary text-primary-content;
+}
+
+.sidebar-nav-item-content {
+  /* Content wrapper styles */
+}
+
+.sidebar-nav-item-title {
+  @apply font-medium;
+}
+
+.sidebar-nav-item-description {
+  @apply text-xs opacity-70;
+}

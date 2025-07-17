@@ -151,9 +151,9 @@ export function MenuDemo() {
               </Menu3>
 
               <Menu4
-                label="Top End"
+                label="Top Start"
                 buttonClass="btn btn-outline btn-secondary"
-                placement="top-end"
+                placement="top-start"
                 on:open={menuOpenHandler}
                 on:close={menuCloseHandler}
               >

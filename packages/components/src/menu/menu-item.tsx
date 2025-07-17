@@ -1,4 +1,5 @@
 import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
+import makeIcon, { type IconSource } from "../images/icon"
 
 export interface MenuItemEvents extends BaseComponentEvents {
   click: (el: HTMLElement, event: MouseEvent) => void
@@ -10,7 +11,7 @@ export interface MenuItemLogic {
   isDisabled: () => boolean
 }
 
-export type MenuItemIcon = string | { default: string } | { src: string }
+export type MenuItemIcon = IconSource
 
 export type MenuItemProps = {
   label: string
@@ -22,23 +23,9 @@ export type MenuItemProps = {
   'on:click'?: (el: HTMLElement, event: MouseEvent) => void
 } & Record<string, any>
 
-function renderIcon(icon: MenuItemIcon): string {
-  if (typeof icon === 'string') {
-    return `<span class="text-base mr-2">${icon}</span>`
-  }
-
-  if (typeof icon === 'object') {
-    if ('default' in icon) {
-      // Imported SVG module
-      return `<img src="${icon.default}" alt="" class="w-4 h-4 mr-2" />`
-    }
-    if ('src' in icon) {
-      // Direct URL/path
-      return `<img src="${icon.src}" alt="" class="w-4 h-4 mr-2" />`
-    }
-  }
-
-  return ''
+function renderIcon(icon: MenuItemIcon): JSX.Element {
+  const IconComponent = makeIcon()
+  return <IconComponent icon={icon} size="sm" class="mr-2" />
 }
 
 function render(props: BaseProps<MenuItemProps>) {
@@ -53,12 +40,12 @@ function render(props: BaseProps<MenuItemProps>) {
   const disabledClass = disabled ? 'disabled' : ''
   const itemClasses = `${className} ${disabledClass}`.trim()
 
-  const iconHtml = icon ? renderIcon(icon) : ''
+  const iconElement = icon ? renderIcon(icon) : null
 
   return (
     <li class={itemClasses} {...moreProps}>
       <a class={disabled ? 'disabled' : ''}>
-        {iconHtml}{label}
+        {iconElement}{label}
       </a>
     </li>
   )
