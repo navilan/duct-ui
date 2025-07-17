@@ -60,9 +60,7 @@ export interface BlueprintConfig<
   // Custom event names that components can emit
   customEvents?: (keyof Events)[]
   // Logic binding function - now optional
-  bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>) => Omit<Logic, 'on' | 'off'>
-  // Cleanup function
-  release?: (el: HTMLElement, logic: Logic) => void
+  bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>) => BindReturn<Logic>
 }
 
 // Event emitter interface provided to component logic
@@ -80,6 +78,10 @@ function createDefaultLogic<Events extends Record<string, (...args: any[]) => vo
     on: eventEmitter.on.bind(eventEmitter),
     off: eventEmitter.off.bind(eventEmitter)
   }
+}
+
+export type BindReturn<Logic extends Record<string, any>> = Logic & {
+  release: (el: HTMLElement) => void
 }
 
 // Create an event-aware component blueprint with automatic on:* prop parsing
@@ -143,7 +145,6 @@ export function createBlueprint<
       if (config.bind) {
         const customLogic = config.bind(htmlEl, eventEmitter)
         // Merge default on/off with custom logic
-        // @ts-expect-error
         logic = {
           ...createDefaultLogic(eventEmitter),
           ...customLogic
@@ -168,9 +169,7 @@ export function createBlueprint<
       // Emit release event and cleanup
       if (logic) {
         eventEmitter.emit('release' as keyof Events, htmlEl)
-        if (config.release) {
-          config.release(htmlEl, logic)
-        }
+        logic.release(htmlEl)
         logic = undefined
       }
     }

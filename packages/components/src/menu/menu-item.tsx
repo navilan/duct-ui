@@ -1,0 +1,157 @@
+import { createBlueprint, EventEmitter, type BindReturn } from "@duct-ui/core/blueprint"
+
+export interface MenuItemEvents extends Record<string, any> {
+  bind: (el: HTMLElement) => void
+  release: (el: HTMLElement) => void
+  click: (el: HTMLElement, event: MouseEvent) => void
+}
+
+export interface MenuItemLogic {
+  click: () => void
+  setDisabled: (disabled: boolean) => void
+  isDisabled: () => boolean
+}
+
+export type MenuItemIcon = string | { default: string } | { src: string }
+
+export type MenuItemProps = {
+  label: string
+  icon?: MenuItemIcon
+  disabled?: boolean
+  class?: string
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+  'on:click'?: (el: HTMLElement, event: MouseEvent) => void
+} & Record<string, any>
+
+function renderIcon(icon: MenuItemIcon): string {
+  if (typeof icon === 'string') {
+    return `<span class="text-base mr-2">${icon}</span>`
+  }
+  
+  if (typeof icon === 'object') {
+    if ('default' in icon) {
+      // Imported SVG module
+      return `<img src="${icon.default}" alt="" class="w-4 h-4 mr-2" />`
+    }
+    if ('src' in icon) {
+      // Direct URL/path
+      return `<img src="${icon.src}" alt="" class="w-4 h-4 mr-2" />`
+    }
+  }
+  
+  return ''
+}
+
+function render(props: MenuItemProps & { "data-duct-id": string }) {
+  const {
+    label,
+    icon,
+    disabled = false,
+    class: className = "",
+    'data-duct-id': id,
+    ...moreProps
+  } = props
+
+  const disabledClass = disabled ? 'disabled' : ''
+  const itemClasses = `${className} ${disabledClass}`.trim()
+
+  const iconHtml = icon ? renderIcon(icon) : ''
+
+  return (
+    <li data-duct-id={id} class={itemClasses} {...moreProps}>
+      <a class={disabled ? 'disabled' : ''}>
+        {iconHtml}{label}
+      </a>
+    </li>
+  )
+}
+
+function bind(el: HTMLElement, eventEmitter: EventEmitter<MenuItemEvents>): BindReturn<MenuItemLogic> {
+  const anchor = el.querySelector('a') as HTMLElement
+  
+  if (!anchor) {
+    throw new Error('MenuItem component missing required anchor element')
+  }
+
+  function click() {
+    if (!isDisabled()) {
+      const clickEvent = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true
+      })
+      anchor.dispatchEvent(clickEvent)
+    }
+  }
+
+  function setDisabled(disabled: boolean) {
+    if (disabled) {
+      el.classList.add('disabled')
+      anchor.classList.add('disabled')
+      anchor.setAttribute('aria-disabled', 'true')
+    } else {
+      el.classList.remove('disabled')
+      anchor.classList.remove('disabled')
+      anchor.removeAttribute('aria-disabled')
+    }
+  }
+
+  function isDisabled(): boolean {
+    return el.classList.contains('disabled') || anchor.classList.contains('disabled')
+  }
+
+  function handleClick(e: MouseEvent) {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    if (!isDisabled()) {
+      eventEmitter.emit('click', e)
+      
+      // Close all menus when item is clicked
+      document.dispatchEvent(new CustomEvent('duct:close-all-menus', { detail: { except: null } }))
+    }
+  }
+
+  function handleKeydown(e: KeyboardEvent) {
+    if ((e.key === 'Enter' || e.key === ' ') && !isDisabled()) {
+      e.preventDefault()
+      e.stopPropagation()
+      click()
+    }
+  }
+
+  // Event listeners
+  anchor.addEventListener('click', handleClick)
+  anchor.addEventListener('keydown', handleKeydown)
+
+  // Make focusable for keyboard navigation
+  if (!anchor.hasAttribute('tabindex')) {
+    anchor.setAttribute('tabindex', '0')
+  }
+
+  function release() {
+    anchor.removeEventListener('click', handleClick)
+    anchor.removeEventListener('keydown', handleKeydown)
+  }
+
+  return {
+    click,
+    setDisabled,
+    isDisabled,
+    release
+  }
+}
+
+const id = { id: "duct/menu-item" }
+
+export default () => {
+  return createBlueprint<MenuItemProps, MenuItemEvents, MenuItemLogic>(
+    id,
+    render,
+    {
+      domEvents: ['click'],
+      customEvents: ['bind', 'release'],
+      bind
+    },
+  )
+}

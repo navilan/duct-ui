@@ -5,6 +5,16 @@
   root: "#app";
 };
 
+@source inline('relative');
+@source inline('absolute');
+@source inline('dropdown');
+@source inline('dropdown-end');
+@source inline('dropdown-top');
+@source inline('dropdown-bottom');
+@source inline('dropdown-start');
+
+
+
 @layer base {
   h1 {
     @apply text-4xl mb-4;

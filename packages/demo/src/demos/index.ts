@@ -1,5 +1,7 @@
 import { ButtonDemo } from "./ButtonDemo"
 import { IconButtonDemo } from "./IconButtonDemo"
+import { EditableInputDemo } from "./EditableInputDemo"
+import { MenuDemo } from "./MenuDemo"
 
 export interface DemoInfo {
   id: string
@@ -30,6 +32,30 @@ export const demoCategories: DemoCategory[] = [
         title: "Icon Button",
         description: "Button component with icon support",
         component: IconButtonDemo
+      }
+    ]
+  },
+  {
+    id: "input",
+    title: "Input",
+    demos: [
+      {
+        id: "editable-input",
+        title: "Editable Input",
+        description: "Click-to-edit input with keyboard shortcuts",
+        component: EditableInputDemo
+      }
+    ]
+  },
+  {
+    id: "menu",
+    title: "Menu",
+    demos: [
+      {
+        id: "menu",
+        title: "Menu & MenuItem",
+        description: "Dropdown menus with customizable placement and actions",
+        component: MenuDemo
       }
     ]
   }

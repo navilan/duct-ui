@@ -1,7 +1,5 @@
-import makeSidebar from "./components/Sidebar"
+import Sidebar from "./components/Sidebar"
 import { demoCategories, getDemoById, getDefaultDemo } from "./demos"
-
-const Sidebar = makeSidebar()
 
 class DemoApp {
   private currentDemo: string
@@ -39,11 +37,11 @@ class DemoApp {
     if (!app) return
 
     const currentDemoInfo = getDemoById(this.currentDemo) || getDefaultDemo()
-    
+
     // Create the main layout
     const layout = (
       <div class="flex h-screen bg-base-100">
-        <Sidebar 
+        <Sidebar
           categories={demoCategories}
           currentDemo={this.currentDemo}
           on:navigate={this.handleNavigation}

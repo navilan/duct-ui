@@ -1,0 +1,22 @@
+{
+  "watch": [
+    "packages/*/src/**/*.ts",
+    "packages/*/src/**/*.tsx",
+    "packages/*/src/**/*.js",
+    "packages/*/src/**/*.jsx",
+    "packages/*/package.json",
+    "packages/*/tsconfig*.json"
+  ],
+  "ignore": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.git/**",
+    "**/coverage/**"
+  ],
+  "ext": "ts,tsx,js,jsx,json",
+  "exec": "pnpm -r run build",
+  "delay": 500,
+  "colours": true,
+  "legacyWatch": false,
+  "verbose": true
+}
