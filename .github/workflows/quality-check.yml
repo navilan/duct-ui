@@ -1,0 +1,58 @@
+name: Quality Check
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.13.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+      - name: Type check
+        run: pnpm check
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Verify package contents
+        run: |
+          # Check that core package builds correctly
+          test -f packages/core/dist/index.js || (echo "Core package build failed" && exit 1)
+          test -f packages/core/dist/index.d.ts || (echo "Core types build failed" && exit 1)
+
+          # Check that components package builds correctly
+          test -f packages/components/dist/index.js || (echo "Components package build failed" && exit 1)
+          test -f packages/components/dist/index.d.ts || (echo "Components types build failed" && exit 1)
+
+          # Verify CSS files are copied
+          test -f packages/components/dist/tree/tree-view.css || (echo "CSS files not copied" && exit 1)
+
+      - name: Check for changeset
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ -z "$(ls .changeset/*.md 2>/dev/null | grep -v README)" ]; then
+            echo "⚠️ No changeset found. If this PR introduces changes that affect consumers, please add a changeset:"
+            echo "  pnpm changeset"
+            echo ""
+            echo "If this is an internal change (docs, tests, etc.), you can ignore this warning."
+          else
+            echo "✅ Changeset found"
+          fi

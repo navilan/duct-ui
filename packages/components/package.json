@@ -2,8 +2,12 @@
   "name": "@duct-ui/components",
   "version": "0.1.0",
   "description": "Standard Component Library for Duct UI",
-  "main": "dist/index.mjs",
-  "types": "dist/index.d.mts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
@@ -24,7 +28,8 @@
   "scripts": {
     "build": "tsc -b tsconfig.build.json && pnpm run copy-css",
     "copy-css": "find src -name '*.css' | while read file; do mkdir -p \"dist/$(dirname \"${file#src/}\")\"; cp \"$file\" \"dist/${file#src/}\"; done",
-    "clean": "tsc -b tsconfig.build.json --clean"
+    "clean": "tsc -b tsconfig.build.json --clean",
+    "check": "tsc -b tsconfig.build.json --noEmit"
   },
   "keywords": [
     "ui",
