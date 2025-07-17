@@ -25,6 +25,17 @@ export type SidebarNavProps = {
   width?: string
   headerContent?: any
   class?: string
+  containerClass?: string
+  headerClass?: string
+  contentClass?: string
+  sectionClass?: string
+  sectionTitleClass?: string
+  itemsClass?: string
+  itemClass?: string
+  itemLinkClass?: string
+  itemContentClass?: string
+  itemTitleClass?: string
+  itemDescriptionClass?: string
   'on:bind'?: (el: HTMLElement) => void
   'on:navigate'?: (el: HTMLElement, itemId: string) => void
   'on:release'?: (el: HTMLElement) => void
@@ -34,13 +45,23 @@ function render(props: BaseProps<SidebarNavProps>) {
   const {
     sections,
     currentItem,
-    width = "w-64",
     headerContent,
     class: className = "",
+    containerClass = "",
+    headerClass = "",
+    contentClass = "",
+    sectionClass = "",
+    sectionTitleClass = "",
+    itemsClass = "",
+    itemClass = "",
+    itemLinkClass = "",
+    itemContentClass = "",
+    itemTitleClass = "",
+    itemDescriptionClass = "",
     ...moreProps
   } = props
 
-  const containerClasses = `${width} bg-base-200 h-screen overflow-y-auto border-r border-base-300 ${className}`.trim()
+  const containerClasses = `sidebar-nav ${containerClass} ${className}`.trim()
 
   return (
     <div
@@ -48,32 +69,29 @@ function render(props: BaseProps<SidebarNavProps>) {
       {...moreProps}
     >
       {headerContent && (
-        <div class="p-4 border-b border-base-300">
+        <div class={`sidebar-nav-header ${headerClass}`.trim()}>
           {headerContent}
         </div>
       )}
 
-      <nav class="p-2">
+      <nav class={`sidebar-nav-content ${contentClass}`.trim()}>
         {sections.map(section => (
-          <div data-key={section.id} class="mb-4">
-            <div class="px-4 py-2 text-sm font-semibold text-base-content/60 uppercase tracking-wider">
+          <div data-key={section.id} class={`sidebar-nav-section ${sectionClass}`.trim()}>
+            <div class={`sidebar-nav-section-title ${sectionTitleClass}`.trim()}>
               {section.title}
             </div>
-            <ul class="menu menu-sm">
+            <ul class={`sidebar-nav-items ${itemsClass}`.trim()}>
               {section.items.map(item => (
-                <li data-key={item.id}>
+                <li data-key={item.id} class={`sidebar-nav-item ${itemClass}`.trim()}>
                   <a
                     href={item.href || `#${item.id}`}
-                    class={`block px-4 py-2 rounded-lg hover:bg-base-300 transition-colors ${currentItem === item.id
-                      ? 'bg-primary text-primary-content'
-                      : 'text-base-content'
-                      }`}
+                    class={`sidebar-nav-item-link ${currentItem === item.id ? 'active' : ''} ${itemLinkClass}`.trim()}
                     data-nav-item-id={item.id}
                   >
-                    <div>
-                      <div class="font-medium">{item.title}</div>
+                    <div class={`sidebar-nav-item-content ${itemContentClass}`.trim()}>
+                      <div class={`sidebar-nav-item-title ${itemTitleClass}`.trim()}>{item.title}</div>
                       {item.description && (
-                        <div class="text-xs opacity-70">{item.description}</div>
+                        <div class={`sidebar-nav-item-description ${itemDescriptionClass}`.trim()}>{item.description}</div>
                       )}
                     </div>
                   </a>

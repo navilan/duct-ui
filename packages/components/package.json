@@ -19,6 +19,7 @@
       "types": "./dist/button/*.d.ts"
     },
     "./tree/tree-view.css": "./dist/tree/tree-view.css",
+    "./navigation/sidebar-nav.css": "./dist/navigation/sidebar-nav.css",
     "./*": {
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
