@@ -1,6 +1,6 @@
 {
   "name": "@duct-ui/components",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Standard Component Library for Duct UI",
   "publishConfig": {
     "access": "public",
