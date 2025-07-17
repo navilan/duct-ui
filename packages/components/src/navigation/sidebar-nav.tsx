@@ -4,7 +4,7 @@ export interface SidebarNavEvents extends BaseComponentEvents {
   navigate: (el: HTMLElement, itemId: string) => void
 }
 
-export interface SidebarNavLogic {}
+export interface SidebarNavLogic { }
 
 export interface SidebarNavItem {
   id: string
@@ -64,11 +64,10 @@ function render(props: BaseProps<SidebarNavProps>) {
                 <li data-key={item.id}>
                   <a
                     href={item.href || `#${item.id}`}
-                    class={`block px-4 py-2 rounded-lg hover:bg-base-300 transition-colors ${
-                      currentItem === item.id 
-                        ? 'bg-primary text-primary-content' 
-                        : 'text-base-content'
-                    }`}
+                    class={`block px-4 py-2 rounded-lg hover:bg-base-300 transition-colors ${currentItem === item.id
+                      ? 'bg-primary text-primary-content'
+                      : 'text-base-content'
+                      }`}
                     data-nav-item-id={item.id}
                   >
                     <div>

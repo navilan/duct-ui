@@ -26,7 +26,7 @@ function render(props: DemoLayoutProps & { "data-duct-id": string }) {
       class="flex-1 overflow-y-auto bg-base-100"
       {...moreProps}
     >
-      <div class="container mx-auto p-8">
+      <div class="p-8">
         <div class="mb-8">
           <h1 class="text-4xl font-bold text-base-content mb-2">{title}</h1>
           {description && (

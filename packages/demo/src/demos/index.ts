@@ -2,6 +2,7 @@ import { ButtonDemo } from "./ButtonDemo"
 import { IconButtonDemo } from "./IconButtonDemo"
 import { EditableInputDemo } from "./EditableInputDemo"
 import { MenuDemo } from "./MenuDemo"
+import { SelectDemo } from "./SelectDemo"
 import { TreeViewDemo } from "./TreeViewDemo"
 
 export interface DemoInfo {
@@ -57,6 +58,12 @@ export const demoCategories: DemoCategory[] = [
         title: "Menu & MenuItem",
         description: "Dropdown menus with customizable placement and actions",
         component: MenuDemo
+      },
+      {
+        id: "select",
+        title: "Select",
+        description: "Dropdown select component with selection markers",
+        component: SelectDemo
       }
     ]
   },

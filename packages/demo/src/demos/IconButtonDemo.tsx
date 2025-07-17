@@ -4,13 +4,30 @@ import iconOne from "../icons/one.svg"
 import iconTwo from "../icons/two.svg"
 import iconThree from "../icons/three.svg"
 
+let eventLog: string[] = []
+
+const updateEventLog = () => {
+  const logElement = document.getElementById('event-log')
+  if (logElement) {
+    logElement.innerHTML = eventLog.length === 0 
+      ? '<p class="text-sm text-base-content/50">No events yet...</p>'
+      : eventLog.map(event => `<p class="text-sm font-mono">${event}</p>`).join('')
+  }
+}
+
 const handler = (el: HTMLElement) => {
   const message = el.dataset['message']
+  const timestamp = new Date().toLocaleTimeString()
+  eventLog.push(`[${timestamp}] ${message}`)
+  updateEventLog()
   console.log(message)
 }
 
 const bindHandler = (el: HTMLElement) => {
   const message = el.dataset['message']
+  const timestamp = new Date().toLocaleTimeString()
+  eventLog.push(`[${timestamp}] ${message} (bound to DOM)`)
+  updateEventLog()
   console.log(message, "bound to DOM")
 }
 
@@ -89,15 +106,32 @@ export function IconButtonDemo() {
           </div>
         </div>
 
-        <div class="mt-8 p-4 bg-base-200 rounded-lg">
-          <h3 class="text-lg font-medium mb-2">Features Demonstrated:</h3>
-          <ul class="list-disc list-inside space-y-1 text-sm">
-            <li>Icon button component extending base button</li>
-            <li>Flexible icon positioning (start, end, icon-only)</li>
-            <li>SVG icon support with proper sizing</li>
-            <li>Lifecycle event binding (<code>on:bind</code>)</li>
-            <li>Component inheritance and reusability</li>
-          </ul>
+        <div class="mt-8 space-y-6">
+          <div class="p-4 bg-base-200 rounded-lg">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="text-lg font-medium">Event Log</h3>
+              <button 
+                class="btn btn-sm btn-outline" 
+                onclick="document.getElementById('event-log').parentElement.querySelector('button').previousElementSibling.innerHTML = '<p class=&quot;text-sm text-base-content/50&quot;>No events yet...</p>'; eventLog = []"
+              >
+                Clear
+              </button>
+            </div>
+            <div id="event-log" class="max-h-32 overflow-y-auto space-y-1 text-sm">
+              <p class="text-sm text-base-content/50">No events yet...</p>
+            </div>
+          </div>
+          
+          <div class="p-4 bg-base-200 rounded-lg">
+            <h3 class="text-lg font-medium mb-2">Features Demonstrated:</h3>
+            <ul class="list-disc list-inside space-y-1 text-sm">
+              <li>Icon button component extending base button</li>
+              <li>Flexible icon positioning (start, end, icon-only)</li>
+              <li>SVG icon support with proper sizing</li>
+              <li>Lifecycle event binding (<code>on:bind</code>)</li>
+              <li>Component inheritance and reusability</li>
+            </ul>
+          </div>
         </div>
       </div>
     </DemoLayout>

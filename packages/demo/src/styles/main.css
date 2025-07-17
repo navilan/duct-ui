@@ -31,3 +31,7 @@
   @apply aspect-square;
   @apply h-6;
 }
+
+.select-item-anchor {
+  @apply flex flex-row gap-5;
+}
