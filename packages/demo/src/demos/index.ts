@@ -2,6 +2,7 @@ import { ButtonDemo } from "./ButtonDemo"
 import { IconButtonDemo } from "./IconButtonDemo"
 import { EditableInputDemo } from "./EditableInputDemo"
 import { MenuDemo } from "./MenuDemo"
+import { TreeViewDemo } from "./TreeViewDemo"
 
 export interface DemoInfo {
   id: string
@@ -56,6 +57,18 @@ export const demoCategories: DemoCategory[] = [
         title: "Menu & MenuItem",
         description: "Dropdown menus with customizable placement and actions",
         component: MenuDemo
+      }
+    ]
+  },
+  {
+    id: "tree",
+    title: "Tree",
+    demos: [
+      {
+        id: "tree-view",
+        title: "TreeView",
+        description: "Collapsible tree view for hierarchical data",
+        component: TreeViewDemo
       }
     ]
   }

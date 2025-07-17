@@ -1,8 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn } from "@duct-ui/core/blueprint"
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
 
-export interface MenuItemEvents extends Record<string, any> {
-  bind: (el: HTMLElement) => void
-  release: (el: HTMLElement) => void
+export interface MenuItemEvents extends BaseComponentEvents {
   click: (el: HTMLElement, event: MouseEvent) => void
 }
 
@@ -28,7 +26,7 @@ function renderIcon(icon: MenuItemIcon): string {
   if (typeof icon === 'string') {
     return `<span class="text-base mr-2">${icon}</span>`
   }
-  
+
   if (typeof icon === 'object') {
     if ('default' in icon) {
       // Imported SVG module
@@ -39,17 +37,16 @@ function renderIcon(icon: MenuItemIcon): string {
       return `<img src="${icon.src}" alt="" class="w-4 h-4 mr-2" />`
     }
   }
-  
+
   return ''
 }
 
-function render(props: MenuItemProps & { "data-duct-id": string }) {
+function render(props: BaseProps<MenuItemProps>) {
   const {
     label,
     icon,
     disabled = false,
     class: className = "",
-    'data-duct-id': id,
     ...moreProps
   } = props
 
@@ -59,7 +56,7 @@ function render(props: MenuItemProps & { "data-duct-id": string }) {
   const iconHtml = icon ? renderIcon(icon) : ''
 
   return (
-    <li data-duct-id={id} class={itemClasses} {...moreProps}>
+    <li class={itemClasses} {...moreProps}>
       <a class={disabled ? 'disabled' : ''}>
         {iconHtml}{label}
       </a>
@@ -69,7 +66,7 @@ function render(props: MenuItemProps & { "data-duct-id": string }) {
 
 function bind(el: HTMLElement, eventEmitter: EventEmitter<MenuItemEvents>): BindReturn<MenuItemLogic> {
   const anchor = el.querySelector('a') as HTMLElement
-  
+
   if (!anchor) {
     throw new Error('MenuItem component missing required anchor element')
   }
@@ -103,10 +100,10 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<MenuItemEvents>): Bind
   function handleClick(e: MouseEvent) {
     e.preventDefault()
     e.stopPropagation()
-    
+
     if (!isDisabled()) {
       eventEmitter.emit('click', e)
-      
+
       // Close all menus when item is clicked
       document.dispatchEvent(new CustomEvent('duct:close-all-menus', { detail: { except: null } }))
     }

@@ -1,11 +1,8 @@
-import { createBlueprint } from "@duct-ui/core/blueprint"
+import { BaseProps, createBlueprint, type BaseComponentEvents } from "@duct-ui/core/blueprint"
 
-// Define the events this component can handle
-export interface ButtonEvents extends Record<string, any> {
-  bind: (el: HTMLElement) => void
+export interface ButtonEvents extends BaseComponentEvents {
   click: (el: HTMLElement, e: MouseEvent) => void
   dblclick: (el: HTMLElement, e: MouseEvent) => void
-  release: (el: HTMLElement) => void
 }
 
 export type ButtonProps = {
@@ -16,19 +13,9 @@ export type ButtonProps = {
   'on:release'?: (el: HTMLElement) => void
 } & Record<string, any>
 
-function render(props: ButtonProps & { "data-duct-id": string }) {
-  const {
-    label,
-    'data-duct-id': id,
-    ...moreProps
-  } = props
-
-  return <button
-    data-duct-id={id}
-    {...moreProps}
-  >
-    {label}
-  </button>
+function render(props: BaseProps<ButtonProps>) {
+  const { label, ...moreProps } = props
+  return <button {...moreProps}> {label} </button>
 }
 
 const id = { id: "duct/button" }

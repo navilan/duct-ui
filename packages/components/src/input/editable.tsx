@@ -1,11 +1,9 @@
 
-import { createBlueprint, EventEmitter, type BindReturn } from "@duct-ui/core/blueprint"
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
 
 export type EditableMode = 'input' | 'label'
 
-export interface InputEvents extends Record<string, any> {
-  bind: (el: HTMLElement) => void
-  release: (el: HTMLElement) => void
+export interface InputEvents extends BaseComponentEvents {
   change: (el: HTMLElement, text: string) => void
 }
 
@@ -29,18 +27,16 @@ export type InputProps = {
   'on:change'?: (el: HTMLElement, text: string) => void
 } & Record<string, any>
 
-function render(props: InputProps & { "data-duct-id": string }) {
+function render(props: BaseProps<InputProps>) {
   const {
     labelClass,
     inputClass,
     text,
-    'data-duct-id': id,
     ...moreProps
   } = props
 
   return (
     <div
-      data-duct-id={id}
       data-editable-mode="label"
       {...moreProps}
     >

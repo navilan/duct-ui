@@ -1,10 +1,8 @@
-import { createBlueprint, EventEmitter, type BindReturn } from "@duct-ui/core/blueprint"
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 
 export type MenuPlacement = 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end' | 'bottom' | 'top'
 
-export interface MenuEvents extends Record<string, any> {
-  bind: (el: HTMLElement) => void
-  release: (el: HTMLElement) => void
+export interface MenuEvents extends BaseComponentEvents {
   open: () => void
   close: () => void
 }
@@ -29,7 +27,7 @@ export type MenuProps = {
   'on:close'?: (el: HTMLElement) => void
 } & Record<string, any>
 
-function render(props: MenuProps & { "data-duct-id": string }) {
+function render(props: BaseProps<MenuProps>) {
   const {
     label,
     buttonClass = "btn",
@@ -37,7 +35,6 @@ function render(props: MenuProps & { "data-duct-id": string }) {
     placement = "bottom-start",
     disabled = false,
     children,
-    'data-duct-id': id,
     class: className = "",
     ...moreProps
   } = props
@@ -72,7 +69,6 @@ function render(props: MenuProps & { "data-duct-id": string }) {
 
   return (
     <div
-      data-duct-id={id}
       data-menu-open="false"
       class={finalClasses}
       {...moreProps}

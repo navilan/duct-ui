@@ -31,7 +31,9 @@ export default function Sidebar(props: SidebarProps) {
     <div>
       <img class="h-24 aspect-square" src={ductLogo} />
       <h1 class="text-xl font-bold text-base-content">Duct UI</h1>
-      <p class="text-sm text-base-content/70">Component Demos</p>
+      <p class="text-sm text-base-content mb-4">A DOM first compact UI library</p>
+
+      <h3 class="text-md text-base-content/70">Component Demos</h3>
     </div>
   )
 

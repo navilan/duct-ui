@@ -1,0 +1,135 @@
+/* TreeView Component Default Styles */
+
+.tree-view {
+  /* Container styles */
+}
+
+.tree-node {
+  /* Node container styles */
+}
+
+.tree-node-content {
+  /* Content container styles */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.tree-node-content:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.tree-expand-icon {
+  /* Expand/collapse icon styles */
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-size: 0.75rem;
+  user-select: none;
+  width: 1rem;
+  text-align: center;
+}
+
+.tree-node-icon {
+  /* Node icon styles */
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.tree-node-label {
+  /* Node label styles */
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tree-children {
+  /* Children container styles */
+  padding-left: 1rem;
+}
+
+/* Depth-based indentation */
+.tree-node[data-depth="0"] .tree-node-content {
+  padding-left: 0.5rem;
+}
+
+.tree-node[data-depth="1"] .tree-node-content {
+  padding-left: 1.5rem;
+}
+
+.tree-node[data-depth="2"] .tree-node-content {
+  padding-left: 2.5rem;
+}
+
+.tree-node[data-depth="3"] .tree-node-content {
+  padding-left: 3.5rem;
+}
+
+.tree-node[data-depth="4"] .tree-node-content {
+  padding-left: 4.5rem;
+}
+
+.tree-node[data-depth="5"] .tree-node-content {
+  padding-left: 5.5rem;
+}
+
+/* Support for deeper nesting */
+.tree-node[data-depth="6"] .tree-node-content {
+  padding-left: 6.5rem;
+}
+
+.tree-node[data-depth="7"] .tree-node-content {
+  padding-left: 7.5rem;
+}
+
+.tree-node[data-depth="8"] .tree-node-content {
+  padding-left: 8.5rem;
+}
+
+.tree-node[data-depth="9"] .tree-node-content {
+  padding-left: 9.5rem;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .tree-node-content:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Tailwind CSS integration (optional) */
+/* 
+If using Tailwind CSS, you can apply these styles:
+
+.tree-node-content {
+  @apply flex items-center cursor-pointer px-2 py-1 rounded transition-colors hover:bg-black/5 dark:hover:bg-white/10;
+}
+
+.tree-expand-icon {
+  @apply inline-block mr-2 text-xs select-none w-4 text-center;
+}
+
+.tree-node-icon {
+  @apply inline-block mr-2;
+}
+
+.tree-node-label {
+  @apply flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+.tree-children {
+  @apply pl-4;
+}
+
+For depth-based indentation with Tailwind:
+.tree-node[data-depth="0"] .tree-node-content { @apply pl-2; }
+.tree-node[data-depth="1"] .tree-node-content { @apply pl-6; }
+.tree-node[data-depth="2"] .tree-node-content { @apply pl-10; }
+.tree-node[data-depth="3"] .tree-node-content { @apply pl-14; }
+.tree-node[data-depth="4"] .tree-node-content { @apply pl-18; }
+.tree-node[data-depth="5"] .tree-node-content { @apply pl-22; }
+*/

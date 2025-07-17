@@ -14,13 +14,16 @@
       "import": "./dist/button/*.js",
       "types": "./dist/button/*.d.ts"
     },
+    "./tree/tree-view.css": "./dist/tree/tree-view.css",
     "./*": {
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
-    }
+    },
+    "./*/*.css": "./dist/*/*.css"
   },
   "scripts": {
-    "build": "tsc -b tsconfig.build.json",
+    "build": "tsc -b tsconfig.build.json && pnpm run copy-css",
+    "copy-css": "find src -name '*.css' | while read file; do mkdir -p \"dist/$(dirname \"${file#src/}\")\"; cp \"$file\" \"dist/${file#src/}\"; done",
     "clean": "tsc -b tsconfig.build.json --clean"
   },
   "keywords": [
@@ -37,6 +40,7 @@
   "devDependencies": {
     "@kitajs/html": "^4.2.9",
     "lib0": "^0.2.111",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
   }
 }

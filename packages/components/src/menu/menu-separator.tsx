@@ -1,11 +1,8 @@
-import { createBlueprint, EventEmitter, type BindReturn } from "@duct-ui/core/blueprint"
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
 
-export interface MenuSeparatorEvents extends Record<string, any> {
-  bind: (el: HTMLElement) => void
-  release: (el: HTMLElement) => void
-}
+export interface MenuSeparatorEvents extends BaseComponentEvents { }
 
-export interface MenuSeparatorLogic {}
+export interface MenuSeparatorLogic { }
 
 export type MenuSeparatorProps = {
   class?: string
@@ -13,15 +10,14 @@ export type MenuSeparatorProps = {
   'on:release'?: (el: HTMLElement) => void
 } & Record<string, any>
 
-function render(props: MenuSeparatorProps & { "data-duct-id": string }) {
+function render(props: BaseProps<MenuSeparatorProps>) {
   const {
     class: className = "",
-    'data-duct-id': id,
     ...moreProps
   } = props
 
   return (
-    <li data-duct-id={id} class={`menu-title ${className}`.trim()} {...moreProps}>
+    <li class={`menu-title ${className}`.trim()} {...moreProps}>
       <hr class="my-1" />
     </li>
   )

@@ -1,9 +1,7 @@
-import { createBlueprint, EventEmitter, type BindReturn } from "@duct-ui/core/blueprint"
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 
-export interface SidebarNavEvents extends Record<string, any> {
-  bind: (el: HTMLElement) => void
+export interface SidebarNavEvents extends BaseComponentEvents {
   navigate: (el: HTMLElement, itemId: string) => void
-  release: (el: HTMLElement) => void
 }
 
 export interface SidebarNavLogic {}
@@ -32,14 +30,13 @@ export type SidebarNavProps = {
   'on:release'?: (el: HTMLElement) => void
 } & Record<string, any>
 
-function render(props: SidebarNavProps & { "data-duct-id": string }) {
+function render(props: BaseProps<SidebarNavProps>) {
   const {
     sections,
     currentItem,
     width = "w-64",
     headerContent,
     class: className = "",
-    'data-duct-id': id,
     ...moreProps
   } = props
 
@@ -47,7 +44,6 @@ function render(props: SidebarNavProps & { "data-duct-id": string }) {
 
   return (
     <div
-      data-duct-id={id}
       class={containerClasses}
       {...moreProps}
     >

@@ -2,7 +2,13 @@ import { getDuct } from "./runtime"
 import { observeLifecycle } from "./lifecycle"
 import { ObservableV2 as Observable } from 'lib0/observable'
 
-export type BProps<Props> = Props & { "data-duct-id": string }
+export type BaseProps<Props> = Props & { "data-duct-id": string }
+
+// Base events that all components have
+export interface BaseComponentEvents extends Record<string, any> {
+  bind: (el: HTMLElement) => void
+  release: (el: HTMLElement) => void
+}
 
 interface ComponentEvents<Logic extends Record<string, any>> {
   bound: (logic: Logic) => void
@@ -84,6 +90,7 @@ export type BindReturn<Logic extends Record<string, any>> = Logic & {
   release: (el: HTMLElement) => void
 }
 
+
 // Create an event-aware component blueprint with automatic on:* prop parsing
 export function createBlueprint<
   Props extends Record<string, any>,
@@ -91,7 +98,7 @@ export function createBlueprint<
   Logic extends Record<string, any> = DefaultLogic<Events>
 >(
   id: { id: string },
-  render: (props: Props & { "data-duct-id": string }) => JSX.Element,
+  render: (props: BaseProps<Props>) => JSX.Element,
   config: BlueprintConfig<Events, Logic>
 ): ((props: Props) => JSX.Element) & { getLogic: () => Promise<Logic> } {
 
@@ -169,11 +176,14 @@ export function createBlueprint<
       // Emit release event and cleanup
       if (logic) {
         eventEmitter.emit('release' as keyof Events, htmlEl)
-        logic.release(htmlEl)
+        if (logic.release) {
+          logic.release(htmlEl)
+        }
         logic = undefined
       }
     }
   })
+
 
   const component = function (props: Props): JSX.Element {
     // Extract and bind event props

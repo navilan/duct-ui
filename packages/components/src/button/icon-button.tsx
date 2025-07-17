@@ -1,4 +1,4 @@
-import { type BProps, createBlueprint } from "@duct-ui/core/blueprint"
+import { type BaseProps, createBlueprint } from "@duct-ui/core/blueprint"
 import { ButtonEvents, ButtonProps } from "./button"
 
 export type IconPosition = "start" | "end"
@@ -8,23 +8,21 @@ export type IconButtonProps = Partial<ButtonProps> & {
   position?: IconPosition
 }
 
-function render(props: BProps<IconButtonProps>) {
+function render(props: BaseProps<IconButtonProps>) {
   const {
     label,
-    'data-duct-id': id,
     position,
     icon,
     ...moreProps
   } = props
 
-  return <button
-    data-duct-id={id}
-    {...moreProps}
-  >
-    {(position === 'start' || !position) && <img src={icon} />}
-    {label}
-    {position === 'end' && <img src={icon} />}
-  </button>
+  return (
+    <button {...moreProps}>
+      {(position === 'start' || !position) && <img src={icon} />}
+      {label}
+      {position === 'end' && <img src={icon} />}
+    </button>
+  )
 }
 
 
