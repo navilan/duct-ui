@@ -38,6 +38,14 @@ const IconButton3 = makeIconButton()
 const IconButton4 = makeIconButton()
 const IconButton5 = makeIconButton()
 const IconButton6 = makeIconButton()
+
+const EmojiButton1 = makeIconButton()
+const EmojiButton2 = makeIconButton()
+const EmojiButton3 = makeIconButton()
+const EmojiButton4 = makeIconButton()
+const EmojiButton5 = makeIconButton()
+const EmojiButton6 = makeIconButton()
+
 const DemoLayout = makeDemoLayout()
 
 export function IconButtonDemo() {
@@ -54,7 +62,7 @@ export function IconButtonDemo() {
             <h3 class="text-lg font-medium mb-3">Icon Positions</h3>
             <div id="buttons" class="flex flex-row items-start gap-4 tiny-button-image">
               <IconButton1
-                icon={iconOne}
+                icon={{src: iconOne}}
                 position="start"
                 label="Start Icon"
                 class="btn btn-outline px-6"
@@ -62,7 +70,7 @@ export function IconButtonDemo() {
                 on:click={handler}
               />
               <IconButton2
-                icon={iconTwo}
+                icon={{src: iconTwo}}
                 position="end"
                 label="End Icon"
                 class="btn btn-outline px-6"
@@ -70,7 +78,7 @@ export function IconButtonDemo() {
                 on:click={handler}
               />
               <IconButton3
-                icon={iconThree}
+                icon={{src: iconThree}}
                 class="btn btn-outline px-3 rounded-full"
                 data-message="Icon-only button bound!"
                 on:bind={bindHandler}
@@ -82,26 +90,84 @@ export function IconButtonDemo() {
             <h3 class="text-lg font-medium mb-3">Different Styles</h3>
             <div class="flex flex-row items-start gap-4 tiny-button-image">
               <IconButton4
-                icon={iconOne}
+                icon={{src: iconOne}}
                 label="Primary"
                 class="btn btn-primary"
                 data-message="Primary icon button!"
                 on:click={handler}
               />
               <IconButton5
-                icon={iconTwo}
+                icon={{src: iconTwo}}
                 label="Secondary"
                 class="btn btn-secondary"
                 data-message="Secondary icon button!"
                 on:click={handler}
               />
               <IconButton6
-                icon={iconThree}
+                icon={{src: iconThree}}
                 label="Accent"
                 class="btn btn-accent"
                 data-message="Accent icon button!"
                 on:click={handler}
               />
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-lg font-medium mb-3">Emoji Icons</h3>
+            <div class="space-y-4">
+              <div>
+                <h4 class="text-md font-medium mb-2 text-base-content/80">Actions</h4>
+                <div class="flex flex-row items-start gap-4">
+                  <EmojiButton1
+                    icon="❤️"
+                    label="Like"
+                    class="btn btn-outline"
+                    data-message="Liked!"
+                    on:click={handler}
+                  />
+                  <EmojiButton2
+                    icon="💾"
+                    label="Save"
+                    class="btn btn-outline"
+                    data-message="Saved!"
+                    on:click={handler}
+                  />
+                  <EmojiButton3
+                    icon="🗑️"
+                    class="btn btn-outline btn-error px-3"
+                    data-message="Deleted!"
+                    on:click={handler}
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <h4 class="text-md font-medium mb-2 text-base-content/80">Navigation</h4>
+                <div class="flex flex-row items-start gap-4">
+                  <EmojiButton4
+                    icon="🏠"
+                    label="Home"
+                    class="btn btn-primary"
+                    data-message="Navigate to home!"
+                    on:click={handler}
+                  />
+                  <EmojiButton5
+                    icon="⚙️"
+                    label="Settings"
+                    class="btn btn-secondary"
+                    data-message="Open settings!"
+                    on:click={handler}
+                  />
+                  <EmojiButton6
+                    icon="📊"
+                    label="Analytics"
+                    class="btn btn-accent"
+                    data-message="View analytics!"
+                    on:click={handler}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -128,8 +194,10 @@ export function IconButtonDemo() {
               <li>Icon button component extending base button</li>
               <li>Flexible icon positioning (start, end, icon-only)</li>
               <li>SVG icon support with proper sizing</li>
+              <li>Emoji icon support for quick visual communication</li>
               <li>Lifecycle event binding (<code>on:bind</code>)</li>
               <li>Component inheritance and reusability</li>
+              <li>Multiple styling options (primary, secondary, accent, error)</li>
             </ul>
           </div>
         </div>
