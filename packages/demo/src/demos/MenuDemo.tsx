@@ -99,6 +99,7 @@ export function MenuDemo() {
     <DemoLayout
       title="Menu & MenuItem Components"
       description="Dropdown menus with customizable placement, icons, and action-oriented behavior"
+      sourcePath="/demos/MenuDemo.tsx"
     >
       <div>
         <div class="space-y-8">

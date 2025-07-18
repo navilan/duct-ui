@@ -86,6 +86,7 @@ export function SelectDemo() {
     <DemoLayout
       title="Select Component"
       description="Dropdown select component with selection markers and flexible item properties"
+      sourcePath="/demos/SelectDemo.tsx"
     >
       <div>
         <h2 class="text-2xl font-semibold mb-4">Select Examples</h2>

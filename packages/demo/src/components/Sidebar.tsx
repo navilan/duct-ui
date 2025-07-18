@@ -50,7 +50,7 @@ function render(props: BaseProps<SidebarProps>) {
         <img class="h-36 aspect-square" src={ductLogo} />
         <div class="flex flex-col text-center justify-center">
           <h1 class="text-xl font-bold text-base-content">Duct UI</h1>
-          <p class="text-sm text-base-content -mt-2">A DOM first compact UI library</p>
+          <p class="text-sm text-base-content -mt-2">A compact, DOM first UI library</p>
           <div class="flex flex-row gap-3 mt-2">
             <a
               href="https://github.com/navilan/duct-ui"

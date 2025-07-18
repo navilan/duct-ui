@@ -53,6 +53,7 @@ export function IconButtonDemo() {
     <DemoLayout
       title="Icon Button Component"
       description="Button component with icon support and flexible positioning"
+      sourcePath="/demos/IconButtonDemo.tsx"
     >
       <div>
         <h2 class="text-2xl font-semibold mb-4">Icon Button Examples</h2>

@@ -4,6 +4,8 @@ import { EditableInputDemo } from "./EditableInputDemo"
 import { MenuDemo } from "./MenuDemo"
 import { SelectDemo } from "./SelectDemo"
 import { TreeViewDemo } from "./TreeViewDemo"
+import { SidebarDemo } from "./SidebarDemo"
+import { DrawerDemo } from "./DrawerDemo"
 
 export interface DemoInfo {
   id: string
@@ -76,6 +78,24 @@ export const demoCategories: DemoCategory[] = [
         title: "TreeView",
         description: "Collapsible tree view for hierarchical data",
         component: TreeViewDemo
+      }
+    ]
+  },
+  {
+    id: "layout",
+    title: "Layout",
+    demos: [
+      {
+        id: "sidebar",
+        title: "Sidebar Navigation",
+        description: "Navigation sidebar with sections and hierarchical items",
+        component: SidebarDemo
+      },
+      {
+        id: "drawer",
+        title: "Drawer",
+        description: "Responsive drawer component for mobile and desktop layouts",
+        component: DrawerDemo
       }
     ]
   }

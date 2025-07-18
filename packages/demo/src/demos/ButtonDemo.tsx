@@ -35,6 +35,7 @@ export function ButtonDemo() {
     <DemoLayout
       title="Button Component"
       description="Basic button component with click event handling"
+      sourcePath="/demos/ButtonDemo.tsx"
     >
       <div>
         <h2 class="text-2xl font-semibold mb-4">Three Buttons Example</h2>
