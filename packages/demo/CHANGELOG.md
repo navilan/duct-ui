@@ -1,5 +1,11 @@
 # @duct-ui/demo
 
+## 0.0.5
+
+### Patch Changes
+
+- [#10](https://github.com/navilan/duct-ui/pull/10) [`3a98c02`](https://github.com/navilan/duct-ui/commit/3a98c0261f6493a6e5923f88e12def030e32b423) Thanks [@navilan](https://github.com/navilan)! - Add layout demos and source links
+
 ## 0.0.4
 
 ### Patch Changes
