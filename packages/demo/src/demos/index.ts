@@ -1,11 +1,13 @@
 import makeButtonDemo from "./ButtonDemo"
 import makeIconButtonDemo from "./IconButtonDemo"
+import makeToggleDemo from "./ToggleDemo"
 import makeEditableInputDemo from "./EditableInputDemo"
 import makeMenuDemo from "./MenuDemo"
 import makeSelectDemo from "./SelectDemo"
 import makeTreeViewDemo from "./TreeViewDemo"
 import makeSidebarDemo from "./SidebarDemo"
 import makeDrawerDemo from "./DrawerDemo"
+import makeEmojiListDemo from "./EmojiListDemo"
 
 export interface DemoInfo {
   id: string
@@ -35,12 +37,21 @@ export const demoCategories: DemoCategory[] = [
         }
       },
       {
-        id: "icon-button", 
+        id: "icon-button",
         title: "Icon Button",
         description: "Button component with icon support",
         component: () => {
           const IconButtonDemo = makeIconButtonDemo()
           return IconButtonDemo({})
+        }
+      },
+      {
+        id: "toggle",
+        title: "Toggle Button",
+        description: "Toggle button with on/off states and custom styling",
+        component: () => {
+          const ToggleDemo = makeToggleDemo()
+          return ToggleDemo({})
         }
       }
     ]
@@ -95,6 +106,21 @@ export const demoCategories: DemoCategory[] = [
         component: () => {
           const TreeViewDemo = makeTreeViewDemo()
           return TreeViewDemo({})
+        }
+      }
+    ]
+  },
+  {
+    id: "list",
+    title: "List",
+    demos: [
+      {
+        id: "emoji-list",
+        title: "List",
+        description: "Interactive list with filtering, pagination, and component logic access",
+        component: () => {
+          const EmojiListDemo = makeEmojiListDemo()
+          return EmojiListDemo({})
         }
       }
     ]
