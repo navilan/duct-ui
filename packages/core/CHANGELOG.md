@@ -1,5 +1,11 @@
 # @duct-ui/core
 
+## 0.1.5
+
+### Patch Changes
+
+- [#12](https://github.com/navilan/duct-ui/pull/12) [`4e93cd0`](https://github.com/navilan/duct-ui/commit/4e93cd035ff43f2899deeec811c332bb169e4782) Thanks [@navilan](https://github.com/navilan)! - Fix event binding issues and upgrade demo components
+
 ## 0.1.4
 
 ### Patch Changes
