@@ -34,9 +34,9 @@ function bindEventToInstance<T extends (...args: any[]) => void>(
       handler(el, ...args)
     }
   }
-  
+
   globalEventObservable.on(eventName, wrappedHandler)
-  
+
   // Store for cleanup
   if (!instanceHandlers.has(instanceId)) {
     instanceHandlers.set(instanceId, new Map())
@@ -86,7 +86,7 @@ export interface BlueprintConfig<
   // Event names that should be automatically bound to DOM events
   domEvents?: (keyof HTMLElementEventMap)[]
   // Logic binding function - now optional
-  bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>) => BindReturn<Logic>
+  bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>, props: any) => BindReturn<Logic>
 }
 
 // Event emitter interface provided to component logic
@@ -178,7 +178,7 @@ export function createBlueprint<
 
       // Create component logic
       if (config.bind) {
-        const customLogic = config.bind(htmlEl, eventEmitter)
+        const customLogic = config.bind(htmlEl, eventEmitter, getDuct()?.getProps(instanceId))
         // Merge default on/off with custom logic
         logic = {
           ...createDefaultLogic(eventEmitter),
@@ -212,7 +212,7 @@ export function createBlueprint<
         }
         logic = undefined
       }
-
+      getDuct()?.clearProps(instanceId)
       // Clean up lifecycle handler to prevent memory leaks
       cleanupLifecycleHandler(instanceId)
     }
@@ -229,11 +229,15 @@ export function createBlueprint<
       bindEventToInstance(instanceId, eventName, handler)
     })
 
-    // Render with processed props
-    return render({
+    const fullProps = {
       ...regularProps,
       "data-duct-id": instanceId
-    } as Props & { "data-duct-id": string })
+    } as BaseProps<Props>
+
+    getDuct()?.saveProps(instanceId, fullProps)
+
+    // Render with processed props
+    return render(fullProps)
   }
 
   return Object.assign(component, {
