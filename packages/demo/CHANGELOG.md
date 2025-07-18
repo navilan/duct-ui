@@ -1,5 +1,15 @@
 # @duct-ui/demo
 
+## 0.0.4
+
+### Patch Changes
+
+- [#8](https://github.com/navilan/duct-ui/pull/8) [`4baff5e`](https://github.com/navilan/duct-ui/commit/4baff5e9a7608157c1c2f295505516faa4a58c58) Thanks [@navilan](https://github.com/navilan)! - More hygienic cleanup of bound event handlers
+
+- Updated dependencies [[`4baff5e`](https://github.com/navilan/duct-ui/commit/4baff5e9a7608157c1c2f295505516faa4a58c58)]:
+  - @duct-ui/core@0.1.4
+  - @duct-ui/components@0.1.4
+
 ## 0.0.3
 
 ### Patch Changes
