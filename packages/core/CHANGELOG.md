@@ -1,5 +1,11 @@
 # @duct-ui/core
 
+## 0.1.3
+
+### Patch Changes
+
+- [#6](https://github.com/navilan/duct-ui/pull/6) [`c2a8a22`](https://github.com/navilan/duct-ui/commit/c2a8a22c09548db4d3b7f725f823a54069478071) Thanks [@navilan](https://github.com/navilan)! - Add drawer component
+
 ## 0.1.2
 
 ### Patch Changes
