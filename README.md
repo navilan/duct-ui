@@ -9,6 +9,12 @@ A dom-first, compact user interface library aspiring to have a feature rich set 
 Duct: A new UI framework library that wraps over jsx templates and simplifies building
 UI components.
 
+## Guiding Aphorisms
+
+1. Don't hide the DOM
+2. Little magic, lots of logic
+3. Easy Packaging, Simple Reuse
+
 ## Goals
 
 * Minimum friction in creating component libraries, distributing and using them
