@@ -336,7 +336,6 @@ export default () => {
     render,
     {
       domEvents: ['click'],
-      customEvents: ['bind', 'release', 'expanded', 'collapsed', 'clicked'],
       bind
     }
   )

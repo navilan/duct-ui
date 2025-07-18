@@ -1,56 +1,42 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeEditableInput from "@duct-ui/components/input/editable"
 import makeButton from "@duct-ui/components/button/button"
 import makeDemoLayout from "../components/DemoLayout"
+import makeEventLog, { EventLogLogic } from "../components/EventLog"
 
-const EditableInput1 = makeEditableInput()
-const EditableInput2 = makeEditableInput()
-const EditableInput3 = makeEditableInput()
-const EditableInput4 = makeEditableInput()
-const DemoLayout = makeDemoLayout()
-
-// Create button instances
-const SetRandomTextBtn = makeButton()
-const ToggleEditBtn = makeButton()
-const BeginEditBtn = makeButton()
-const CancelEditBtn = makeButton()
-const GetStateBtn = makeButton()
-
-// Event log state
-let eventLog: string[] = []
-let logContainer: HTMLElement | null = null
-
-function addToLog(message: string) {
-  eventLog.push(`${new Date().toLocaleTimeString()}: ${message}`)
-  if (eventLog.length > 10) eventLog.shift() // Keep last 10 events
-  updateLogDisplay()
+export interface EditableInputDemoEvents extends BaseComponentEvents {
+  // No custom events needed for this demo
 }
 
-function updateLogDisplay() {
-  if (logContainer) {
-    logContainer.innerHTML = eventLog.map(log => `<div class="text-sm text-base-content/70">${log}</div>`).join('')
+export interface EditableInputDemoLogic {
+  // Component logic methods if needed
+}
+
+export interface EditableInputDemoProps {
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+}
+
+let eventLogComponent: EventLogLogic | undefined
+
+function addToLog(message: string) {
+  if (eventLogComponent) {
+    eventLogComponent.addEvent(message)
   }
 }
 
 // Event handlers
-const changeHandler = (el: HTMLElement, text: string) => {
+function changeHandler(el: HTMLElement, text: string) {
   addToLog(`Text changed to: "${text}"`)
 }
 
-const bindHandler = (el: HTMLElement) => {
+function bindHandler(el: HTMLElement) {
   addToLog(`Input component bound`)
 }
 
 // Programmatic control handlers
 let input3Logic: any = null
 let input4Logic: any = null
-
-EditableInput3.getLogic().then(logic => {
-  input3Logic = logic
-})
-
-EditableInput4.getLogic().then(logic => {
-  input4Logic = logic
-})
 
 function setRandomText(el: HTMLElement, e: MouseEvent) {
   const randomTexts = ["Hello World", "Duct UI", "Click to Edit", "Random Text", "Test Input"]
@@ -94,19 +80,38 @@ function getCurrentText(el: HTMLElement, e: MouseEvent) {
   }
 }
 
-export function EditableInputDemo() {
-  // Set up log container reference
-  setTimeout(() => {
-    logContainer = document.getElementById('event-log')
-    updateLogDisplay()
-  }, 100)
+function render(props: BaseProps<EditableInputDemoProps>) {
+  const DemoLayout = makeDemoLayout()
+  const EditableInput1 = makeEditableInput()
+  const EditableInput2 = makeEditableInput()
+  const EditableInput3 = makeEditableInput()
+  const EditableInput4 = makeEditableInput()
+  const SetRandomTextBtn = makeButton()
+  const ToggleEditBtn = makeButton()
+  const BeginEditBtn = makeButton()
+  const CancelEditBtn = makeButton()
+  const GetStateBtn = makeButton()
+  const EventLog = makeEventLog()
+
+  EventLog.getLogic().then(l => {
+    eventLogComponent = l
+  })
+
+  EditableInput3.getLogic().then(logic => {
+    input3Logic = logic
+  })
+
+  EditableInput4.getLogic().then(logic => {
+    input4Logic = logic
+  })
 
   return (
-    <DemoLayout
-      title="Editable Input Component"
-      description="Click-to-edit input with keyboard shortcuts and programmatic control"
-      sourcePath="/demos/EditableInputDemo.tsx"
-    >
+    <div {...props}>
+      <DemoLayout
+        title="Editable Input Component"
+        description="Click-to-edit input with keyboard shortcuts and programmatic control"
+        sourcePath="/demos/EditableInputDemo.tsx"
+      >
       <div>
         <div class="space-y-8">
 
@@ -203,11 +208,11 @@ export function EditableInputDemo() {
           {/* Event Log */}
           <div>
             <h2 class="text-2xl font-semibold mb-4">Event Log</h2>
-            <div class="bg-base-200 p-4 rounded-lg">
-              <div id="event-log" class="space-y-1 max-h-48 overflow-y-auto">
-                <div class="text-sm text-base-content/70">Events will appear here...</div>
-              </div>
-            </div>
+            <EventLog
+              title="Event Log"
+              maxHeight="max-h-48"
+              data-event-log-component
+            />
           </div>
 
           {/* Features Documentation */}
@@ -230,6 +235,30 @@ export function EditableInputDemo() {
           </div>
         </div>
       </div>
-    </DemoLayout>
+      </DemoLayout>
+    </div>
+  )
+}
+
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<EditableInputDemoEvents>): BindReturn<EditableInputDemoLogic> {
+  function release() {
+    eventLogComponent = undefined
+    input3Logic = null
+    input4Logic = null
+  }
+  return {
+    release
+  }
+}
+
+const id = { id: "duct-demo/editable-input-demo" }
+
+export default () => {
+  return createBlueprint<EditableInputDemoProps, EditableInputDemoEvents, EditableInputDemoLogic>(
+    id,
+    render,
+    {
+      bind
+    }
   )
 }

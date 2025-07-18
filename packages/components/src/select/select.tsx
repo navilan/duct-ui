@@ -349,7 +349,6 @@ export default () => {
     render,
     {
       domEvents: ['click'],
-      customEvents: ['bind', 'release', 'open', 'close', 'selectionChange'],
       bind
     },
   )

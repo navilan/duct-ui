@@ -85,8 +85,6 @@ export interface BlueprintConfig<
 > {
   // Event names that should be automatically bound to DOM events
   domEvents?: (keyof HTMLElementEventMap)[]
-  // Custom event names that components can emit
-  customEvents?: (keyof Events)[]
   // Logic binding function - now optional
   bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>) => BindReturn<Logic>
 }

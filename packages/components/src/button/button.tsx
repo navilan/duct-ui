@@ -25,8 +25,7 @@ export default () => {
     id,
     render,
     {
-      domEvents: ['click', 'dblclick'],
-      customEvents: ['bind', 'release'],
+      domEvents: ['click', 'dblclick']
     }
   )
 }

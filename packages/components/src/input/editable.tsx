@@ -110,6 +110,7 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<InputEvents>): BindRet
   }
 
   function cancelEdit() {
+    console.log("canceling edit")
     resetInput()
     el.dataset.editableMode = 'label'
     hideInput()
@@ -147,28 +148,30 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<InputEvents>): BindRet
     return getMode() === 'input'
   }
 
-  function blurHandler() {
+  function blurHandler(e: FocusEvent) {
+    const focusingOn = e.relatedTarget as HTMLElement
+    if (focusingOn && focusingOn.closest('[data-editable-control')) {
+      return
+    }
     cancelEdit()
   }
 
   function clickOutsideHandler(e: Event) {
-    setTimeout(() => {
-      const clicked = e.target as HTMLElement
-      if (el.contains(clicked)) {
-        return
-      }
+    const clicked = e.target as HTMLElement
+    if (el.contains(clicked)) {
+      return
+    }
 
-      // Don't cancel if clicking on control buttons or elements with data-editable-control
-      if (clicked.closest('[data-editable-control]') ||
-        clicked.closest('button') ||
-        clicked.hasAttribute('data-editable-control]')) {
-        return
-      }
+    // Don't cancel if clicking on control buttons or elements with data-editable-control
+    if (clicked.closest('[data-editable-control]') ||
+      clicked.closest('button') ||
+      clicked.hasAttribute('data-editable-control]')) {
+      return
+    }
 
-      if (isEditing()) {
-        cancelEdit()
-      }
-    }, 100)
+    if (isEditing()) {
+      cancelEdit()
+    }
   }
 
   function keyHandler(e: KeyboardEvent) {
@@ -229,7 +232,6 @@ export default () => {
     render,
     {
       domEvents: ['click', 'dblclick'],
-      customEvents: ['bind', 'release'],
       bind
     },
   )

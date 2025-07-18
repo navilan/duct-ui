@@ -48,6 +48,5 @@ export default () => {
     render,
     {
       domEvents: ['click', 'dblclick'], // Automatically bind these DOM events
-      customEvents: ['bind', 'release'], // Custom lifecycle events
     })
 }

@@ -1,60 +1,72 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeIconButton from "@duct-ui/components/button/icon-button"
 import makeDemoLayout from "../components/DemoLayout"
+import makeEventLog, { EventLogLogic } from "../components/EventLog"
 import iconOne from "../icons/one.svg"
 import iconTwo from "../icons/two.svg"
 import iconThree from "../icons/three.svg"
 
-let eventLog: string[] = []
+export interface IconButtonDemoEvents extends BaseComponentEvents {
+  // No custom events needed for this demo
+}
 
-const updateEventLog = () => {
-  const logElement = document.getElementById('event-log')
-  if (logElement) {
-    logElement.innerHTML = eventLog.length === 0 
-      ? '<p class="text-sm text-base-content/50">No events yet...</p>'
-      : eventLog.map(event => `<p class="text-sm font-mono">${event}</p>`).join('')
+export interface IconButtonDemoLogic {
+  // Component logic methods if needed
+}
+
+export interface IconButtonDemoProps {
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+}
+
+let eventLogComponent: EventLogLogic | undefined
+
+function handleButtonClick(el: Element, _e: Event) {
+  const button = el.closest('[data-button-id]')
+  if (button) {
+    const message = button.getAttribute('data-message')
+    if (message && eventLogComponent) {
+      eventLogComponent.addEvent(message)
+      console.log(message)
+    }
   }
 }
 
-const handler = (el: HTMLElement) => {
+function handleButtonBind(el: HTMLElement) {
   const message = el.dataset['message']
-  const timestamp = new Date().toLocaleTimeString()
-  eventLog.push(`[${timestamp}] ${message}`)
-  updateEventLog()
-  console.log(message)
+  if (message && eventLogComponent) {
+    eventLogComponent.addEvent(`${message} (bound to DOM)`)
+    console.log(message, "bound to DOM")
+  }
 }
 
-const bindHandler = (el: HTMLElement) => {
-  const message = el.dataset['message']
-  const timestamp = new Date().toLocaleTimeString()
-  eventLog.push(`[${timestamp}] ${message} (bound to DOM)`)
-  updateEventLog()
-  console.log(message, "bound to DOM")
-}
+function render(props: BaseProps<IconButtonDemoProps>) {
+  const DemoLayout = makeDemoLayout()
+  const IconButton1 = makeIconButton()
+  const IconButton2 = makeIconButton()
+  const IconButton3 = makeIconButton()
+  const IconButton4 = makeIconButton()
+  const IconButton5 = makeIconButton()
+  const IconButton6 = makeIconButton()
+  const EmojiButton1 = makeIconButton()
+  const EmojiButton2 = makeIconButton()
+  const EmojiButton3 = makeIconButton()
+  const EmojiButton4 = makeIconButton()
+  const EmojiButton5 = makeIconButton()
+  const EmojiButton6 = makeIconButton()
+  const EventLog = makeEventLog()
 
-const IconButton1 = makeIconButton()
-const IconButton2 = makeIconButton()
-const IconButton3 = makeIconButton()
+  EventLog.getLogic().then(l => {
+    eventLogComponent = l
+  })
 
-const IconButton4 = makeIconButton()
-const IconButton5 = makeIconButton()
-const IconButton6 = makeIconButton()
-
-const EmojiButton1 = makeIconButton()
-const EmojiButton2 = makeIconButton()
-const EmojiButton3 = makeIconButton()
-const EmojiButton4 = makeIconButton()
-const EmojiButton5 = makeIconButton()
-const EmojiButton6 = makeIconButton()
-
-const DemoLayout = makeDemoLayout()
-
-export function IconButtonDemo() {
   return (
-    <DemoLayout
-      title="Icon Button Component"
-      description="Button component with icon support and flexible positioning"
-      sourcePath="/demos/IconButtonDemo.tsx"
-    >
+    <div {...props}>
+      <DemoLayout
+        title="Icon Button Component"
+        description="Button component with icon support and flexible positioning"
+        sourcePath="/demos/IconButtonDemo.tsx"
+      >
       <div>
         <h2 class="text-2xl font-semibold mb-4">Icon Button Examples</h2>
 
@@ -63,26 +75,29 @@ export function IconButtonDemo() {
             <h3 class="text-lg font-medium mb-3">Icon Positions</h3>
             <div id="buttons" class="flex flex-row items-start gap-4 tiny-button-image">
               <IconButton1
-                icon={{src: iconOne}}
+                icon={{ src: iconOne }}
                 position="start"
                 label="Start Icon"
                 class="btn btn-outline px-6"
                 data-message="Start position icon clicked!"
-                on:click={handler}
+                data-button-id="icon-button1"
+                on:click={handleButtonClick}
               />
               <IconButton2
-                icon={{src: iconTwo}}
+                icon={{ src: iconTwo }}
                 position="end"
                 label="End Icon"
                 class="btn btn-outline px-6"
                 data-message="End position icon clicked!"
-                on:click={handler}
+                data-button-id="icon-button2"
+                on:click={handleButtonClick}
               />
               <IconButton3
-                icon={{src: iconThree}}
+                icon={{ src: iconThree }}
                 class="btn btn-outline px-3 rounded-full"
                 data-message="Icon-only button bound!"
-                on:bind={bindHandler}
+                data-button-id="icon-button3"
+                on:bind={handleButtonBind}
               />
             </div>
           </div>
@@ -91,25 +106,28 @@ export function IconButtonDemo() {
             <h3 class="text-lg font-medium mb-3">Different Styles</h3>
             <div class="flex flex-row items-start gap-4 tiny-button-image">
               <IconButton4
-                icon={{src: iconOne}}
+                icon={{ src: iconOne }}
                 label="Primary"
                 class="btn btn-primary"
                 data-message="Primary icon button!"
-                on:click={handler}
+                data-button-id="icon-button4"
+                on:click={handleButtonClick}
               />
               <IconButton5
-                icon={{src: iconTwo}}
+                icon={{ src: iconTwo }}
                 label="Secondary"
                 class="btn btn-secondary"
                 data-message="Secondary icon button!"
-                on:click={handler}
+                data-button-id="icon-button5"
+                on:click={handleButtonClick}
               />
               <IconButton6
-                icon={{src: iconThree}}
+                icon={{ src: iconThree }}
                 label="Accent"
                 class="btn btn-accent"
                 data-message="Accent icon button!"
-                on:click={handler}
+                data-button-id="icon-button6"
+                on:click={handleButtonClick}
               />
             </div>
           </div>
@@ -125,24 +143,27 @@ export function IconButtonDemo() {
                     label="Like"
                     class="btn btn-outline"
                     data-message="Liked!"
-                    on:click={handler}
+                    data-button-id="emoji-button1"
+                    on:click={handleButtonClick}
                   />
                   <EmojiButton2
                     icon="💾"
                     label="Save"
                     class="btn btn-outline"
                     data-message="Saved!"
-                    on:click={handler}
+                    data-button-id="emoji-button2"
+                    on:click={handleButtonClick}
                   />
                   <EmojiButton3
                     icon="🗑️"
                     class="btn btn-outline btn-error px-3"
                     data-message="Deleted!"
-                    on:click={handler}
+                    data-button-id="emoji-button3"
+                    on:click={handleButtonClick}
                   />
                 </div>
               </div>
-              
+
               <div>
                 <h4 class="text-md font-medium mb-2 text-base-content/80">Navigation</h4>
                 <div class="flex flex-row items-start gap-4">
@@ -151,21 +172,24 @@ export function IconButtonDemo() {
                     label="Home"
                     class="btn btn-primary"
                     data-message="Navigate to home!"
-                    on:click={handler}
+                    data-button-id="emoji-button4"
+                    on:click={handleButtonClick}
                   />
                   <EmojiButton5
                     icon="⚙️"
                     label="Settings"
                     class="btn btn-secondary"
                     data-message="Open settings!"
-                    on:click={handler}
+                    data-button-id="emoji-button5"
+                    on:click={handleButtonClick}
                   />
                   <EmojiButton6
                     icon="📊"
                     label="Analytics"
                     class="btn btn-accent"
                     data-message="View analytics!"
-                    on:click={handler}
+                    data-button-id="emoji-button6"
+                    on:click={handleButtonClick}
                   />
                 </div>
               </div>
@@ -174,21 +198,12 @@ export function IconButtonDemo() {
         </div>
 
         <div class="mt-8 space-y-6">
-          <div class="p-4 bg-base-200 rounded-lg">
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="text-lg font-medium">Event Log</h3>
-              <button 
-                class="btn btn-sm btn-outline" 
-                onclick="document.getElementById('event-log').parentElement.querySelector('button').previousElementSibling.innerHTML = '<p class=&quot;text-sm text-base-content/50&quot;>No events yet...</p>'; eventLog = []"
-              >
-                Clear
-              </button>
-            </div>
-            <div id="event-log" class="max-h-32 overflow-y-auto space-y-1 text-sm">
-              <p class="text-sm text-base-content/50">No events yet...</p>
-            </div>
-          </div>
-          
+          <EventLog
+            title="Event Log"
+            maxHeight="max-h-32"
+            data-event-log-component
+          />
+
           <div class="p-4 bg-base-200 rounded-lg">
             <h3 class="text-lg font-medium mb-2">Features Demonstrated:</h3>
             <ul class="list-disc list-inside space-y-1 text-sm">
@@ -203,6 +218,28 @@ export function IconButtonDemo() {
           </div>
         </div>
       </div>
-    </DemoLayout>
+      </DemoLayout>
+    </div>
+  )
+}
+
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<IconButtonDemoEvents>): BindReturn<IconButtonDemoLogic> {
+  function release() {
+    eventLogComponent = undefined
+  }
+  return {
+    release
+  }
+}
+
+const id = { id: "duct-demo/icon-button-demo" }
+
+export default () => {
+  return createBlueprint<IconButtonDemoProps, IconButtonDemoEvents, IconButtonDemoLogic>(
+    id,
+    render,
+    {
+      bind
+    }
   )
 }

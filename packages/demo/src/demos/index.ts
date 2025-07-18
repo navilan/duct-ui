@@ -1,11 +1,11 @@
-import { ButtonDemo } from "./ButtonDemo"
-import { IconButtonDemo } from "./IconButtonDemo"
-import { EditableInputDemo } from "./EditableInputDemo"
-import { MenuDemo } from "./MenuDemo"
-import { SelectDemo } from "./SelectDemo"
-import { TreeViewDemo } from "./TreeViewDemo"
-import { SidebarDemo } from "./SidebarDemo"
-import { DrawerDemo } from "./DrawerDemo"
+import makeButtonDemo from "./ButtonDemo"
+import makeIconButtonDemo from "./IconButtonDemo"
+import makeEditableInputDemo from "./EditableInputDemo"
+import makeMenuDemo from "./MenuDemo"
+import makeSelectDemo from "./SelectDemo"
+import makeTreeViewDemo from "./TreeViewDemo"
+import makeSidebarDemo from "./SidebarDemo"
+import makeDrawerDemo from "./DrawerDemo"
 
 export interface DemoInfo {
   id: string
@@ -29,13 +29,19 @@ export const demoCategories: DemoCategory[] = [
         id: "button",
         title: "Basic Button",
         description: "Basic button component with event handling",
-        component: ButtonDemo
+        component: () => {
+          const ButtonDemo = makeButtonDemo()
+          return ButtonDemo({})
+        }
       },
       {
         id: "icon-button", 
         title: "Icon Button",
         description: "Button component with icon support",
-        component: IconButtonDemo
+        component: () => {
+          const IconButtonDemo = makeIconButtonDemo()
+          return IconButtonDemo({})
+        }
       }
     ]
   },
@@ -47,7 +53,10 @@ export const demoCategories: DemoCategory[] = [
         id: "editable-input",
         title: "Editable Input",
         description: "Click-to-edit input with keyboard shortcuts",
-        component: EditableInputDemo
+        component: () => {
+          const EditableInputDemo = makeEditableInputDemo()
+          return EditableInputDemo({})
+        }
       }
     ]
   },
@@ -59,13 +68,19 @@ export const demoCategories: DemoCategory[] = [
         id: "menu",
         title: "Menu & MenuItem",
         description: "Dropdown menus with customizable placement and actions",
-        component: MenuDemo
+        component: () => {
+          const MenuDemo = makeMenuDemo()
+          return MenuDemo({})
+        }
       },
       {
         id: "select",
         title: "Select",
         description: "Dropdown select component with selection markers",
-        component: SelectDemo
+        component: () => {
+          const SelectDemo = makeSelectDemo()
+          return SelectDemo({})
+        }
       }
     ]
   },
@@ -77,7 +92,10 @@ export const demoCategories: DemoCategory[] = [
         id: "tree-view",
         title: "TreeView",
         description: "Collapsible tree view for hierarchical data",
-        component: TreeViewDemo
+        component: () => {
+          const TreeViewDemo = makeTreeViewDemo()
+          return TreeViewDemo({})
+        }
       }
     ]
   },
@@ -89,13 +107,19 @@ export const demoCategories: DemoCategory[] = [
         id: "sidebar",
         title: "Sidebar Navigation",
         description: "Navigation sidebar with sections and hierarchical items",
-        component: SidebarDemo
+        component: () => {
+          const SidebarDemo = makeSidebarDemo()
+          return SidebarDemo({})
+        }
       },
       {
         id: "drawer",
         title: "Drawer",
         description: "Responsive drawer component for mobile and desktop layouts",
-        component: DrawerDemo
+        component: () => {
+          const DrawerDemo = makeDrawerDemo()
+          return DrawerDemo({})
+        }
       }
     ]
   }
