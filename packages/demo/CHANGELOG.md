@@ -1,5 +1,15 @@
 # @duct-ui/demo
 
+## 0.0.7
+
+### Patch Changes
+
+- [#14](https://github.com/navilan/duct-ui/pull/14) [`a79afd3`](https://github.com/navilan/duct-ui/commit/a79afd37abcd16949e2c2e72062c333f674a89ba) Thanks [@navilan](https://github.com/navilan)! - Add toggle button and list component
+
+- Updated dependencies [[`a79afd3`](https://github.com/navilan/duct-ui/commit/a79afd37abcd16949e2c2e72062c333f674a89ba)]:
+  - @duct-ui/components@0.1.6
+  - @duct-ui/core@0.1.6
+
 ## 0.0.6
 
 ### Patch Changes

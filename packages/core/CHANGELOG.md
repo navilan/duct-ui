@@ -1,5 +1,11 @@
 # @duct-ui/core
 
+## 0.1.6
+
+### Patch Changes
+
+- [#14](https://github.com/navilan/duct-ui/pull/14) [`a79afd3`](https://github.com/navilan/duct-ui/commit/a79afd37abcd16949e2c2e72062c333f674a89ba) Thanks [@navilan](https://github.com/navilan)! - Add toggle button and list component
+
 ## 0.1.5
 
 ### Patch Changes
