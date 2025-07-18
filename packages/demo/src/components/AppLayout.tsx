@@ -1,110 +1,151 @@
-import makeDrawer from "@duct-ui/components/layout/drawer"
-import Sidebar from "./Sidebar"
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import makeDrawer, { DrawerLogic } from "@duct-ui/components/layout/drawer"
+import makeSidebar, { SidebarLogic } from "./Sidebar"
 import DemoHeader from "./DemoHeader"
 import { demoCategories } from "../demos"
+
+export interface AppLayoutEvents extends BaseComponentEvents {
+  navigate: (el: HTMLElement, demoId: string) => void
+}
+
+export interface AppLayoutLogic {
+  refreshChildren: (children: JSX.Element) => void
+}
 
 export interface AppLayoutProps {
   currentDemo: string
   children: JSX.Element
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
   'on:navigate'?: (el: HTMLElement, demoId: string) => void
 }
 
-// Layout state
+// Store drawer component reference to access its logic
+let drawerComponentInstance: DrawerLogic
+let sideBarComponentInstance: SidebarLogic
+let eventEmitter: EventEmitter<AppLayoutEvents> | undefined
+const Drawer = makeDrawer()
 let isDrawerOpen: boolean = false
-let drawerComponent: any
 
-function setInitialDrawerState(): void {
-  // On desktop (lg and up), drawer should be open by default
-  // On mobile/tablet, drawer should be closed by default
+// Get drawer logic when component is created
+Drawer.getLogic().then(logic => {
+  drawerComponentInstance = logic
   isDrawerOpen = window.innerWidth >= 1024
-}
-
-function setupResizeHandler(): void {
-  window.addEventListener('resize', () => {
-    const isDesktop = window.innerWidth >= 1024
-
-    // Auto-open drawer on desktop, close on mobile
-    if (isDesktop && !isDrawerOpen) {
-      isDrawerOpen = true
-      if (drawerComponent) {
-        drawerComponent.open()
-      }
-    } else if (!isDesktop && isDrawerOpen) {
-      isDrawerOpen = false
-      if (drawerComponent) {
-        drawerComponent.close()
-      }
-    }
-  })
-}
-
-function handleNavigation(el: HTMLElement, demoId: string, onNavigate?: (el: HTMLElement, demoId: string) => void): void {
-  // Call parent navigation handler
-  if (onNavigate) {
-    onNavigate(el, demoId)
+  if (isDrawerOpen) {
+    drawerComponentInstance.open()
+  } else {
+    drawerComponentInstance.close()
   }
-  
-  // Close drawer on mobile after navigation
-  if (drawerComponent && window.innerWidth < 1024) {
-    drawerComponent.close()
+})
+
+const Sidebar = makeSidebar()
+Sidebar.getLogic().then(l => {
+  sideBarComponentInstance = l
+})
+
+function handleNavigation(_navEl: HTMLElement, demoId: string): void {
+  if (drawerComponentInstance && window.innerWidth < 1024) {
+    drawerComponentInstance.close()
     isDrawerOpen = false
+  }
+  eventEmitter?.emit('navigate', demoId)
+  if (sideBarComponentInstance) {
+    sideBarComponentInstance.updateCurrentDemo(demoId)
   }
 }
 
 function handleMenuToggle(_el: HTMLElement): void {
-  if (drawerComponent) {
-    drawerComponent.toggle()
+  if (drawerComponentInstance) {
+    drawerComponentInstance.toggle()
     isDrawerOpen = !isDrawerOpen
   }
 }
 
-// Initialize drawer component
-const Drawer = makeDrawer()
-Drawer.getLogic().then(c => {
-  drawerComponent = c
-  setInitialDrawerState()
-  setupResizeHandler()
-  
-  if (isDrawerOpen) {
-    drawerComponent.open()
-  } else {
-    drawerComponent.close()
-  }
-})
-
-export default function AppLayout(props: AppLayoutProps) {
+function render(props: BaseProps<AppLayoutProps>) {
   const {
     currentDemo,
     children,
-    'on:navigate': onNavigate,
     ...moreProps
   } = props
+
 
   return (
     <div class="h-screen bg-base-100 flex flex-col" {...moreProps}>
       <DemoHeader
-        isMenuOpen={isDrawerOpen}
+        isMenuOpen={false}
         on:menuToggle={handleMenuToggle}
+        data-header
       />
 
       <Drawer
-        isOpen={isDrawerOpen}
+        isOpen={false}
         persistent={true}
         side="left"
         class="flex-1"
+        data-drawer
         drawerContent={
           <Sidebar
             categories={demoCategories}
             currentDemo={currentDemo}
-            on:navigate={(el: HTMLElement, demoId: string) => handleNavigation(el, demoId, onNavigate)}
+            on:navigate={handleNavigation}
+            data-sidebar
           />
         }
         mainContent={
-          <main class="flex-1 overflow-hidden bg-base-100">
+          <main class="flex-1 overflow-hidden bg-base-100" data-main-content>
             {children}
           </main>
         }
       />
     </div>
+  )
+}
+
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<AppLayoutEvents>): BindReturn<AppLayoutLogic> {
+  eventEmitter = _eventEmitter
+  const mainContent = el.querySelector('[data-main-content]') as HTMLElement
+  function refreshChildren(children: JSX.Element): void {
+    if (mainContent) {
+      mainContent.innerHTML = children.toString()
+    }
+  }
+
+  function handleResize() {
+    const isDesktop = window.innerWidth >= 1024
+    if (isDesktop && !isDrawerOpen) {
+      isDrawerOpen = true
+      if (drawerComponentInstance) {
+        drawerComponentInstance.open()
+      }
+    } else if (!isDesktop && isDrawerOpen) {
+      isDrawerOpen = false
+      if (drawerComponentInstance) {
+        drawerComponentInstance.close()
+      }
+    }
+  }
+
+  window.addEventListener('resize', handleResize)
+
+  function release() {
+    window.removeEventListener('resize', handleResize)
+  }
+
+  return {
+    refreshChildren,
+    release
+  }
+}
+
+const id = { id: "duct-demo/app-layout" }
+
+export default () => {
+  return createBlueprint<AppLayoutProps, AppLayoutEvents, AppLayoutLogic>(
+    id,
+    render,
+    {
+      customEvents: ['bind', 'release', 'navigate'],
+      bind
+    }
   )
 }
