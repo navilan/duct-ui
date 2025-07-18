@@ -137,7 +137,6 @@ export default () => {
     render,
     {
       domEvents: ['click'],
-      customEvents: ['bind', 'navigate', 'release'],
       bind
     }
   )

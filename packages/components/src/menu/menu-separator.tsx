@@ -41,7 +41,6 @@ export default () => {
     render,
     {
       domEvents: [],
-      customEvents: ['bind', 'release'],
       bind
     },
   )

@@ -10,6 +10,7 @@ export interface AppLayoutEvents extends BaseComponentEvents {
 
 export interface AppLayoutLogic {
   refreshChildren: (children: JSX.Element) => void
+  updateCurrentDemo: (currentDemo: string) => void
 }
 
 export interface AppLayoutProps {
@@ -125,6 +126,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<AppLayoutEvents>): Bi
     }
   }
 
+  function updateCurrentDemo(demoId: string) {
+    if (sideBarComponentInstance) {
+      sideBarComponentInstance.updateCurrentDemo(demoId)
+    }
+  }
+
   window.addEventListener('resize', handleResize)
 
   function release() {
@@ -133,6 +140,7 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<AppLayoutEvents>): Bi
 
   return {
     refreshChildren,
+    updateCurrentDemo,
     release
   }
 }
@@ -144,7 +152,6 @@ export default () => {
     id,
     render,
     {
-      customEvents: ['bind', 'release', 'navigate'],
       bind
     }
   )

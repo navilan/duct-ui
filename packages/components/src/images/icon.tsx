@@ -80,7 +80,6 @@ export default () => {
     id,
     render,
     {
-      customEvents: ['bind', 'release']
     },
   )
 }

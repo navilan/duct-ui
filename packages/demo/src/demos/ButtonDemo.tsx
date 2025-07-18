@@ -1,91 +1,122 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeButton from "@duct-ui/components/button/button"
 import makeDemoLayout from "../components/DemoLayout"
+import makeEventLog, { EventLogLogic } from "../components/EventLog"
 
-let eventLog: string[] = []
+export interface ButtonDemoEvents extends BaseComponentEvents {
+  // No custom events needed for this demo
+}
 
-const updateEventLog = () => {
-  const logElement = document.getElementById('event-log')
-  if (logElement) {
-    logElement.innerHTML = eventLog.length === 0 
-      ? '<p class="text-sm text-base-content/50">No events yet...</p>'
-      : eventLog.map(event => `<p class="text-sm font-mono">${event}</p>`).join('')
+export interface ButtonDemoLogic {
+  // Component logic methods if needed
+}
+
+export interface ButtonDemoProps {
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+}
+
+
+let eventLogComponent: EventLogLogic | undefined
+
+function handleButtonClick(el: Element, _e: Event) {
+  const button = el.closest('[data-button-id]')
+  if (button) {
+    const message = button.getAttribute('data-message')
+    if (message && eventLogComponent) {
+      eventLogComponent.addEvent(message)
+      console.log(message)
+    }
   }
 }
 
-const handler = (el: HTMLElement) => {
-  const message = el.dataset['message']
-  const timestamp = new Date().toLocaleTimeString()
-  eventLog.push(`[${timestamp}] ${message}`)
-  updateEventLog()
-  console.log(message)
+
+function render(props: BaseProps<ButtonDemoProps>) {
+  const DemoLayout = makeDemoLayout()
+  const Button1 = makeButton()
+  const Button2 = makeButton()
+  const Button3 = makeButton()
+  const EventLog = makeEventLog()
+
+  EventLog.getLogic().then(l => {
+    eventLogComponent = l
+  })
+
+
+  return (
+    <div {...props}>
+      <DemoLayout
+        title="Button Component"
+        description="Basic button component with click event handling"
+        sourcePath="/demos/ButtonDemo.tsx"
+      >
+        <div>
+          <h2 class="text-2xl font-semibold mb-4">Three Buttons Example</h2>
+          <div id="buttons" class="flex flex-row items-start gap-4">
+            <Button1
+              label="One"
+              class="btn btn-primary"
+              data-message="First button clicked!"
+              data-button-id="button1"
+              on:click={handleButtonClick}
+            />
+            <Button2
+              label="Two"
+              class="btn btn-secondary"
+              data-message="Second button clicked!"
+              data-button-id="button2"
+              on:click={handleButtonClick}
+            />
+            <Button3
+              label="Three"
+              class="btn btn-outline"
+              data-message="Third button clicked!"
+              data-button-id="button3"
+              on:click={handleButtonClick}
+            />
+          </div>
+
+          <div class="mt-8 space-y-6">
+            <EventLog
+              title="Event Log"
+              maxHeight="max-h-32"
+              data-event-log-component
+            />
+
+            <div class="p-4 bg-base-200 rounded-lg">
+              <h3 class="text-lg font-medium mb-2">Features Demonstrated:</h3>
+              <ul class="list-disc list-inside space-y-1 text-sm">
+                <li>Basic button component with label</li>
+                <li>Different DaisyUI styling classes</li>
+                <li>Event handling via both <code>on:click</code> props and <code>.getLogic()</code></li>
+                <li>Data attributes for context passing</li>
+                <li>Reusable EventLog component with proper cleanup</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </DemoLayout>
+    </div>
+  )
 }
 
-const Button1 = makeButton()
-const Button2 = makeButton()
-const Button3 = makeButton()
-const DemoLayout = makeDemoLayout()
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<ButtonDemoEvents>): BindReturn<ButtonDemoLogic> {
+  function release() {
+    eventLogComponent = undefined
+  }
+  return {
+    release
+  }
+}
 
-// Set up event handlers
-Button1.getLogic().then(l => {
-  l.on('click', handler)
-})
+const id = { id: "duct-demo/button-demo" }
 
-export function ButtonDemo() {
-  return (
-    <DemoLayout
-      title="Button Component"
-      description="Basic button component with click event handling"
-      sourcePath="/demos/ButtonDemo.tsx"
-    >
-      <div>
-        <h2 class="text-2xl font-semibold mb-4">Three Buttons Example</h2>
-        <div id="buttons" class="flex flex-row items-start gap-4">
-          <Button1 
-            label="One" 
-            class="btn btn-primary" 
-            data-message="First button clicked!" 
-          />
-          <Button2 
-            label="Two" 
-            class="btn btn-secondary" 
-            data-message="Second button clicked!" 
-            on:click={handler} 
-          />
-          <Button3 
-            label="Three" 
-            class="btn btn-outline" 
-            data-message="Third button clicked!" 
-            on:click={handler} 
-          />
-        </div>
-        
-        <div class="mt-8 space-y-6">
-          <div class="p-4 bg-base-200 rounded-lg">
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="text-lg font-medium">Event Log</h3>
-              <button 
-                class="btn btn-sm btn-outline" 
-                onclick="document.getElementById('event-log').parentElement.querySelector('button').previousElementSibling.innerHTML = '<p class=&quot;text-sm text-base-content/50&quot;>No events yet...</p>'; eventLog = []"
-              >
-                Clear
-              </button>
-            </div>
-            <div id="event-log" class="max-h-32 overflow-y-auto space-y-1 text-sm">
-              <p class="text-sm text-base-content/50">No events yet...</p>
-            </div>
-          </div>
-          
-          <div class="p-4 bg-base-200 rounded-lg">
-            <h3 class="text-lg font-medium mb-2">Features Demonstrated:</h3>
-            <ul class="list-disc list-inside space-y-1 text-sm">
-              <li>Basic button component with label</li>
-              <li>Different DaisyUI styling classes</li>
-              <li>Event handling via both <code>on:click</code> props and <code>.getLogic()</code></li>
-              <li>Data attributes for context passing</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </DemoLayout>
+export default () => {
+  return createBlueprint<ButtonDemoProps, ButtonDemoEvents, ButtonDemoLogic>(
+    id,
+    render,
+    {
+      bind
+    }
   )
 }

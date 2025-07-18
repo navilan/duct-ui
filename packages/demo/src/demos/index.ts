@@ -1,6 +1,6 @@
-import { ButtonDemo } from "./ButtonDemo"
-import { IconButtonDemo } from "./IconButtonDemo"
-import { EditableInputDemo } from "./EditableInputDemo"
+import makeButtonDemo from "./ButtonDemo"
+import makeIconButtonDemo from "./IconButtonDemo"
+import makeEditableInputDemo from "./EditableInputDemo"
 import { MenuDemo } from "./MenuDemo"
 import { SelectDemo } from "./SelectDemo"
 import { TreeViewDemo } from "./TreeViewDemo"
@@ -29,13 +29,19 @@ export const demoCategories: DemoCategory[] = [
         id: "button",
         title: "Basic Button",
         description: "Basic button component with event handling",
-        component: ButtonDemo
+        component: () => {
+          const ButtonDemo = makeButtonDemo()
+          return ButtonDemo({})
+        }
       },
       {
         id: "icon-button", 
         title: "Icon Button",
         description: "Button component with icon support",
-        component: IconButtonDemo
+        component: () => {
+          const IconButtonDemo = makeIconButtonDemo()
+          return IconButtonDemo({})
+        }
       }
     ]
   },
@@ -47,7 +53,10 @@ export const demoCategories: DemoCategory[] = [
         id: "editable-input",
         title: "Editable Input",
         description: "Click-to-edit input with keyboard shortcuts",
-        component: EditableInputDemo
+        component: () => {
+          const EditableInputDemo = makeEditableInputDemo()
+          return EditableInputDemo({})
+        }
       }
     ]
   },
