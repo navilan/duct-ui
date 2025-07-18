@@ -105,6 +105,7 @@ export function EditableInputDemo() {
     <DemoLayout
       title="Editable Input Component"
       description="Click-to-edit input with keyboard shortcuts and programmatic control"
+      sourcePath="/demos/EditableInputDemo.tsx"
     >
       <div>
         <div class="space-y-8">

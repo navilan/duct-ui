@@ -404,6 +404,7 @@ export function TreeViewDemo() {
     <DemoLayout
       title="TreeView Component"
       description="Collapsible tree view for hierarchical data with expand/collapse functionality"
+      sourcePath="/demos/TreeViewDemo.tsx"
     >
       <div>
         <div class="space-y-8">
