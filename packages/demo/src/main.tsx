@@ -1,62 +1,55 @@
-import Sidebar from "./components/Sidebar"
-import { demoCategories, getDemoById, getDefaultDemo } from "./demos"
+import AppLayout from "./components/AppLayout"
+import { getDemoById, getDefaultDemo } from "./demos"
 
-class DemoApp {
-  private currentDemo: string
-  private sidebarComponent: any
+// App state
+let currentDemo: string
 
-  constructor() {
-    this.currentDemo = this.getInitialDemo()
-    this.setupRouting()
-    this.render()
-  }
+function getInitialDemo(): string {
+  const hash = window.location.hash.slice(1) // Remove #
+  const demo = getDemoById(hash)
+  return demo ? demo.id : getDefaultDemo().id
+}
 
-  private getInitialDemo(): string {
-    const hash = window.location.hash.slice(1) // Remove #
+function setupRouting(): void {
+  window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.slice(1)
     const demo = getDemoById(hash)
-    return demo ? demo.id : getDefaultDemo().id
-  }
+    if (demo) {
+      currentDemo = demo.id
+      render()
+    }
+  })
+}
 
-  private setupRouting(): void {
-    window.addEventListener('hashchange', () => {
-      const hash = window.location.hash.slice(1)
-      const demo = getDemoById(hash)
-      if (demo) {
-        this.currentDemo = demo.id
-        this.render()
-      }
-    })
-  }
+function handleNavigation(_el: HTMLElement, demoId: string): void {
+  window.location.hash = demoId
+}
 
-  private handleNavigation = (el: HTMLElement, demoId: string): void => {
-    window.location.hash = demoId
-  }
+function render(): void {
+  const app = document.getElementById('app')
+  if (!app) return
 
-  private render(): void {
-    const app = document.getElementById('app')
-    if (!app) return
+  const currentDemoInfo = getDemoById(currentDemo) || getDefaultDemo()
 
-    const currentDemoInfo = getDemoById(this.currentDemo) || getDefaultDemo()
+  const layout = (
+    <AppLayout
+      currentDemo={currentDemo}
+      on:navigate={handleNavigation}
+    >
+      {currentDemoInfo.component()}
+    </AppLayout>
+  )
 
-    // Create the main layout
-    const layout = (
-      <div class="flex h-screen bg-base-100">
-        <Sidebar
-          categories={demoCategories}
-          currentDemo={this.currentDemo}
-          on:navigate={this.handleNavigation}
-        />
-        <main class="flex-1 overflow-hidden">
-          {currentDemoInfo.component()}
-        </main>
-      </div>
-    )
+  app.innerHTML = layout.toString()
+}
 
-    app.innerHTML = layout.toString()
-  }
+function initializeDemoApp(): void {
+  currentDemo = getInitialDemo()
+  setupRouting()
+  render()
 }
 
 // Initialize the demo app when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-  new DemoApp()
+  initializeDemoApp()
 })

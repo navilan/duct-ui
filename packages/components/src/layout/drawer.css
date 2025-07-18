@@ -1,0 +1,87 @@
+/* Drawer Component Styles */
+
+.drawer {
+  @apply relative w-full h-full flex;
+}
+
+.drawer-left {
+  @apply flex-row;
+}
+
+.drawer-right {
+  @apply flex-row-reverse;
+}
+
+.drawer-overlay {
+  @apply fixed inset-0 bg-black/50 z-40 opacity-0 invisible transition-all duration-300;
+}
+
+.drawer-content {
+  @apply fixed top-0 z-50 h-full transition-transform duration-300 ease-in-out;
+  @apply bg-base-200 border-r border-base-300;
+  transform: translateX(-100%);
+}
+
+.drawer-right .drawer-content {
+  @apply border-l border-r-0;
+  transform: translateX(100%);
+  right: 0;
+}
+
+.drawer-main {
+  @apply flex-1 min-w-0;
+}
+
+/* Mobile-first: drawer hidden by default */
+.drawer-content {
+  @apply w-80;
+}
+
+/* When drawer is open */
+.drawer-open .drawer-overlay {
+  @apply opacity-100 visible;
+}
+
+.drawer-open .drawer-content {
+  transform: translateX(0);
+}
+
+/* Persistent drawer on larger screens */
+@media (min-width: 1024px) {
+  .drawer-persistent .drawer-content {
+    @apply relative z-auto;
+    transform: translateX(0);
+  }
+  
+  .drawer-persistent .drawer-overlay {
+    @apply hidden;
+  }
+  
+  .drawer-persistent .drawer-main {
+    @apply ml-0;
+  }
+  
+  .drawer-persistent.drawer-right .drawer-main {
+    @apply mr-0;
+  }
+}
+
+/* Responsive behavior */
+@media (max-width: 1023px) {
+  .drawer-persistent .drawer-content {
+    @apply fixed;
+    transform: translateX(-100%);
+  }
+  
+  .drawer-persistent.drawer-right .drawer-content {
+    transform: translateX(100%);
+  }
+  
+  .drawer-persistent.drawer-open .drawer-content {
+    transform: translateX(0);
+  }
+  
+  .drawer-persistent .drawer-overlay {
+    @apply block;
+  }
+}

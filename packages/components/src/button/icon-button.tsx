@@ -1,11 +1,19 @@
 import { type BaseProps, createBlueprint } from "@duct-ui/core/blueprint"
 import { ButtonEvents, ButtonProps } from "./button"
+import makeIcon, { type IconSource, type IconSize } from "../images/icon"
 
 export type IconPosition = "start" | "end"
 
 export type IconButtonProps = Partial<ButtonProps> & {
-  icon: string
+  icon: IconSource
   position?: IconPosition
+  iconSize?: IconSize
+  iconClass?: string
+}
+
+function renderIcon(icon: IconSource, size?: IconSize, iconClass?: string): JSX.Element {
+  const IconComponent = makeIcon()
+  return <IconComponent icon={icon} size={size || "sm"} class={iconClass} />
 }
 
 function render(props: BaseProps<IconButtonProps>) {
@@ -13,14 +21,18 @@ function render(props: BaseProps<IconButtonProps>) {
     label,
     position,
     icon,
+    iconSize,
+    iconClass,
     ...moreProps
   } = props
 
+  const iconElement = renderIcon(icon, iconSize, iconClass)
+
   return (
     <button {...moreProps}>
-      {(position === 'start' || !position) && <img src={icon} />}
+      {(position === 'start' || !position) && iconElement}
       {label}
-      {position === 'end' && <img src={icon} />}
+      {position === 'end' && iconElement}
     </button>
   )
 }
