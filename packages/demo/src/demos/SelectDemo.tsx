@@ -1,46 +1,57 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeSelect from "@duct-ui/components/select/select"
 import makeDemoLayout from "../components/DemoLayout"
+import makeEventLog, { EventLogLogic } from "../components/EventLog"
 import iconOne from "../icons/one.svg"
 import iconTwo from "../icons/two.svg"
 import iconThree from "../icons/three.svg"
 import type { SelectItem } from "@duct-ui/components/select/select"
 
-let eventLog: string[] = []
+export interface SelectDemoEvents extends BaseComponentEvents {
+  // No custom events needed for this demo
+}
 
-const updateEventLog = () => {
-  const logElement = document.getElementById('event-log')
-  if (logElement) {
-    logElement.innerHTML = eventLog.length === 0
-      ? '<p class="text-sm text-base-content/50">No events yet...</p>'
-      : eventLog.map(event => `<p class="text-sm font-mono">${event}</p>`).join('')
+export interface SelectDemoLogic {
+  // Component logic methods if needed
+}
+
+export interface SelectDemoProps {
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+}
+
+let eventLogComponent: EventLogLogic | undefined
+
+function addToLog(message: string) {
+  if (eventLogComponent) {
+    eventLogComponent.addEvent(message)
   }
 }
 
-const selectionHandler = (_el: HTMLElement, item: SelectItem, index: number) => {
-  const timestamp = new Date().toLocaleTimeString()
-  eventLog.push(`[${timestamp}] Selected: "${item.label}" (index: ${index})`)
-  updateEventLog()
+function selectionHandler(_el: HTMLElement, item: SelectItem, index: number) {
+  addToLog(`Selected: "${item.label}" (index: ${index})`)
   console.log('Selection changed:', item, index)
 }
 
-const openHandler = (_el: HTMLElement) => {
-  const timestamp = new Date().toLocaleTimeString()
-  eventLog.push(`[${timestamp}] Select opened`)
-  updateEventLog()
+function openHandler(_el: HTMLElement) {
+  addToLog(`Select opened`)
 }
 
-const closeHandler = (_el: HTMLElement) => {
-  const timestamp = new Date().toLocaleTimeString()
-  eventLog.push(`[${timestamp}] Select closed`)
-  updateEventLog()
+function closeHandler(_el: HTMLElement) {
+  addToLog(`Select closed`)
 }
 
-const Select1 = makeSelect()
-const Select2 = makeSelect()
-const Select3 = makeSelect()
-const DemoLayout = makeDemoLayout()
+function render(props: BaseProps<SelectDemoProps>) {
+  const DemoLayout = makeDemoLayout()
+  const Select1 = makeSelect()
+  const Select2 = makeSelect()
+  const Select3 = makeSelect()
+  const EventLog = makeEventLog()
 
-export function SelectDemo() {
+  EventLog.getLogic().then(l => {
+    eventLogComponent = l
+  })
+
   const basicItems: SelectItem[] = [
     { label: "Option 1", isSelected: true },
     { label: "Option 2" },
@@ -83,11 +94,12 @@ export function SelectDemo() {
   ]
 
   return (
-    <DemoLayout
-      title="Select Component"
-      description="Dropdown select component with selection markers and flexible item properties"
-      sourcePath="/demos/SelectDemo.tsx"
-    >
+    <div {...props}>
+      <DemoLayout
+        title="Select Component"
+        description="Dropdown select component with selection markers and flexible item properties"
+        sourcePath="/demos/SelectDemo.tsx"
+      >
       <div>
         <h2 class="text-2xl font-semibold mb-4">Select Examples</h2>
 
@@ -161,20 +173,11 @@ export function SelectDemo() {
         </div>
 
         <div class="mt-8 space-y-6">
-          <div class="p-4 bg-base-200 rounded-lg">
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="text-lg font-medium">Event Log</h3>
-              <button
-                class="btn btn-sm btn-outline"
-                onclick="document.getElementById('event-log').parentElement.querySelector('button').previousElementSibling.innerHTML = '<p class=&quot;text-sm text-base-content/50&quot;>No events yet...</p>'; eventLog = []"
-              >
-                Clear
-              </button>
-            </div>
-            <div id="event-log" class="max-h-32 overflow-y-auto space-y-1 text-sm">
-              <p class="text-sm text-base-content/50">No events yet...</p>
-            </div>
-          </div>
+          <EventLog
+            title="Event Log"
+            maxHeight="max-h-32"
+            data-event-log-component
+          />
 
           <div class="p-4 bg-base-200 rounded-lg">
             <h3 class="text-lg font-medium mb-2">Features Demonstrated:</h3>
@@ -190,6 +193,28 @@ export function SelectDemo() {
           </div>
         </div>
       </div>
-    </DemoLayout>
+      </DemoLayout>
+    </div>
+  )
+}
+
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<SelectDemoEvents>): BindReturn<SelectDemoLogic> {
+  function release() {
+    eventLogComponent = undefined
+  }
+  return {
+    release
+  }
+}
+
+const id = { id: "duct-demo/select-demo" }
+
+export default () => {
+  return createBlueprint<SelectDemoProps, SelectDemoEvents, SelectDemoLogic>(
+    id,
+    render,
+    {
+      bind
+    }
   )
 }

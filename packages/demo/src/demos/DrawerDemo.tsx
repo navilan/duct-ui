@@ -1,14 +1,29 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeDemoLayout from "../components/DemoLayout"
 
-const DemoLayout = makeDemoLayout()
+export interface DrawerDemoEvents extends BaseComponentEvents {
+  // No custom events needed for this demo
+}
 
-export function DrawerDemo() {
+export interface DrawerDemoLogic {
+  // Component logic methods if needed
+}
+
+export interface DrawerDemoProps {
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+}
+
+function render(props: BaseProps<DrawerDemoProps>) {
+  const DemoLayout = makeDemoLayout()
+
   return (
-    <DemoLayout
-      title="Drawer Component"
-      description="Responsive drawer component for mobile and desktop layouts"
-      sourcePath="/components/AppLayout.tsx"
-    >
+    <div {...props}>
+      <DemoLayout
+        title="Drawer Component"
+        description="Responsive drawer component for mobile and desktop layouts"
+        sourcePath="/components/AppLayout.tsx"
+      >
       <div>
         <div class="space-y-6">
           <div class="p-6 bg-base-200 rounded-lg">
@@ -103,6 +118,28 @@ export function DrawerDemo() {
           </div>
         </div>
       </div>
-    </DemoLayout>
+      </DemoLayout>
+    </div>
+  )
+}
+
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<DrawerDemoEvents>): BindReturn<DrawerDemoLogic> {
+  function release() {
+    // No cleanup needed for this demo
+  }
+  return {
+    release
+  }
+}
+
+const id = { id: "duct-demo/drawer-demo" }
+
+export default () => {
+  return createBlueprint<DrawerDemoProps, DrawerDemoEvents, DrawerDemoLogic>(
+    id,
+    render,
+    {
+      bind
+    }
   )
 }

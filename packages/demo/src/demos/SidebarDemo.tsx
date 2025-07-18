@@ -1,14 +1,29 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeDemoLayout from "../components/DemoLayout"
 
-const DemoLayout = makeDemoLayout()
+export interface SidebarDemoEvents extends BaseComponentEvents {
+  // No custom events needed for this demo
+}
 
-export function SidebarDemo() {
+export interface SidebarDemoLogic {
+  // Component logic methods if needed
+}
+
+export interface SidebarDemoProps {
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+}
+
+function render(props: BaseProps<SidebarDemoProps>) {
+  const DemoLayout = makeDemoLayout()
+
   return (
-    <DemoLayout
-      title="Sidebar Navigation Component"
-      description="Navigation sidebar with sections and hierarchical items"
-      sourcePath="/components/Sidebar.tsx"
-    >
+    <div {...props}>
+      <DemoLayout
+        title="Sidebar Navigation Component"
+        description="Navigation sidebar with sections and hierarchical items"
+        sourcePath="/components/Sidebar.tsx"
+      >
       <div>
         <div class="space-y-6">
           <div class="p-6 bg-base-200 rounded-lg">
@@ -68,6 +83,28 @@ export function SidebarDemo() {
           </div>
         </div>
       </div>
-    </DemoLayout>
+      </DemoLayout>
+    </div>
+  )
+}
+
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarDemoEvents>): BindReturn<SidebarDemoLogic> {
+  function release() {
+    // No cleanup needed for this demo
+  }
+  return {
+    release
+  }
+}
+
+const id = { id: "duct-demo/sidebar-demo" }
+
+export default () => {
+  return createBlueprint<SidebarDemoProps, SidebarDemoEvents, SidebarDemoLogic>(
+    id,
+    render,
+    {
+      bind
+    }
   )
 }

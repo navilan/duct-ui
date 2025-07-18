@@ -1,11 +1,11 @@
 import makeButtonDemo from "./ButtonDemo"
 import makeIconButtonDemo from "./IconButtonDemo"
 import makeEditableInputDemo from "./EditableInputDemo"
-import { MenuDemo } from "./MenuDemo"
-import { SelectDemo } from "./SelectDemo"
-import { TreeViewDemo } from "./TreeViewDemo"
-import { SidebarDemo } from "./SidebarDemo"
-import { DrawerDemo } from "./DrawerDemo"
+import makeMenuDemo from "./MenuDemo"
+import makeSelectDemo from "./SelectDemo"
+import makeTreeViewDemo from "./TreeViewDemo"
+import makeSidebarDemo from "./SidebarDemo"
+import makeDrawerDemo from "./DrawerDemo"
 
 export interface DemoInfo {
   id: string
@@ -68,13 +68,19 @@ export const demoCategories: DemoCategory[] = [
         id: "menu",
         title: "Menu & MenuItem",
         description: "Dropdown menus with customizable placement and actions",
-        component: MenuDemo
+        component: () => {
+          const MenuDemo = makeMenuDemo()
+          return MenuDemo({})
+        }
       },
       {
         id: "select",
         title: "Select",
         description: "Dropdown select component with selection markers",
-        component: SelectDemo
+        component: () => {
+          const SelectDemo = makeSelectDemo()
+          return SelectDemo({})
+        }
       }
     ]
   },
@@ -86,7 +92,10 @@ export const demoCategories: DemoCategory[] = [
         id: "tree-view",
         title: "TreeView",
         description: "Collapsible tree view for hierarchical data",
-        component: TreeViewDemo
+        component: () => {
+          const TreeViewDemo = makeTreeViewDemo()
+          return TreeViewDemo({})
+        }
       }
     ]
   },
@@ -98,13 +107,19 @@ export const demoCategories: DemoCategory[] = [
         id: "sidebar",
         title: "Sidebar Navigation",
         description: "Navigation sidebar with sections and hierarchical items",
-        component: SidebarDemo
+        component: () => {
+          const SidebarDemo = makeSidebarDemo()
+          return SidebarDemo({})
+        }
       },
       {
         id: "drawer",
         title: "Drawer",
         description: "Responsive drawer component for mobile and desktop layouts",
-        component: DrawerDemo
+        component: () => {
+          const DrawerDemo = makeDrawerDemo()
+          return DrawerDemo({})
+        }
       }
     ]
   }

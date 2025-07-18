@@ -1,37 +1,30 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeTreeView from "@duct-ui/components/tree/tree-view"
 import makeButton from "@duct-ui/components/button/button"
 import makeDemoLayout from "../components/DemoLayout"
+import makeEventLog, { EventLogLogic } from "../components/EventLog"
 import { TreeViewData, TreePath } from "@duct-ui/components/tree/structure"
 import "@duct-ui/components/tree/tree-view.css"
 
-const TreeView1 = makeTreeView()
-const TreeView2 = makeTreeView()
-const TreeView3 = makeTreeView()
+export interface TreeViewDemoEvents extends BaseComponentEvents {
+  // No custom events needed for this demo
+}
 
-const DemoLayout = makeDemoLayout()
+export interface TreeViewDemoLogic {
+  // Component logic methods if needed
+}
 
-// Control buttons
-const ExpandAllBtn = makeButton()
-const CollapseAllBtn = makeButton()
-const ExpandSrcBtn = makeButton()
-const CollapseSrcBtn = makeButton()
-const LoadProject1Btn = makeButton()
-const LoadProject2Btn = makeButton()
+export interface TreeViewDemoProps {
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+}
 
-// Event log state
-let eventLog: string[] = []
-let logContainer: HTMLElement | null = null
+let eventLogComponent: EventLogLogic | undefined
 let treeView3Logic: any = null
 
 function addToLog(message: string) {
-  eventLog.push(`${new Date().toLocaleTimeString()}: ${message}`)
-  if (eventLog.length > 12) eventLog.shift() // Keep last 12 events
-  updateLogDisplay()
-}
-
-function updateLogDisplay() {
-  if (logContainer) {
-    logContainer.innerHTML = eventLog.map(log => `<div class="text-sm text-base-content/70">${log}</div>`).join('')
+  if (eventLogComponent) {
+    eventLogComponent.addEvent(message)
   }
 }
 
@@ -334,22 +327,17 @@ const simpleTree: TreeViewData = {
 }
 
 // Event handlers
-const expandedHandler = (el: HTMLElement, path: TreePath) => {
+function expandedHandler(el: HTMLElement, path: TreePath) {
   addToLog(`Expanded: ${path.join(' → ')}`)
 }
 
-const collapsedHandler = (el: HTMLElement, path: TreePath) => {
+function collapsedHandler(el: HTMLElement, path: TreePath) {
   addToLog(`Collapsed: ${path.join(' → ')}`)
 }
 
-const clickedHandler = (el: HTMLElement, path: TreePath) => {
+function clickedHandler(el: HTMLElement, path: TreePath) {
   addToLog(`Clicked: ${path.join(' → ')}`)
 }
-
-// Control handlers
-TreeView3.getLogic().then(logic => {
-  treeView3Logic = logic
-})
 
 function expandAll(el: HTMLElement, e: MouseEvent) {
   if (treeView3Logic) {
@@ -393,19 +381,34 @@ function loadProject2(el: HTMLElement, e: MouseEvent) {
   }
 }
 
-export function TreeViewDemo() {
-  // Set up log container reference
-  setTimeout(() => {
-    logContainer = document.getElementById('tree-event-log')
-    updateLogDisplay()
-  }, 100)
+function render(props: BaseProps<TreeViewDemoProps>) {
+  const DemoLayout = makeDemoLayout()
+  const TreeView1 = makeTreeView()
+  const TreeView2 = makeTreeView()
+  const TreeView3 = makeTreeView()
+  const ExpandAllBtn = makeButton()
+  const CollapseAllBtn = makeButton()
+  const ExpandSrcBtn = makeButton()
+  const CollapseSrcBtn = makeButton()
+  const LoadProject1Btn = makeButton()
+  const LoadProject2Btn = makeButton()
+  const EventLog = makeEventLog()
+
+  EventLog.getLogic().then(l => {
+    eventLogComponent = l
+  })
+
+  TreeView3.getLogic().then(logic => {
+    treeView3Logic = logic
+  })
 
   return (
-    <DemoLayout
-      title="TreeView Component"
-      description="Collapsible tree view for hierarchical data with expand/collapse functionality"
-      sourcePath="/demos/TreeViewDemo.tsx"
-    >
+    <div {...props}>
+      <DemoLayout
+        title="TreeView Component"
+        description="Collapsible tree view for hierarchical data with expand/collapse functionality"
+        sourcePath="/demos/TreeViewDemo.tsx"
+      >
       <div>
         <div class="space-y-8">
 
@@ -519,11 +522,11 @@ export function TreeViewDemo() {
           {/* Event Log */}
           <div>
             <h2 class="text-2xl font-semibold mb-4">Event Log</h2>
-            <div class="bg-base-200 p-4 rounded-lg">
-              <div id="tree-event-log" class="space-y-1 max-h-64 overflow-y-auto">
-                <div class="text-sm text-base-content/70">Tree events will appear here...</div>
-              </div>
-            </div>
+            <EventLog
+              title="Tree Events"
+              maxHeight="max-h-64"
+              data-event-log-component
+            />
           </div>
 
           {/* Features Documentation */}
@@ -548,6 +551,29 @@ export function TreeViewDemo() {
           </div>
         </div>
       </div>
-    </DemoLayout>
+      </DemoLayout>
+    </div>
+  )
+}
+
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<TreeViewDemoEvents>): BindReturn<TreeViewDemoLogic> {
+  function release() {
+    eventLogComponent = undefined
+    treeView3Logic = null
+  }
+  return {
+    release
+  }
+}
+
+const id = { id: "duct-demo/tree-view-demo" }
+
+export default () => {
+  return createBlueprint<TreeViewDemoProps, TreeViewDemoEvents, TreeViewDemoLogic>(
+    id,
+    render,
+    {
+      bind
+    }
   )
 }

@@ -1,84 +1,54 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeMenu from "@duct-ui/components/menu/menu"
 import makeMenuItem from "@duct-ui/components/menu/menu-item"
 import makeMenuSeparator from "@duct-ui/components/menu/menu-separator"
 import makeEditableInput from "@duct-ui/components/input/editable"
 import makeDemoLayout from "../components/DemoLayout"
+import makeEventLog, { EventLogLogic } from "../components/EventLog"
 
-const Menu1 = makeMenu()
-const Menu2 = makeMenu()
-const Menu3 = makeMenu()
-const Menu4 = makeMenu()
-const Menu5 = makeMenu()
-const Menu6 = makeMenu()
-
-const DemoLayout = makeDemoLayout()
-
-// Menu items for different demos
-const BasicItem1 = makeMenuItem()
-const BasicItem2 = makeMenuItem()
-const BasicItem3 = makeMenuItem()
-
-const IconItem1 = makeMenuItem()
-const IconItem2 = makeMenuItem()
-const IconItem3 = makeMenuItem()
-const IconSeparator1 = makeMenuSeparator()
-
-const PlacementItem1 = makeMenuItem()
-const PlacementItem2 = makeMenuItem()
-
-const StateItem1 = makeMenuItem()
-const StateItem2 = makeMenuItem()
-const StateItem3 = makeMenuItem()
-
-// Component composition demo
-const ComposedEditableInput = makeEditableInput()
-const ComposedMenu = makeMenu()
-const ComposedEditMenuItem = makeMenuItem()
-
-// Event log state
-let eventLog: string[] = []
-let logContainer: HTMLElement | null = null
-
-function addToLog(message: string) {
-  eventLog.push(`${new Date().toLocaleTimeString()}: ${message}`)
-  if (eventLog.length > 15) eventLog.shift() // Keep last 15 events
-  updateLogDisplay()
+export interface MenuDemoEvents extends BaseComponentEvents {
+  // No custom events needed for this demo
 }
 
-function updateLogDisplay() {
-  if (logContainer) {
-    logContainer.innerHTML = eventLog.map(log => `<div class="text-sm text-base-content/70">${log}</div>`).join('')
+export interface MenuDemoLogic {
+  // Component logic methods if needed
+}
+
+export interface MenuDemoProps {
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+}
+
+let eventLogComponent: EventLogLogic | undefined
+let composedInputLogic: any = null
+
+function addToLog(message: string) {
+  if (eventLogComponent) {
+    eventLogComponent.addEvent(message)
   }
 }
 
 // Event handlers
-const menuOpenHandler = (el: HTMLElement) => {
+function menuOpenHandler(el: HTMLElement) {
   const menuLabel = el.querySelector('[role="button"]')?.textContent || 'Unknown Menu'
   addToLog(`Menu "${menuLabel}" opened`)
 }
 
-const menuCloseHandler = (el: HTMLElement) => {
+function menuCloseHandler(el: HTMLElement) {
   const menuLabel = el.querySelector('[role="button"]')?.textContent || 'Unknown Menu'
   addToLog(`Menu "${menuLabel}" closed`)
 }
 
-const itemClickHandler = (el: HTMLElement, e: MouseEvent) => {
+function itemClickHandler(el: HTMLElement, e: MouseEvent) {
   const itemLabel = el.textContent?.trim() || 'Unknown Item'
   addToLog(`MenuItem "${itemLabel}" clicked`)
 }
 
-const changeHandler = (el: HTMLElement, txt: string) => {
+function changeHandler(el: HTMLElement, txt: string) {
   addToLog(`Text "${txt}" changed`)
 }
 
-// Component composition handlers
-let composedInputLogic: any = null
-
-ComposedEditableInput.getLogic().then(logic => {
-  composedInputLogic = logic
-})
-
-const editMenuItemHandler = (el: HTMLElement, e: MouseEvent) => {
+function editMenuItemHandler(el: HTMLElement, e: MouseEvent) {
   if (composedInputLogic) {
     composedInputLogic.beginEdit()
     addToLog(`Menu triggered editable input to enter edit mode`)
@@ -88,19 +58,51 @@ const editMenuItemHandler = (el: HTMLElement, e: MouseEvent) => {
 }
 
 
-export function MenuDemo() {
-  // Set up log container reference
-  setTimeout(() => {
-    logContainer = document.getElementById('menu-event-log')
-    updateLogDisplay()
-  }, 100)
+function render(props: BaseProps<MenuDemoProps>) {
+  const DemoLayout = makeDemoLayout()
+  const Menu1 = makeMenu()
+  const Menu2 = makeMenu()
+  const Menu3 = makeMenu()
+  const Menu4 = makeMenu()
+  const Menu5 = makeMenu()
+  const Menu6 = makeMenu()
+  
+  const BasicItem1 = makeMenuItem()
+  const BasicItem2 = makeMenuItem()
+  const BasicItem3 = makeMenuItem()
+  
+  const IconItem1 = makeMenuItem()
+  const IconItem2 = makeMenuItem()
+  const IconItem3 = makeMenuItem()
+  const IconSeparator1 = makeMenuSeparator()
+  
+  const PlacementItem1 = makeMenuItem()
+  const PlacementItem2 = makeMenuItem()
+  
+  const StateItem1 = makeMenuItem()
+  const StateItem2 = makeMenuItem()
+  const StateItem3 = makeMenuItem()
+  
+  const ComposedEditableInput = makeEditableInput()
+  const ComposedMenu = makeMenu()
+  const ComposedEditMenuItem = makeMenuItem()
+  const EventLog = makeEventLog()
+
+  EventLog.getLogic().then(l => {
+    eventLogComponent = l
+  })
+
+  ComposedEditableInput.getLogic().then(logic => {
+    composedInputLogic = logic
+  })
 
   return (
-    <DemoLayout
-      title="Menu & MenuItem Components"
-      description="Dropdown menus with customizable placement, icons, and action-oriented behavior"
-      sourcePath="/demos/MenuDemo.tsx"
-    >
+    <div {...props}>
+      <DemoLayout
+        title="Menu & MenuItem Components"
+        description="Dropdown menus with customizable placement, icons, and action-oriented behavior"
+        sourcePath="/demos/MenuDemo.tsx"
+      >
       <div>
         <div class="space-y-8">
 
@@ -222,11 +224,11 @@ export function MenuDemo() {
           {/* Event Log */}
           <div>
             <h2 class="text-2xl font-semibold mb-4">Event Log</h2>
-            <div class="bg-base-200 p-4 rounded-lg">
-              <div id="menu-event-log" class="space-y-1 max-h-64 overflow-y-auto">
-                <div class="text-sm text-base-content/70">Menu events will appear here...</div>
-              </div>
-            </div>
+            <EventLog
+              title="Menu Events"
+              maxHeight="max-h-64"
+              data-event-log-component
+            />
           </div>
 
           {/* Features Documentation */}
@@ -249,6 +251,29 @@ export function MenuDemo() {
           </div>
         </div>
       </div>
-    </DemoLayout>
+      </DemoLayout>
+    </div>
+  )
+}
+
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<MenuDemoEvents>): BindReturn<MenuDemoLogic> {
+  function release() {
+    eventLogComponent = undefined
+    composedInputLogic = null
+  }
+  return {
+    release
+  }
+}
+
+const id = { id: "duct-demo/menu-demo" }
+
+export default () => {
+  return createBlueprint<MenuDemoProps, MenuDemoEvents, MenuDemoLogic>(
+    id,
+    render,
+    {
+      bind
+    }
   )
 }
