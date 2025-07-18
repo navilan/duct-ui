@@ -1,5 +1,5 @@
 import { getDuct } from "./runtime"
-import { observeLifecycle } from "./lifecycle"
+import { observeLifecycle, cleanupLifecycleHandler } from "./lifecycle"
 import { ObservableV2 as Observable } from 'lib0/observable'
 
 export type BaseProps<Props> = Props & { "data-duct-id": string }
@@ -19,18 +19,40 @@ let instanceCounter = 0
 // Global event observable for all component instances
 const globalEventObservable = new Observable<any>()
 
+// Store bound handlers for cleanup
+const instanceHandlers = new Map<string, Map<string, Function>>()
+
 // Helper function to bind event handlers to specific instances
 function bindEventToInstance<T extends (...args: any[]) => void>(
   instanceId: string,
   eventName: string,
   handler: T
 ) {
-  globalEventObservable.on(eventName, (el: HTMLElement, ...args: any[]) => {
+  const wrappedHandler = (el: HTMLElement, ...args: any[]) => {
     const dataId = el.dataset['ductId']
     if (dataId === instanceId) {
       handler(el, ...args)
     }
-  })
+  }
+  
+  globalEventObservable.on(eventName, wrappedHandler)
+  
+  // Store for cleanup
+  if (!instanceHandlers.has(instanceId)) {
+    instanceHandlers.set(instanceId, new Map())
+  }
+  instanceHandlers.get(instanceId)!.set(eventName, wrappedHandler)
+}
+
+// Helper function to unbind all event handlers for an instance
+function unbindInstanceHandlers(instanceId: string) {
+  const handlers = instanceHandlers.get(instanceId)
+  if (handlers) {
+    handlers.forEach((handler, eventName) => {
+      globalEventObservable.off(eventName, handler)
+    })
+    instanceHandlers.delete(instanceId)
+  }
 }
 
 // Extract and process on:* props from component props
@@ -126,7 +148,15 @@ export function createBlueprint<
       bindEventToInstance(instanceId, event as string, callback)
     },
     off<K extends keyof Events>(event: K, callback: Events[K]) {
-      globalEventObservable.off(event as string, callback)
+      // Find and remove the wrapped handler for this instance
+      const handlers = instanceHandlers.get(instanceId)
+      if (handlers) {
+        const wrappedHandler = handlers.get(event as string)
+        if (wrappedHandler) {
+          globalEventObservable.off(event as string, wrappedHandler)
+          handlers.delete(event as string)
+        }
+      }
     }
   }
 
@@ -173,6 +203,9 @@ export function createBlueprint<
       })
       domEventHandlers.clear()
 
+      // Clean up all instance event handlers from global observable
+      unbindInstanceHandlers(instanceId)
+
       // Emit release event and cleanup
       if (logic) {
         eventEmitter.emit('release' as keyof Events, htmlEl)
@@ -181,6 +214,9 @@ export function createBlueprint<
         }
         logic = undefined
       }
+
+      // Clean up lifecycle handler to prevent memory leaks
+      cleanupLifecycleHandler(instanceId)
     }
   })
 

@@ -1,5 +1,20 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeSidebarNav from "@duct-ui/components/navigation/sidebar-nav"
 import ductLogo from "../icons/duct-logo.svg"
+
+export interface SidebarEvents extends BaseComponentEvents {
+  navigate: (el: HTMLElement, demoId: string) => void
+}
+
+let eventEmitter: EventEmitter<SidebarEvents> | undefined
+
+function handleNavigate(navEl: HTMLElement, itemId: string): void {
+  eventEmitter?.emit('navigate', itemId)
+}
+
+export interface SidebarLogic {
+  updateCurrentDemo: (currentDemo: string) => void
+}
 
 export interface SidebarProps {
   categories: Array<{
@@ -8,12 +23,14 @@ export interface SidebarProps {
     demos: Array<{ id: string; title: string; description?: string }>
   }>
   currentDemo: string
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
   'on:navigate'?: (el: HTMLElement, demoId: string) => void
 }
 
 const SidebarNav = makeSidebarNav()
 
-export default function Sidebar(props: SidebarProps) {
+function render(props: BaseProps<SidebarProps>) {
   const { categories, currentDemo, ...moreProps } = props
 
   // Transform demo categories to sidebar sections
@@ -62,7 +79,6 @@ export default function Sidebar(props: SidebarProps) {
         </div>
       </div>
 
-
       <p class="bg-black/70 flex flex-col text-green-400 p-4 rounded-xl">
         <span>pnpm install @duct-ui/core</span>
         <span>pnpm install @duct-ui/components</span>
@@ -72,11 +88,60 @@ export default function Sidebar(props: SidebarProps) {
   )
 
   return (
-    <SidebarNav
-      sections={sections}
-      currentItem={currentDemo}
-      headerContent={headerContent}
-      {...moreProps}
-    />
+    <div {...moreProps}>
+      <SidebarNav
+        sections={sections}
+        currentItem={currentDemo}
+        headerContent={headerContent}
+        on:navigate={handleNavigate}
+      />
+    </div>
+  )
+}
+
+function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): BindReturn<SidebarLogic> {
+  let currentDemo = ''
+  eventEmitter = _eventEmitter
+
+  function updateCurrentDemo(newDemo: string): void {
+    currentDemo = newDemo
+
+    // Update the sidebar nav's current item attribute for consistency
+    const sidebarNavEl = el.querySelector('[data-duct-id*="sidebar-nav"]')
+    if (sidebarNavEl) {
+      sidebarNavEl.setAttribute('data-current-item', newDemo)
+    }
+
+    // Remove active class from all navigation links to ensure clean state
+    const allNavLinks = el.querySelectorAll('a[data-nav-item-id]')
+    allNavLinks.forEach(link => {
+      link.classList.remove('active')
+    })
+
+    // Add active class to new active link
+    const newActiveLink = el.querySelector(`a[data-nav-item-id="${newDemo}"]`)
+    if (newActiveLink) {
+      newActiveLink.classList.add('active')
+    }
+  }
+
+  function release() { }
+
+  return {
+    updateCurrentDemo,
+    release
+  }
+}
+
+const id = { id: "duct-demo/sidebar" }
+
+export default () => {
+  return createBlueprint<SidebarProps, SidebarEvents, SidebarLogic>(
+    id,
+    render,
+    {
+      customEvents: ['bind', 'release', 'navigate'],
+      bind
+    }
   )
 }

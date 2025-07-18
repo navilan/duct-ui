@@ -51,3 +51,7 @@ if (typeof document !== "undefined") {
 export function observeLifecycle(id: string, callbacks: LifecycleCallbacks) {
   handlers.set(id, callbacks)
 }
+
+export function cleanupLifecycleHandler(id: string) {
+  handlers.delete(id)
+}

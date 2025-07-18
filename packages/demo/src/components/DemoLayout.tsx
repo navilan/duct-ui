@@ -42,7 +42,7 @@ function render(props: DemoLayoutProps & { "data-duct-id": string }) {
   )
 }
 
-const id = { id: "duct/demo-layout" }
+const id = { id: "duct-demo/demo-layout" }
 
 export default () => {
   return createBlueprint<DemoLayoutProps, DemoLayoutEvents>(
