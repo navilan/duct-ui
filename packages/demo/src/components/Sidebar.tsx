@@ -79,10 +79,13 @@ function render(props: BaseProps<SidebarProps>) {
         </div>
       </div>
 
-      <p class="bg-black/70 flex flex-col text-green-400 p-4 rounded-xl">
+      <div class="flex items-center justify-center">
+        <img alt="NPM Version" src="https://img.shields.io/npm/v/%40duct-ui%2Fcore?style=for-the-badge" />
+      </div>
+      <div class="bg-black/60 flex flex-col text-green-400 p-4 rounded-xl">
         <span>pnpm install @duct-ui/core</span>
         <span>pnpm install @duct-ui/components</span>
-      </p>
+      </div>
       <h3 class="mt-8 text-base-content/70 text-lg">Component Demos</h3>
     </>
   )
