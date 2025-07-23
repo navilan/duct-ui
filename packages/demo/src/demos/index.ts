@@ -7,6 +7,7 @@ import makeSelectDemo from "./SelectDemo"
 import makeTreeViewDemo from "./TreeViewDemo"
 import makeSidebarDemo from "./SidebarDemo"
 import makeDrawerDemo from "./DrawerDemo"
+import makeTabsDemo from "./TabsDemo"
 import makeEmojiListDemo from "./EmojiListDemo"
 
 export interface DemoInfo {
@@ -72,8 +73,8 @@ export const demoCategories: DemoCategory[] = [
     ]
   },
   {
-    id: "menu",
-    title: "Menu",
+    id: "dropdown",
+    title: "Dropdown",
     demos: [
       {
         id: "menu",
@@ -96,8 +97,8 @@ export const demoCategories: DemoCategory[] = [
     ]
   },
   {
-    id: "tree",
-    title: "Tree",
+    id: "data-display",
+    title: "Data Display",
     demos: [
       {
         id: "tree-view",
@@ -107,13 +108,7 @@ export const demoCategories: DemoCategory[] = [
           const TreeViewDemo = makeTreeViewDemo()
           return TreeViewDemo({})
         }
-      }
-    ]
-  },
-  {
-    id: "list",
-    title: "List",
-    demos: [
+      },
       {
         id: "emoji-list",
         title: "List",
@@ -129,6 +124,15 @@ export const demoCategories: DemoCategory[] = [
     id: "layout",
     title: "Layout",
     demos: [
+      {
+        id: "tabs",
+        title: "Tabs",
+        description: "Tabbed interface with dynamic content and nested tabs",
+        component: () => {
+          const TabsDemo = makeTabsDemo()
+          return TabsDemo({})
+        }
+      },
       {
         id: "sidebar",
         title: "Sidebar Navigation",
