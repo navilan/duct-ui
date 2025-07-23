@@ -1,5 +1,14 @@
 # @duct-ui/core
 
+## 0.1.7
+
+### Patch Changes
+
+- [#16](https://github.com/navilan/duct-ui/pull/16) [`aa34ea5`](https://github.com/navilan/duct-ui/commit/aa34ea5b48e2dee55944ec2ce77950b2b04c9d30) Thanks [@navilan](https://github.com/navilan)! - \* Add tab component
+  - Add modal component
+  - Add asynchronous load hook that gets called between refresh and bind
+  - Allow asynchronous getItems property in list component
+
 ## 0.1.6
 
 ### Patch Changes
