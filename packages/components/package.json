@@ -21,6 +21,7 @@
     "./tree/tree-view.css": "./dist/tree/tree-view.css",
     "./navigation/sidebar-nav.css": "./dist/navigation/sidebar-nav.css",
     "./layout/drawer.css": "./dist/layout/drawer.css",
+    "./layout/modal.css": "./dist/layout/modal.css",
     "./*": {
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"

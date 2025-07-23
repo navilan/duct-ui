@@ -8,6 +8,7 @@ import makeTreeViewDemo from "./TreeViewDemo"
 import makeSidebarDemo from "./SidebarDemo"
 import makeDrawerDemo from "./DrawerDemo"
 import makeTabsDemo from "./TabsDemo"
+import makeModalDemo from "./ModalDemo"
 import makeEmojiListDemo from "./EmojiListDemo"
 
 export interface DemoInfo {
@@ -131,6 +132,15 @@ export const demoCategories: DemoCategory[] = [
         component: () => {
           const TabsDemo = makeTabsDemo()
           return TabsDemo({})
+        }
+      },
+      {
+        id: "modal",
+        title: "Modal Window",
+        description: "Modal dialogs with customizable overlays and content",
+        component: () => {
+          const ModalDemo = makeModalDemo()
+          return ModalDemo({})
         }
       },
       {

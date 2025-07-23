@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@duct-ui/components/navigation/sidebar-nav.css";
 @import "@duct-ui/components/layout/drawer.css";
+@import "@duct-ui/components/layout/modal.css";
 
 @plugin "daisyui" {
   themes: light, dark, cupcake --default, dracula, nord, abyss;
