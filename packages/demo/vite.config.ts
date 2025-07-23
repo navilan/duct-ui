@@ -5,7 +5,7 @@ import { resolve } from "path"
 export default defineConfig({
   root: ".",
   server: {
-    port: 3000
+    port: 3333
   },
   build: {
     emptyOutDir: true,

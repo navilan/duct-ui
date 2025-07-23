@@ -1,0 +1,196 @@
+import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+
+export interface TabItem {
+  id: string
+  label: string
+  content: () => JSX.Element
+  disabled?: boolean
+}
+
+export interface TabsEvents extends BaseComponentEvents {
+  change: (el: HTMLElement, activeTabId: string) => void
+}
+
+export interface TabsLogic {
+  getActiveTab: () => string
+  setActiveTab: (tabId: string) => void
+  getTabItems: () => TabItem[]
+}
+
+export interface TabsProps {
+  items: TabItem[]
+  activeTabId?: string
+  tabClass?: string
+  activeTabClass?: string
+  contentClass?: string
+  'on:change'?: (el: HTMLElement, activeTabId: string) => void
+  'on:bind'?: (el: HTMLElement) => void
+  'on:release'?: (el: HTMLElement) => void
+}
+
+function render(props: BaseProps<TabsProps>) {
+  const {
+    items,
+    activeTabId,
+    tabClass = 'tab',
+    activeTabClass = 'tab-active',
+    contentClass = 'tab-content',
+    ...moreProps
+  } = props
+
+  const currentActiveId = activeTabId || items[0]?.id || ''
+
+  return (
+    <div class="tabs-container" data-tabs-container {...moreProps}>
+      {/* Tab Navigation */}
+      <div class="tabs tabs-bordered" data-tab-nav>
+        {items.map(item => {
+          const isActive = item.id === currentActiveId
+          const isDisabled = item.disabled || false
+          const tabClasses = [
+            tabClass,
+            isActive ? activeTabClass : '',
+            isDisabled ? 'tab-disabled' : ''
+          ].filter(Boolean).join(' ')
+
+          return (
+            <button
+              data-tab-key={item.id}
+              class={tabClasses}
+              data-tab-btn={item.id}
+              disabled={isDisabled}
+            >
+              {item.label}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Tab Content */}
+      <div class="tab-content-container" data-tab-content-container>
+        {items.map(item => {
+          const isActive = item.id === currentActiveId
+          return (
+            <div
+              data-tab-key={item.id}
+              class={`${contentClass} ${isActive ? 'block' : 'hidden'}`}
+              data-tab-content={item.id}
+            >
+              {item.content()}
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function bind(el: HTMLElement, eventEmitter: EventEmitter<TabsEvents>, props: any): BindReturn<TabsLogic> {
+  const tabContainer = el.querySelector('[data-tabs-container]') as HTMLElement
+  const tabButtons = el.querySelectorAll('[data-tab-btn]') as NodeListOf<HTMLButtonElement>
+  const tabContentContainer = el.querySelector('[data-tab-content-container]') as HTMLElement
+
+  const items: TabItem[] = props.items || []
+  const tabClass = props.tabClass || 'tab'
+  const activeTabClass = props.activeTabClass || 'tab-active'
+  const contentClass = props.contentClass || 'tab-content'
+
+  let activeTabId = props.activeTabId || items[0]?.id || ''
+
+  function updateUI() {
+    // Update tab buttons
+    tabButtons.forEach(btn => {
+      const tabId = btn.getAttribute('data-tab-btn')
+      const isActive = tabId === activeTabId
+      const item = items.find(i => i.id === tabId)
+      const isDisabled = item?.disabled || false
+
+      // Update active state
+      if (isActive) {
+        btn.classList.add(activeTabClass)
+      } else {
+        btn.classList.remove(activeTabClass)
+      }
+
+      // Update disabled state
+      if (isDisabled) {
+        btn.classList.add('tab-disabled')
+      } else {
+        btn.classList.remove('tab-disabled')
+      }
+    })
+
+    // Update tab content visibility
+    if (tabContentContainer) {
+      const tabContents = tabContentContainer.querySelectorAll('[data-tab-content]') as NodeListOf<HTMLElement>
+
+      tabContents.forEach(content => {
+        const tabId = content.getAttribute('data-tab-content')
+        const isActive = tabId === activeTabId
+
+        if (isActive) {
+          content.classList.remove('hidden')
+          content.classList.add('block')
+        } else {
+          content.classList.remove('block')
+          content.classList.add('hidden')
+        }
+      })
+    }
+  }
+
+  function getActiveTab(): string {
+    return activeTabId
+  }
+
+  function setActiveTab(tabId: string): void {
+    const item = items.find(i => i.id === tabId)
+    if (!item || item.disabled) return
+
+    activeTabId = tabId
+    updateUI()
+    eventEmitter.emit('change', activeTabId)
+  }
+
+  function getTabItems(): TabItem[] {
+    return [...items]
+  }
+
+  function handleTabClick(event: Event) {
+    const target = event.target as HTMLButtonElement
+    const tabId = target.getAttribute('data-tab-btn')
+    if (tabId && !target.disabled) {
+      setActiveTab(tabId)
+    }
+  }
+
+  // Set up event listeners
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', handleTabClick)
+  })
+
+  function release() {
+    tabButtons.forEach(btn => {
+      btn.removeEventListener('click', handleTabClick)
+    })
+  }
+
+  return {
+    getActiveTab,
+    setActiveTab,
+    getTabItems,
+    release
+  }
+}
+
+const id = { id: "duct/tabs" }
+
+export default () => {
+  return createBlueprint<TabsProps, TabsEvents, TabsLogic>(
+    id,
+    render,
+    {
+      bind
+    }
+  )
+}

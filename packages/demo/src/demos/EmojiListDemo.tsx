@@ -125,13 +125,14 @@ function handleEmojiToggleFavorite(_emojiKey: string, isFavorite: boolean) {
   }
 }
 
-function handleCategoryChange(el: HTMLElement, item: SelectItem) {
+async function handleCategoryChange(el: HTMLElement, item: SelectItem) {
   currentCategory = item.label === "All Categories" ? "all" : item.label
   currentPage = 0
+  updatePageLabel()
   addToLog(`Changed category to: ${item.label}`)
 
   if (emojiListLogic) {
-    emojiListLogic.refresh(0)
+    await emojiListLogic.refresh(0)
   }
 }
 
@@ -144,32 +145,32 @@ function updatePageLabel() {
   pageLabelEl.innerText = `Page ${currentPage + 1} of ${getTotalPages()}`
 }
 
-function handlePrevPage() {
+async function handlePrevPage() {
   if (currentPage > 0) {
     currentPage--
+    updatePageLabel()
     addToLog(`Previous page: ${currentPage + 1}`)
     if (emojiListLogic) {
-      emojiListLogic.refresh(currentPage)
+      await emojiListLogic.refresh(currentPage)
     }
-    updatePageLabel()
   }
 }
 
-function handleNextPage() {
+async function handleNextPage() {
   if (currentPage < getTotalPages() - 1) {
     currentPage++
+    updatePageLabel()
     addToLog(`Next page: ${currentPage + 1}`)
     if (emojiListLogic) {
-      emojiListLogic.refresh(currentPage)
+      await emojiListLogic.refresh(currentPage)
     }
-    updatePageLabel()
   }
 }
 
-function handleToggleFavorites(_el: HTMLElement, state: ToggleState) {
+async function handleToggleFavorites(_el: HTMLElement, state: ToggleState) {
   showFavoritesOnly = state === 'on'
   currentPage = 0
-
+  updatePageLabel()
   if (showFavoritesOnly) {
     if (favoriteEmojis.size > 0) {
       addToLog(`Showing ${favoriteEmojis.size} favorites`)
@@ -181,9 +182,8 @@ function handleToggleFavorites(_el: HTMLElement, state: ToggleState) {
   }
 
   if (emojiListLogic) {
-    emojiListLogic.refresh(0)
+    await emojiListLogic.refresh(0)
   }
-  updatePageLabel()
 }
 
 function render(props: BaseProps<EmojiListDemoProps>) {

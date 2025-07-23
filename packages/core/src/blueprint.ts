@@ -81,12 +81,15 @@ export interface DefaultLogic<Events extends Record<string, (...args: any[]) => 
 // Configuration for component blueprint
 export interface BlueprintConfig<
   Events extends Record<string, (...args: any[]) => void>,
-  Logic extends Record<string, any> = DefaultLogic<Events>
+  Logic extends Record<string, any> = DefaultLogic<Events>,
+  LoadData = any
 > {
   // Event names that should be automatically bound to DOM events
   domEvents?: (keyof HTMLElementEventMap)[]
-  // Logic binding function - now optional
-  bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>, props: any) => BindReturn<Logic>
+  // Async load function - called after render but before bind
+  load?: (el: HTMLElement, props: any) => Promise<LoadData>
+  // Logic binding function - now optional, receives load data as fourth parameter
+  bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>, props: any, loadData?: LoadData) => BindReturn<Logic>
 }
 
 // Event emitter interface provided to component logic
@@ -115,11 +118,12 @@ export type BindReturn<Logic extends Record<string, any>> = Logic & {
 export function createBlueprint<
   Props extends Record<string, any>,
   Events extends Record<string, (...args: any[]) => void>,
-  Logic extends Record<string, any> = DefaultLogic<Events>
+  Logic extends Record<string, any> = DefaultLogic<Events>,
+  LoadData = any
 >(
   id: { id: string },
   render: (props: BaseProps<Props>) => JSX.Element,
-  config: BlueprintConfig<Events, Logic>
+  config: BlueprintConfig<Events, Logic, LoadData>
 ): ((props: Props) => JSX.Element) & { getLogic: () => Promise<Logic> } {
 
   let componentObservable = new Observable<ComponentEvents<Logic>>()
@@ -159,7 +163,7 @@ export function createBlueprint<
   }
 
   observeLifecycle(instanceId, {
-    onInsert(el) {
+    async onInsert(el) {
       const htmlEl = el as HTMLElement
 
       // Bind DOM event listeners if specified
@@ -173,12 +177,18 @@ export function createBlueprint<
         })
       }
 
+      // Call async load if provided
+      let loadData: LoadData | undefined
+      if (config.load) {
+        loadData = await config.load(htmlEl, getDuct()?.getProps(instanceId))
+      }
+
       // Emit lifecycle events
       eventEmitter.emit('bind' as keyof Events, htmlEl)
 
       // Create component logic
       if (config.bind) {
-        const customLogic = config.bind(htmlEl, eventEmitter, getDuct()?.getProps(instanceId))
+        const customLogic = config.bind(htmlEl, eventEmitter, getDuct()?.getProps(instanceId), loadData)
         // Merge default on/off with custom logic
         logic = {
           ...createDefaultLogic(eventEmitter),

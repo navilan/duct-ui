@@ -1,25 +1,25 @@
 export type LifecycleCallbacks = {
-  onInsert?: (el: Element) => void
+  onInsert?: (el: Element) => void | Promise<void>
   onRemove?: (el: Element) => void
 }
 
 const handlers = new Map<string, LifecycleCallbacks>()
 
-const observer = new MutationObserver((mutations) => {
+const observer = new MutationObserver(async (mutations) => {
   for (const mutation of mutations) {
     for (const node of mutation.addedNodes) {
       if (!(node instanceof Element)) continue
 
       const id = node.getAttribute("data-duct-id")
       const cb = id ? handlers.get(id) : undefined
-      if (id && cb?.onInsert) cb.onInsert(node)
+      if (id && cb?.onInsert) await cb.onInsert(node)
 
       // check descendants
       const descendants = node.querySelectorAll("[data-duct-id]")
       for (const el of descendants) {
         const innerId = el.getAttribute("data-duct-id")
         const innerCb = innerId ? handlers.get(innerId) : undefined
-        if (innerId && innerCb?.onInsert) innerCb.onInsert(el)
+        if (innerId && innerCb?.onInsert) await innerCb.onInsert(el)
       }
     }
 

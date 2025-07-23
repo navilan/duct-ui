@@ -7,7 +7,10 @@ import makeSelectDemo from "./SelectDemo"
 import makeTreeViewDemo from "./TreeViewDemo"
 import makeSidebarDemo from "./SidebarDemo"
 import makeDrawerDemo from "./DrawerDemo"
+import makeTabsDemo from "./TabsDemo"
+import makeModalDemo from "./ModalDemo"
 import makeEmojiListDemo from "./EmojiListDemo"
+import makeCounterDemo from "./CounterDemo"
 
 export interface DemoInfo {
   id: string
@@ -72,8 +75,8 @@ export const demoCategories: DemoCategory[] = [
     ]
   },
   {
-    id: "menu",
-    title: "Menu",
+    id: "dropdown",
+    title: "Dropdown",
     demos: [
       {
         id: "menu",
@@ -96,8 +99,8 @@ export const demoCategories: DemoCategory[] = [
     ]
   },
   {
-    id: "tree",
-    title: "Tree",
+    id: "data-display",
+    title: "Data Display",
     demos: [
       {
         id: "tree-view",
@@ -107,13 +110,7 @@ export const demoCategories: DemoCategory[] = [
           const TreeViewDemo = makeTreeViewDemo()
           return TreeViewDemo({})
         }
-      }
-    ]
-  },
-  {
-    id: "list",
-    title: "List",
-    demos: [
+      },
       {
         id: "emoji-list",
         title: "List",
@@ -130,6 +127,24 @@ export const demoCategories: DemoCategory[] = [
     title: "Layout",
     demos: [
       {
+        id: "tabs",
+        title: "Tabs",
+        description: "Tabbed interface with dynamic content and nested tabs",
+        component: () => {
+          const TabsDemo = makeTabsDemo()
+          return TabsDemo({})
+        }
+      },
+      {
+        id: "modal",
+        title: "Modal Window",
+        description: "Modal dialogs with customizable overlays and content",
+        component: () => {
+          const ModalDemo = makeModalDemo()
+          return ModalDemo({})
+        }
+      },
+      {
         id: "sidebar",
         title: "Sidebar Navigation",
         description: "Navigation sidebar with sections and hierarchical items",
@@ -145,6 +160,21 @@ export const demoCategories: DemoCategory[] = [
         component: () => {
           const DrawerDemo = makeDrawerDemo()
           return DrawerDemo({})
+        }
+      }
+    ]
+  },
+  {
+    id: "advanced",
+    title: "Advanced",
+    demos: [
+      {
+        id: "counter",
+        title: "Async Counter",
+        description: "Counter component demonstrating async data loading with IndexedDB persistence",
+        component: () => {
+          const CounterDemo = makeCounterDemo()
+          return CounterDemo({})
         }
       }
     ]

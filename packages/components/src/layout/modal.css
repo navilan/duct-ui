@@ -1,0 +1,87 @@
+/* Modal Container - Full screen absolute positioning */
+.modal-container {
+  @apply absolute inset-0 z-50;
+}
+
+/* Modal Overlay - Background covering full screen */
+.modal-overlay {
+  @apply absolute inset-0 bg-black opacity-50;
+}
+
+/* Modal Content - Content box with absolute positioning */
+.modal-content {
+  @apply absolute z-10 bg-white rounded-lg shadow-xl max-w-md w-full max-h-full overflow-auto;
+  transform: translate(-50%, -50%);
+}
+
+/* Content Position Classes - Top Row */
+.modal-content-top-left .modal-content {
+  top: 1rem;
+  left: 1rem;
+  transform: none;
+}
+
+.modal-content-top-center .modal-content {
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.modal-content-top-right .modal-content {
+  top: 1rem;
+  right: 1rem;
+  left: auto;
+  transform: none;
+}
+
+/* Content Position Classes - Middle Row */
+.modal-content-mid-left .modal-content {
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+}
+
+.modal-content-mid-center .modal-content {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-content-mid-right .modal-content {
+  top: 50%;
+  right: 1rem;
+  left: auto;
+  transform: translateY(-50%);
+}
+
+/* Content Position Classes - Bottom Row */
+.modal-content-bottom-left .modal-content {
+  bottom: 1rem;
+  left: 1rem;
+  top: auto;
+  transform: none;
+}
+
+.modal-content-bottom-center .modal-content {
+  bottom: 1rem;
+  left: 50%;
+  top: auto;
+  transform: translateX(-50%);
+}
+
+.modal-content-bottom-right .modal-content {
+  bottom: 1rem;
+  right: 1rem;
+  left: auto;
+  top: auto;
+  transform: none;
+}
+
+/* Utility classes for visibility */
+.modal-hidden {
+  @apply hidden;
+}
+
+.modal-visible {
+  @apply block;
+}
