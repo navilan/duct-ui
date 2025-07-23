@@ -10,6 +10,7 @@ import makeDrawerDemo from "./DrawerDemo"
 import makeTabsDemo from "./TabsDemo"
 import makeModalDemo from "./ModalDemo"
 import makeEmojiListDemo from "./EmojiListDemo"
+import makeCounterDemo from "./CounterDemo"
 
 export interface DemoInfo {
   id: string
@@ -159,6 +160,21 @@ export const demoCategories: DemoCategory[] = [
         component: () => {
           const DrawerDemo = makeDrawerDemo()
           return DrawerDemo({})
+        }
+      }
+    ]
+  },
+  {
+    id: "advanced",
+    title: "Advanced",
+    demos: [
+      {
+        id: "counter",
+        title: "Async Counter",
+        description: "Counter component demonstrating async data loading with IndexedDB persistence",
+        component: () => {
+          const CounterDemo = makeCounterDemo()
+          return CounterDemo({})
         }
       }
     ]
