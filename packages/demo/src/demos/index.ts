@@ -11,6 +11,11 @@ import makeTabsDemo from "./TabsDemo"
 import makeModalDemo from "./ModalDemo"
 import makeEmojiListDemo from "./EmojiListDemo"
 import makeCounterDemo from "./CounterDemo"
+import makeDocsIntroDemo from "./DocsIntroDemo"
+import makeDocsWhyDuctDemo from "./DocsWhyDuctDemo"
+import makeDocsComparisonDemo from "./DocsComparisonDemo"
+import makeDocsBuildingDemo from "./DocsBuildingDemo"
+import makeDocsClaudeCodeDemo from "./DocsClaudeCodeDemo"
 
 export interface DemoInfo {
   id: string
@@ -25,7 +30,62 @@ export interface DemoCategory {
   demos: DemoInfo[]
 }
 
-export const demoCategories: DemoCategory[] = [
+export const demoCategories: (DemoCategory | { type: 'separator', title?: string })[] = [
+  {
+    id: "documentation",
+    title: "Documentation",
+    demos: [
+      {
+        id: "what-is-duct",
+        title: "What is Duct?",
+        description: "Introduction to the Duct UI Framework and its core concepts",
+        component: () => {
+          const DocsIntroDemo = makeDocsIntroDemo()
+          return DocsIntroDemo({})
+        }
+      },
+      {
+        id: "why-duct",
+        title: "Why Choose Duct?",
+        description: "Benefits and advantages of using the Duct UI Framework",
+        component: () => {
+          const DocsWhyDuctDemo = makeDocsWhyDuctDemo()
+          return DocsWhyDuctDemo({})
+        }
+      },
+      {
+        id: "comparison",
+        title: "Duct vs Other Frameworks",
+        description: "How Duct compares to React, Vue, and Svelte",
+        component: () => {
+          const DocsComparisonDemo = makeDocsComparisonDemo()
+          return DocsComparisonDemo({})
+        }
+      },
+      {
+        id: "building-components",
+        title: "Building Components",
+        description: "A comprehensive guide to creating Duct components",
+        component: () => {
+          const DocsBuildingDemo = makeDocsBuildingDemo()
+          return DocsBuildingDemo({})
+        }
+      },
+      {
+        id: "claude-code",
+        title: "Using Claude Code",
+        description: "How to train Claude Code to generate high-quality Duct components",
+        component: () => {
+          const DocsClaudeCodeDemo = makeDocsClaudeCodeDemo()
+          return DocsClaudeCodeDemo({})
+        }
+      }
+    ]
+  },
+  {
+    type: 'separator',
+    title: 'Component Demos'
+  },
   {
     id: "button",
     title: "Button",
@@ -182,7 +242,9 @@ export const demoCategories: DemoCategory[] = [
 ]
 
 // Flatten all demos for easy lookup
-export const allDemos: DemoInfo[] = demoCategories.flatMap(category => category.demos)
+export const allDemos: DemoInfo[] = demoCategories.flatMap(category => 
+  'demos' in category ? category.demos : []
+)
 
 export function getDemoById(id: string): DemoInfo | undefined {
   return allDemos.find(demo => demo.id === id)

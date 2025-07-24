@@ -3,8 +3,9 @@
 @import "@duct-ui/components/layout/drawer.css";
 @import "@duct-ui/components/layout/modal.css";
 
+@plugin "@tailwindcss/typography";
 @plugin "daisyui" {
-  themes: light, dark, cupcake --default, dracula, nord, abyss;
+  themes: dark, cupcake --default,  dracula, nord, abyss, light;
   root: "#app";
 };
 

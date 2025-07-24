@@ -21,7 +21,7 @@ export interface SidebarProps {
     id: string
     title: string
     demos: Array<{ id: string; title: string; description?: string }>
-  }>
+  } | { type: 'separator', title?: string }>
   currentDemo: string
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
@@ -33,16 +33,27 @@ const SidebarNav = makeSidebarNav()
 function render(props: BaseProps<SidebarProps>) {
   const { categories, currentDemo, ...moreProps } = props
 
-  // Transform demo categories to sidebar sections
-  const sections = categories.map(category => ({
-    id: category.id,
-    title: category.title,
-    items: category.demos.map(demo => ({
-      id: demo.id,
-      title: demo.title,
-      description: demo.description
-    }))
-  }))
+  // Transform demo categories to sidebar content  
+  const content = categories.map(category => {
+    if ('type' in category && category.type === 'separator') {
+      return category
+    } else {
+      const demoCategory = category as {
+        id: string
+        title: string
+        demos: Array<{ id: string; title: string; description?: string }>
+      }
+      return {
+        id: demoCategory.id,
+        title: demoCategory.title,
+        items: demoCategory.demos.map(demo => ({
+          id: demo.id,
+          title: demo.title,
+          description: demo.description
+        }))
+      }
+    }
+  })
 
   const headerContent = (
     <>
@@ -86,14 +97,14 @@ function render(props: BaseProps<SidebarProps>) {
         <span>pnpm install @duct-ui/core</span>
         <span>pnpm install @duct-ui/components</span>
       </div>
-      <h3 class="mt-8 text-base-content/70 text-lg">Component Demos</h3>
+
     </>
   )
 
   return (
     <div {...moreProps}>
       <SidebarNav
-        sections={sections}
+        content={content}
         currentItem={currentDemo}
         headerContent={headerContent}
         on:navigate={handleNavigate}
