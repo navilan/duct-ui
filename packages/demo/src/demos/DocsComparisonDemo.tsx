@@ -1,8 +1,8 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeDemoLayout from "../components/DemoLayout"
 
-export interface DocsComparisonDemoEvents extends BaseComponentEvents {}
-export interface DocsComparisonDemoLogic {}
+export interface DocsComparisonDemoEvents extends BaseComponentEvents { }
+export interface DocsComparisonDemoLogic { }
 export interface DocsComparisonDemoProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
@@ -10,6 +10,16 @@ export interface DocsComparisonDemoProps {
 
 function render(props: BaseProps<DocsComparisonDemoProps>) {
   const DemoLayout = makeDemoLayout()
+
+  // Utility function to escape HTML entities in code blocks
+  const escapeHtml = (str: string) => {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+  }
 
   return (
     <div {...props}>
@@ -20,7 +30,7 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
       >
         <div class="prose prose-lg max-w-none">
           <p class="lead">
-            Understanding how Duct differs from popular frameworks helps you make informed architectural decisions. 
+            Understanding how Duct differs from popular frameworks helps you make informed architectural decisions.
             Here's an honest comparison of approaches and trade-offs.
           </p>
 
@@ -97,7 +107,7 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
 
           <h3>Duct vs React</h3>
           <p>
-            React popularized component-based UI development, but Duct takes a fundamentally different approach 
+            React popularized component-based UI development, but Duct takes a fundamentally different approach
             to organizing component logic.
           </p>
 
@@ -106,11 +116,11 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
               <div class="card bg-base-200">
                 <div class="card-body">
                   <h4 class="card-title text-error">React Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{`function Button({ label, onClick }) {
+                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`function Button({ label, onClick }) {
   const [clicked, setClicked] = useState(false);
-  
+
   return (
-    <button 
+    <button
       className={clicked ? 'btn-clicked' : 'btn'}
       onClick={() => {
         setClicked(true);
@@ -120,14 +130,14 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
       {label}
     </button>
   );
-}`}</code></pre>
+}`)}</code></pre>
                 </div>
               </div>
 
               <div class="card bg-primary/10 border border-primary/20">
                 <div class="card-body">
                   <h4 class="card-title text-primary">Duct Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{`// Render function
+                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Render function
 function render(props) {
   return (
     <button class="btn" data-clicked="false">
@@ -139,16 +149,16 @@ function render(props) {
 // Bind function
 function bind(el, eventEmitter) {
   let clicked = false;
-  
+
   el.addEventListener('click', () => {
     clicked = true;
     el.dataset.clicked = 'true';
     el.className = 'btn-clicked';
     eventEmitter.emit('click');
   });
-  
+
   return { release: () => {} };
-}`}</code></pre>
+}`)}</code></pre>
                 </div>
               </div>
             </div>
@@ -185,7 +195,7 @@ function bind(el, eventEmitter) {
 
           <h3>Duct vs Vue</h3>
           <p>
-            Vue offers a middle ground between React and traditional templating, while Duct goes further 
+            Vue offers a middle ground between React and traditional templating, while Duct goes further
             in separating concerns.
           </p>
 
@@ -194,9 +204,9 @@ function bind(el, eventEmitter) {
               <div class="card bg-base-200">
                 <div class="card-body">
                   <h4 class="card-title text-green-600">Vue Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{`<template>
-  <button 
-    :class="buttonClass" 
+                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`<template>
+  <button
+    :class="buttonClass"
     @click="handleClick"
   >
     {{ label }}
@@ -221,14 +231,14 @@ export default {
     }
   }
 };
-</script>`}</code></pre>
+</script>`)}</code></pre>
                 </div>
               </div>
 
               <div class="card bg-primary/10 border border-primary/20">
                 <div class="card-body">
                   <h4 class="card-title text-primary">Duct Approach</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{`// Template is pure presentation
+                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Template is pure presentation
 function render(props) {
   return (
     <button class="btn">
@@ -240,19 +250,19 @@ function render(props) {
 // Logic is completely separate
 function bind(el, eventEmitter) {
   let clicked = false;
-  
+
   function handleClick() {
     clicked = true;
     el.className = 'btn-clicked';
     eventEmitter.emit('click');
   }
-  
+
   el.addEventListener('click', handleClick);
-  
+
   return {
     release: () => el.removeEventListener('click', handleClick)
   };
-}`}</code></pre>
+}`)}</code></pre>
                 </div>
               </div>
             </div>
@@ -260,7 +270,7 @@ function bind(el, eventEmitter) {
 
           <h3>Duct vs Svelte</h3>
           <p>
-            Both Duct and Svelte avoid virtual DOM, but they differ significantly in their compilation 
+            Both Duct and Svelte avoid virtual DOM, but they differ significantly in their compilation
             and component organization approaches.
           </p>
 
@@ -269,42 +279,42 @@ function bind(el, eventEmitter) {
               <div class="card bg-base-200">
                 <div class="card-body">
                   <h4 class="card-title text-orange-600">Svelte Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{`<script>
+                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`<script>
   export let label;
   let clicked = false;
-  
+
   function handleClick() {
     clicked = true;
     dispatch('click');
   }
 </script>
 
-<button 
-  class={clicked ? 'btn-clicked' : 'btn'} 
+<button
+  class={clicked ? 'btn-clicked' : 'btn'}
   on:click={handleClick}
 >
   {label}
-</button>`}</code></pre>
+</button>`)}</code></pre>
                 </div>
               </div>
 
               <div class="card bg-primary/10 border border-primary/20">
                 <div class="card-body">
                   <h4 class="card-title text-primary">Duct Structure</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{`// Functions are completely separated
+                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Functions are completely separated
 function render(props) {
   return <button class="btn">{props.label}</button>;
 }
 
 function bind(el, eventEmitter) {
   let clicked = false;
-  
+
   el.addEventListener('click', () => {
     clicked = true;
     el.className = 'btn-clicked';
     eventEmitter.emit('click');
   });
-  
+
   return { release: () => {} };
 }
 
@@ -313,7 +323,7 @@ export default () => createBlueprint(
   { id: "my/button" },
   render,
   { bind }
-);`}</code></pre>
+);`)}</code></pre>
                 </div>
               </div>
             </div>
@@ -387,7 +397,7 @@ export default () => createBlueprint(
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             <span>
-              <strong>Remember:</strong> Each framework solves different problems well. Choose based on your project needs, 
+              <strong>Remember:</strong> Each framework solves different problems well. Choose based on your project needs,
               team expertise, and long-term maintenance goals rather than popularity alone.
             </span>
           </div>
@@ -399,7 +409,7 @@ export default () => createBlueprint(
 
 function bind(): BindReturn<DocsComparisonDemoLogic> {
   return {
-    release: () => {}
+    release: () => { }
   }
 }
 

@@ -21,7 +21,7 @@ export interface SidebarProps {
     id: string
     title: string
     demos: Array<{ id: string; title: string; description?: string }>
-  }>
+  } | { type: 'separator', title?: string }>
   currentDemo: string
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
@@ -33,16 +33,27 @@ const SidebarNav = makeSidebarNav()
 function render(props: BaseProps<SidebarProps>) {
   const { categories, currentDemo, ...moreProps } = props
 
-  // Transform demo categories to sidebar sections
-  const sections = categories.map(category => ({
-    id: category.id,
-    title: category.title,
-    items: category.demos.map(demo => ({
-      id: demo.id,
-      title: demo.title,
-      description: demo.description
-    }))
-  }))
+  // Transform demo categories to sidebar content  
+  const content = categories.map(category => {
+    if ('type' in category && category.type === 'separator') {
+      return category
+    } else {
+      const demoCategory = category as {
+        id: string
+        title: string
+        demos: Array<{ id: string; title: string; description?: string }>
+      }
+      return {
+        id: demoCategory.id,
+        title: demoCategory.title,
+        items: demoCategory.demos.map(demo => ({
+          id: demo.id,
+          title: demo.title,
+          description: demo.description
+        }))
+      }
+    }
+  })
 
   const headerContent = (
     <>
@@ -93,7 +104,7 @@ function render(props: BaseProps<SidebarProps>) {
   return (
     <div {...moreProps}>
       <SidebarNav
-        sections={sections}
+        content={content}
         currentItem={currentDemo}
         headerContent={headerContent}
         on:navigate={handleNavigate}

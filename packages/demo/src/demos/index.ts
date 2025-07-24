@@ -30,7 +30,7 @@ export interface DemoCategory {
   demos: DemoInfo[]
 }
 
-export const demoCategories: DemoCategory[] = [
+export const demoCategories: (DemoCategory | { type: 'separator', title?: string })[] = [
   {
     id: "documentation",
     title: "Documentation",
@@ -81,6 +81,10 @@ export const demoCategories: DemoCategory[] = [
         }
       }
     ]
+  },
+  {
+    type: 'separator',
+    title: 'Component Demos'
   },
   {
     id: "button",
@@ -238,7 +242,9 @@ export const demoCategories: DemoCategory[] = [
 ]
 
 // Flatten all demos for easy lookup
-export const allDemos: DemoInfo[] = demoCategories.flatMap(category => category.demos)
+export const allDemos: DemoInfo[] = demoCategories.flatMap(category => 
+  'demos' in category ? category.demos : []
+)
 
 export function getDemoById(id: string): DemoInfo | undefined {
   return allDemos.find(demo => demo.id === id)

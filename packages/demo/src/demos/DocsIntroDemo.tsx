@@ -1,8 +1,8 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeDemoLayout from "../components/DemoLayout"
 
-export interface DocsIntroDemoEvents extends BaseComponentEvents {}
-export interface DocsIntroDemoLogic {}
+export interface DocsIntroDemoEvents extends BaseComponentEvents { }
+export interface DocsIntroDemoLogic { }
 export interface DocsIntroDemoProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
@@ -20,7 +20,7 @@ function render(props: BaseProps<DocsIntroDemoProps>) {
       >
         <div class="prose prose-lg max-w-none">
           <p class="lead">
-            Duct is a modern UI framework that provides a clear separation between view code (templates) and logic code (companions). 
+            Duct is a modern UI framework that provides a clear separation between view code (templates) and logic code (companions).
             It embraces simplicity and maintainability through a well-defined component architecture.
           </p>
 
@@ -105,7 +105,7 @@ function render(props: BaseProps<DocsIntroDemoProps>) {
 
           <h3>Type-Safe Event System</h3>
           <p>
-            Duct provides a strongly typed event system built on TypeScript and lib0/ObservableV2:
+            Duct provides a strongly typed event system built on TypeScript:
           </p>
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
@@ -116,8 +116,8 @@ export interface ButtonEvents extends BaseComponentEvents {
 }
 
 // Use events in templates with clear syntax
-<Button 
-  label="Click me" 
+<Button
+  label="Click me"
   on:click={handleButtonClick}
   on:stateChange={handleStateChange}
 />`}</code></pre>
@@ -132,7 +132,7 @@ export interface ButtonEvents extends BaseComponentEvents {
             <div class="bg-base-200 rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{`function bind(el: HTMLElement, eventEmitter: EventEmitter<Events>) {
   const button = el.querySelector('button')
-  
+
   // Direct DOM updates are fast and explicit
   function updateState(newState: string) {
     button.className = \`btn btn-\${newState}\`
@@ -199,7 +199,7 @@ MyButton.getLogic().then(logic => {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>
-              <strong>Philosophy:</strong> Duct prioritizes simplicity, maintainability, and developer happiness through 
+              <strong>Philosophy:</strong> Duct prioritizes simplicity, maintainability, and developer happiness through
               clear patterns and explicit behavior over magical abstractions.
             </span>
           </div>
@@ -211,7 +211,7 @@ MyButton.getLogic().then(logic => {
 
 function bind(): BindReturn<DocsIntroDemoLogic> {
   return {
-    release: () => {}
+    release: () => { }
   }
 }
 

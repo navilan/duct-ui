@@ -172,14 +172,13 @@ Please confirm when you've completed each step, and then I'll start asking you t
                 <p>
                   Claude may not remember that you can get the logic (the bound functions / properties) of a
                   component instance using:
-                  <pre>
-                    <code>
-                      let logic: ComponentLogic
-                      <br />
-                      Component.getLogic().then(l =&gt; logic = l;)
-                    </code>
-                  </pre>
                 </p>
+                <div class="not-prose">
+                  <div class="bg-base-200 rounded-lg p-4 my-2">
+                    <pre class="text-sm"><code>{`let logic: ComponentLogic
+Component.getLogic().then(l => logic = l)`}</code></pre>
+                  </div>
+                </div>
               </li>
             </ol>
           </div>
