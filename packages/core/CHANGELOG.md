@@ -1,5 +1,11 @@
 # @duct-ui/core
 
+## 0.2.0
+
+### Minor Changes
+
+- [#18](https://github.com/navilan/duct-ui/pull/18) [`978fa26`](https://github.com/navilan/duct-ui/commit/978fa268121d85fa740b2eb46ee97b03e95f83f3) Thanks [@navilan](https://github.com/navilan)! - Add sidebar nav and add documentation
+
 ## 0.1.7
 
 ### Patch Changes
