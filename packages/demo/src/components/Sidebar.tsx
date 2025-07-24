@@ -86,7 +86,7 @@ function render(props: BaseProps<SidebarProps>) {
         <span>pnpm install @duct-ui/core</span>
         <span>pnpm install @duct-ui/components</span>
       </div>
-      <h3 class="mt-8 text-base-content/70 text-lg">Component Demos</h3>
+
     </>
   )
 

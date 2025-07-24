@@ -1,7 +1,7 @@
 /* Drawer Component Styles */
 
 .drawer {
-  @apply relative w-full h-full flex;
+  @apply relative w-full h-screen flex overflow-hidden;
 }
 
 .drawer-left {
@@ -17,7 +17,7 @@
 }
 
 .drawer-content {
-  @apply fixed top-0 z-50 h-full transition-transform duration-300 ease-in-out;
+  @apply fixed top-0 z-50 h-screen overflow-y-auto transition-transform duration-300 ease-in-out;
   @apply bg-base-200 border-r border-base-300;
   transform: translateX(-100%);
 }
@@ -29,7 +29,7 @@
 }
 
 .drawer-main {
-  @apply flex-1 min-w-0;
+  @apply flex-1 min-w-0 h-screen overflow-y-auto;
 }
 
 /* Mobile-first: drawer hidden by default */
@@ -49,7 +49,7 @@
 /* Persistent drawer on larger screens */
 @media (min-width: 1024px) {
   .drawer-persistent .drawer-content {
-    @apply relative z-auto;
+    @apply relative z-auto h-screen overflow-y-auto;
     transform: translateX(0);
   }
   
@@ -69,7 +69,7 @@
 /* Responsive behavior */
 @media (max-width: 1023px) {
   .drawer-persistent .drawer-content {
-    @apply fixed;
+    @apply fixed h-screen overflow-y-auto;
     transform: translateX(-100%);
   }
   

@@ -86,9 +86,13 @@ function render(props: BaseProps<TabsProps>) {
 }
 
 function bind(el: HTMLElement, eventEmitter: EventEmitter<TabsEvents>, props: any): BindReturn<TabsLogic> {
-  const tabContainer = el.querySelector('[data-tabs-container]') as HTMLElement
-  const tabButtons = el.querySelectorAll('[data-tab-btn]') as NodeListOf<HTMLButtonElement>
-  const tabContentContainer = el.querySelector('[data-tab-content-container]') as HTMLElement
+  // Get the tabs container first
+  const tabsContainer = el
+
+  // Query only direct children to avoid selecting nested tabs
+  const tabNav = tabsContainer.querySelector(':scope > [data-tab-nav]') as HTMLElement
+  const tabButtons = tabNav ? tabNav.querySelectorAll(':scope > [data-tab-btn]') as NodeListOf<HTMLButtonElement> : []
+  const tabContentContainer = tabsContainer.querySelector(':scope > [data-tab-content-container]') as HTMLElement
 
   const items: TabItem[] = props.items || []
   const tabClass = props.tabClass || 'tab'
@@ -105,36 +109,33 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<TabsEvents>, props: an
       const item = items.find(i => i.id === tabId)
       const isDisabled = item?.disabled || false
 
-      // Update active state
+      // Rebuild classes completely
+      const classes = [tabClass]
       if (isActive) {
-        btn.classList.add(activeTabClass)
-      } else {
-        btn.classList.remove(activeTabClass)
+        classes.push(activeTabClass)
       }
-
-      // Update disabled state
       if (isDisabled) {
-        btn.classList.add('tab-disabled')
-      } else {
-        btn.classList.remove('tab-disabled')
+        classes.push('tab-disabled')
       }
+      btn.className = classes.join(' ')
     })
 
     // Update tab content visibility
     if (tabContentContainer) {
-      const tabContents = tabContentContainer.querySelectorAll('[data-tab-content]') as NodeListOf<HTMLElement>
+      const tabContents = tabContentContainer.querySelectorAll(':scope > [data-tab-content]') as NodeListOf<HTMLElement>
 
       tabContents.forEach(content => {
         const tabId = content.getAttribute('data-tab-content')
         const isActive = tabId === activeTabId
 
+        // Rebuild content classes
+        const classes = [contentClass]
         if (isActive) {
-          content.classList.remove('hidden')
-          content.classList.add('block')
+          classes.push('block')
         } else {
-          content.classList.remove('block')
-          content.classList.add('hidden')
+          classes.push('hidden')
         }
+        content.className = classes.join(' ')
       })
     }
   }
@@ -167,6 +168,12 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<TabsEvents>, props: an
   // Set up event listeners
   tabButtons.forEach(btn => {
     btn.addEventListener('click', handleTabClick)
+  })
+
+  // Initialize UI with the active tab
+  // Use requestAnimationFrame to ensure DOM is ready
+  requestAnimationFrame(() => {
+    updateUI()
   })
 
   function release() {

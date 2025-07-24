@@ -32,10 +32,6 @@ function handleTabChange(_el: HTMLElement, activeTabId: string) {
   addToLog(`Switched to tab: ${activeTabId}`)
 }
 
-function handleProfileTabChange(_el: HTMLElement, activeTabId: string) {
-  addToLog(`Profile tab changed to: ${activeTabId}`)
-}
-
 // Sample tab content components
 function createOverviewContent() {
   const Button1 = makeButton()
@@ -57,11 +53,13 @@ function createOverviewContent() {
           <div class="stat-desc">↗︎ 400 (22%)</div>
         </div>
       </div>
-      <Button1
-        label="View Details"
-        class="btn btn-primary"
-        on:click={() => addToLog('Overview details button clicked')}
-      />
+      <div class="mt-4">
+        <Button1
+          label="View Details"
+          class="btn btn-primary"
+          on:click={() => addToLog('Overview details button clicked')}
+        />
+      </div>
     </div>
   )
 }
@@ -105,14 +103,54 @@ function createAnalyticsContent() {
 }
 
 function createSettingsContent() {
+  // Create nested tabs for settings
+  const SettingsTabs = makeTabs()
+  
+  const settingsTabItems: TabItem[] = [
+    {
+      id: 'general',
+      label: 'General',
+      content: createGeneralSettingsContent
+    },
+    {
+      id: 'profile',
+      label: 'Profile',
+      content: createProfileSettingsContent
+    },
+    {
+      id: 'security',
+      label: 'Security',
+      content: createSecuritySettingsContent
+    },
+    {
+      id: 'privacy',
+      label: 'Privacy',
+      content: createPrivacySettingsContent
+    }
+  ]
+
+  return (
+    <div class="p-4 space-y-4">
+      <h3 class="text-lg font-semibold">Settings</h3>
+      <SettingsTabs
+        items={settingsTabItems}
+        activeTabId="general"
+        tabClass="tab tab-sm"
+        activeTabClass="tab-active"
+        contentClass="tab-content mt-4"
+        on:change={(el, tabId) => addToLog(`Settings tab changed to: ${tabId}`)}
+      />
+    </div>
+  )
+}
+
+function createGeneralSettingsContent() {
   const SaveBtn = makeButton()
   const NotificationsToggle = makeToggle()
   const UsernameInput = makeEditable()
 
   return (
-    <div class="p-4 space-y-6">
-      <h3 class="text-lg font-semibold">Account Settings</h3>
-
+    <div class="space-y-6">
       <div class="form-control">
         <label class="label">
           <span class="label-text">Username</span>
@@ -148,66 +186,151 @@ function createSettingsContent() {
         <SaveBtn
           label="Save Changes"
           class="btn btn-primary"
-          on:click={() => addToLog('Settings saved successfully')}
+          on:click={() => addToLog('General settings saved')}
         />
         <SaveBtn
           label="Reset"
           class="btn btn-outline"
-          on:click={() => addToLog('Settings reset to defaults')}
+          on:click={() => addToLog('General settings reset')}
         />
       </div>
     </div>
   )
 }
 
-function createPersonalInfoContent() {
+function createProfileSettingsContent() {
+  const NameInput = makeEditable()
+  const BioInput = makeEditable()
+  const SaveBtn = makeButton()
+  
   return (
-    <div class="p-4 space-y-4">
-      <h4 class="text-lg font-medium">Personal Information</h4>
+    <div class="space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+        <div class="form-control">
           <label class="label">
-            <span class="label-text">First Name</span>
+            <span class="label-text">Display Name</span>
           </label>
-          <input type="text" value="John" class="input input-bordered w-full" />
+          <NameInput
+            text="John Doe"
+            labelClass="display-name-label"
+            inputClass="display-name-input"
+            placeholder="Enter display name"
+            class="input input-bordered"
+            on:change={(el, value) => addToLog(`Display name changed to: ${value}`)}
+          />
         </div>
-        <div>
+        <div class="form-control">
           <label class="label">
-            <span class="label-text">Last Name</span>
+            <span class="label-text">Bio</span>
           </label>
-          <input type="text" value="Doe" class="input input-bordered w-full" />
+          <BioInput
+            text="Software developer"
+            labelClass="bio-label"
+            inputClass="bio-input"
+            placeholder="Enter bio"
+            class="input input-bordered"
+            on:change={(el, value) => addToLog(`Bio changed to: ${value}`)}
+          />
         </div>
       </div>
+      <SaveBtn
+        label="Update Profile"
+        class="btn btn-primary"
+        on:click={() => addToLog('Profile settings saved')}
+      />
     </div>
   )
 }
 
-function createSecurityContent() {
+function createSecuritySettingsContent() {
   const ChangePasswordBtn = makeButton()
+  const TwoFactorToggle = makeToggle()
+  
   return (
-    <div class="p-4 space-y-4">
-      <h4 class="text-lg font-medium">Security Settings</h4>
-      <div class="space-y-4">
-        <div class="alert alert-warning">
-          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.726-.833-2.496 0L3.318 16.5c-.77.833.192 2.5 1.732 2.5z" />
-          </svg>
-          <span>Your password was last changed 3 months ago.</span>
-        </div>
-        <ChangePasswordBtn
-          label="Change Password"
-          class="btn btn-warning"
-          on:click={() => addToLog('Password change initiated')}
-        />
+    <div class="space-y-4">
+      <div class="alert alert-warning">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.726-.833-2.496 0L3.318 16.5c-.77.833.192 2.5 1.732 2.5z" />
+        </svg>
+        <span>Your password was last changed 3 months ago.</span>
       </div>
+      
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Two-Factor Authentication</span>
+          <TwoFactorToggle
+            onLabel="Enabled"
+            offLabel="Disabled"
+            initialState="off"
+            onClass="btn-success"
+            offClass="btn-outline"
+            class="btn btn-sm"
+            on:change={(el, state) => addToLog(`2FA ${state === 'on' ? 'enabled' : 'disabled'}`)}
+          />
+        </label>
+      </div>
+      
+      <ChangePasswordBtn
+        label="Change Password"
+        class="btn btn-warning"
+        on:click={() => addToLog('Password change initiated')}
+      />
     </div>
   )
 }
+
+function createPrivacySettingsContent() {
+  const PublicProfileToggle = makeToggle()
+  const DataSharingToggle = makeToggle()
+  const SaveBtn = makeButton()
+  
+  return (
+    <div class="space-y-4">
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Public Profile</span>
+          <PublicProfileToggle
+            onLabel="Public"
+            offLabel="Private"
+            initialState="on"
+            onClass="btn-primary"
+            offClass="btn-outline"
+            class="btn btn-sm"
+            on:change={(el, state) => addToLog(`Profile visibility: ${state === 'on' ? 'public' : 'private'}`)}
+          />
+        </label>
+      </div>
+      
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Data Sharing</span>
+          <DataSharingToggle
+            onLabel="Allowed"
+            offLabel="Blocked"
+            initialState="off"
+            onClass="btn-error"
+            offClass="btn-outline"
+            class="btn btn-sm"
+            on:change={(el, state) => addToLog(`Data sharing: ${state === 'on' ? 'allowed' : 'blocked'}`)}
+          />
+        </label>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <SaveBtn
+        label="Save Privacy Settings"
+        class="btn btn-primary"
+        on:click={() => addToLog('Privacy settings saved')}
+      />
+    </div>
+  )
+}
+
 
 function render(props: BaseProps<TabsDemoProps>) {
   const DemoLayout = makeDemoLayout()
   const MainTabs = makeTabs()
-  const ProfileTabs = makeTabs()
   const EventLog = makeEventLog()
 
   EventLog.getLogic().then(l => {
@@ -239,20 +362,6 @@ function render(props: BaseProps<TabsDemoProps>) {
     }
   ]
 
-  // Nested profile tabs
-  const profileTabItems: TabItem[] = [
-    {
-      id: 'personal',
-      label: 'Personal Info',
-      content: createPersonalInfoContent
-    },
-    {
-      id: 'security',
-      label: 'Security',
-      content: createSecurityContent
-    }
-  ]
-
   return (
     <div {...props}>
       <DemoLayout
@@ -264,7 +373,7 @@ function render(props: BaseProps<TabsDemoProps>) {
 
           {/* Main Tabs Example */}
           <div>
-            <h2 class="text-xl font-semibold mb-4">Main Dashboard Tabs</h2>
+            <h2 class="text-xl font-semibold mb-4">Dashboard with Nested Tabs</h2>
             <MainTabs
               items={mainTabItems}
               activeTabId="overview"
@@ -273,23 +382,6 @@ function render(props: BaseProps<TabsDemoProps>) {
               contentClass="tab-content p-0"
               on:change={handleTabChange}
             />
-          </div>
-
-          {/* Nested Tabs Example */}
-          <div>
-            <h2 class="text-xl font-semibold mb-4">Profile Settings (Nested Tabs)</h2>
-            <div class="card bg-base-100 shadow-xl">
-              <div class="card-body">
-                <ProfileTabs
-                  items={profileTabItems}
-                  activeTabId="personal"
-                  tabClass="tab tab-bordered"
-                  activeTabClass="tab-active"
-                  contentClass="tab-content"
-                  on:change={handleProfileTabChange}
-                />
-              </div>
-            </div>
           </div>
 
           {/* Event Log */}
@@ -322,8 +414,9 @@ function render(props: BaseProps<TabsDemoProps>) {
 
             <div class="mt-4 p-3 bg-info/10 rounded border border-info/20">
               <p class="text-sm text-info-content">
-                <strong>Try it:</strong> Click different tabs to see content changes. Notice how the disabled tab cannot be selected,
-                and how each tab change is logged in the activity log below.
+                <strong>Try it:</strong> Click on the "Settings" tab to see nested tabs in action. Each settings category 
+                (General, Profile, Security, Privacy) has its own tab within the main Settings tab. All tab changes are 
+                logged in the activity log below.
               </p>
             </div>
           </div>
