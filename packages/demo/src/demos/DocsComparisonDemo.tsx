@@ -268,6 +268,36 @@ function bind(el, eventEmitter) {
             </div>
           </div>
 
+
+          <div class="not-prose">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+              <div class="card bg-success/10 border border-success/20">
+                <div class="card-body">
+                  <h4 class="card-title text-success text-base">Duct Advantages</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>✓ No reactivity magic to debug</li>
+                    <li>✓ Explicit DOM control</li>
+                    <li>✓ Clear separation of template/logic</li>
+                    <li>✓ Standard JavaScript patterns</li>
+                    <li>✓ Predictable performance</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card bg-warning/10 border border-warning/20">
+                <div class="card-body">
+                  <h4 class="card-title text-warning text-base">Vue Advantages</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• Gentle learning curve</li>
+                    <li>• Progressive enhancement</li>
+                    <li>• Excellent documentation</li>
+                    <li>• Built-in state management</li>
+                    <li>• Single-file components</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <h3>Duct vs Svelte</h3>
           <p>
             Both Duct and Svelte avoid virtual DOM, but they differ significantly in their compilation
@@ -324,6 +354,35 @@ export default () => createBlueprint(
   render,
   { bind }
 );`)}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="not-prose">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+              <div class="card bg-success/10 border border-success/20">
+                <div class="card-body">
+                  <h4 class="card-title text-success text-base">Duct Advantages</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>✓ No compile step required</li>
+                    <li>✓ Runtime transparency</li>
+                    <li>✓ Standard build tools</li>
+                    <li>✓ Explicit behavior</li>
+                    <li>✓ Easy debugging</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card bg-warning/10 border border-warning/20">
+                <div class="card-body">
+                  <h4 class="card-title text-warning text-base">Svelte Advantages</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• Tiny bundle sizes</li>
+                    <li>• Compile-time optimizations</li>
+                    <li>• Built-in animations</li>
+                    <li>• Simple reactive syntax</li>
+                    <li>• No runtime overhead</li>
+                  </ul>
                 </div>
               </div>
             </div>
