@@ -1,5 +1,11 @@
 # @duct-ui/demo
 
+## 0.2.1
+
+### Patch Changes
+
+- [#22](https://github.com/navilan/duct-ui/pull/22) [`6a66970`](https://github.com/navilan/duct-ui/commit/6a669707ba5b222020d46c02eea501ca89ea6aec) Thanks [@navilan](https://github.com/navilan)! - Update framework comparisons
+
 ## 0.2.0
 
 ### Minor Changes
