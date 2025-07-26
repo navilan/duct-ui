@@ -1,5 +1,11 @@
 # @duct-ui/demo
 
+## 0.2.0
+
+### Minor Changes
+
+- [#20](https://github.com/navilan/duct-ui/pull/20) [`09563e9`](https://github.com/navilan/duct-ui/commit/09563e9abd329f6659b260e0759bb39f8b825032) Thanks [@navilan](https://github.com/navilan)! - Add claude agent prompt to the demo
+
 ## 0.1.0
 
 ### Minor Changes
