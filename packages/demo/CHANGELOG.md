@@ -1,5 +1,11 @@
 # @duct-ui/demo
 
+## 0.4.2
+
+### Patch Changes
+
+- [#30](https://github.com/navilan/duct-ui/pull/30) [`7bb58a2`](https://github.com/navilan/duct-ui/commit/7bb58a20772f85c4f27404af84d1c0aaebba55b6) Thanks [@navilan](https://github.com/navilan)! - Fix documenation embedded code snippets
+
 ## 0.4.1
 
 ### Patch Changes
