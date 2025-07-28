@@ -1,5 +1,5 @@
 import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeTabs, { type TabItem } from "@duct-ui/components/navigation/tabs"
+import makeTabs, { type TabItem } from "@duct-ui/components/layout/tabs"
 import makeButton from "@duct-ui/components/button/button"
 import makeToggle from "@duct-ui/components/button/toggle"
 import makeEditable from "@duct-ui/components/input/editable"

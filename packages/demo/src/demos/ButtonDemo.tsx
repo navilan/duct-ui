@@ -25,7 +25,6 @@ function handleButtonClick(el: Element, _e: Event) {
     const message = button.getAttribute('data-message')
     if (message && eventLogComponent) {
       eventLogComponent.addEvent(message)
-      console.log(message)
     }
   }
 }

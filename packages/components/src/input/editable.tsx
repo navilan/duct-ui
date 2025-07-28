@@ -110,7 +110,6 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<InputEvents>): BindRet
   }
 
   function cancelEdit() {
-    console.log("canceling edit")
     resetInput()
     el.dataset.editableMode = 'label'
     hideInput()

@@ -13,7 +13,7 @@ import {
   getNodesAtDepth,
   findNodes,
   getMaxDepth
-} from '../src/tree/structure'
+} from '../src/data-display/structure'
 
 // Test data setup
 interface TestData {

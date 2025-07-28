@@ -43,7 +43,7 @@ jobs:
           test -f packages/components/dist/index.d.ts || (echo "Components types build failed" && exit 1)
 
           # Verify CSS files are copied
-          test -f packages/components/dist/tree/tree-view.css || (echo "CSS files not copied" && exit 1)
+          test -f packages/components/dist/data-display/tree-view.css || (echo "CSS files not copied" && exit 1)
 
       - name: Check for changeset
         if: github.event_name == 'pull_request'

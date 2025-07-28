@@ -1,5 +1,5 @@
 import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeSidebarNav from "@duct-ui/components/navigation/sidebar-nav"
+import makeSidebarNav from "@duct-ui/components/layout/sidebar-nav"
 import ductLogo from "../icons/duct-logo.svg"
 
 export interface SidebarEvents extends BaseComponentEvents {
