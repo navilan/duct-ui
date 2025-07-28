@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeDemoLayout from "../components/DemoLayout"
+import { escapeHtml } from "../utils/htmlUtils"
 
 export interface DocsWhyDuctDemoEvents extends BaseComponentEvents { }
 export interface DocsWhyDuctDemoLogic { }
@@ -115,7 +116,7 @@ function render(props: BaseProps<DocsWhyDuctDemoProps>) {
           </p>
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`function bind(el: HTMLElement, eventEmitter, props) {
+              <pre class="text-sm"><code>{escapeHtml(`function bind(el: HTMLElement, eventEmitter, props) {
   const button = el.querySelector('button')
   const counter = el.querySelector('.counter')
 
@@ -136,7 +137,7 @@ function render(props: BaseProps<DocsWhyDuctDemoProps>) {
   return {
     release: () => button.removeEventListener('click', handleClick)
   }
-}`}</code></pre>
+}`)}</code></pre>
             </div>
           </div>
 
@@ -156,7 +157,7 @@ function render(props: BaseProps<DocsWhyDuctDemoProps>) {
           <h3>Transparent Component Behavior</h3>
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`// When you see this code, you know exactly what it does:
+              <pre class="text-sm"><code>{escapeHtml(`// When you see this code, you know exactly what it does:
 function bind(el, eventEmitter, props, loadData) {
   // 1. Find elements (explicit queries)
   const input = el.querySelector('input')
@@ -177,7 +178,7 @@ function bind(el, eventEmitter, props, loadData) {
     getValue: () => input.value,
     release: () => input.removeEventListener('change', handleChange)
   }
-}`}</code></pre>
+}`)}</code></pre>
             </div>
           </div>
 

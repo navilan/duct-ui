@@ -1,8 +1,9 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeDemoLayout from "../components/DemoLayout"
+import { escapeHtml } from "../utils/htmlUtils"
 
-export interface DocsBuildingDemoEvents extends BaseComponentEvents {}
-export interface DocsBuildingDemoLogic {}
+export interface DocsBuildingDemoEvents extends BaseComponentEvents { }
+export interface DocsBuildingDemoLogic { }
 export interface DocsBuildingDemoProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
@@ -20,7 +21,7 @@ function render(props: BaseProps<DocsBuildingDemoProps>) {
       >
         <div class="prose prose-lg max-w-none">
           <p class="lead">
-            Learn how to build Duct components step-by-step, from basic buttons to complex components 
+            Learn how to build Duct components step-by-step, from basic buttons to complex components
             with async data loading and sophisticated interactions.
           </p>
 
@@ -31,7 +32,7 @@ function render(props: BaseProps<DocsBuildingDemoProps>) {
 
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-6">
-              <pre class="text-sm overflow-x-auto"><code>{`import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+              <pre class="text-sm overflow-x-auto"><code>{escapeHtml(`import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 
 // 1. Define your event interface
 export interface ButtonEvents extends BaseComponentEvents {
@@ -39,7 +40,7 @@ export interface ButtonEvents extends BaseComponentEvents {
   stateChange: (el: HTMLElement, state: string) => void
 }
 
-// 2. Define your logic interface  
+// 2. Define your logic interface
 export interface ButtonLogic {
   setDisabled: (disabled: boolean) => void
   getLabel: () => string
@@ -56,10 +57,10 @@ export interface ButtonProps {
 // 4. Render function - pure presentation
 function render(props: BaseProps<ButtonProps>) {
   const { label, disabled = false, class: className = '', ...moreProps } = props
-  
+
   return (
-    <button 
-      class={\`btn \${className}\`} 
+    <button
+      class={\`btn \${className}\`}
       disabled={disabled}
       {...moreProps}
     >
@@ -71,27 +72,27 @@ function render(props: BaseProps<ButtonProps>) {
 // 5. Bind function - behavior and logic
 function bind(el: HTMLElement, eventEmitter: EventEmitter<ButtonEvents>, props: any): BindReturn<ButtonLogic> {
   const button = el as HTMLButtonElement
-  
+
   function handleClick(e: Event) {
     if (!button.disabled) {
       eventEmitter.emit('click', button)
     }
   }
-  
+
   button.addEventListener('click', handleClick)
-  
+
   function setDisabled(disabled: boolean) {
     button.disabled = disabled
   }
-  
+
   function getLabel(): string {
     return button.textContent || ''
   }
-  
+
   function release() {
     button.removeEventListener('click', handleClick)
   }
-  
+
   return {
     setDisabled,
     getLabel,
@@ -108,7 +109,7 @@ export default function makeButton() {
     render,
     { bind }
   )
-}`}</code></pre>
+}`)}</code></pre>
             </div>
           </div>
 
@@ -116,13 +117,13 @@ export default function makeButton() {
 
           <h3>Step 1: Define TypeScript Interfaces</h3>
           <p>
-            Start by defining clear contracts for your component. This provides excellent IDE support 
+            Start by defining clear contracts for your component. This provides excellent IDE support
             and catches errors early.
           </p>
 
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`// Events your component can emit
+              <pre class="text-sm"><code>{escapeHtml(`// Events your component can emit
 export interface MyComponentEvents extends BaseComponentEvents {
   change: (el: HTMLElement, value: string) => void
   submit: (el: HTMLElement, data: FormData) => void
@@ -142,13 +143,13 @@ export interface MyComponentProps {
   required?: boolean
   'on:change'?: (el: HTMLElement, value: string) => void
   'on:submit'?: (el: HTMLElement, data: FormData) => void
-}`}</code></pre>
+}`)}</code></pre>
             </div>
           </div>
 
           <h3>Step 2: Create the Render Function</h3>
           <p>
-            The render function should be pure - no side effects, just return JSX based on props. 
+            The render function should be pure - no side effects, just return JSX based on props.
             Think of it as your component's initial HTML structure.
           </p>
 
@@ -157,18 +158,18 @@ export interface MyComponentProps {
               <div class="card bg-success/10 border border-success/20">
                 <div class="card-body">
                   <h4 class="card-title text-success text-base">✅ Good Render Function</h4>
-                  <pre class="text-xs"><code>{`function render(props: BaseProps<InputProps>) {
-  const { 
-    initialValue = '', 
+                  <pre class="text-xs"><code>{escapeHtml(`function render(props: BaseProps<InputProps>) {
+  const {
+    initialValue = '',
     placeholder = '',
     required = false,
     class: className = '',
-    ...moreProps 
+    ...moreProps
   } = props
-  
+
   return (
     <div class="input-container" {...moreProps}>
-      <input 
+      <input
         type="text"
         class={\`input \${className}\`}
         placeholder={placeholder}
@@ -179,32 +180,32 @@ export interface MyComponentProps {
       <span class="error-message hidden" data-error></span>
     </div>
   )
-}`}</code></pre>
+}`)}</code></pre>
                 </div>
               </div>
 
               <div class="card bg-error/10 border border-error/20">
                 <div class="card-body">
                   <h4 class="card-title text-error text-base">❌ Bad Render Function</h4>
-                  <pre class="text-xs"><code>{`function render(props: BaseProps<InputProps>) {
+                  <pre class="text-xs"><code>{escapeHtml(`function render(props: BaseProps<InputProps>) {
   // DON'T: Side effects in render
   console.log('Rendering input')
-  
+
   // DON'T: Event handlers in render
   const handleClick = () => alert('clicked')
-  
+
   // DON'T: Complex logic in render
   if (props.value && props.value.length > 10) {
     validateInput(props.value)
   }
-  
+
   return (
-    <input 
+    <input
       onClick={handleClick} // DON'T: Inline handlers
-      {...props} 
+      {...props}
     />
   )
-}`}</code></pre>
+}`)}</code></pre>
                 </div>
               </div>
             </div>
@@ -212,73 +213,73 @@ export interface MyComponentProps {
 
           <h3>Step 3: Implement the Bind Function</h3>
           <p>
-            The bind function is where all your component logic lives. It receives the DOM element, 
+            The bind function is where all your component logic lives. It receives the DOM element,
             event emitter, props, and any loaded data.
           </p>
 
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`function bind(
-  el: HTMLElement, 
-  eventEmitter: EventEmitter<InputEvents>, 
+              <pre class="text-sm"><code>{escapeHtml(`function bind(
+  el: HTMLElement,
+  eventEmitter: EventEmitter<InputEvents>,
   props: any
 ): BindReturn<InputLogic> {
   // 1. Get references to DOM elements
   const input = el.querySelector('[data-input]') as HTMLInputElement
   const errorEl = el.querySelector('[data-error]') as HTMLElement
-  
+
   // 2. Set up internal state
   let isValid = true
-  
+
   // 3. Define internal functions
   function validateInput(value: string): boolean {
     const valid = props.required ? value.trim().length > 0 : true
-    
+
     if (!valid) {
       errorEl.textContent = 'This field is required'
       errorEl.classList.remove('hidden')
     } else {
       errorEl.classList.add('hidden')
     }
-    
+
     isValid = valid
     return valid
   }
-  
+
   // 4. Set up event handlers
   function handleChange(e: Event) {
     const value = (e.target as HTMLInputElement).value
-    
+
     if (validateInput(value)) {
       eventEmitter.emit('change', el, value)
     }
   }
-  
+
   input.addEventListener('change', handleChange)
   input.addEventListener('blur', handleChange)
-  
+
   // 5. Define public methods
   function setValue(value: string) {
     input.value = value
     validateInput(value)
   }
-  
+
   function reset() {
     input.value = ''
     errorEl.classList.add('hidden')
     isValid = true
   }
-  
+
   function focus() {
     input.focus()
   }
-  
+
   // 6. Cleanup function
   function release() {
     input.removeEventListener('change', handleChange)
     input.removeEventListener('blur', handleChange)
   }
-  
+
   // 7. Return public interface
   return {
     setValue,
@@ -286,19 +287,19 @@ export interface MyComponentProps {
     focus,
     release
   }
-}`}</code></pre>
+}`)}</code></pre>
             </div>
           </div>
 
           <h3>Step 4: Add Async Loading (Optional)</h3>
           <p>
-            For components that need to load data asynchronously, add a load function. This runs 
+            For components that need to load data asynchronously, add a load function. This runs
             after render but before bind.
           </p>
 
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`interface UserSelectData {
+              <pre class="text-sm"><code>{escapeHtml(`interface UserSelectData {
   users: Array<{ id: string, name: string, email: string }>
 }
 
@@ -308,12 +309,12 @@ async function load(el: HTMLElement, props: any): Promise<UserSelectData> {
   if (loadingEl) {
     loadingEl.classList.remove('hidden')
   }
-  
+
   try {
     // Fetch data from API
     const response = await fetch('/api/users')
     const users = await response.json()
-    
+
     return { users }
   } catch (error) {
     console.error('Failed to load users:', error)
@@ -322,8 +323,8 @@ async function load(el: HTMLElement, props: any): Promise<UserSelectData> {
 }
 
 function bind(
-  el: HTMLElement, 
-  eventEmitter: EventEmitter<UserSelectEvents>, 
+  el: HTMLElement,
+  eventEmitter: EventEmitter<UserSelectEvents>,
   props: any,
   loadData?: UserSelectData
 ): BindReturn<UserSelectLogic> {
@@ -332,11 +333,11 @@ function bind(
   if (loadingEl) {
     loadingEl.classList.add('hidden')
   }
-  
+
   // Use loaded data to populate select
   if (loadData?.users) {
     const select = el.querySelector('select') as HTMLSelectElement
-    
+
     loadData.users.forEach(user => {
       const option = document.createElement('option')
       option.value = user.id
@@ -344,7 +345,7 @@ function bind(
       select.appendChild(option)
     })
   }
-  
+
   // Rest of bind logic...
   return { /* ... */ }
 }
@@ -356,19 +357,19 @@ export default function makeUserSelect() {
     render,
     { load, bind }
   )
-}`}</code></pre>
+}`)}</code></pre>
             </div>
           </div>
 
           <h2>Accessing Component Logic</h2>
-          
+
           <p>
             Components expose their logic for external control using two patterns:
           </p>
 
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`// Recommended: Use refs for synchronous access
+              <pre class="text-sm"><code>{escapeHtml(`// Recommended: Use refs for synchronous access
 import { createRef } from '@duct-ui/core'
 
 const buttonRef = createRef<ButtonLogic>()
@@ -387,13 +388,13 @@ buttonRef.current?.updateLabel('New Text')
 Button.getLogic().then(logic => {
   logic.setDisabled(true)
   logic.on('click', handleClick)
-})`}</code></pre>
+})`)}</code></pre>
             </div>
           </div>
 
           <div class="alert alert-info my-4">
             <span class="text-sm">
-              <strong>Best Practice:</strong> Use refs for most cases as they provide synchronous access. 
+              <strong>Best Practice:</strong> Use refs for most cases as they provide synchronous access.
               Only use getLogic when you need the callback timing for initialization or testing.
             </span>
           </div>
@@ -444,43 +445,43 @@ Button.getLogic().then(logic => {
 
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`// Test example
+              <pre class="text-sm"><code>{escapeHtml(`// Test example
 import makeButton from './Button'
 
 describe('Button Component', () => {
   let container: HTMLElement
   let buttonLogic: ButtonLogic
-  
+
   beforeEach(async () => {
     const Button = makeButton()
-    
+
     // Render component
     container = document.createElement('div')
     container.innerHTML = Button({ label: 'Test Button' }).toString()
     document.body.appendChild(container)
-    
+
     // Get component logic
     buttonLogic = await Button.getLogic()
   })
-  
+
   afterEach(() => {
     document.body.removeChild(container)
   })
-  
+
   test('should render with correct label', () => {
     const button = container.querySelector('button')
     expect(button?.textContent).toBe('Test Button')
   })
-  
+
   test('should disable when setDisabled(true) is called', () => {
     buttonLogic.setDisabled(true)
     const button = container.querySelector('button')
     expect(button?.disabled).toBe(true)
   })
-  
+
   test('should emit click event when clicked', (done) => {
     const button = container.querySelector('button')
-    
+
     // Listen for component event
     const Button = makeButton()
     Button.getLogic().then(logic => {
@@ -488,10 +489,10 @@ describe('Button Component', () => {
         done()
       })
     })
-    
+
     button?.click()
   })
-})`}</code></pre>
+})`)}</code></pre>
             </div>
           </div>
 
@@ -500,7 +501,7 @@ describe('Button Component', () => {
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>
-              <strong>Pro Tip:</strong> Start simple and gradually add complexity. A basic component with just 
+              <strong>Pro Tip:</strong> Start simple and gradually add complexity. A basic component with just
               render and bind functions is often all you need. Add load functions and complex logic only when required.
             </span>
           </div>
@@ -512,7 +513,7 @@ describe('Button Component', () => {
 
 function bind(): BindReturn<DocsBuildingDemoLogic> {
   return {
-    release: () => {}
+    release: () => { }
   }
 }
 

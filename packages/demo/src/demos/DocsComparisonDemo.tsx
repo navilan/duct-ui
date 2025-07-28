@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeDemoLayout from "../components/DemoLayout"
+import { escapeHtml } from "../utils/htmlUtils"
 
 export interface DocsComparisonDemoEvents extends BaseComponentEvents { }
 export interface DocsComparisonDemoLogic { }
@@ -10,16 +11,6 @@ export interface DocsComparisonDemoProps {
 
 function render(props: BaseProps<DocsComparisonDemoProps>) {
   const DemoLayout = makeDemoLayout()
-
-  // Utility function to escape HTML entities in code blocks
-  const escapeHtml = (str: string) => {
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;')
-  }
 
   return (
     <div {...props}>
