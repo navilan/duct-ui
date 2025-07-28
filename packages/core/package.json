@@ -32,9 +32,11 @@
   "author": "navilan<navilan@folds.in>",
   "license": "MIT",
   "packageManager": "pnpm@10.13.1",
-  "devDependencies": {
+  "dependencies": {
     "@kitajs/html": "^4.2.9",
-    "lib0": "^0.2.111",
+    "lib0": "^0.2.111"
+  },
+  "devDependencies": {
     "typescript": "^5.8.3"
   }
 }

@@ -126,11 +126,16 @@ function render(props: BaseProps<DocsWhyDuctDemoProps>) {
   }
 
   // Clear event handling
-  button.addEventListener('click', () => {
+  const handleClick = () => {
     const newValue = parseInt(counter.textContent) + 1
     updateCounter(newValue)
     eventEmitter.emit('change', newValue)
-  })
+  }
+  button.addEventListener('click', handleClick)
+
+  return {
+    release: () => button.removeEventListener('click', handleClick)
+  }
 }`}</code></pre>
             </div>
           </div>
