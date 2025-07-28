@@ -79,12 +79,12 @@ function bind(
   el: HTMLElement,
   eventEmitter: EventEmitter<AsyncToggleEvents>,
   props: AsyncToggleProps,
-  loadData: AsyncToggleLoadData
+  loadData?: AsyncToggleLoadData
 ): BindReturn<AsyncToggleLogic> {
   const button = el as HTMLButtonElement
   const labelSpan = button.querySelector('[data-toggle-label]') as HTMLSpanElement
-  
-  let currentState: AsyncToggleState = loadData.initialState
+
+  let currentState: AsyncToggleState = loadData?.initialState ?? 'loading'
   let isProcessing = false
 
   const {
@@ -116,7 +116,7 @@ function bind(
       ...offClass.split(' '),
       ...loadingClass.split(' ')
     ]
-    
+
     for (const cls of allStateClasses) {
       if (cls) {
         button.classList.remove(cls)
@@ -177,7 +177,7 @@ function bind(
       // Revert to previous state on error
       currentState = previousState
       updateUI()
-      
+
       console.error('AsyncToggle: Error during toggle operation:', error)
       eventEmitter.emit('error', button, error as Error)
     } finally {
@@ -201,7 +201,7 @@ function bind(
       // Revert to previous state on error
       currentState = previousState
       updateUI()
-      
+
       console.error('AsyncToggle: Error refreshing state:', error)
       eventEmitter.emit('error', button, error as Error)
     } finally {
