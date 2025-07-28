@@ -43,11 +43,11 @@
   "license": "MIT",
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
-    "@duct-ui/core": "workspace:*"
+    "@duct-ui/core": "workspace:*",
+    "@kitajs/html": "^4.2.9",
+    "lib0": "^0.2.111"
   },
   "devDependencies": {
-    "@kitajs/html": "^4.2.9",
-    "lib0": "^0.2.111",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   }

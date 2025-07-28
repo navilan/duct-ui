@@ -150,14 +150,16 @@ function render(props) {
 function bind(el, eventEmitter) {
   let clicked = false;
 
-  el.addEventListener('click', () => {
+  const handleClick = () => {
     clicked = true;
     el.dataset.clicked = 'true';
     el.className = 'btn-clicked';
     eventEmitter.emit('click');
-  });
+  };
 
-  return { release: () => {} };
+  el.addEventListener('click', handleClick);
+
+  return { release: () => el.removeEventListener('click', handleClick) };
 }`)}</code></pre>
                 </div>
               </div>
@@ -339,13 +341,15 @@ function render(props) {
 function bind(el, eventEmitter) {
   let clicked = false;
 
-  el.addEventListener('click', () => {
+  const handleClick = () => {
     clicked = true;
     el.className = 'btn-clicked';
     eventEmitter.emit('click');
-  });
+  };
 
-  return { release: () => {} };
+  el.addEventListener('click', handleClick);
+
+  return { release: () => el.removeEventListener('click', handleClick) };
 }
 
 // Explicit blueprint creation
