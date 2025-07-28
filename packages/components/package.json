@@ -18,8 +18,8 @@
       "import": "./dist/button/*.js",
       "types": "./dist/button/*.d.ts"
     },
-    "./tree/tree-view.css": "./dist/tree/tree-view.css",
-    "./navigation/sidebar-nav.css": "./dist/navigation/sidebar-nav.css",
+    "./data-display/tree-view.css": "./dist/data-display/tree-view.css",
+    "./layout/sidebar-nav.css": "./dist/layout/sidebar-nav.css",
     "./layout/drawer.css": "./dist/layout/drawer.css",
     "./layout/modal.css": "./dist/layout/modal.css",
     "./*": {

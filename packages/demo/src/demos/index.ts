@@ -1,6 +1,7 @@
 import makeButtonDemo from "./ButtonDemo"
 import makeIconButtonDemo from "./IconButtonDemo"
 import makeToggleDemo from "./ToggleDemo"
+import makeAsyncToggleDemo from "./AsyncToggleDemo"
 import makeEditableInputDemo from "./EditableInputDemo"
 import makeMenuDemo from "./MenuDemo"
 import makeSelectDemo from "./SelectDemo"
@@ -115,6 +116,15 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         component: () => {
           const ToggleDemo = makeToggleDemo()
           return ToggleDemo({})
+        }
+      },
+      {
+        id: "async-toggle",
+        title: "Async Toggle",
+        description: "Asynchronous toggle button with custom async operations and loading states",
+        component: () => {
+          const AsyncToggleDemo = makeAsyncToggleDemo()
+          return AsyncToggleDemo({})
         }
       }
     ]

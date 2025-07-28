@@ -1,12 +1,12 @@
 import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeList from "@duct-ui/components/list/list"
+import makeList from "@duct-ui/components/data-display/list"
 import makeButton from "@duct-ui/components/button/button"
-import makeSelect from "@duct-ui/components/select/select"
+import makeSelect from "@duct-ui/components/dropdown/select"
 import makeToggle, { type ToggleState } from "@duct-ui/components/button/toggle"
 import makeDemoLayout from "../components/DemoLayout"
 import makeEventLog, { EventLogLogic } from "../components/EventLog"
 import makeEmojiItem from "../components/EmojiItem"
-import type { SelectItem } from "@duct-ui/components/select/select"
+import type { SelectItem } from "@duct-ui/components/dropdown/select"
 
 export interface EmojiListDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo

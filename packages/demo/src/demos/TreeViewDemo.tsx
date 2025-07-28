@@ -1,10 +1,10 @@
 import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeTreeView from "@duct-ui/components/tree/tree-view"
+import makeTreeView from "@duct-ui/components/data-display/tree-view"
 import makeButton from "@duct-ui/components/button/button"
 import makeDemoLayout from "../components/DemoLayout"
 import makeEventLog, { EventLogLogic } from "../components/EventLog"
-import { TreeViewData, TreePath } from "@duct-ui/components/tree/structure"
-import "@duct-ui/components/tree/tree-view.css"
+import { TreeViewData, TreePath } from "@duct-ui/components/data-display/structure"
+import "@duct-ui/components/data-display/tree-view.css"
 
 export interface TreeViewDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -409,148 +409,148 @@ function render(props: BaseProps<TreeViewDemoProps>) {
         description="Collapsible tree view for hierarchical data with expand/collapse functionality"
         sourcePath="/demos/TreeViewDemo.tsx"
       >
-      <div>
-        <div class="space-y-8">
+        <div>
+          <div class="space-y-8">
 
-          {/* Basic Usage */}
-          <div>
-            <h2 class="text-2xl font-semibold mb-4">Basic Usage</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              
-              <div>
-                <h3 class="text-lg font-medium mb-2">Simple Tree</h3>
-                <div class="bg-base-200 p-4 rounded-lg">
-                  <TreeView1
-                    data={simpleTree}
-                    initialExpanded={[["animals"]]}
-                    labelClass="cursor-pointer hover:bg-base-300 px-2 py-1 rounded transition-colors"
-                    iconClass="mr-2"
-                    on:expanded={expandedHandler}
-                    on:collapsed={collapsedHandler}
-                    on:clicked={clickedHandler}
-                  />
-                </div>
-                <p class="text-sm text-base-content/60 mt-2">
-                  Click the arrows to expand/collapse nodes. Click labels to select items.
-                </p>
-              </div>
-
-              <div>
-                <h3 class="text-lg font-medium mb-2">Icon-Only Expand</h3>
-                <div class="bg-base-200 p-4 rounded-lg">
-                  <TreeView2
-                    data={simpleTree}
-                    expandOnLabelClick={false}
-                    class="text-lg"
-                    labelClass="cursor-pointer hover:bg-primary/20 px-3 py-2 rounded-lg transition-colors"
-                    iconClass="mr-3"
-                    on:expanded={expandedHandler}
-                    on:collapsed={collapsedHandler}
-                    on:clicked={clickedHandler}
-                  />
-                </div>
-                <p class="text-sm text-base-content/60 mt-2">
-                  Only arrow icons expand/collapse nodes. Clicking labels fires the clicked event.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Advanced Example */}
-          <div>
-            <h2 class="text-2xl font-semibold mb-4">File System Example</h2>
+            {/* Basic Usage */}
             <div>
-              <h3 class="text-lg font-medium mb-2">Interactive File Tree with Programmatic Control</h3>
-              
-              <div class="flex gap-2 mb-4 flex-wrap">
-                <div class="flex gap-2">
-                  <LoadProject1Btn 
-                    label="Load Project 1"
-                    class="btn btn-sm btn-success"
-                    on:click={loadProject1}
-                  />
-                  <LoadProject2Btn 
-                    label="Load Project 2"
-                    class="btn btn-sm btn-info"
-                    on:click={loadProject2}
-                  />
-                </div>
-                
-                <div class="flex gap-2">
-                  <ExpandAllBtn 
-                    label="Expand All"
-                    class="btn btn-sm btn-primary"
-                    on:click={expandAll}
-                  />
-                  <CollapseAllBtn 
-                    label="Collapse All"
-                    class="btn btn-sm btn-secondary"
-                    on:click={collapseAll}
-                  />
-                  <ExpandSrcBtn 
-                    label="Expand src/"
-                    class="btn btn-sm btn-accent"
-                    on:click={expandSrc}
-                  />
-                  <CollapseSrcBtn 
-                    label="Collapse src/"
-                    class="btn btn-sm btn-warning"
-                    on:click={collapseSrc}
-                  />
-                </div>
-              </div>
+              <h2 class="text-2xl font-semibold mb-4">Basic Usage</h2>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-              <div class="bg-base-200 p-4 rounded-lg">
-                <TreeView3
-                  data={project1FileSystem}
-                  initialExpanded={[["src"], ["docs"]]}
-                  labelClass="cursor-pointer hover:bg-base-300 px-2 py-1 rounded text-sm font-mono"
-                  on:expanded={expandedHandler}
-                  on:collapsed={collapsedHandler}
-                  on:clicked={clickedHandler}
-                />
+                <div>
+                  <h3 class="text-lg font-medium mb-2">Simple Tree</h3>
+                  <div class="bg-base-200 p-4 rounded-lg">
+                    <TreeView1
+                      data={simpleTree}
+                      initialExpanded={[["animals"]]}
+                      labelClass="cursor-pointer hover:bg-base-300 px-2 py-1 rounded transition-colors"
+                      iconClass="mr-2"
+                      on:expanded={expandedHandler}
+                      on:collapsed={collapsedHandler}
+                      on:clicked={clickedHandler}
+                    />
+                  </div>
+                  <p class="text-sm text-base-content/60 mt-2">
+                    Click the arrows to expand/collapse nodes. Click labels to select items.
+                  </p>
+                </div>
+
+                <div>
+                  <h3 class="text-lg font-medium mb-2">Icon-Only Expand</h3>
+                  <div class="bg-base-200 p-4 rounded-lg">
+                    <TreeView2
+                      data={simpleTree}
+                      expandOnLabelClick={false}
+                      class="text-lg"
+                      labelClass="cursor-pointer hover:bg-primary/20 px-3 py-2 rounded-lg transition-colors"
+                      iconClass="mr-3"
+                      on:expanded={expandedHandler}
+                      on:collapsed={collapsedHandler}
+                      on:clicked={clickedHandler}
+                    />
+                  </div>
+                  <p class="text-sm text-base-content/60 mt-2">
+                    Only arrow icons expand/collapse nodes. Clicking labels fires the clicked event.
+                  </p>
+                </div>
               </div>
-              
-              <p class="text-sm text-base-content/60 mt-2">
-                A realistic file system tree with programmatic controls. 
-                Try the "Load Project" buttons to switch between different project structures,
-                or use the other buttons to control expand/collapse behavior.
-              </p>
             </div>
-          </div>
 
-          {/* Event Log */}
-          <div>
-            <h2 class="text-2xl font-semibold mb-4">Event Log</h2>
-            <EventLog
-              title="Tree Events"
-              maxHeight="max-h-64"
-              data-event-log-component
-            />
-          </div>
+            {/* Advanced Example */}
+            <div>
+              <h2 class="text-2xl font-semibold mb-4">File System Example</h2>
+              <div>
+                <h3 class="text-lg font-medium mb-2">Interactive File Tree with Programmatic Control</h3>
 
-          {/* Features Documentation */}
-          <div class="bg-base-200 p-6 rounded-lg">
-            <h3 class="text-lg font-medium mb-3">TreeView Features:</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <ul class="list-disc list-inside space-y-1 text-sm">
-                <li><strong>Collapsible Nodes</strong> - Click arrows to expand/collapse</li>
-                <li><strong>Label Click Expand</strong> - Optional expand on label click (default: true)</li>
-                <li><strong>Path-based Events</strong> - Events include full path to clicked node</li>
-                <li><strong>Initial State</strong> - Set initially expanded nodes</li>
-                <li><strong>Custom Styling</strong> - Customize labels, icons, and indentation</li>
-              </ul>
-              <ul class="list-disc list-inside space-y-1 text-sm">
-                <li><strong>Programmatic Control</strong> - expandNode(), collapseNode(), toggleNode()</li>
-                <li><strong>Bulk Operations</strong> - expandAll(), collapseAll()</li>
-                <li><strong>Data Refresh</strong> - setData() to load new tree structures</li>
-                <li><strong>Rich Data Support</strong> - Generic data type for custom metadata</li>
-                <li><strong>Event Handling</strong> - <code>on:expanded</code>, <code>on:collapsed</code>, <code>on:clicked</code></li>
-              </ul>
+                <div class="flex gap-2 mb-4 flex-wrap">
+                  <div class="flex gap-2">
+                    <LoadProject1Btn
+                      label="Load Project 1"
+                      class="btn btn-sm btn-success"
+                      on:click={loadProject1}
+                    />
+                    <LoadProject2Btn
+                      label="Load Project 2"
+                      class="btn btn-sm btn-info"
+                      on:click={loadProject2}
+                    />
+                  </div>
+
+                  <div class="flex gap-2">
+                    <ExpandAllBtn
+                      label="Expand All"
+                      class="btn btn-sm btn-primary"
+                      on:click={expandAll}
+                    />
+                    <CollapseAllBtn
+                      label="Collapse All"
+                      class="btn btn-sm btn-secondary"
+                      on:click={collapseAll}
+                    />
+                    <ExpandSrcBtn
+                      label="Expand src/"
+                      class="btn btn-sm btn-accent"
+                      on:click={expandSrc}
+                    />
+                    <CollapseSrcBtn
+                      label="Collapse src/"
+                      class="btn btn-sm btn-warning"
+                      on:click={collapseSrc}
+                    />
+                  </div>
+                </div>
+
+                <div class="bg-base-200 p-4 rounded-lg">
+                  <TreeView3
+                    data={project1FileSystem}
+                    initialExpanded={[["src"], ["docs"]]}
+                    labelClass="cursor-pointer hover:bg-base-300 px-2 py-1 rounded text-sm font-mono"
+                    on:expanded={expandedHandler}
+                    on:collapsed={collapsedHandler}
+                    on:clicked={clickedHandler}
+                  />
+                </div>
+
+                <p class="text-sm text-base-content/60 mt-2">
+                  A realistic file system tree with programmatic controls.
+                  Try the "Load Project" buttons to switch between different project structures,
+                  or use the other buttons to control expand/collapse behavior.
+                </p>
+              </div>
+            </div>
+
+            {/* Event Log */}
+            <div>
+              <h2 class="text-2xl font-semibold mb-4">Event Log</h2>
+              <EventLog
+                title="Tree Events"
+                maxHeight="max-h-64"
+                data-event-log-component
+              />
+            </div>
+
+            {/* Features Documentation */}
+            <div class="bg-base-200 p-6 rounded-lg">
+              <h3 class="text-lg font-medium mb-3">TreeView Features:</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                  <li><strong>Collapsible Nodes</strong> - Click arrows to expand/collapse</li>
+                  <li><strong>Label Click Expand</strong> - Optional expand on label click (default: true)</li>
+                  <li><strong>Path-based Events</strong> - Events include full path to clicked node</li>
+                  <li><strong>Initial State</strong> - Set initially expanded nodes</li>
+                  <li><strong>Custom Styling</strong> - Customize labels, icons, and indentation</li>
+                </ul>
+                <ul class="list-disc list-inside space-y-1 text-sm">
+                  <li><strong>Programmatic Control</strong> - expandNode(), collapseNode(), toggleNode()</li>
+                  <li><strong>Bulk Operations</strong> - expandAll(), collapseAll()</li>
+                  <li><strong>Data Refresh</strong> - setData() to load new tree structures</li>
+                  <li><strong>Rich Data Support</strong> - Generic data type for custom metadata</li>
+                  <li><strong>Event Handling</strong> - <code>on:expanded</code>, <code>on:collapsed</code>, <code>on:clicked</code></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </DemoLayout>
     </div>
   )

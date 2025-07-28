@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@duct-ui/components/navigation/sidebar-nav.css";
+@import "@duct-ui/components/layout/sidebar-nav.css";
 @import "@duct-ui/components/layout/drawer.css";
 @import "@duct-ui/components/layout/modal.css";
 

@@ -1,11 +1,11 @@
 import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeSelect from "@duct-ui/components/select/select"
+import makeSelect from "@duct-ui/components/dropdown/select"
 import makeDemoLayout from "../components/DemoLayout"
 import makeEventLog, { EventLogLogic } from "../components/EventLog"
 import iconOne from "../icons/one.svg"
 import iconTwo from "../icons/two.svg"
 import iconThree from "../icons/three.svg"
-import type { SelectItem } from "@duct-ui/components/select/select"
+import type { SelectItem } from "@duct-ui/components/dropdown/select"
 
 export interface SelectDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -30,7 +30,6 @@ function addToLog(message: string) {
 
 function selectionHandler(_el: HTMLElement, item: SelectItem, index: number) {
   addToLog(`Selected: "${item.label}" (index: ${index})`)
-  console.log('Selection changed:', item, index)
 }
 
 function openHandler(_el: HTMLElement) {
@@ -100,99 +99,99 @@ function render(props: BaseProps<SelectDemoProps>) {
         description="Dropdown select component with selection markers and flexible item properties"
         sourcePath="/demos/SelectDemo.tsx"
       >
-      <div>
-        <h2 class="text-2xl font-semibold mb-4">Select Examples</h2>
+        <div>
+          <h2 class="text-2xl font-semibold mb-4">Select Examples</h2>
 
-        <div class="space-y-8">
-          <div>
-            <h3 class="text-lg font-medium mb-3">Basic Select</h3>
-            <div class="max-w-sm">
-              <Select1
-                items={basicItems}
-                placeholder="Choose an option"
-                class="w-full dropdown relative"
-                buttonClass="btn btn-outline w-full justify-between"
-                menuClass="menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow"
-                itemClass=""
-                labelClass="font-medium"
-                descriptionClass="text-sm text-base-content/70"
-                selectedIconClass="w-4 h-4 mr-2"
-                iconClass="mr-2"
-                on:selectionChange={selectionHandler}
-                on:open={openHandler}
-                on:close={closeHandler}
-              />
+          <div class="space-y-8">
+            <div>
+              <h3 class="text-lg font-medium mb-3">Basic Select</h3>
+              <div class="max-w-sm">
+                <Select1
+                  items={basicItems}
+                  placeholder="Choose an option"
+                  class="w-full dropdown relative"
+                  buttonClass="btn btn-outline w-full justify-between"
+                  menuClass="menu bg-base-200 rounded-box z-[1] w-52 p-2 shadow"
+                  itemClass=""
+                  labelClass="font-medium"
+                  descriptionClass="text-sm text-base-content/70"
+                  selectedIconClass="w-4 h-4 mr-2"
+                  iconClass="mr-2"
+                  on:selectionChange={selectionHandler}
+                  on:open={openHandler}
+                  on:close={closeHandler}
+                />
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-medium mb-3">Select with Icons and Descriptions</h3>
+              <div class="max-w-sm">
+                <Select2
+                  items={iconItems}
+                  selectedIcon="✅"
+                  placeholder="Choose with icon"
+                  class="w-full dropdown relative"
+                  buttonClass="btn btn-primary w-full justify-between"
+                  menuClass="menu bg-base-200 rounded-box z-[1] p-2 shadow"
+                  itemClass=""
+                  labelClass="font-medium"
+                  descriptionClass="text-sm text-base-content/70"
+                  selectedIconClass="w-4 h-4 mr-2"
+                  iconClass="mr-2"
+                  on:selectionChange={selectionHandler}
+                  on:open={openHandler}
+                  on:close={closeHandler}
+                />
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-medium mb-3">Complex Select with Attributes</h3>
+              <div class="max-w-sm">
+                <Select3
+                  items={complexItems}
+                  selectedIcon="👆"
+                  placeholder="Choose priority"
+                  class="w-full dropdown dropdown-top relative"
+                  buttonClass="btn btn-secondary w-full justify-between"
+                  menuClass="menu bg-base-200 rounded-box z-[1] p-2 shadow"
+                  itemClass=""
+                  labelClass="font-medium"
+                  descriptionClass="text-sm text-base-content/70"
+                  selectedIconClass="w-4 h-4 mr-2"
+                  iconClass="mr-2 w-6 h-6"
+                  iconSize='lg'
+                  placement="top-start"
+                  on:selectionChange={selectionHandler}
+                  on:open={openHandler}
+                  on:close={closeHandler}
+                />
+              </div>
             </div>
           </div>
 
-          <div>
-            <h3 class="text-lg font-medium mb-3">Select with Icons and Descriptions</h3>
-            <div class="max-w-sm">
-              <Select2
-                items={iconItems}
-                selectedIcon="✅"
-                placeholder="Choose with icon"
-                class="w-full dropdown relative"
-                buttonClass="btn btn-primary w-full justify-between"
-                menuClass="menu bg-base-200 rounded-box z-[1] p-2 shadow"
-                itemClass=""
-                labelClass="font-medium"
-                descriptionClass="text-sm text-base-content/70"
-                selectedIconClass="w-4 h-4 mr-2"
-                iconClass="mr-2"
-                on:selectionChange={selectionHandler}
-                on:open={openHandler}
-                on:close={closeHandler}
-              />
-            </div>
-          </div>
+          <div class="mt-8 space-y-6">
+            <EventLog
+              title="Event Log"
+              maxHeight="max-h-32"
+              data-event-log-component
+            />
 
-          <div>
-            <h3 class="text-lg font-medium mb-3">Complex Select with Attributes</h3>
-            <div class="max-w-sm">
-              <Select3
-                items={complexItems}
-                selectedIcon="👆"
-                placeholder="Choose priority"
-                class="w-full dropdown dropdown-top relative"
-                buttonClass="btn btn-secondary w-full justify-between"
-                menuClass="menu bg-base-200 rounded-box z-[1] p-2 shadow"
-                itemClass=""
-                labelClass="font-medium"
-                descriptionClass="text-sm text-base-content/70"
-                selectedIconClass="w-4 h-4 mr-2"
-                iconClass="mr-2 w-6 h-6"
-                iconSize='lg'
-                placement="top-start"
-                on:selectionChange={selectionHandler}
-                on:open={openHandler}
-                on:close={closeHandler}
-              />
+            <div class="p-4 bg-base-200 rounded-lg">
+              <h3 class="text-lg font-medium mb-2">Features Demonstrated:</h3>
+              <ul class="list-disc list-inside space-y-1 text-sm">
+                <li>Select component with customizable selection markers</li>
+                <li>Support for icons, descriptions, and custom attributes</li>
+                <li>Disabled items with visual feedback</li>
+                <li>Selection change events with item and index data</li>
+                <li>Flexible placement options (top, bottom, start, end)</li>
+                <li>Keyboard navigation and accessibility</li>
+                <li>Custom styling through buttonClass and menuClass</li>
+              </ul>
             </div>
           </div>
         </div>
-
-        <div class="mt-8 space-y-6">
-          <EventLog
-            title="Event Log"
-            maxHeight="max-h-32"
-            data-event-log-component
-          />
-
-          <div class="p-4 bg-base-200 rounded-lg">
-            <h3 class="text-lg font-medium mb-2">Features Demonstrated:</h3>
-            <ul class="list-disc list-inside space-y-1 text-sm">
-              <li>Select component with customizable selection markers</li>
-              <li>Support for icons, descriptions, and custom attributes</li>
-              <li>Disabled items with visual feedback</li>
-              <li>Selection change events with item and index data</li>
-              <li>Flexible placement options (top, bottom, start, end)</li>
-              <li>Keyboard navigation and accessibility</li>
-              <li>Custom styling through buttonClass and menuClass</li>
-            </ul>
-          </div>
-        </div>
-      </div>
       </DemoLayout>
     </div>
   )
