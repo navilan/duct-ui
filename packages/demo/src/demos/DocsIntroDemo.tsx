@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeDemoLayout from "../components/DemoLayout"
+import { escapeHtml } from "../utils/htmlUtils"
 
 export interface DocsIntroDemoEvents extends BaseComponentEvents { }
 export interface DocsIntroDemoLogic { }
@@ -109,7 +110,7 @@ function render(props: BaseProps<DocsIntroDemoProps>) {
           </p>
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`// Define component events with full type safety
+              <pre class="text-sm"><code>{escapeHtml(`// Define component events with full type safety
 export interface ButtonEvents extends BaseComponentEvents {
   click: (el: HTMLElement) => void
   stateChange: (el: HTMLElement, newState: string) => void
@@ -120,7 +121,7 @@ export interface ButtonEvents extends BaseComponentEvents {
   label="Click me"
   on:click={handleButtonClick}
   on:stateChange={handleStateChange}
-/>`}</code></pre>
+/>`)}</code></pre>
             </div>
           </div>
 
@@ -130,7 +131,7 @@ export interface ButtonEvents extends BaseComponentEvents {
           </p>
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`function bind(el: HTMLElement, eventEmitter: EventEmitter<Events>) {
+              <pre class="text-sm"><code>{escapeHtml(`function bind(el: HTMLElement, eventEmitter: EventEmitter<Events>) {
   const button = el.querySelector('button')
 
   // Direct DOM updates are fast and explicit
@@ -138,7 +139,7 @@ export interface ButtonEvents extends BaseComponentEvents {
     button.className = \`btn btn-\${newState}\`
     button.dataset.state = newState
   }
-}`}</code></pre>
+}`)}</code></pre>
             </div>
           </div>
 
@@ -153,7 +154,7 @@ export interface ButtonEvents extends BaseComponentEvents {
           </p>
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`// Recommended: Use refs for synchronous access
+              <pre class="text-sm"><code>{escapeHtml(`// Recommended: Use refs for synchronous access
 const buttonRef = createRef()
 const MyButton = makeButton()
 
@@ -167,7 +168,7 @@ buttonRef.current?.updateLabel('New Text')
 MyButton.getLogic().then(logic => {
   logic.setDisabled(true)
   logic.updateLabel('New Text')
-})`}</code></pre>
+})`)}</code></pre>
             </div>
           </div>
 

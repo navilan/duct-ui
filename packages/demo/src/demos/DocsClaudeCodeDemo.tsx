@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import makeDemoLayout from "../components/DemoLayout"
+import { escapeHtml } from "../utils/htmlUtils"
 
 export interface DocsClaudeCodeDemoEvents extends BaseComponentEvents { }
 export interface DocsClaudeCodeDemoLogic { }
@@ -26,7 +27,7 @@ function render(props: BaseProps<DocsClaudeCodeDemoProps>) {
               correctness, adherence to guidelines and established patterns.
             </p>
             <pre>
-              <code>{`
+              <code>{escapeHtml(`
 ---
 name: duct-ui-reviewer
 description: Use this agent when reviewing UI code that uses the Duct UI framework to ensure architectural alignment, lifecycle correctness, type safety, and optimal reuse patterns. Examples: <example>Context: User has just written a new Duct UI component for their typescript project. user: 'I just created a new JsonTreeNode component for displaying JSON data. Can you review it?' assistant: 'I'll use the duct-ui-reviewer agent to analyze your component for Duct UI best practices, lifecycle correctness, and type safety.' <commentary>Since the user has written new Duct UI code, use the duct-ui-reviewer agent to ensure it follows framework patterns and philosophies.</commentary></example> <example>Context: User is refactoring existing UI components. user: 'I've refactored the canvas rendering logic and moved some component initialization code around. Here's what changed...' assistant: 'Let me use the duct-ui-reviewer agent to verify the refactoring maintains proper Duct UI lifecycle management and architectural principles.' <commentary>Code refactoring in Duct UI requires careful review of lifecycle placement and architectural alignment.</commentary></example>
@@ -81,7 +82,7 @@ Provide a structured review covering:
 - **Compliance Score**: Overall adherence to Duct UI standards
 
 Always reference specific Duct UI patterns and provide concrete examples from the framework's codebase when making recommendations. Your goal is to ensure the code not only works but exemplifies Duct UI's architectural excellence and design philosophy.
-                `}
+                `)}
               </code>
             </pre>
           </div>
@@ -146,26 +147,26 @@ Always reference specific Duct UI patterns and provide concrete examples from th
                 <pre class="text-sm whitespace-pre-wrap" id="training-prompt">{`I want you to learn the Duct UI framework so you can help me build components. Please follow this exact sequence to understand the patterns:
 
 1. **Review the GitHub Repository Structure**
-   - Go to https://github.com/navilan/duct-ui
-   - Examine the overall project structure and README
-   - Understand the monorepo layout with packages/core, packages/components, and packages/demo
+    - Go to https://github.com/navilan/duct-ui
+    - Examine the overall project structure and README
+    - Understand the monorepo layout with packages/core, packages/components, and packages/demo
 
 2. **Study the Core Package** (/packages/core/src/)
-   - Review blueprint.ts - this is the heart of Duct's component system
-   - Examine runtime.ts - understand how components are managed
-   - Look at lifecycle.ts - learn the component lifecycle
-   - Pay special attention to TypeScript interfaces and the createBlueprint function
+    - Review blueprint.ts - this is the heart of Duct's component system
+    - Examine runtime.ts - understand how components are managed
+    - Look at lifecycle.ts - learn the component lifecycle
+    - Pay special attention to TypeScript interfaces and the createBlueprint function
 
 3. **Analyze Components** (/packages/components/src/)
-   - Start with simple components like button/button.tsx
-   - Study more complex ones like navigation/tabs.tsx and layout/modal.tsx
-   - Notice the consistent pattern: render function, bind function, TypeScript interfaces
-   - Pay attention to how events are handled and how logic is exposed
+    - Start with simple components like button/button.tsx
+    - Study more complex ones like navigation/tabs.tsx and layout/modal.tsx
+    - Notice the consistent pattern: render function, bind function, TypeScript interfaces
+    - Pay attention to how events are handled and how logic is exposed
 
 4. **Review All Demos** (/packages/demo/src/demos/)
-   - Look at how components are used in practice
-   - See integration patterns and event handling
-   - Notice how complex interactions are built up from simple components
+    - Look at how components are used in practice
+    - See integration patterns and event handling
+    - Notice how complex interactions are built up from simple components
 
 After you've completed this review, you should understand:
 - The blueprint pattern with render/bind/load/release functions
@@ -242,14 +243,14 @@ Please confirm when you've completed each step, and then I'll start asking you t
                   </p>
                   <div class="not-prose">
                     <div class="bg-base-200 rounded-lg p-4 my-2">
-                      <pre class="text-sm"><code>{`// Recommended: Use refs for synchronous access
+                      <pre class="text-sm"><code>{escapeHtml(`// Recommended: Use refs for synchronous access
 const componentRef = createRef<ComponentLogic>()
 <Component ref={componentRef} />
 componentRef.current?.method()
 
 // Alternative: Use getLogic when callback timing is needed
 let logic: ComponentLogic
-Component.getLogic().then(l => logic = l)`}</code></pre>
+Component.getLogic().then(l => logic = l)`)}</code></pre>
                     </div>
                   </div>
                 </li>
