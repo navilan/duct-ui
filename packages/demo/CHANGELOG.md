@@ -1,5 +1,17 @@
 # @duct-ui/demo
 
+## 0.3.0
+
+### Minor Changes
+
+- [#24](https://github.com/navilan/duct-ui/pull/24) [`6ec6a89`](https://github.com/navilan/duct-ui/commit/6ec6a893a91c95a54668380f2056c15ea8e50820) Thanks [@navilan](https://github.com/navilan)! - Add async toggle component and reorganize imports
+
+### Patch Changes
+
+- Updated dependencies [[`6ec6a89`](https://github.com/navilan/duct-ui/commit/6ec6a893a91c95a54668380f2056c15ea8e50820)]:
+  - @duct-ui/components@0.3.0
+  - @duct-ui/core@0.3.0
+
 ## 0.2.1
 
 ### Patch Changes
