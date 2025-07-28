@@ -1,5 +1,14 @@
 # @duct-ui/components
 
+## 0.4.1
+
+### Patch Changes
+
+- [#28](https://github.com/navilan/duct-ui/pull/28) [`acd8617`](https://github.com/navilan/duct-ui/commit/acd8617930d2b948a6bffdc3eb78d05f863193b1) Thanks [@navilan](https://github.com/navilan)! - Update dependencies and documentation.
+
+- Updated dependencies [[`acd8617`](https://github.com/navilan/duct-ui/commit/acd8617930d2b948a6bffdc3eb78d05f863193b1)]:
+  - @duct-ui/core@0.4.1
+
 ## 0.4.0
 
 ### Minor Changes
