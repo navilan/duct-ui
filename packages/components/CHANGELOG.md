@@ -1,5 +1,16 @@
 # @duct-ui/components
 
+## 0.4.0
+
+### Minor Changes
+
+- Add ref as the primary way to bind to component's logic.
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @duct-ui/core@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes
