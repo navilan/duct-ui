@@ -1,4 +1,5 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from '@duct-ui/core/blueprint'
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from '@duct-ui/core/blueprint'
+import { EventEmitter } from '@duct-ui/core/shared'
 
 export type AsyncToggleState = 'on' | 'off' | 'loading'
 
@@ -43,6 +44,8 @@ function render(props: BaseProps<AsyncToggleProps>) {
     loadingLabel = 'Loading...',
     class: className = '',
     disabled = false,
+    onClass, offClass, loadingClass,
+    isOn, switchOn, switchOff,
     ...moreProps
   } = props
 

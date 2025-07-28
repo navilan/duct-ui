@@ -1,5 +1,7 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeList from "@duct-ui/components/data-display/list"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
+import makeList, { type ListLogic } from "@duct-ui/components/data-display/list"
 import makeButton from "@duct-ui/components/button/button"
 import makeSelect from "@duct-ui/components/dropdown/select"
 import makeToggle, { type ToggleState } from "@duct-ui/components/button/toggle"
@@ -52,8 +54,9 @@ const emojiData = {
 
 type EmojiKey = keyof (typeof emojiData)
 
-let eventLogComponent: EventLogLogic | undefined
-let emojiListLogic: any = null
+// Using refs instead of global variables
+const eventLogRef = createRef<EventLogLogic>()
+const emojiListRef = createRef<ListLogic<string, any>>()
 let currentCategory = "all"
 let currentPage = 0
 const pageSize = 8
@@ -61,8 +64,8 @@ let showFavoritesOnly = false
 const favoriteEmojis = new Set<string>() // Track favorites globally
 
 function addToLog(message: string) {
-  if (eventLogComponent) {
-    eventLogComponent.addEvent(message)
+  if (eventLogRef.current) {
+    eventLogRef.current.addEvent(message)
   }
 }
 
@@ -131,8 +134,8 @@ async function handleCategoryChange(el: HTMLElement, item: SelectItem) {
   updatePageLabel()
   addToLog(`Changed category to: ${item.label}`)
 
-  if (emojiListLogic) {
-    await emojiListLogic.refresh(0)
+  if (emojiListRef.current) {
+    await emojiListRef.current.refresh(0)
   }
 }
 
@@ -150,8 +153,8 @@ async function handlePrevPage() {
     currentPage--
     updatePageLabel()
     addToLog(`Previous page: ${currentPage + 1}`)
-    if (emojiListLogic) {
-      await emojiListLogic.refresh(currentPage)
+    if (emojiListRef.current) {
+      await emojiListRef.current.refresh(currentPage)
     }
   }
 }
@@ -161,8 +164,8 @@ async function handleNextPage() {
     currentPage++
     updatePageLabel()
     addToLog(`Next page: ${currentPage + 1}`)
-    if (emojiListLogic) {
-      await emojiListLogic.refresh(currentPage)
+    if (emojiListRef.current) {
+      await emojiListRef.current.refresh(currentPage)
     }
   }
 }
@@ -181,8 +184,8 @@ async function handleToggleFavorites(_el: HTMLElement, state: ToggleState) {
     addToLog('Showing all emojis')
   }
 
-  if (emojiListLogic) {
-    await emojiListLogic.refresh(0)
+  if (emojiListRef.current) {
+    await emojiListRef.current.refresh(0)
   }
 }
 
@@ -195,13 +198,6 @@ function render(props: BaseProps<EmojiListDemoProps>) {
   const FavoritesToggle = makeToggle()
   const EventLog = makeEventLog()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
-
-  EmojiList.getLogic().then(l => {
-    emojiListLogic = l
-  })
 
   // Category options
   const categories = Array.from(new Set(Object.values(emojiData).map(item => item.category)))
@@ -263,6 +259,7 @@ function render(props: BaseProps<EmojiListDemoProps>) {
             <div>
               <h2 class="text-xl font-semibold mb-4">Emoji Collection</h2>
               <EmojiList
+                ref={emojiListRef}
                 getItems={getFilteredEmojis}
                 makeItem={makeEmojiItem}
                 itemProps={{
@@ -280,6 +277,7 @@ function render(props: BaseProps<EmojiListDemoProps>) {
             <div>
               <h2 class="text-xl font-semibold mb-4">Activity Log</h2>
               <EventLog
+                ref={eventLogRef}
                 title="Emoji List Events"
                 maxHeight="max-h-48"
                 data-event-log-component
@@ -296,7 +294,7 @@ function render(props: BaseProps<EmojiListDemoProps>) {
                   <li><strong>Item Props</strong> - Common props spread to all item components</li>
                 </ul>
                 <ul class="list-disc list-inside space-y-1 text-sm">
-                  <li><strong>Component Logic Access</strong> - `getItemComponents()` returns bound logic</li>
+                  <li><strong>Component Logic Access</strong> - Access list methods via component ref</li>
                   <li><strong>State Management</strong> - Individual item state (favorites) accessible from parent</li>
                   <li><strong>Event Handling</strong> - Item click events bubble up to parent</li>
                   <li><strong>Responsive Layout</strong> - Grid layout adapts to screen size</li>
@@ -319,13 +317,10 @@ function render(props: BaseProps<EmojiListDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<EmojiListDemoEvents>): BindReturn<EmojiListDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-    emojiListLogic = null
-  }
-
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

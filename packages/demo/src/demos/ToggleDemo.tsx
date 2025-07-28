@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeToggle, { type ToggleState } from "@duct-ui/components/button/toggle"
 import makeDemoLayout from "../components/DemoLayout"
 import makeEventLog, { EventLogLogic } from "../components/EventLog"
@@ -16,11 +18,11 @@ export interface ToggleDemoProps {
   'on:release'?: (el: HTMLElement) => void
 }
 
-let eventLogComponent: EventLogLogic | undefined
+const eventLogRef = createRef<EventLogLogic>()
 
 function addToLog(message: string) {
-  if (eventLogComponent) {
-    eventLogComponent.addEvent(message)
+  if (eventLogRef.current) {
+    eventLogRef.current.addEvent(message)
   }
 }
 
@@ -49,9 +51,6 @@ function render(props: BaseProps<ToggleDemoProps>) {
   const PremiumToggle = makeToggle()
   const EventLog = makeEventLog()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
 
   return (
     <div {...props}>
@@ -143,6 +142,7 @@ function render(props: BaseProps<ToggleDemoProps>) {
             <div>
               <h2 class="text-xl font-semibold mb-4">Activity Log</h2>
               <EventLog
+                ref={eventLogRef}
                 title="Toggle Events"
                 maxHeight="max-h-48"
                 data-event-log-component
@@ -163,7 +163,7 @@ function render(props: BaseProps<ToggleDemoProps>) {
                   <li><strong>Custom Styling</strong> - 'onClass' and 'offClass' for state-specific styles</li>
                   <li><strong>Additional Classes</strong> - 'class' prop for common styling</li>
                   <li><strong>TypeScript Support</strong> - Full type safety with ToggleState type</li>
-                  <li><strong>Component Logic</strong> - Access toggle state and methods via getLogic()</li>
+                  <li><strong>Component Logic</strong> - Access toggle state and methods via refs</li>
                 </ul>
               </div>
 
@@ -182,12 +182,10 @@ function render(props: BaseProps<ToggleDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<ToggleDemoEvents>): BindReturn<ToggleDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-  }
-
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

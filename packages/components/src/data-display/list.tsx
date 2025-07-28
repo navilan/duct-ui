@@ -1,5 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { getDuct } from "@duct-ui/core/runtime"
+import { EventEmitter } from "@duct-ui/core/shared"
 
 export interface ListEvents extends BaseComponentEvents {
   // No specific events for List component
@@ -86,7 +87,7 @@ function bind<Items extends Record<string, any>, ItemProps>(
   async function collectItemLogic(items: Items, renderProps: any) {
     const { makeItem } = renderProps
     itemLogicMap.clear()
-    
+
     for (const key of Object.keys(items)) {
       const ItemComponent = makeItem()
       try {

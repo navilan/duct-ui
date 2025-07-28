@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeButton from "@duct-ui/components/button/button"
 import makeDemoLayout from "../components/DemoLayout"
 import makeEventLog, { EventLogLogic } from "../components/EventLog"
@@ -17,14 +19,14 @@ export interface ButtonDemoProps {
 }
 
 
-let eventLogComponent: EventLogLogic | undefined
+const eventLogRef = createRef<EventLogLogic>()
 
 function handleButtonClick(el: Element, _e: Event) {
   const button = el.closest('[data-button-id]')
   if (button) {
     const message = button.getAttribute('data-message')
-    if (message && eventLogComponent) {
-      eventLogComponent.addEvent(message)
+    if (message && eventLogRef.current) {
+      eventLogRef.current.addEvent(message)
     }
   }
 }
@@ -37,9 +39,6 @@ function render(props: BaseProps<ButtonDemoProps>) {
   const Button3 = makeButton()
   const EventLog = makeEventLog()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
 
 
   return (
@@ -77,6 +76,7 @@ function render(props: BaseProps<ButtonDemoProps>) {
 
           <div class="mt-8 space-y-6">
             <EventLog
+              ref={eventLogRef}
               title="Event Log"
               maxHeight="max-h-32"
               data-event-log-component
@@ -87,7 +87,7 @@ function render(props: BaseProps<ButtonDemoProps>) {
               <ul class="list-disc list-inside space-y-1 text-sm">
                 <li>Basic button component with label</li>
                 <li>Different DaisyUI styling classes</li>
-                <li>Event handling via both <code>on:click</code> props and <code>.getLogic()</code></li>
+                <li>Event handling via both <code>on:click</code> props and component refs</li>
                 <li>Data attributes for context passing</li>
                 <li>Reusable EventLog component with proper cleanup</li>
               </ul>
@@ -100,11 +100,10 @@ function render(props: BaseProps<ButtonDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<ButtonDemoEvents>): BindReturn<ButtonDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-  }
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeTabs, { type TabItem } from "@duct-ui/components/layout/tabs"
 import makeButton from "@duct-ui/components/button/button"
 import makeToggle from "@duct-ui/components/button/toggle"
@@ -19,11 +21,11 @@ export interface TabsDemoProps {
   'on:release'?: (el: HTMLElement) => void
 }
 
-let eventLogComponent: EventLogLogic | undefined
+const eventLogRef = createRef<EventLogLogic>()
 
 function addToLog(message: string) {
-  if (eventLogComponent) {
-    eventLogComponent.addEvent(message)
+  if (eventLogRef.current) {
+    eventLogRef.current.addEvent(message)
   }
 }
 
@@ -333,9 +335,6 @@ function render(props: BaseProps<TabsDemoProps>) {
   const MainTabs = makeTabs()
   const EventLog = makeEventLog()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
 
   // Main dashboard tabs
   const mainTabItems: TabItem[] = [
@@ -388,6 +387,7 @@ function render(props: BaseProps<TabsDemoProps>) {
           <div>
             <h2 class="text-xl font-semibold mb-4">Tab Activity Log</h2>
             <EventLog
+              ref={eventLogRef}
               title="Tab Events"
               maxHeight="max-h-48"
               data-event-log-component
@@ -408,7 +408,7 @@ function render(props: BaseProps<TabsDemoProps>) {
                 <li><strong>Active Tab Control</strong> - Set initial active tab</li>
                 <li><strong>Disabled Tabs</strong> - Mark tabs as disabled to prevent access</li>
                 <li><strong>Nested Tabs</strong> - Support for tabs within tabs</li>
-                <li><strong>Component Logic</strong> - Access tab state via getLogic()</li>
+                <li><strong>Component Logic</strong> - Access tab state via refs</li>
               </ul>
             </div>
 
@@ -427,12 +427,10 @@ function render(props: BaseProps<TabsDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<TabsDemoEvents>): BindReturn<TabsDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-  }
-
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

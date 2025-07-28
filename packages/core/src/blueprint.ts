@@ -1,6 +1,8 @@
 import { getDuct } from "./runtime"
 import { observeLifecycle, cleanupLifecycleHandler } from "./lifecycle"
 import { ObservableV2 as Observable } from 'lib0/observable'
+import { MutableRef } from "./ref"
+import { EventEmitter } from "./shared"
 
 export type BaseProps<Props> = Props & { "data-duct-id": string }
 
@@ -92,12 +94,6 @@ export interface BlueprintConfig<
   bind?: (el: HTMLElement, eventEmitter: EventEmitter<Events>, props: any, loadData?: LoadData) => BindReturn<Logic>
 }
 
-// Event emitter interface provided to component logic
-export interface EventEmitter<Events extends Record<string, (...args: any[]) => void>> {
-  emit<K extends keyof Events>(event: K, ...args: any[]): void
-  on<K extends keyof Events>(event: K, callback: Events[K]): void
-  off<K extends keyof Events>(event: K, callback: Events[K]): void
-}
 
 // Create default logic with on/off methods
 function createDefaultLogic<Events extends Record<string, (...args: any[]) => void>>(
@@ -113,6 +109,9 @@ export type BindReturn<Logic extends Record<string, any>> = Logic & {
   release: (el: HTMLElement) => void
 }
 
+export type ComponentProps<Props extends Record<string, any>> = Props & {
+  ref?: MutableRef<any>
+}
 
 // Create an event-aware component blueprint with automatic on:* prop parsing
 export function createBlueprint<
@@ -124,7 +123,7 @@ export function createBlueprint<
   id: { id: string },
   render: (props: BaseProps<Props>) => JSX.Element,
   config: BlueprintConfig<Events, Logic, LoadData>
-): ((props: Props) => JSX.Element) & { getLogic: () => Promise<Logic> } {
+): ((props: ComponentProps<Props>) => JSX.Element) & { getLogic: () => Promise<Logic> } {
 
   let componentObservable = new Observable<ComponentEvents<Logic>>()
 
@@ -200,6 +199,13 @@ export function createBlueprint<
         logic = createDefaultLogic(eventEmitter) as Logic
       }
       getDuct().register(htmlEl, logic)
+
+      // Check if props contain a ref and set it
+      const props = getDuct()?.getProps(instanceId)
+      if (props?.ref && props.ref instanceof MutableRef) {
+        props.ref.current = logic
+      }
+
       componentObservable.emit('bound', [logic])
     },
     onRemove(el) {
@@ -213,6 +219,13 @@ export function createBlueprint<
 
       // Clean up all instance event handlers from global observable
       unbindInstanceHandlers(instanceId)
+
+      // Clean up ref if it exists
+      const props = getDuct()?.getProps(instanceId)
+      if (props?.ref && props.ref instanceof MutableRef) {
+        props.ref.current = null
+        props.ref.destroy()
+      }
 
       // Emit release event and cleanup
       if (logic) {

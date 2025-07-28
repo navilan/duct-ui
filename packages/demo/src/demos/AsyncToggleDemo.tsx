@@ -1,5 +1,7 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeAsyncToggle, { type AsyncToggleState } from "@duct-ui/components/button/async-toggle"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
+import makeAsyncToggle, { type AsyncToggleState, type AsyncToggleLogic } from "@duct-ui/components/button/async-toggle"
 import makeButton from "@duct-ui/components/button/button"
 import makeToggle, { type ToggleState } from "@duct-ui/components/button/toggle"
 import makeDemoLayout from "../components/DemoLayout"
@@ -61,7 +63,9 @@ class MockApiService {
   }
 }
 
-let eventLogComponent: EventLogLogic | undefined
+// Using ref pattern for event log and async toggle control
+const eventLogRef = createRef<EventLogLogic>()
+const asyncToggle3Ref = createRef<any>()
 
 function render(props: BaseProps<AsyncToggleDemoProps>) {
   const DemoLayout = makeDemoLayout()
@@ -70,14 +74,9 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
   const AsyncToggle3 = makeAsyncToggle()
   const AsyncToggle4 = makeAsyncToggle()
   const RefreshBtn = makeButton()
-  const FailureModeBtn = makeButton()
+  const FailureModeToggle = makeToggle()
   const DelayToggle = makeToggle()
   const EventLog = makeEventLog()
-
-  // Get the event log component logic
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
 
   // Create separate API services for different examples
   const basicApi = new MockApiService()
@@ -87,8 +86,8 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
   fastApi.setDelay(200)
 
   function logEvent(message: string) {
-    if (eventLogComponent) {
-      eventLogComponent.addEvent(`${new Date().toLocaleTimeString()}: ${message}`)
+    if (eventLogRef.current) {
+      eventLogRef.current.addEvent(`${new Date().toLocaleTimeString()}: ${message}`)
     }
   }
 
@@ -111,11 +110,19 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
     logEvent('Manually refreshing all toggle states...')
   }
 
-  function toggleFailureMode() {
-    const currentMode = errorApi['failureMode']
-    const nextMode = currentMode === 'none' ? 'switch' : currentMode === 'switch' ? 'load' : 'none'
+  async function toggleFailureMode(_el: HTMLElement, state: ToggleState) {
+    const nextMode = state === 'on' ? 'switch' : 'none'
     errorApi.setFailureMode(nextMode)
-    logEvent(`Error simulation set to: ${nextMode}`)
+    
+    // Reset the API's internal state to false (off position)
+    errorApi['state'] = false
+    
+    logEvent(`Error simulation ${state === 'on' ? 'enabled' : 'disabled'}`)
+    
+    // Reset the AsyncToggle3 to its initial state when simulation mode changes
+    if (asyncToggle3Ref.current) {
+      await asyncToggle3Ref.current.refreshState()
+    }
   }
 
   function handleDelayToggle(_el: HTMLElement, state: ToggleState) {
@@ -194,9 +201,10 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
                   <h3 class="text-lg font-medium mb-2">Error Handling</h3>
                   <div class="bg-base-200 p-4 rounded-lg space-y-2">
                     <AsyncToggle3
+                      ref={asyncToggle3Ref}
                       data-toggle-id="error"
-                      onLabel="Success Mode"
-                      offLabel="Error Mode"
+                      onLabel="Success"
+                      offLabel="Start Job"
                       loadingLabel="Processing..."
                       isOn={errorApi.isOn.bind(errorApi)}
                       switchOn={errorApi.switchOn.bind(errorApi)}
@@ -206,15 +214,19 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
                       on:error={handleError}
                     />
                     <div class="flex gap-2">
-                      <FailureModeBtn
-                        label="Toggle Error Mode"
-                        class="btn btn-xs btn-warning"
-                        on:click={toggleFailureMode}
+                      <FailureModeToggle
+                        onLabel="Simulate Error"
+                        offLabel="Simulate Success"
+                        initialState="off"
+                        onClass="btn-error"
+                        offClass="btn-success"
+                        class="btn btn-xs"
+                        on:change={toggleFailureMode}
                       />
                     </div>
                   </div>
                   <p class="text-sm text-base-content/60 mt-2">
-                    Toggle with simulated API failures. Use the button to toggle error simulation.
+                    Toggle with simulated API failures. Use the toggle to enable/disable error simulation.
                   </p>
                 </div>
 
@@ -271,6 +283,7 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
             <div>
               <h2 class="text-2xl font-semibold mb-4">Event Log</h2>
               <EventLog
+                ref={eventLogRef}
                 title="Async Toggle Events"
                 maxHeight="max-h-64"
                 data-event-log-component
@@ -305,12 +318,10 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<AsyncToggleDemoEvents>): BindReturn<AsyncToggleDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-  }
-
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

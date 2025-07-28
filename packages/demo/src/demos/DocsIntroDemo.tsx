@@ -147,14 +147,23 @@ export interface ButtonEvents extends BaseComponentEvents {
             Templates are compiled at build time for optimal performance, with no runtime template parsing overhead.
           </p>
 
-          <h3>Component Logic Exposure</h3>
+          <h3>Component Logic Access</h3>
           <p>
-            Components can expose their internal logic for programmatic control:
+            Components expose their logic for programmatic control using refs (recommended) or getLogic callbacks:
           </p>
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{`// Get component logic for programmatic control
+              <pre class="text-sm"><code>{`// Recommended: Use refs for synchronous access
+const buttonRef = createRef()
 const MyButton = makeButton()
+
+<MyButton ref={buttonRef} label="Test" />
+
+// Access component logic immediately
+buttonRef.current?.setDisabled(true)
+buttonRef.current?.updateLabel('New Text')
+
+// Alternative: Use getLogic when you need callback timing
 MyButton.getLogic().then(logic => {
   logic.setDisabled(true)
   logic.updateLabel('New Text')

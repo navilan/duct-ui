@@ -1,9 +1,10 @@
+import { createRef } from "@duct-ui/core"
 import makeAppLayout from "./components/AppLayout"
 import { getDemoById, getDefaultDemo } from "./demos"
 
 // App state
 let currentDemo: string
-let appLayoutLogic: any = null
+const appLayoutRef = createRef<any>()
 
 function getInitialDemo(): string {
   const hash = window.location.hash.slice(1) // Remove #
@@ -27,10 +28,10 @@ function handleNavigation(_el: HTMLElement, demoId: string): void {
 }
 
 function updateContent(): void {
-  if (appLayoutLogic) {
+  if (appLayoutRef.current) {
     const currentDemoInfo = getDemoById(currentDemo) || getDefaultDemo()
-    appLayoutLogic.refreshChildren(currentDemoInfo.component())
-    appLayoutLogic.updateCurrentDemo(currentDemo)
+    appLayoutRef.current.refreshChildren(currentDemoInfo.component())
+    appLayoutRef.current.updateCurrentDemo(currentDemo)
   }
 }
 
@@ -43,6 +44,7 @@ function render(): void {
 
   const layout = (
     <AppLayout
+      ref={appLayoutRef}
       currentDemo={currentDemo}
       on:navigate={handleNavigation}
     >
@@ -52,10 +54,6 @@ function render(): void {
 
   app.innerHTML = layout.toString()
 
-  // Get the layout logic for future updates
-  AppLayout.getLogic().then(logic => {
-    appLayoutLogic = logic
-  })
 }
 
 function initializeDemoApp(): void {
