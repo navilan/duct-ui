@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeModal, { ModalLogic, type ModalContentPosition } from "@duct-ui/components/layout/modal"
 import makeButton from "@duct-ui/components/button/button"
 import makeToggle from "@duct-ui/components/button/toggle"
@@ -19,11 +21,11 @@ export interface ModalDemoProps {
   'on:release'?: (el: HTMLElement) => void
 }
 
-let eventLogComponent: EventLogLogic | undefined
+const eventLogRef = createRef<EventLogLogic>()
 
 function addToLog(message: string) {
-  if (eventLogComponent) {
-    eventLogComponent.addEvent(message)
+  if (eventLogRef.current) {
+    eventLogRef.current.addEvent(message)
   }
 }
 
@@ -325,13 +327,13 @@ function createBottomRightContent() {
   )
 }
 
-let simpleModalLogic: ModalLogic | undefined
-let formModalLogic: ModalLogic | undefined
-let confirmModalLogic: ModalLogic | undefined
-let largeModalLogic: ModalLogic | undefined
-let topLeftModalLogic: ModalLogic | undefined
-let midCenterModalLogic: ModalLogic | undefined
-let bottomRightModalLogic: ModalLogic | undefined
+const simpleModalRef = createRef<ModalLogic>()
+const formModalRef = createRef<ModalLogic>()
+const confirmModalRef = createRef<ModalLogic>()
+const largeModalRef = createRef<ModalLogic>()
+const topLeftModalRef = createRef<ModalLogic>()
+const midCenterModalRef = createRef<ModalLogic>()
+const bottomRightModalRef = createRef<ModalLogic>()
 
 function render(props: BaseProps<ModalDemoProps>) {
   const DemoLayout = makeDemoLayout()
@@ -344,13 +346,6 @@ function render(props: BaseProps<ModalDemoProps>) {
   const BottomRightModal = makeModal()
   const EventLog = makeEventLog()
 
-  SimpleModal.getLogic().then(l => simpleModalLogic = l);
-  FormModal.getLogic().then(l => formModalLogic = l);
-  ConfirmModal.getLogic().then(l => confirmModalLogic = l);
-  LargeModal.getLogic().then(l => largeModalLogic = l);
-  TopLeftModal.getLogic().then(l => topLeftModalLogic = l);
-  MidCenterModal.getLogic().then(l => midCenterModalLogic = l);
-  BottomRightModal.getLogic().then(l => bottomRightModalLogic = l);
 
   // Trigger buttons
   const SimpleBtn = makeButton()
@@ -361,9 +356,6 @@ function render(props: BaseProps<ModalDemoProps>) {
   const MidCenterBtn = makeButton()
   const BottomRightBtn = makeButton()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
 
   return (
     <div {...props}>
@@ -381,22 +373,22 @@ function render(props: BaseProps<ModalDemoProps>) {
               <SimpleBtn
                 label="Simple Modal"
                 class="btn btn-primary"
-                on:click={() => simpleModalLogic?.show()}
+                on:click={() => simpleModalRef.current?.show()}
               />
               <FormBtn
                 label="Form Modal"
                 class="btn btn-secondary"
-                on:click={() => formModalLogic?.show()}
+                on:click={() => formModalRef.current?.show()}
               />
               <ConfirmBtn
                 label="Confirmation"
                 class="btn btn-warning"
-                on:click={() => confirmModalLogic?.show()}
+                on:click={() => confirmModalRef.current?.show()}
               />
               <LargeBtn
                 label="Large Modal"
                 class="btn btn-accent"
-                on:click={() => largeModalLogic?.show()}
+                on:click={() => largeModalRef.current?.show()}
               />
             </div>
           </div>
@@ -411,17 +403,17 @@ function render(props: BaseProps<ModalDemoProps>) {
               <TopLeftBtn
                 label="Top Left"
                 class="btn btn-outline"
-                on:click={() => topLeftModalLogic?.show()}
+                on:click={() => topLeftModalRef.current?.show()}
               />
               <MidCenterBtn
                 label="Mid Center"
                 class="btn btn-outline"
-                on:click={() => midCenterModalLogic?.show()}
+                on:click={() => midCenterModalRef.current?.show()}
               />
               <BottomRightBtn
                 label="Bottom Right"
                 class="btn btn-outline"
-                on:click={() => bottomRightModalLogic?.show()}
+                on:click={() => bottomRightModalRef.current?.show()}
               />
             </div>
           </div>
@@ -430,6 +422,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           <div>
             <h2 class="text-xl font-semibold mb-4">Modal Activity Log</h2>
             <EventLog
+              ref={eventLogRef}
               title="Modal Events"
               maxHeight="max-h-48"
               data-event-log-component
@@ -465,6 +458,7 @@ function render(props: BaseProps<ModalDemoProps>) {
 
           {/* Modal Components */}
           <SimpleModal
+            ref={simpleModalRef}
             content={createSimpleModalContent}
             data-simple-modal
             on:open={handleSimpleModalOpen}
@@ -473,6 +467,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           />
 
           <FormModal
+            ref={formModalRef}
             content={createFormModalContent}
             contentClass="bg-white rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-auto"
             data-form-modal
@@ -482,6 +477,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           />
 
           <ConfirmModal
+            ref={confirmModalRef}
             content={createConfirmModalContent}
             contentClass="bg-white rounded-lg shadow-xl max-w-sm w-full mx-4"
             data-confirm-modal
@@ -491,6 +487,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           />
 
           <LargeModal
+            ref={largeModalRef}
             content={createLargeModalContent}
             contentClass="max-w-4xl"
             data-large-modal
@@ -500,6 +497,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           />
 
           <TopLeftModal
+            ref={topLeftModalRef}
             content={createTopLeftContent}
             contentPosition="top-left"
             contentClass="max-w-sm"
@@ -509,6 +507,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           />
 
           <MidCenterModal
+            ref={midCenterModalRef}
             content={createMidCenterContent}
             contentPosition="mid-center"
             contentClass="max-w-sm"
@@ -518,6 +517,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           />
 
           <BottomRightModal
+            ref={bottomRightModalRef}
             content={createBottomRightContent}
             contentPosition="bottom-right"
             contentClass="max-w-sm"
@@ -533,11 +533,10 @@ function render(props: BaseProps<ModalDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<ModalDemoEvents>): BindReturn<ModalDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-  }
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

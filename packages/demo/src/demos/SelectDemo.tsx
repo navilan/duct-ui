@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeSelect from "@duct-ui/components/dropdown/select"
 import makeDemoLayout from "../components/DemoLayout"
 import makeEventLog, { EventLogLogic } from "../components/EventLog"
@@ -20,11 +22,11 @@ export interface SelectDemoProps {
   'on:release'?: (el: HTMLElement) => void
 }
 
-let eventLogComponent: EventLogLogic | undefined
+const eventLogRef = createRef<EventLogLogic>()
 
 function addToLog(message: string) {
-  if (eventLogComponent) {
-    eventLogComponent.addEvent(message)
+  if (eventLogRef.current) {
+    eventLogRef.current.addEvent(message)
   }
 }
 
@@ -47,9 +49,6 @@ function render(props: BaseProps<SelectDemoProps>) {
   const Select3 = makeSelect()
   const EventLog = makeEventLog()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
 
   const basicItems: SelectItem[] = [
     { label: "Option 1", isSelected: true },
@@ -173,6 +172,7 @@ function render(props: BaseProps<SelectDemoProps>) {
 
           <div class="mt-8 space-y-6">
             <EventLog
+              ref={eventLogRef}
               title="Event Log"
               maxHeight="max-h-32"
               data-event-log-component
@@ -198,11 +198,10 @@ function render(props: BaseProps<SelectDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<SelectDemoEvents>): BindReturn<SelectDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-  }
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

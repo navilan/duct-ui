@@ -174,7 +174,7 @@ After you've completed this review, you should understand:
 - Event handling with EventEmitter
 - DOM manipulation patterns
 - Component lifecycle management
-- How to expose component logic for external control
+- How to expose component logic using refs (recommended) or getLogic callbacks
 
 Please confirm when you've completed each step, and then I'll start asking you to help build Duct components.`}</pre>
               </div>
@@ -238,12 +238,17 @@ Please confirm when you've completed each step, and then I'll start asking you t
                 </li>
                 <li>
                   <p>
-                    Claude may not remember that you can get the logic (the bound functions / properties) of a
-                    component instance using:
+                    Claude may not remember that you can access component logic using refs (recommended) or getLogic callbacks:
                   </p>
                   <div class="not-prose">
                     <div class="bg-base-200 rounded-lg p-4 my-2">
-                      <pre class="text-sm"><code>{`let logic: ComponentLogic
+                      <pre class="text-sm"><code>{`// Recommended: Use refs for synchronous access
+const componentRef = createRef<ComponentLogic>()
+<Component ref={componentRef} />
+componentRef.current?.method()
+
+// Alternative: Use getLogic when callback timing is needed
+let logic: ComponentLogic
 Component.getLogic().then(l => logic = l)`}</code></pre>
                     </div>
                   </div>

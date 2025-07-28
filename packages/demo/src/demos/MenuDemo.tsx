@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeMenu from "@duct-ui/components/dropdown/menu"
 import makeMenuItem from "@duct-ui/components/dropdown/menu-item"
 import makeMenuSeparator from "@duct-ui/components/dropdown/menu-separator"
@@ -19,12 +21,12 @@ export interface MenuDemoProps {
   'on:release'?: (el: HTMLElement) => void
 }
 
-let eventLogComponent: EventLogLogic | undefined
-let composedInputLogic: any = null
+const eventLogRef = createRef<EventLogLogic>()
+const composedInputRef = createRef<any>()
 
 function addToLog(message: string) {
-  if (eventLogComponent) {
-    eventLogComponent.addEvent(message)
+  if (eventLogRef.current) {
+    eventLogRef.current.addEvent(message)
   }
 }
 
@@ -49,8 +51,8 @@ function changeHandler(el: HTMLElement, txt: string) {
 }
 
 function editMenuItemHandler(el: HTMLElement, e: MouseEvent) {
-  if (composedInputLogic) {
-    composedInputLogic.beginEdit()
+  if (composedInputRef.current) {
+    composedInputRef.current.beginEdit()
     addToLog(`Menu triggered editable input to enter edit mode`)
   } else {
     addToLog(`⚠️ Editable input logic not ready yet`)
@@ -88,13 +90,6 @@ function render(props: BaseProps<MenuDemoProps>) {
   const ComposedEditMenuItem = makeMenuItem()
   const EventLog = makeEventLog()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
-
-  ComposedEditableInput.getLogic().then(logic => {
-    composedInputLogic = logic
-  })
 
   return (
     <div {...props}>
@@ -192,6 +187,7 @@ function render(props: BaseProps<MenuDemoProps>) {
 
                 <div class="flex items-center gap-2 p-4 bg-base-200 rounded-lg">
                   <ComposedEditableInput
+                    ref={composedInputRef}
                     text="Click menu to edit me"
                     labelClass="text-lg font-medium text-primary cursor-pointer hover:bg-base-200 px-3 py-2 rounded border border-base-300"
                     inputClass="input input-bordered text-lg"
@@ -225,6 +221,7 @@ function render(props: BaseProps<MenuDemoProps>) {
           <div>
             <h2 class="text-2xl font-semibold mb-4">Event Log</h2>
             <EventLog
+              ref={eventLogRef}
               title="Menu Events"
               maxHeight="max-h-64"
               data-event-log-component
@@ -257,12 +254,10 @@ function render(props: BaseProps<MenuDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<MenuDemoEvents>): BindReturn<MenuDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-    composedInputLogic = null
-  }
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

@@ -196,19 +196,6 @@ function bind(el, eventEmitter, props, loadData) {
             You control when and how the DOM changes.
           </p>
 
-          <h2>Progressive Enhancement</h2>
-
-          <h3>SEO-Friendly</h3>
-          <p>
-            Duct components work great with server-side rendering. Templates generate clean HTML that search engines
-            can easily parse, and the framework enhances this HTML progressively.
-          </p>
-
-          <h3>Works with Existing HTML</h3>
-          <p>
-            You can enhance existing HTML with Duct components without rebuilding your entire application.
-            This makes migration and adoption much easier.
-          </p>
 
           <h2>When to Choose Duct</h2>
 

@@ -1,4 +1,5 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from '@duct-ui/core/blueprint'
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from '@duct-ui/core/blueprint'
+import { EventEmitter } from '@duct-ui/core/shared'
 
 export type AsyncToggleState = 'on' | 'off' | 'loading'
 
@@ -43,6 +44,8 @@ function render(props: BaseProps<AsyncToggleProps>) {
     loadingLabel = 'Loading...',
     class: className = '',
     disabled = false,
+    onClass, offClass, loadingClass,
+    isOn, switchOn, switchOff,
     ...moreProps
   } = props
 
@@ -91,10 +94,14 @@ function bind(
     onLabel = 'On',
     offLabel = 'Off',
     loadingLabel = 'Loading...',
-    onClass = 'btn-primary',
-    offClass = 'btn-outline',
-    loadingClass = 'btn-disabled loading'
+    onClass = '',
+    offClass = '',
+    loadingClass = 'loading'
   } = props
+
+  const onClasses = onClass.split(' ').filter(c => !!c)
+  const offClasses = offClass.split(' ').filter(c => !!c)
+  const loadingClasses = loadingClass.split(' ').filter(c => !!c)
 
   function updateUI() {
     // Update label
@@ -112,36 +119,28 @@ function bind(
 
     // Remove all state-specific classes
     const allStateClasses = [
-      ...onClass.split(' '),
-      ...offClass.split(' '),
-      ...loadingClass.split(' ')
+      ...onClasses,
+      ...offClasses,
+      ...loadingClasses
     ]
 
-    for (const cls of allStateClasses) {
-      if (cls) {
-        button.classList.remove(cls)
-      }
-    }
+    button.classList.remove(...allStateClasses)
 
     // Add classes for current state
     let classesToAdd: string[] = []
     switch (currentState) {
       case 'on':
-        classesToAdd = onClass.split(' ')
+        classesToAdd = [...onClasses]
         break
       case 'off':
-        classesToAdd = offClass.split(' ')
+        classesToAdd = [...offClasses]
         break
       case 'loading':
-        classesToAdd = loadingClass.split(' ')
+        classesToAdd = [...loadingClasses]
         break
     }
 
-    for (const cls of classesToAdd) {
-      if (cls) {
-        button.classList.add(cls)
-      }
-    }
+    button.classList.add(...classesToAdd)
 
     // Update disabled state
     button.disabled = props.disabled || currentState === 'loading'

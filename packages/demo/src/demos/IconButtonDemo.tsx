@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeIconButton from "@duct-ui/components/button/icon-button"
 import makeDemoLayout from "../components/DemoLayout"
 import makeEventLog, { EventLogLogic } from "../components/EventLog"
@@ -19,22 +21,22 @@ export interface IconButtonDemoProps {
   'on:release'?: (el: HTMLElement) => void
 }
 
-let eventLogComponent: EventLogLogic | undefined
+const eventLogRef = createRef<EventLogLogic>()
 
 function handleButtonClick(el: Element, _e: Event) {
   const button = el.closest('[data-button-id]')
   if (button) {
     const message = button.getAttribute('data-message')
-    if (message && eventLogComponent) {
-      eventLogComponent.addEvent(message)
+    if (message && eventLogRef.current) {
+      eventLogRef.current.addEvent(message)
     }
   }
 }
 
 function handleButtonBind(el: HTMLElement) {
   const message = el.dataset['message']
-  if (message && eventLogComponent) {
-    eventLogComponent.addEvent(`${message} (bound to DOM)`)
+  if (message && eventLogRef.current) {
+    eventLogRef.current.addEvent(`${message} (bound to DOM)`)
   }
 }
 
@@ -54,9 +56,6 @@ function render(props: BaseProps<IconButtonDemoProps>) {
   const EmojiButton6 = makeIconButton()
   const EventLog = makeEventLog()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
 
   return (
     <div {...props}>
@@ -197,6 +196,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
 
           <div class="mt-8 space-y-6">
             <EventLog
+              ref={eventLogRef}
               title="Event Log"
               maxHeight="max-h-32"
               data-event-log-component
@@ -222,11 +222,10 @@ function render(props: BaseProps<IconButtonDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<IconButtonDemoEvents>): BindReturn<IconButtonDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-  }
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

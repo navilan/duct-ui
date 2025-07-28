@@ -1,4 +1,5 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
 
 export interface SidebarNavEvents extends BaseComponentEvents {
   navigate: (el: HTMLElement, itemId: string) => void

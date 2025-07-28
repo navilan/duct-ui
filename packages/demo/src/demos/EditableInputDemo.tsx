@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeEditableInput from "@duct-ui/components/input/editable"
 import makeButton from "@duct-ui/components/button/button"
 import makeDemoLayout from "../components/DemoLayout"
@@ -17,11 +19,11 @@ export interface EditableInputDemoProps {
   'on:release'?: (el: HTMLElement) => void
 }
 
-let eventLogComponent: EventLogLogic | undefined
+const eventLogRef = createRef<EventLogLogic>()
 
 function addToLog(message: string) {
-  if (eventLogComponent) {
-    eventLogComponent.addEvent(message)
+  if (eventLogRef.current) {
+    eventLogRef.current.addEvent(message)
   }
 }
 
@@ -35,22 +37,22 @@ function bindHandler(el: HTMLElement) {
 }
 
 // Programmatic control handlers
-let input3Logic: any = null
-let input4Logic: any = null
+const input3Ref = createRef<any>()
+const input4Ref = createRef<any>()
 
 function setRandomText(el: HTMLElement, e: MouseEvent) {
   const randomTexts = ["Hello World", "Duct UI", "Click to Edit", "Random Text", "Test Input"]
   const randomText = randomTexts[Math.floor(Math.random() * randomTexts.length)]
-  if (input3Logic) {
-    input3Logic.setText(randomText)
+  if (input3Ref.current) {
+    input3Ref.current.setText(randomText)
     addToLog(`Set text programmatically to: "${randomText}"`)
   }
 }
 
 function toggleEditMode(el: HTMLElement, e: MouseEvent) {
-  if (input3Logic) {
-    const wasEditing = input3Logic.isEditing()
-    input3Logic.toggleEdit()
+  if (input3Ref.current) {
+    const wasEditing = input3Ref.current.isEditing()
+    input3Ref.current.toggleEdit()
     addToLog(`Toggled edit mode: ${wasEditing ? 'editing' : 'viewing'} → ${!wasEditing ? 'editing' : 'viewing'}`)
   } else {
     addToLog("⚠️ Input3 logic not ready yet - component may not be fully mounted")
@@ -58,24 +60,24 @@ function toggleEditMode(el: HTMLElement, e: MouseEvent) {
 }
 
 function beginEdit(el: HTMLElement, e: MouseEvent) {
-  if (input4Logic) {
-    input4Logic.beginEdit()
+  if (input4Ref.current) {
+    input4Ref.current.beginEdit()
     addToLog("Started editing mode programmatically")
   }
 }
 
 function cancelEdit(el: HTMLElement, e: MouseEvent) {
-  if (input4Logic) {
-    input4Logic.cancelEdit()
+  if (input4Ref.current) {
+    input4Ref.current.cancelEdit()
     addToLog("Cancelled editing mode programmatically")
   }
 }
 
 function getCurrentText(el: HTMLElement, e: MouseEvent) {
-  if (input4Logic) {
-    const text = input4Logic.getText()
-    const mode = input4Logic.getMode()
-    const editing = input4Logic.isEditing()
+  if (input4Ref.current) {
+    const text = input4Ref.current.getText()
+    const mode = input4Ref.current.getMode()
+    const editing = input4Ref.current.isEditing()
     addToLog(`Current text: "${text}" | Mode: ${mode} | Editing: ${editing}`)
   }
 }
@@ -93,17 +95,6 @@ function render(props: BaseProps<EditableInputDemoProps>) {
   const GetStateBtn = makeButton()
   const EventLog = makeEventLog()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
-
-  EditableInput3.getLogic().then(logic => {
-    input3Logic = logic
-  })
-
-  EditableInput4.getLogic().then(logic => {
-    input4Logic = logic
-  })
 
   return (
     <div {...props}>
@@ -152,6 +143,7 @@ function render(props: BaseProps<EditableInputDemoProps>) {
               <div>
                 <h3 class="text-lg font-medium mb-2">setText() & toggleEdit()</h3>
                 <EditableInput3
+                  ref={input3Ref}
                   text="Control me with buttons"
                   labelClass="text-base font-medium text-accent cursor-pointer hover:bg-accent/10 p-3 rounded border-2 border-accent/20"
                   inputClass="input input-accent"
@@ -176,6 +168,7 @@ function render(props: BaseProps<EditableInputDemoProps>) {
               <div>
                 <h3 class="text-lg font-medium mb-2">Direct Mode Control</h3>
                 <EditableInput4
+                  ref={input4Ref}
                   text="Direct control demo"
                   labelClass="text-base font-medium text-warning cursor-pointer hover:bg-warning/10 p-3 rounded border-2 border-warning/20"
                   inputClass="input input-warning"
@@ -209,6 +202,7 @@ function render(props: BaseProps<EditableInputDemoProps>) {
           <div>
             <h2 class="text-2xl font-semibold mb-4">Event Log</h2>
             <EventLog
+              ref={eventLogRef}
               title="Event Log"
               maxHeight="max-h-48"
               data-event-log-component
@@ -241,13 +235,10 @@ function render(props: BaseProps<EditableInputDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<EditableInputDemoEvents>): BindReturn<EditableInputDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-    input3Logic = null
-    input4Logic = null
-  }
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

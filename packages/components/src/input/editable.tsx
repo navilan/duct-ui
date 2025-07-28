@@ -1,5 +1,6 @@
 
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
 
 export type EditableMode = 'input' | 'label'
 

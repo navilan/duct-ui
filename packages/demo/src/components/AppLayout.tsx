@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeDrawer, { DrawerLogic } from "@duct-ui/components/layout/drawer"
 import makeSidebar, { SidebarLogic } from "./Sidebar"
 import DemoHeader from "./DemoHeader"
@@ -23,7 +25,7 @@ export interface AppLayoutProps {
 
 // Store drawer component reference to access its logic
 let drawerComponentInstance: DrawerLogic
-let sideBarComponentInstance: SidebarLogic
+const sidebarRef = createRef<SidebarLogic>()
 let eventEmitter: EventEmitter<AppLayoutEvents> | undefined
 const Drawer = makeDrawer()
 let isDrawerOpen: boolean = false
@@ -40,9 +42,6 @@ Drawer.getLogic().then(logic => {
 })
 
 const Sidebar = makeSidebar()
-Sidebar.getLogic().then(l => {
-  sideBarComponentInstance = l
-})
 
 function handleNavigation(_navEl: HTMLElement, demoId: string): void {
   if (drawerComponentInstance && window.innerWidth < 1024) {
@@ -50,8 +49,8 @@ function handleNavigation(_navEl: HTMLElement, demoId: string): void {
     isDrawerOpen = false
   }
   eventEmitter?.emit('navigate', demoId)
-  if (sideBarComponentInstance) {
-    sideBarComponentInstance.updateCurrentDemo(demoId)
+  if (sidebarRef.current) {
+    sidebarRef.current.updateCurrentDemo(demoId)
   }
 }
 
@@ -86,6 +85,7 @@ function render(props: BaseProps<AppLayoutProps>) {
         data-drawer
         drawerContent={
           <Sidebar
+            ref={sidebarRef}
             categories={demoCategories}
             currentDemo={currentDemo}
             on:navigate={handleNavigation}
@@ -127,8 +127,8 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<AppLayoutEvents>): Bi
   }
 
   function updateCurrentDemo(demoId: string) {
-    if (sideBarComponentInstance) {
-      sideBarComponentInstance.updateCurrentDemo(demoId)
+    if (sidebarRef.current) {
+      sidebarRef.current.updateCurrentDemo(demoId)
     }
   }
 

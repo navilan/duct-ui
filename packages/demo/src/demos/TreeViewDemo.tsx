@@ -1,4 +1,6 @@
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import makeTreeView from "@duct-ui/components/data-display/tree-view"
 import makeButton from "@duct-ui/components/button/button"
 import makeDemoLayout from "../components/DemoLayout"
@@ -19,12 +21,12 @@ export interface TreeViewDemoProps {
   'on:release'?: (el: HTMLElement) => void
 }
 
-let eventLogComponent: EventLogLogic | undefined
-let treeView3Logic: any = null
+const eventLogRef = createRef<EventLogLogic>()
+const treeView3Ref = createRef<any>()
 
 function addToLog(message: string) {
-  if (eventLogComponent) {
-    eventLogComponent.addEvent(message)
+  if (eventLogRef.current) {
+    eventLogRef.current.addEvent(message)
   }
 }
 
@@ -340,43 +342,43 @@ function clickedHandler(el: HTMLElement, path: TreePath) {
 }
 
 function expandAll(el: HTMLElement, e: MouseEvent) {
-  if (treeView3Logic) {
-    treeView3Logic.expandAll()
+  if (treeView3Ref.current) {
+    treeView3Ref.current.expandAll()
     addToLog(`Expanded all nodes`)
   }
 }
 
 function collapseAll(el: HTMLElement, e: MouseEvent) {
-  if (treeView3Logic) {
-    treeView3Logic.collapseAll()
+  if (treeView3Ref.current) {
+    treeView3Ref.current.collapseAll()
     addToLog(`Collapsed all nodes`)
   }
 }
 
 function expandSrc(el: HTMLElement, e: MouseEvent) {
-  if (treeView3Logic) {
-    treeView3Logic.expandNode(["src"])
+  if (treeView3Ref.current) {
+    treeView3Ref.current.expandNode(["src"])
     addToLog(`Expanded src/ folder`)
   }
 }
 
 function collapseSrc(el: HTMLElement, e: MouseEvent) {
-  if (treeView3Logic) {
-    treeView3Logic.collapseNode(["src"])
+  if (treeView3Ref.current) {
+    treeView3Ref.current.collapseNode(["src"])
     addToLog(`Collapsed src/ folder`)
   }
 }
 
 function loadProject1(el: HTMLElement, e: MouseEvent) {
-  if (treeView3Logic) {
-    treeView3Logic.setData(project1FileSystem)
+  if (treeView3Ref.current) {
+    treeView3Ref.current.setData(project1FileSystem)
     addToLog(`Loaded React/TypeScript project structure`)
   }
 }
 
 function loadProject2(el: HTMLElement, e: MouseEvent) {
-  if (treeView3Logic) {
-    treeView3Logic.setData(project2FileSystem)
+  if (treeView3Ref.current) {
+    treeView3Ref.current.setData(project2FileSystem)
     addToLog(`Loaded Web App project structure`)
   }
 }
@@ -394,13 +396,6 @@ function render(props: BaseProps<TreeViewDemoProps>) {
   const LoadProject2Btn = makeButton()
   const EventLog = makeEventLog()
 
-  EventLog.getLogic().then(l => {
-    eventLogComponent = l
-  })
-
-  TreeView3.getLogic().then(logic => {
-    treeView3Logic = logic
-  })
 
   return (
     <div {...props}>
@@ -502,6 +497,7 @@ function render(props: BaseProps<TreeViewDemoProps>) {
 
                 <div class="bg-base-200 p-4 rounded-lg">
                   <TreeView3
+                    ref={treeView3Ref}
                     data={project1FileSystem}
                     initialExpanded={[["src"], ["docs"]]}
                     labelClass="cursor-pointer hover:bg-base-300 px-2 py-1 rounded text-sm font-mono"
@@ -523,6 +519,7 @@ function render(props: BaseProps<TreeViewDemoProps>) {
             <div>
               <h2 class="text-2xl font-semibold mb-4">Event Log</h2>
               <EventLog
+                ref={eventLogRef}
                 title="Tree Events"
                 maxHeight="max-h-64"
                 data-event-log-component
@@ -557,12 +554,10 @@ function render(props: BaseProps<TreeViewDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<TreeViewDemoEvents>): BindReturn<TreeViewDemoLogic> {
-  function release() {
-    eventLogComponent = undefined
-    treeView3Logic = null
-  }
   return {
-    release
+    release: () => {
+      // Ref cleanup is handled automatically
+    }
   }
 }
 

@@ -360,6 +360,44 @@ export default function makeUserSelect() {
             </div>
           </div>
 
+          <h2>Accessing Component Logic</h2>
+          
+          <p>
+            Components expose their logic for external control using two patterns:
+          </p>
+
+          <div class="not-prose">
+            <div class="bg-base-200 rounded-lg p-6 my-4">
+              <pre class="text-sm"><code>{`// Recommended: Use refs for synchronous access
+import { createRef } from '@duct-ui/core'
+
+const buttonRef = createRef<ButtonLogic>()
+const Button = makeButton()
+
+function render() {
+  return <Button ref={buttonRef} label="Click me" />
+}
+
+// Access methods immediately after component is bound
+buttonRef.current?.setDisabled(true)
+buttonRef.current?.updateLabel('New Text')
+
+// Alternative: Use getLogic when you need callback timing
+// (e.g., initialization that must happen after component binding)
+Button.getLogic().then(logic => {
+  logic.setDisabled(true)
+  logic.on('click', handleClick)
+})`}</code></pre>
+            </div>
+          </div>
+
+          <div class="alert alert-info my-4">
+            <span class="text-sm">
+              <strong>Best Practice:</strong> Use refs for most cases as they provide synchronous access. 
+              Only use getLogic when you need the callback timing for initialization or testing.
+            </span>
+          </div>
+
           <h2>Best Practices</h2>
 
           <div class="not-prose">
@@ -370,6 +408,7 @@ export default function makeUserSelect() {
                   <ul class="text-sm space-y-2">
                     <li>✓ Use TypeScript interfaces for everything</li>
                     <li>✓ Keep render functions pure</li>
+                    <li>✓ Use refs for component logic access</li>
                     <li>✓ Use data attributes for element selection</li>
                     <li>✓ Always implement the release function</li>
                     <li>✓ Validate props in bind, not render</li>
@@ -386,12 +425,12 @@ export default function makeUserSelect() {
                   <ul class="text-sm space-y-2">
                     <li>❌ Put side effects in render functions</li>
                     <li>❌ Forget to remove event listeners</li>
+                    <li>❌ Use getLogic when refs would work</li>
                     <li>❌ Use global variables for component state</li>
                     <li>❌ Query DOM elements by tag name or class</li>
                     <li>❌ Mutate props directly</li>
                     <li>❌ Create components without TypeScript types</li>
                     <li>❌ Ignore async errors in load functions</li>
-                    <li>❌ Make components too complex</li>
                   </ul>
                 </div>
               </div>
