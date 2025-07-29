@@ -11,6 +11,7 @@ export interface DrawerLogic {
   close: () => void
   toggle: () => void
   isOpen: () => boolean
+  scrollToTop: () => void
 }
 
 export type DrawerProps = {
@@ -138,6 +139,13 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<DrawerEvents>): BindRe
   document.addEventListener('keydown', handleKeydown)
   document.addEventListener('click', handleClickOutside)
 
+  function scrollToTop() {
+    const mainContent = el.querySelector('.drawer-main') as HTMLElement
+    if (mainContent) {
+      mainContent.scrollTop = 0
+    }
+  }
+
   function release() {
     if (overlay) {
       overlay.removeEventListener('click', handleOverlayClick)
@@ -151,6 +159,7 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<DrawerEvents>): BindRe
     close,
     toggle,
     isOpen,
+    scrollToTop,
     release
   }
 }

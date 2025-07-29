@@ -127,7 +127,7 @@ function render(props: BaseProps<MenuDemoProps>) {
               >
                 <MenuItem label="Item 1" on:click={itemClickHandler} />
                 <MenuItem label="Item 2" on:click={itemClickHandler} />
-                <MenuItem label="Disabled Item" class="text-gray-400" disabled={true} on:click={itemClickHandler} />
+                <MenuItem label="Disabled Item" class="text-base-content/40" disabled={true} on:click={itemClickHandler} />
               </Menu>
 
               <Menu

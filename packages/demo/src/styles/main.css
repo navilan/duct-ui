@@ -4,10 +4,104 @@
 @import "@duct-ui/components/layout/modal.css";
 
 @plugin "@tailwindcss/typography";
+
 @plugin "daisyui" {
-  themes: dark, cupcake --default,  dracula, nord, abyss, light;
+  themes: duct --default, duct-dark;
+
   root: "#app";
-};
+}
+
+@plugin "daisyui/theme" {
+  name: "duct";
+  default: true;
+  color-scheme: light;
+
+  /* Primary colors based on logo blues/purples */
+  --color-primary: oklch(45% 0.15 260);
+  --color-primary-content: oklch(98% 0.02 260);
+
+  /* Secondary using eggplant purple */
+  --color-secondary: oklch(45% 0.15 300);
+  --color-secondary-content: oklch(95% 0.02 300);
+
+  /* Accent using brighter blue */
+  --color-accent: oklch(55% 0.18 240);
+  --color-accent-content: oklch(98% 0.02 240);
+
+  /* Neutral tones */
+  --color-neutral: oklch(25% 0.02 260);
+  --color-neutral-content: oklch(90% 0.02 260);
+
+  /* Base colors - light theme */
+  --color-base-100: oklch(98% 0.01 260);
+  --color-base-200: oklch(95% 0.02 260);
+  --color-base-300: oklch(90% 0.03 260);
+  --color-base-content: oklch(20% 0.02 260);
+
+  /* Semantic colors */
+  --color-info: oklch(65% 0.12 220);
+  --color-info-content: oklch(98% 0.02 220);
+
+  --color-success: oklch(60% 0.12 145);
+  --color-success-content: oklch(98% 0.02 145);
+
+  --color-warning: oklch(70% 0.12 65);
+  --color-warning-content: oklch(20% 0.02 65);
+
+  --color-error: oklch(60% 0.15 25);
+  --color-error-content: oklch(98% 0.02 25);
+
+  /* Custom properties */
+  --radius-selector: 0.5rem;
+  --border: 1px;
+}
+
+@plugin "daisyui/theme" {
+  name: "duct-dark";
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* Primary colors - slightly brighter for dark mode */
+  --color-primary: oklch(55% 0.18 260);
+  --color-primary-content: oklch(15% 0.02 260);
+
+  /* Secondary using eggplant purple - adjusted for dark mode */
+  --color-secondary: oklch(55% 0.18 300);
+  --color-secondary-content: oklch(15% 0.02 300);
+
+  /* Accent using brighter blue for dark mode */
+  --color-accent: oklch(65% 0.20 240);
+  --color-accent-content: oklch(15% 0.02 240);
+
+  /* Neutral tones - inverted for dark mode */
+  --color-neutral: oklch(75% 0.02 260);
+  --color-neutral-content: oklch(15% 0.02 260);
+
+  /* Base colors - dark theme */
+  --color-base-100: oklch(15% 0.02 260);
+  --color-base-200: oklch(18% 0.03 260);
+  --color-base-300: oklch(22% 0.04 260);
+  --color-base-content: oklch(85% 0.02 260);
+
+  /* Semantic colors - adjusted for dark backgrounds */
+  --color-info: oklch(70% 0.15 220);
+  --color-info-content: oklch(15% 0.02 220);
+
+  --color-success: oklch(65% 0.15 145);
+  --color-success-content: oklch(15% 0.02 145);
+
+  --color-warning: oklch(75% 0.15 65);
+  --color-warning-content: oklch(15% 0.02 65);
+
+  --color-error: oklch(65% 0.18 25);
+  --color-error-content: oklch(95% 0.02 25);
+
+  /* Custom properties */
+  --radius-selector: 0.5rem;
+  --border: 1px;
+}
+
+
 
 @source inline('relative');
 @source inline('absolute');
@@ -25,11 +119,24 @@
   h1 {
     @apply text-4xl mb-4;
   }
+
   h2 {
     @apply text-3xl mb-4;
   }
+
   .container {
     @apply p-8;
+  }
+
+  /* Force theme override classes to have higher specificity than DaisyUI's prefersdark */
+  html.theme-duct,
+  html.theme-duct[data-theme="duct"] {
+    color-scheme: light !important;
+  }
+
+  html.theme-duct-dark,
+  html.theme-duct-dark[data-theme="duct-dark"] {
+    color-scheme: dark !important;
   }
 }
 

@@ -98,6 +98,9 @@ importers:
       vite:
         specifier: ^7.0.4
         version: 7.0.4(jiti@2.4.2)(lightningcss@1.30.1)
+      vite-plugin-cloudflare-redirect:
+        specifier: ^1.0.0
+        version: 1.0.0(vite@7.0.4(jiti@2.4.2)(lightningcss@1.30.1))
 
 packages:
 
@@ -685,6 +688,9 @@ packages:
   ci-info@3.9.0:
     resolution: {integrity: sha512-NIxF55hv4nSqQswkAeiOi1r83xy8JldOFDTWiug55KBu9Jnblncd2U6ViHmYgHf01TPZS77NJBhBMKdWj9HQMQ==}
     engines: {node: '>=8'}
+
+  cloudflare-redirect-parser@1.0.0:
+    resolution: {integrity: sha512-puEB3wmP47RICu/CboTHd237Up/r3Nagsr622mJxWgvEVfRxNlKceNfpPieMYDe/E1nYJsf6iempsrkitgQZVw==}
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
@@ -1298,6 +1304,14 @@ packages:
     resolution: {integrity: sha512-EbKSKh+bh1E1IFxeO0pg1n4dvoOTt0UDiXMd/qn++r98+jPO1xtJilvXldeuQ8giIB5IkpjCgMleHMNEsGH6pg==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
+
+  vite-plugin-cloudflare-redirect@1.0.0:
+    resolution: {integrity: sha512-wUVm2vg9PWtYgNaUFHIDMwP0bha7XSwVLvBpJU69t40d80u7bBj0+si2EYpeA3+DAbI0JbCcNjtffafl2ef8LA==}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
+    peerDependenciesMeta:
+      vite:
+        optional: true
 
   vite@7.0.4:
     resolution: {integrity: sha512-SkaSguuS7nnmV7mfJ8l81JGBFV7Gvzp8IzgE8A8t23+AxuNX61Q5H1Tpz5efduSN7NHC8nQXD3sKQKZAu5mNEA==}
@@ -1958,6 +1972,8 @@ snapshots:
 
   ci-info@3.9.0: {}
 
+  cloudflare-redirect-parser@1.0.0: {}
+
   concat-map@0.0.1: {}
 
   cross-spawn@7.0.6:
@@ -2505,6 +2521,12 @@ snapshots:
       - terser
       - tsx
       - yaml
+
+  vite-plugin-cloudflare-redirect@1.0.0(vite@7.0.4(jiti@2.4.2)(lightningcss@1.30.1)):
+    dependencies:
+      cloudflare-redirect-parser: 1.0.0
+    optionalDependencies:
+      vite: 7.0.4(jiti@2.4.2)(lightningcss@1.30.1)
 
   vite@7.0.4(jiti@2.4.2)(lightningcss@1.30.1):
     dependencies:

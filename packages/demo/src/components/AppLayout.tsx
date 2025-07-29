@@ -4,6 +4,7 @@ import { createRef } from "@duct-ui/core"
 import Drawer, { DrawerLogic } from "@duct-ui/components/layout/drawer"
 import Sidebar, { SidebarLogic } from "./Sidebar"
 import DemoHeader from "./DemoHeader"
+import ThemeToggle from "./ThemeToggle"
 import { demoCategories } from "../demos"
 
 export interface AppLayoutEvents extends BaseComponentEvents {
@@ -13,6 +14,7 @@ export interface AppLayoutEvents extends BaseComponentEvents {
 export interface AppLayoutLogic {
   refreshChildren: (children: JSX.Element) => void
   updateCurrentDemo: (currentDemo: string) => void
+  scrollContentToTop: () => void
 }
 
 export interface AppLayoutProps {
@@ -97,6 +99,8 @@ function render(props: BaseProps<AppLayoutProps>) {
           </main>
         }
       />
+      
+      <ThemeToggle />
     </div>
   )
 }
@@ -131,6 +135,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<AppLayoutEvents>): Bi
     }
   }
 
+  function scrollContentToTop() {
+    if (drawerRef.current) {
+      drawerRef.current.scrollToTop()
+    }
+  }
+
   window.addEventListener('resize', handleResize)
 
   function release() {
@@ -140,6 +150,7 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<AppLayoutEvents>): Bi
   return {
     refreshChildren,
     updateCurrentDemo,
+    scrollContentToTop,
     release
   }
 }
