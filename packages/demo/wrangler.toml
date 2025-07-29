@@ -1,0 +1,4 @@
+# wrangler.toml ─ place this alongside package.json / functions / etc.
+name = "duct-ui"                  # any unique name in your Cloudflare account
+pages_build_output_dir = "./dist" # folder that `npm run build` writes to
+compatibility_date = "2025-07-29" # pin the runtime version you tested with
