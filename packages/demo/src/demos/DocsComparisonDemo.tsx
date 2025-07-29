@@ -1,5 +1,5 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeDemoLayout from "../components/DemoLayout"
+import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "../utils/htmlUtils"
 
 export interface DocsComparisonDemoEvents extends BaseComponentEvents { }
@@ -10,8 +10,6 @@ export interface DocsComparisonDemoProps {
 }
 
 function render(props: BaseProps<DocsComparisonDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-
   return (
     <div {...props}>
       <DemoLayout
@@ -37,6 +35,7 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
                     <th class="font-bold">React</th>
                     <th class="font-bold">Vue</th>
                     <th class="font-bold">Svelte</th>
+                    <th class="font-bold">Web Components</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -46,12 +45,14 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
                     <td>Component with mixed concerns</td>
                     <td>SFC with sections</td>
                     <td>Compiled components</td>
+                    <td>Custom elements with class</td>
                   </tr>
                   <tr>
                     <td class="font-medium">Virtual DOM</td>
                     <td class="text-success">❌ No</td>
                     <td class="text-warning">✅ Yes</td>
                     <td class="text-warning">✅ Yes</td>
+                    <td class="text-success">❌ No</td>
                     <td class="text-success">❌ No</td>
                   </tr>
                   <tr>
@@ -60,6 +61,7 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
                     <td>useState/useReducer</td>
                     <td>Reactive data</td>
                     <td>Reactive stores</td>
+                    <td>Manual/Properties</td>
                   </tr>
                   <tr>
                     <td class="font-medium">Learning Curve</td>
@@ -67,6 +69,7 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
                     <td class="text-error">Medium-High</td>
                     <td class="text-warning">Medium</td>
                     <td class="text-success">Low-Medium</td>
+                    <td class="text-warning">Medium</td>
                   </tr>
                   <tr>
                     <td class="font-medium">Template Syntax</td>
@@ -74,6 +77,7 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
                     <td>JSX</td>
                     <td>Template/JSX</td>
                     <td>Enhanced HTML</td>
+                    <td>HTML/Template literals</td>
                   </tr>
                   <tr>
                     <td class="font-medium">Logic Location</td>
@@ -81,6 +85,7 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
                     <td>Mixed in component</td>
                     <td>Script section</td>
                     <td>Script section</td>
+                    <td>Class methods</td>
                   </tr>
                   <tr>
                     <td class="font-medium">Reactivity</td>
@@ -88,6 +93,7 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
                     <td>Re-render based</td>
                     <td>Proxy-based</td>
                     <td>Compile-time</td>
+                    <td>Manual/Observers</td>
                   </tr>
                 </tbody>
               </table>
@@ -344,11 +350,13 @@ function bind(el, eventEmitter) {
 }
 
 // Explicit blueprint creation
-export default () => createBlueprint(
+const Button = createBlueprint(
   { id: "my/button" },
   render,
   { bind }
-);`)}</code></pre>
+);
+
+export default Button;`)}</code></pre>
                 </div>
               </div>
             </div>
@@ -383,64 +391,201 @@ export default () => createBlueprint(
             </div>
           </div>
 
-          <h2>When to Choose Each Framework</h2>
+          <h3>Duct vs Web Components</h3>
+          <p>
+            Both Duct and Web Components embrace direct DOM manipulation and standards-based approaches,
+            but they differ in their component organization and abstraction levels.
+          </p>
 
           <div class="not-prose">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
-              <div class="space-y-4">
-                <div class="card bg-primary/10 border border-primary/20">
-                  <div class="card-body">
-                    <h4 class="card-title text-primary">Choose Duct When</h4>
-                    <ul class="text-sm space-y-1">
-                      <li>✓ You value explicit, debuggable code</li>
-                      <li>✓ You need direct DOM control</li>
-                      <li>✓ You want minimal abstractions</li>
-                      <li>✓ You're building long-lived applications</li>
-                      <li>✓ You work with AI code generation</li>
-                      <li>✓ You prefer separation of concerns</li>
-                    </ul>
-                  </div>
-                </div>
+              <div class="card bg-base-200">
+                <div class="card-body">
+                  <h4 class="card-title text-gray-600">Web Components</h4>
+                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`class ButtonElement extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
 
-                <div class="card bg-green-50 border border-green-200">
-                  <div class="card-body">
-                    <h4 class="card-title text-green-700">Choose Vue When</h4>
-                    <ul class="text-sm space-y-1">
-                      <li>• You want balanced complexity</li>
-                      <li>• You like single-file components</li>
-                      <li>• You need official router/state management</li>
-                      <li>• You're migrating from jQuery</li>
-                      <li>• You want good documentation</li>
-                    </ul>
-                  </div>
+  connectedCallback() {
+    this.shadowRoot.innerHTML = \`
+      <style>
+        button { padding: 8px 16px; }
+        .clicked { background: blue; }
+      </style>
+      <button>\${this.getAttribute('label')}</button>
+    \`;
+
+    this.button = this.shadowRoot.querySelector('button');
+    this.button.addEventListener('click', this.handleClick.bind(this));
+  }
+
+  handleClick() {
+    this.button.classList.add('clicked');
+    this.dispatchEvent(new CustomEvent('button-click'));
+  }
+
+  disconnectedCallback() {
+    this.button?.removeEventListener('click', this.handleClick);
+  }
+}
+
+customElements.define('my-button', ButtonElement);`)}</code></pre>
                 </div>
               </div>
 
-              <div class="space-y-4">
-                <div class="card bg-blue-50 border border-blue-200">
-                  <div class="card-body">
-                    <h4 class="card-title text-blue-700">Choose React When</h4>
-                    <ul class="text-sm space-y-1">
-                      <li>• You need the largest ecosystem</li>
-                      <li>• You have React expertise</li>
-                      <li>• You need enterprise support</li>
-                      <li>• You're building complex SPAs</li>
-                      <li>• You need extensive third-party libraries</li>
-                    </ul>
-                  </div>
-                </div>
+              <div class="card bg-primary/10 border border-primary/20">
+                <div class="card-body">
+                  <h4 class="card-title text-primary">Duct Component</h4>
+                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Render function
+function render(props) {
+  return (
+    <button class="btn">
+      {props.label}
+    </button>
+  );
+}
 
-                <div class="card bg-orange-50 border border-orange-200">
-                  <div class="card-body">
-                    <h4 class="card-title text-orange-700">Choose Svelte When</h4>
-                    <ul class="text-sm space-y-1">
-                      <li>• You want the smallest bundle sizes</li>
-                      <li>• You like compile-time optimizations</li>
-                      <li>• You want built-in animations</li>
-                      <li>• You prefer simpler mental models</li>
-                      <li>• You're building content sites</li>
-                    </ul>
-                  </div>
+// Bind function
+function bind(el, eventEmitter) {
+  let clicked = false;
+
+  const handleClick = () => {
+    clicked = true;
+    el.classList.add('clicked');
+    eventEmitter.emit('click');
+  };
+
+  el.addEventListener('click', handleClick);
+
+  return { 
+    release: () => el.removeEventListener('click', handleClick) 
+  };
+}
+
+// Create component
+const Button = createBlueprint(
+  { id: "my/button" },
+  render,
+  { bind }
+);
+
+export default Button;`)}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="not-prose">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+              <div class="card bg-success/10 border border-success/20">
+                <div class="card-body">
+                  <h4 class="card-title text-success text-base">Duct Advantages</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>✓ Clear separation of render/logic concerns</li>
+                    <li>✓ No Shadow DOM complexity</li>
+                    <li>✓ Simpler component composition</li>
+                    <li>✓ Framework-agnostic JSX templates</li>
+                    <li>✓ Explicit lifecycle management</li>
+                    <li>✓ Better TypeScript integration</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card bg-warning/10 border border-warning/20">
+                <div class="card-body">
+                  <h4 class="card-title text-warning text-base">Web Components Advantages</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• Native browser standard</li>
+                    <li>• True encapsulation with Shadow DOM</li>
+                    <li>• Framework interoperability</li>
+                    <li>• No build step required</li>
+                    <li>• CSS isolation by default</li>
+                    <li>• Custom element lifecycle</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h2>When to Choose Each Framework</h2>
+
+          <div class="not-prose">
+            {/* Duct - Full Width */}
+            <div class="card bg-primary/10 border border-primary/20 my-6">
+              <div class="card-body">
+                <h4 class="card-title text-primary text-xl">Choose Duct When</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                  <ul class="text-sm space-y-2">
+                    <li>✓ You value explicit, debuggable code</li>
+                    <li>✓ You need direct DOM control</li>
+                    <li>✓ You want minimal abstractions</li>
+                  </ul>
+                  <ul class="text-sm space-y-2">
+                    <li>✓ You're building long-lived applications</li>
+                    <li>✓ You work with AI code generation</li>
+                    <li>✓ You prefer separation of concerns</li>
+                  </ul>
+                  <ul class="text-sm space-y-2">
+                    <li>✓ You need predictable performance</li>
+                    <li>✓ You want clear debugging paths</li>
+                    <li>✓ You prioritize maintainability</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Other Frameworks - Grid */}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
+              <div class="card bg-green-50 border border-green-200">
+                <div class="card-body">
+                  <h4 class="card-title text-green-700">Choose Vue When</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• You want balanced complexity</li>
+                    <li>• You like single-file components</li>
+                    <li>• You need official router/state management</li>
+                    <li>• You're migrating from jQuery</li>
+                    <li>• You want good documentation</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="card bg-blue-50 border border-blue-200">
+                <div class="card-body">
+                  <h4 class="card-title text-blue-700">Choose React When</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• You need the largest ecosystem</li>
+                    <li>• You have React expertise</li>
+                    <li>• You need enterprise support</li>
+                    <li>• You're building complex SPAs</li>
+                    <li>• You need extensive third-party libraries</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="card bg-orange-50 border border-orange-200">
+                <div class="card-body">
+                  <h4 class="card-title text-orange-700">Choose Svelte When</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• You want the smallest bundle sizes</li>
+                    <li>• You like compile-time optimizations</li>
+                    <li>• You want built-in animations</li>
+                    <li>• You prefer simpler mental models</li>
+                    <li>• You're building content sites</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="card bg-purple-50 border border-purple-200">
+                <div class="card-body">
+                  <h4 class="card-title text-purple-700">Choose Web Components When</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• You need true framework interoperability</li>
+                    <li>• You want standards-based components</li>
+                    <li>• You need CSS encapsulation</li>
+                    <li>• You're building design systems</li>
+                    <li>• You want no build dependencies</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -469,10 +614,10 @@ function bind(): BindReturn<DocsComparisonDemoLogic> {
 
 const id = { id: "duct-demo/docs-comparison" }
 
-export default () => {
-  return createBlueprint<DocsComparisonDemoProps, DocsComparisonDemoEvents, DocsComparisonDemoLogic>(
-    id,
-    render,
-    { bind }
-  )
-}
+const DocsComparisonDemo = createBlueprint<DocsComparisonDemoProps, DocsComparisonDemoEvents, DocsComparisonDemoLogic>(
+  id,
+  render,
+  { bind }
+)
+
+export default DocsComparisonDemo

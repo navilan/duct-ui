@@ -109,7 +109,7 @@ function render(props: BaseProps<SidebarNavProps>) {
                   {section.items.map(navItem => (
                     <li data-key={navItem.id} class={`sidebar-nav-item ${itemClass}`.trim()}>
                       <a
-                        href={navItem.href || `#${navItem.id}`}
+                        href={navItem.href || `/${navItem.id}`}
                         class={`sidebar-nav-item-link ${currentItem === navItem.id ? 'active' : ''} ${itemLinkClass}`.trim()}
                         data-nav-item-id={navItem.id}
                       >
@@ -158,13 +158,13 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<SidebarNavEvents>): Bi
 
 const id = { id: "duct/sidebar-nav" }
 
-export default () => {
-  return createBlueprint<SidebarNavProps, SidebarNavEvents, SidebarNavLogic>(
-    id,
-    render,
-    {
-      domEvents: ['click'],
-      bind
-    }
-  )
-}
+const SidebarNav = createBlueprint<SidebarNavProps, SidebarNavEvents, SidebarNavLogic>(
+  id,
+  render,
+  {
+    domEvents: ['click'],
+    bind
+  }
+)
+
+export default SidebarNav

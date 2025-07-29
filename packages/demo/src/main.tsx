@@ -1,30 +1,60 @@
 import { createRef } from "@duct-ui/core"
-import makeAppLayout from "./components/AppLayout"
+import AppLayout, { AppLayoutLogic } from "./components/AppLayout"
 import { getDemoById, getDefaultDemo } from "./demos"
 
 // App state
 let currentDemo: string
-const appLayoutRef = createRef<any>()
+const appLayoutRef = createRef<AppLayoutLogic>()
 
 function getInitialDemo(): string {
+  const pathname = window.location.pathname.slice(1) // Remove leading /
+  
+  // First try pathname
+  if (pathname) {
+    const demo = getDemoById(pathname)
+    if (demo) return demo.id
+  }
+  
+  // Fallback to hash if pathname not found
   const hash = window.location.hash.slice(1) // Remove #
-  const demo = getDemoById(hash)
-  return demo ? demo.id : getDefaultDemo().id
+  if (hash) {
+    const demo = getDemoById(hash)
+    if (demo) return demo.id
+  }
+  
+  // Default demo if neither pathname nor hash found
+  return getDefaultDemo().id
 }
 
 function setupRouting(): void {
-  window.addEventListener('hashchange', () => {
-    const hash = window.location.hash.slice(1)
-    const demo = getDemoById(hash)
-    if (demo) {
-      currentDemo = demo.id
-      updateContent()
+  window.addEventListener('popstate', () => {
+    const pathname = window.location.pathname.slice(1) // Remove leading /
+    
+    // First try pathname
+    let demo = null
+    if (pathname) {
+      demo = getDemoById(pathname)
     }
+    
+    // Fallback to hash if pathname not found
+    if (!demo) {
+      const hash = window.location.hash.slice(1) // Remove #
+      if (hash) {
+        demo = getDemoById(hash)
+      }
+    }
+    
+    // Use found demo or default
+    const targetDemo = demo || getDefaultDemo()
+    currentDemo = targetDemo.id
+    updateContent()
   })
 }
 
 function handleNavigation(_el: HTMLElement, demoId: string): void {
-  window.location.hash = demoId
+  window.history.pushState({}, '', `/${demoId}`)
+  currentDemo = demoId
+  updateContent()
 }
 
 function updateContent(): void {
@@ -40,7 +70,6 @@ function render(): void {
   if (!app) return
 
   const currentDemoInfo = getDemoById(currentDemo) || getDefaultDemo()
-  const AppLayout = makeAppLayout()
 
   const layout = (
     <AppLayout

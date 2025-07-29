@@ -1,5 +1,5 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeDemoLayout from "../components/DemoLayout"
+import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "../utils/htmlUtils"
 
 export interface DocsWhyDuctDemoEvents extends BaseComponentEvents { }
@@ -10,8 +10,6 @@ export interface DocsWhyDuctDemoProps {
 }
 
 function render(props: BaseProps<DocsWhyDuctDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-
   return (
     <div {...props}>
       <DemoLayout
@@ -260,10 +258,10 @@ function bind(): BindReturn<DocsWhyDuctDemoLogic> {
 
 const id = { id: "duct-demo/docs-why-duct" }
 
-export default () => {
-  return createBlueprint<DocsWhyDuctDemoProps, DocsWhyDuctDemoEvents, DocsWhyDuctDemoLogic>(
-    id,
-    render,
-    { bind }
-  )
-}
+const DocsWhyDuctDemo = createBlueprint<DocsWhyDuctDemoProps, DocsWhyDuctDemoEvents, DocsWhyDuctDemoLogic>(
+  id,
+  render,
+  { bind }
+)
+
+export default DocsWhyDuctDemo

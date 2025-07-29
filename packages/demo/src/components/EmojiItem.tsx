@@ -92,12 +92,12 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<EmojiItemEvents>, prop
   function toggleFavorite(): void {
     const currentState = props.isFavorite ? props.isFavorite(emojiKeyAttr) : false
     const newState = !currentState
-    
+
     // Call parent's toggle function
     if (props.onToggleFavorite && emojiKeyAttr) {
       props.onToggleFavorite(emojiKeyAttr, newState)
     }
-    
+
     // Update UI immediately
     if (favoriteIcon) {
       favoriteIcon.textContent = newState ? '★' : '☆'
@@ -153,13 +153,13 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<EmojiItemEvents>, prop
 
 const id = { id: "duct-demo/emoji-item" }
 
-export default () => {
-  return createBlueprint<EmojiItemProps, EmojiItemEvents, EmojiItemLogic>(
-    id,
-    render,
-    {
-      domEvents: [],
-      bind
-    }
-  )
-}
+const EmojiItem = createBlueprint<EmojiItemProps, EmojiItemEvents, EmojiItemLogic>(
+  id,
+  render,
+  {
+    domEvents: [],
+    bind
+  }
+)
+
+export default EmojiItem

@@ -1,5 +1,5 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeDemoLayout from "../components/DemoLayout"
+import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "../utils/htmlUtils"
 
 export interface DocsClaudeCodeDemoEvents extends BaseComponentEvents { }
@@ -10,7 +10,6 @@ export interface DocsClaudeCodeDemoProps {
 }
 
 function render(props: BaseProps<DocsClaudeCodeDemoProps>) {
-  const DemoLayout = makeDemoLayout()
 
   return (
     <div {...props}>
@@ -91,8 +90,8 @@ Always reference specific Duct UI patterns and provide concrete examples from th
             <h2>The Training Process</h2>
 
             <p class="lead">
-              Claude Code can achieve 95-99% correctness when generating Duct components, but only after properly learning
-              the patterns. Here's the process to train Claude Code on your Duct codebase.
+              Claude Code can generate high-quality Duct components when it understands the patterns. 
+              Here's the process to train Claude Code on your Duct codebase.
             </p>
 
             <p>
@@ -175,7 +174,7 @@ After you've completed this review, you should understand:
 - Event handling with EventEmitter
 - DOM manipulation patterns
 - Component lifecycle management
-- How to expose component logic using refs (recommended) or getLogic callbacks
+- How to expose component logic using refs
 
 Please confirm when you've completed each step, and then I'll start asking you to help build Duct components.`}</pre>
               </div>
@@ -218,7 +217,7 @@ Please confirm when you've completed each step, and then I'll start asking you t
             <h2>Common Issues</h2>
 
             <p>
-              Even with 95-99% accuracy, you might encounter these common issues that are easy to fix:
+              Here are some common patterns to watch for when working with AI-generated Duct components:
             </p>
 
             <div>
@@ -239,18 +238,18 @@ Please confirm when you've completed each step, and then I'll start asking you t
                 </li>
                 <li>
                   <p>
-                    Claude may not remember that you can access component logic using refs (recommended) or getLogic callbacks:
+                    Claude may forget the correct component usage pattern:
                   </p>
                   <div class="not-prose">
                     <div class="bg-base-200 rounded-lg p-4 my-2">
-                      <pre class="text-sm"><code>{escapeHtml(`// Recommended: Use refs for synchronous access
-const componentRef = createRef<ComponentLogic>()
-<Component ref={componentRef} />
-componentRef.current?.method()
+                      <pre class="text-sm"><code>{escapeHtml(`// Correct: Direct component usage with refs
+import Button from '@duct-ui/components/button/button'
+import { createRef } from '@duct-ui/core'
 
-// Alternative: Use getLogic when callback timing is needed
-let logic: ComponentLogic
-Component.getLogic().then(l => logic = l)`)}</code></pre>
+const buttonRef = createRef<ButtonLogic>()
+
+<Button ref={buttonRef} label="Click me" />
+buttonRef.current?.setDisabled(true)`)}</code></pre>
                     </div>
                   </div>
                 </li>
@@ -282,10 +281,10 @@ function bind(): BindReturn<DocsClaudeCodeDemoLogic> {
 
 const id = { id: "duct-demo/docs-claude-code" }
 
-export default () => {
-  return createBlueprint<DocsClaudeCodeDemoProps, DocsClaudeCodeDemoEvents, DocsClaudeCodeDemoLogic>(
-    id,
-    render,
-    { bind }
-  )
-}
+const DocsClaudeCodeDemo = createBlueprint<DocsClaudeCodeDemoProps, DocsClaudeCodeDemoEvents, DocsClaudeCodeDemoLogic>(
+  id,
+  render,
+  { bind }
+)
+
+export default DocsClaudeCodeDemo

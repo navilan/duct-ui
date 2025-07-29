@@ -1,10 +1,10 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeTreeView from "@duct-ui/components/data-display/tree-view"
-import makeButton from "@duct-ui/components/button/button"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import TreeView from "@duct-ui/components/data-display/tree-view"
+import Button from "@duct-ui/components/button/button"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 import { TreeViewData, TreePath } from "@duct-ui/components/data-display/structure"
 import "@duct-ui/components/data-display/tree-view.css"
 
@@ -384,19 +384,6 @@ function loadProject2(el: HTMLElement, e: MouseEvent) {
 }
 
 function render(props: BaseProps<TreeViewDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const TreeView1 = makeTreeView()
-  const TreeView2 = makeTreeView()
-  const TreeView3 = makeTreeView()
-  const ExpandAllBtn = makeButton()
-  const CollapseAllBtn = makeButton()
-  const ExpandSrcBtn = makeButton()
-  const CollapseSrcBtn = makeButton()
-  const LoadProject1Btn = makeButton()
-  const LoadProject2Btn = makeButton()
-  const EventLog = makeEventLog()
-
-
   return (
     <div {...props}>
       <DemoLayout
@@ -415,7 +402,7 @@ function render(props: BaseProps<TreeViewDemoProps>) {
                 <div>
                   <h3 class="text-lg font-medium mb-2">Simple Tree</h3>
                   <div class="bg-base-200 p-4 rounded-lg">
-                    <TreeView1
+                    <TreeView
                       data={simpleTree}
                       initialExpanded={[["animals"]]}
                       labelClass="cursor-pointer hover:bg-base-300 px-2 py-1 rounded transition-colors"
@@ -433,7 +420,7 @@ function render(props: BaseProps<TreeViewDemoProps>) {
                 <div>
                   <h3 class="text-lg font-medium mb-2">Icon-Only Expand</h3>
                   <div class="bg-base-200 p-4 rounded-lg">
-                    <TreeView2
+                    <TreeView
                       data={simpleTree}
                       expandOnLabelClick={false}
                       class="text-lg"
@@ -459,12 +446,12 @@ function render(props: BaseProps<TreeViewDemoProps>) {
 
                 <div class="flex gap-2 mb-4 flex-wrap">
                   <div class="flex gap-2">
-                    <LoadProject1Btn
+                    <Button
                       label="Load Project 1"
                       class="btn btn-sm btn-success"
                       on:click={loadProject1}
                     />
-                    <LoadProject2Btn
+                    <Button
                       label="Load Project 2"
                       class="btn btn-sm btn-info"
                       on:click={loadProject2}
@@ -472,22 +459,22 @@ function render(props: BaseProps<TreeViewDemoProps>) {
                   </div>
 
                   <div class="flex gap-2">
-                    <ExpandAllBtn
+                    <Button
                       label="Expand All"
                       class="btn btn-sm btn-primary"
                       on:click={expandAll}
                     />
-                    <CollapseAllBtn
+                    <Button
                       label="Collapse All"
                       class="btn btn-sm btn-secondary"
                       on:click={collapseAll}
                     />
-                    <ExpandSrcBtn
+                    <Button
                       label="Expand src/"
                       class="btn btn-sm btn-accent"
                       on:click={expandSrc}
                     />
-                    <CollapseSrcBtn
+                    <Button
                       label="Collapse src/"
                       class="btn btn-sm btn-warning"
                       on:click={collapseSrc}
@@ -496,7 +483,7 @@ function render(props: BaseProps<TreeViewDemoProps>) {
                 </div>
 
                 <div class="bg-base-200 p-4 rounded-lg">
-                  <TreeView3
+                  <TreeView
                     ref={treeView3Ref}
                     data={project1FileSystem}
                     initialExpanded={[["src"], ["docs"]]}
@@ -563,12 +550,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<TreeViewDemoEvents>):
 
 const id = { id: "duct-demo/tree-view-demo" }
 
-export default () => {
-  return createBlueprint<TreeViewDemoProps, TreeViewDemoEvents, TreeViewDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const TreeViewDemo = createBlueprint<TreeViewDemoProps, TreeViewDemoEvents, TreeViewDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default TreeViewDemo

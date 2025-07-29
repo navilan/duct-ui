@@ -23,7 +23,7 @@ export class MutableRef<T = any> {
 
     // Only emit if value actually changed
     if (oldValue !== value) {
-      this.emit('set', [value])
+      this.emit('set', value)
     }
   }
 

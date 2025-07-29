@@ -1,12 +1,12 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeMenu from "@duct-ui/components/dropdown/menu"
-import makeMenuItem from "@duct-ui/components/dropdown/menu-item"
-import makeMenuSeparator from "@duct-ui/components/dropdown/menu-separator"
-import makeEditableInput from "@duct-ui/components/input/editable"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import Menu from "@duct-ui/components/dropdown/menu"
+import MenuItem from "@duct-ui/components/dropdown/menu-item"
+import MenuSeparator from "@duct-ui/components/dropdown/menu-separator"
+import EditableInput from "@duct-ui/components/input/editable"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 
 export interface MenuDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -61,36 +61,6 @@ function editMenuItemHandler(el: HTMLElement, e: MouseEvent) {
 
 
 function render(props: BaseProps<MenuDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const Menu1 = makeMenu()
-  const Menu2 = makeMenu()
-  const Menu3 = makeMenu()
-  const Menu4 = makeMenu()
-  const Menu5 = makeMenu()
-  const Menu6 = makeMenu()
-  
-  const BasicItem1 = makeMenuItem()
-  const BasicItem2 = makeMenuItem()
-  const BasicItem3 = makeMenuItem()
-  
-  const IconItem1 = makeMenuItem()
-  const IconItem2 = makeMenuItem()
-  const IconItem3 = makeMenuItem()
-  const IconSeparator1 = makeMenuSeparator()
-  
-  const PlacementItem1 = makeMenuItem()
-  const PlacementItem2 = makeMenuItem()
-  
-  const StateItem1 = makeMenuItem()
-  const StateItem2 = makeMenuItem()
-  const StateItem3 = makeMenuItem()
-  
-  const ComposedEditableInput = makeEditableInput()
-  const ComposedMenu = makeMenu()
-  const ComposedEditMenuItem = makeMenuItem()
-  const EventLog = makeEventLog()
-
-
   return (
     <div {...props}>
       <DemoLayout
@@ -105,28 +75,28 @@ function render(props: BaseProps<MenuDemoProps>) {
           <div>
             <h2 class="text-2xl font-semibold mb-4">Basic Usage</h2>
             <div class="flex gap-4 flex-wrap">
-              <Menu1
+              <Menu
                 label="Simple Menu"
                 on:open={menuOpenHandler}
                 on:close={menuCloseHandler}
               >
-                <BasicItem1 label="First Item" on:click={itemClickHandler} />
-                <BasicItem2 label="Second Item" on:click={itemClickHandler} />
-                <BasicItem3 label="Third Item" on:click={itemClickHandler} />
-              </Menu1>
+                <MenuItem label="First Item" on:click={itemClickHandler} />
+                <MenuItem label="Second Item" on:click={itemClickHandler} />
+                <MenuItem label="Third Item" on:click={itemClickHandler} />
+              </Menu>
 
-              <Menu2
+              <Menu
                 label="Styled Menu"
                 buttonClass="btn btn-secondary"
                 menuClass="menu bg-secondary/98 rounded-box z-[1] w-52 p-2 shadow border border-primary/20"
                 on:open={menuOpenHandler}
                 on:close={menuCloseHandler}
               >
-                <IconItem1 label="Profile" icon="👤" on:click={itemClickHandler} />
-                <IconItem2 label="Settings" icon="⚙️" on:click={itemClickHandler} />
-                <IconSeparator1 />
-                <IconItem3 label="Logout" icon="🚪" on:click={itemClickHandler} />
-              </Menu2>
+                <MenuItem label="Profile" icon="👤" on:click={itemClickHandler} />
+                <MenuItem label="Settings" icon="⚙️" on:click={itemClickHandler} />
+                <MenuSeparator />
+                <MenuItem label="Logout" icon="🚪" on:click={itemClickHandler} />
+              </Menu>
             </div>
             <p class="text-sm text-base-content/60 mt-2">
               Click the buttons to see dropdown menus. Items automatically close the menu when clicked.
@@ -137,38 +107,38 @@ function render(props: BaseProps<MenuDemoProps>) {
           <div>
             <h2 class="text-2xl font-semibold mb-4">Placement Options</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <Menu3
+              <Menu
                 label="Bottom Start"
                 buttonClass="btn btn-outline btn-accent"
                 placement="bottom-start"
                 on:open={menuOpenHandler}
                 on:close={menuCloseHandler}
               >
-                <PlacementItem1 label="Item 1" on:click={itemClickHandler} />
-                <PlacementItem2 label="Item 2" on:click={itemClickHandler} />
-              </Menu3>
+                <MenuItem label="Item 1" on:click={itemClickHandler} />
+                <MenuItem label="Item 2" on:click={itemClickHandler} />
+              </Menu>
 
-              <Menu4
+              <Menu
                 label="Top Start"
                 buttonClass="btn btn-outline btn-secondary"
                 placement="top-start"
                 on:open={menuOpenHandler}
                 on:close={menuCloseHandler}
               >
-                <StateItem1 label="Item 1" on:click={itemClickHandler} />
-                <StateItem2 label="Item 2" on:click={itemClickHandler} />
-                <StateItem3 label="Disabled Item" class="text-gray-400" disabled={true} on:click={itemClickHandler} />
-              </Menu4>
+                <MenuItem label="Item 1" on:click={itemClickHandler} />
+                <MenuItem label="Item 2" on:click={itemClickHandler} />
+                <MenuItem label="Disabled Item" class="text-gray-400" disabled={true} on:click={itemClickHandler} />
+              </Menu>
 
-              <Menu5
+              <Menu
                 label="Disabled Menu"
                 buttonClass="btn btn-outline"
                 disabled={true}
                 on:open={menuOpenHandler}
                 on:close={menuCloseHandler}
               >
-                <StateItem1 label="Won't show" on:click={itemClickHandler} />
-              </Menu5>
+                <MenuItem label="Won't show" on:click={itemClickHandler} />
+              </Menu>
             </div>
             <p class="text-sm text-base-content/60 mt-2">
               Menus support different placement options and can be disabled.
@@ -186,7 +156,7 @@ function render(props: BaseProps<MenuDemoProps>) {
                 </p>
 
                 <div class="flex items-center gap-2 p-4 bg-base-200 rounded-lg">
-                  <ComposedEditableInput
+                  <EditableInput
                     ref={composedInputRef}
                     text="Click menu to edit me"
                     labelClass="text-lg font-medium text-primary cursor-pointer hover:bg-base-200 px-3 py-2 rounded border border-base-300"
@@ -194,7 +164,7 @@ function render(props: BaseProps<MenuDemoProps>) {
                     on:change={changeHandler}
                   />
 
-                  <ComposedMenu
+                  <Menu
                     label="⋮"
                     buttonClass="btn btn-sm btn-ghost"
                     menuClass="menu bg-base-200 rounded-box z-[1] w-32 p-2 shadow border border-base-300"
@@ -202,12 +172,12 @@ function render(props: BaseProps<MenuDemoProps>) {
                     on:open={menuOpenHandler}
                     on:close={menuCloseHandler}
                   >
-                    <ComposedEditMenuItem
+                    <MenuItem
                       label="Edit"
                       icon="✏️"
                       on:click={editMenuItemHandler}
                     />
-                  </ComposedMenu>
+                  </Menu>
                 </div>
 
                 <p class="text-sm text-base-content/60 mt-2">
@@ -263,12 +233,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<MenuDemoEvents>): Bin
 
 const id = { id: "duct-demo/menu-demo" }
 
-export default () => {
-  return createBlueprint<MenuDemoProps, MenuDemoEvents, MenuDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const MenuDemo = createBlueprint<MenuDemoProps, MenuDemoEvents, MenuDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default MenuDemo

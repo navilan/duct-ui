@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import makeSidebarNav from "@duct-ui/components/layout/sidebar-nav"
+import SidebarNav from "@duct-ui/components/layout/sidebar-nav"
 import ductLogo from "../icons/duct-logo.svg"
 
 export interface SidebarEvents extends BaseComponentEvents {
@@ -29,7 +29,7 @@ export interface SidebarProps {
   'on:navigate'?: (el: HTMLElement, demoId: string) => void
 }
 
-const SidebarNav = makeSidebarNav()
+// SidebarNav is now imported directly
 
 function render(props: BaseProps<SidebarProps>) {
   const { categories, currentDemo, ...moreProps } = props
@@ -150,12 +150,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): Bind
 
 const id = { id: "duct-demo/sidebar" }
 
-export default () => {
-  return createBlueprint<SidebarProps, SidebarEvents, SidebarLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const Sidebar = createBlueprint<SidebarProps, SidebarEvents, SidebarLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default Sidebar

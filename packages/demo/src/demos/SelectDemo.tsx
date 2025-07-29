@@ -1,9 +1,9 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeSelect from "@duct-ui/components/dropdown/select"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import Select from "@duct-ui/components/dropdown/select"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 import iconOne from "../icons/one.svg"
 import iconTwo from "../icons/two.svg"
 import iconThree from "../icons/three.svg"
@@ -43,13 +43,6 @@ function closeHandler(_el: HTMLElement) {
 }
 
 function render(props: BaseProps<SelectDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const Select1 = makeSelect()
-  const Select2 = makeSelect()
-  const Select3 = makeSelect()
-  const EventLog = makeEventLog()
-
-
   const basicItems: SelectItem[] = [
     { label: "Option 1", isSelected: true },
     { label: "Option 2" },
@@ -105,7 +98,7 @@ function render(props: BaseProps<SelectDemoProps>) {
             <div>
               <h3 class="text-lg font-medium mb-3">Basic Select</h3>
               <div class="max-w-sm">
-                <Select1
+                <Select
                   items={basicItems}
                   placeholder="Choose an option"
                   class="w-full dropdown relative"
@@ -126,7 +119,7 @@ function render(props: BaseProps<SelectDemoProps>) {
             <div>
               <h3 class="text-lg font-medium mb-3">Select with Icons and Descriptions</h3>
               <div class="max-w-sm">
-                <Select2
+                <Select
                   items={iconItems}
                   selectedIcon="✅"
                   placeholder="Choose with icon"
@@ -148,7 +141,7 @@ function render(props: BaseProps<SelectDemoProps>) {
             <div>
               <h3 class="text-lg font-medium mb-3">Complex Select with Attributes</h3>
               <div class="max-w-sm">
-                <Select3
+                <Select
                   items={complexItems}
                   selectedIcon="👆"
                   placeholder="Choose priority"
@@ -207,12 +200,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<SelectDemoEvents>): B
 
 const id = { id: "duct-demo/select-demo" }
 
-export default () => {
-  return createBlueprint<SelectDemoProps, SelectDemoEvents, SelectDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const SelectDemo = createBlueprint<SelectDemoProps, SelectDemoEvents, SelectDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default SelectDemo

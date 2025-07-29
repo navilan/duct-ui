@@ -1,8 +1,8 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeDrawer, { DrawerLogic } from "@duct-ui/components/layout/drawer"
-import makeSidebar, { SidebarLogic } from "./Sidebar"
+import Drawer, { DrawerLogic } from "@duct-ui/components/layout/drawer"
+import Sidebar, { SidebarLogic } from "./Sidebar"
 import DemoHeader from "./DemoHeader"
 import { demoCategories } from "../demos"
 
@@ -23,29 +23,27 @@ export interface AppLayoutProps {
   'on:navigate'?: (el: HTMLElement, demoId: string) => void
 }
 
-// Store drawer component reference to access its logic
-let drawerComponentInstance: DrawerLogic
+// Store drawer and sidebar refs to access their logic
+const drawerRef = createRef<DrawerLogic>()
 const sidebarRef = createRef<SidebarLogic>()
 let eventEmitter: EventEmitter<AppLayoutEvents> | undefined
-const Drawer = makeDrawer()
 let isDrawerOpen: boolean = false
 
-// Get drawer logic when component is created
-Drawer.getLogic().then(logic => {
-  drawerComponentInstance = logic
-  isDrawerOpen = window.innerWidth >= 1024
-  if (isDrawerOpen) {
-    drawerComponentInstance.open()
-  } else {
-    drawerComponentInstance.close()
+// Initialize drawer when it becomes available
+drawerRef.on('set', (drawerLogic) => {
+  if (drawerLogic) {
+    isDrawerOpen = window.innerWidth >= 1024
+    if (isDrawerOpen) {
+      drawerLogic.open()
+    } else {
+      drawerLogic.close()
+    }
   }
 })
 
-const Sidebar = makeSidebar()
-
 function handleNavigation(_navEl: HTMLElement, demoId: string): void {
-  if (drawerComponentInstance && window.innerWidth < 1024) {
-    drawerComponentInstance.close()
+  if (drawerRef.current && window.innerWidth < 1024) {
+    drawerRef.current.close()
     isDrawerOpen = false
   }
   eventEmitter?.emit('navigate', demoId)
@@ -55,8 +53,8 @@ function handleNavigation(_navEl: HTMLElement, demoId: string): void {
 }
 
 function handleMenuToggle(_el: HTMLElement): void {
-  if (drawerComponentInstance) {
-    drawerComponentInstance.toggle()
+  if (drawerRef.current) {
+    drawerRef.current.toggle()
     isDrawerOpen = !isDrawerOpen
   }
 }
@@ -78,6 +76,7 @@ function render(props: BaseProps<AppLayoutProps>) {
       />
 
       <Drawer
+        ref={drawerRef}
         isOpen={false}
         persistent={true}
         side="left"
@@ -115,13 +114,13 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<AppLayoutEvents>): Bi
     const isDesktop = window.innerWidth >= 1024
     if (isDesktop && !isDrawerOpen) {
       isDrawerOpen = true
-      if (drawerComponentInstance) {
-        drawerComponentInstance.open()
+      if (drawerRef.current) {
+        drawerRef.current.open()
       }
     } else if (!isDesktop && isDrawerOpen) {
       isDrawerOpen = false
-      if (drawerComponentInstance) {
-        drawerComponentInstance.close()
+      if (drawerRef.current) {
+        drawerRef.current.close()
       }
     }
   }
@@ -147,12 +146,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<AppLayoutEvents>): Bi
 
 const id = { id: "duct-demo/app-layout" }
 
-export default () => {
-  return createBlueprint<AppLayoutProps, AppLayoutEvents, AppLayoutLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const AppLayout = createBlueprint<AppLayoutProps, AppLayoutEvents, AppLayoutLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default AppLayout

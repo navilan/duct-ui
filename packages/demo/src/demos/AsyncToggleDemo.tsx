@@ -1,11 +1,11 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeAsyncToggle, { type AsyncToggleState, type AsyncToggleLogic } from "@duct-ui/components/button/async-toggle"
-import makeButton from "@duct-ui/components/button/button"
-import makeToggle, { type ToggleState } from "@duct-ui/components/button/toggle"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import AsyncToggle, { type AsyncToggleState, type AsyncToggleLogic } from "@duct-ui/components/button/async-toggle"
+import Button from "@duct-ui/components/button/button"
+import Toggle, { type ToggleState } from "@duct-ui/components/button/toggle"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 
 export interface AsyncToggleDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -68,15 +68,6 @@ const eventLogRef = createRef<EventLogLogic>()
 const asyncToggle3Ref = createRef<any>()
 
 function render(props: BaseProps<AsyncToggleDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const AsyncToggle1 = makeAsyncToggle()
-  const AsyncToggle2 = makeAsyncToggle()
-  const AsyncToggle3 = makeAsyncToggle()
-  const AsyncToggle4 = makeAsyncToggle()
-  const RefreshBtn = makeButton()
-  const FailureModeToggle = makeToggle()
-  const DelayToggle = makeToggle()
-  const EventLog = makeEventLog()
 
   // Create separate API services for different examples
   const basicApi = new MockApiService()
@@ -151,7 +142,7 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
                 <div>
                   <h3 class="text-lg font-medium mb-2">Standard Async Toggle</h3>
                   <div class="bg-base-200 p-4 rounded-lg">
-                    <AsyncToggle1
+                    <AsyncToggle
                       data-toggle-id="basic"
                       isOn={basicApi.isOn.bind(basicApi)}
                       switchOn={basicApi.switchOn.bind(basicApi)}
@@ -169,7 +160,7 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
                 <div>
                   <h3 class="text-lg font-medium mb-2">Custom Styling</h3>
                   <div class="bg-base-200 p-4 rounded-lg">
-                    <AsyncToggle2
+                    <AsyncToggle
                       data-toggle-id="styled"
                       onLabel="🟢 Enabled"
                       offLabel="🔴 Disabled"
@@ -200,7 +191,7 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
                 <div>
                   <h3 class="text-lg font-medium mb-2">Error Handling</h3>
                   <div class="bg-base-200 p-4 rounded-lg space-y-2">
-                    <AsyncToggle3
+                    <AsyncToggle
                       ref={asyncToggle3Ref}
                       data-toggle-id="error"
                       onLabel="Success"
@@ -214,7 +205,7 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
                       on:error={handleError}
                     />
                     <div class="flex gap-2">
-                      <FailureModeToggle
+                      <Toggle
                         onLabel="Simulate Error"
                         offLabel="Simulate Success"
                         initialState="off"
@@ -233,7 +224,7 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
                 <div>
                   <h3 class="text-lg font-medium mb-2">Fast Response</h3>
                   <div class="bg-base-200 p-4 rounded-lg">
-                    <AsyncToggle4
+                    <AsyncToggle
                       data-toggle-id="fast"
                       onLabel="⚡ Fast ON"
                       offLabel="⚡ Fast OFF"
@@ -260,12 +251,12 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
               <h2 class="text-2xl font-semibold mb-4">Control Panel</h2>
               <div class="bg-base-200 p-4 rounded-lg">
                 <div class="flex gap-2 flex-wrap">
-                  <RefreshBtn
+                  <Button
                     label="Refresh All States"
                     class="btn btn-primary btn-sm"
                     on:click={handleRefresh}
                   />
-                  <DelayToggle
+                  <Toggle
                     onLabel="3s Delay"
                     offLabel="1s Delay"
                     onClass="btn btn-warning btn-sm"
@@ -327,10 +318,10 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<AsyncToggleDemoEvents
 
 const id = { id: "duct-demo/async-toggle" }
 
-export default () => {
-  return createBlueprint<AsyncToggleDemoProps, AsyncToggleDemoEvents, AsyncToggleDemoLogic>(
-    id,
-    render,
-    { bind }
-  )
-}
+const AsyncToggleDemo = createBlueprint<AsyncToggleDemoProps, AsyncToggleDemoEvents, AsyncToggleDemoLogic>(
+  id,
+  render,
+  { bind }
+)
+
+export default AsyncToggleDemo

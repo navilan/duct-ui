@@ -1,10 +1,10 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeEditableInput from "@duct-ui/components/input/editable"
-import makeButton from "@duct-ui/components/button/button"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import EditableInput from "@duct-ui/components/input/editable"
+import Button from "@duct-ui/components/button/button"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 
 export interface EditableInputDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -83,19 +83,6 @@ function getCurrentText(el: HTMLElement, e: MouseEvent) {
 }
 
 function render(props: BaseProps<EditableInputDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const EditableInput1 = makeEditableInput()
-  const EditableInput2 = makeEditableInput()
-  const EditableInput3 = makeEditableInput()
-  const EditableInput4 = makeEditableInput()
-  const SetRandomTextBtn = makeButton()
-  const ToggleEditBtn = makeButton()
-  const BeginEditBtn = makeButton()
-  const CancelEditBtn = makeButton()
-  const GetStateBtn = makeButton()
-  const EventLog = makeEventLog()
-
-
   return (
     <div {...props}>
       <DemoLayout
@@ -112,7 +99,7 @@ function render(props: BaseProps<EditableInputDemoProps>) {
             <div class="space-y-4">
               <div>
                 <h3 class="text-lg font-medium mb-2">Simple Editable Text</h3>
-                <EditableInput1
+                <EditableInput
                   text="Click me to edit!"
                   labelClass="text-lg font-medium text-primary cursor-pointer hover:bg-base-200 p-2 rounded"
                   inputClass="input input-bordered text-lg"
@@ -124,7 +111,7 @@ function render(props: BaseProps<EditableInputDemoProps>) {
 
               <div>
                 <h3 class="text-lg font-medium mb-2">Styled Editable Input</h3>
-                <EditableInput2
+                <EditableInput
                   text="Fancy styled input"
                   labelClass="badge badge-secondary badge-lg cursor-pointer hover:badge-primary transition-colors"
                   inputClass="input input-secondary input-sm"
@@ -142,7 +129,7 @@ function render(props: BaseProps<EditableInputDemoProps>) {
 
               <div>
                 <h3 class="text-lg font-medium mb-2">setText() & toggleEdit()</h3>
-                <EditableInput3
+                <EditableInput
                   ref={input3Ref}
                   text="Control me with buttons"
                   labelClass="text-base font-medium text-accent cursor-pointer hover:bg-accent/10 p-3 rounded border-2 border-accent/20"
@@ -150,13 +137,13 @@ function render(props: BaseProps<EditableInputDemoProps>) {
                   on:change={changeHandler}
                 />
                 <div class="flex gap-2 mt-3">
-                  <SetRandomTextBtn 
+                  <Button 
                     label="Set Random Text"
                     class="btn btn-sm btn-outline btn-accent"
                     data-editable-control="true"
                     on:click={setRandomText}
                   />
-                  <ToggleEditBtn 
+                  <Button 
                     label="Toggle Edit Mode"
                     class="btn btn-sm btn-outline btn-accent"
                     data-editable-control="true"
@@ -167,7 +154,7 @@ function render(props: BaseProps<EditableInputDemoProps>) {
 
               <div>
                 <h3 class="text-lg font-medium mb-2">Direct Mode Control</h3>
-                <EditableInput4
+                <EditableInput
                   ref={input4Ref}
                   text="Direct control demo"
                   labelClass="text-base font-medium text-warning cursor-pointer hover:bg-warning/10 p-3 rounded border-2 border-warning/20"
@@ -175,19 +162,19 @@ function render(props: BaseProps<EditableInputDemoProps>) {
                   on:change={changeHandler}
                 />
                 <div class="flex gap-2 mt-3">
-                  <BeginEditBtn 
+                  <Button 
                     label="Begin Edit"
                     class="btn btn-sm btn-outline btn-warning"
                     data-editable-control="true"
                     on:click={beginEdit}
                   />
-                  <CancelEditBtn 
+                  <Button 
                     label="Cancel Edit"
                     class="btn btn-sm btn-outline btn-warning"
                     data-editable-control="true"
                     on:click={cancelEdit}
                   />
-                  <GetStateBtn 
+                  <Button 
                     label="Get State"
                     class="btn btn-sm btn-outline btn-warning"
                     data-editable-control="true"
@@ -244,12 +231,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<EditableInputDemoEven
 
 const id = { id: "duct-demo/editable-input-demo" }
 
-export default () => {
-  return createBlueprint<EditableInputDemoProps, EditableInputDemoEvents, EditableInputDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const EditableInputDemo = createBlueprint<EditableInputDemoProps, EditableInputDemoEvents, EditableInputDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default EditableInputDemo

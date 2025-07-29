@@ -5,7 +5,8 @@ import { resolve } from "path"
 export default defineConfig({
   root: ".",
   server: {
-    port: 3333
+    port: 3333,
+    historyApiFallback: true
   },
   build: {
     emptyOutDir: true,

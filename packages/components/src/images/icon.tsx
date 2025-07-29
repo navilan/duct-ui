@@ -75,11 +75,11 @@ function render(props: BaseProps<IconProps>) {
 
 const id = { id: "duct/icon" }
 
-export default () => {
-  return createBlueprint<IconProps, IconEvents, IconLogic>(
-    id,
-    render,
-    {
-    },
-  )
-}
+const Icon = createBlueprint<IconProps, IconEvents, IconLogic>(
+  id,
+  render,
+  {
+  },
+)
+
+export default Icon

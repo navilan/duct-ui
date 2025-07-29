@@ -1,27 +1,27 @@
 // Button Components
-export { default as makeButton } from "./button/button"
-export { default as makeIconButton } from "./button/icon-button"
-export { default as makeToggle } from "./button/toggle"
-export { default as makeAsyncToggle } from "./button/async-toggle"
+export { default as Button } from "./button/button"
+export { default as IconButton } from "./button/icon-button"
+export { default as Toggle } from "./button/toggle"
+export { default as AsyncToggle } from "./button/async-toggle"
 
 // Input Components
-export { default as makeEditable } from "./input/editable"
+export { default as Editable } from "./input/editable"
 
 // Dropdown Components
-export { default as makeMenu } from "./dropdown/menu"
-export { default as makeMenuItem } from "./dropdown/menu-item"
-export { default as makeMenuSeparator } from "./dropdown/menu-separator"
-export { default as makeSelect } from "./dropdown/select"
+export { default as Menu } from "./dropdown/menu"
+export { default as MenuItem } from "./dropdown/menu-item"
+export { default as MenuSeparator } from "./dropdown/menu-separator"
+export { default as Select } from "./dropdown/select"
 
 // Data Display Components
-export { default as makeList } from "./data-display/list"
-export { default as makeTreeView } from "./data-display/tree-view"
+export { default as List } from "./data-display/list"
+export { default as TreeView } from "./data-display/tree-view"
 
 // Layout Components
-export { default as makeDrawer } from "./layout/drawer"
-export { default as makeModal } from "./layout/modal"
-export { default as makeSidebarNav } from "./layout/sidebar-nav"
-export { default as makeTabs } from "./layout/tabs"
+export { default as Drawer } from "./layout/drawer"
+export { default as Modal } from "./layout/modal"
+export { default as SidebarNav } from "./layout/sidebar-nav"
+export { default as Tabs } from "./layout/tabs"
 
 // Image Components
-export { default as makeIcon } from "./images/icon"
+export { default as Icon } from "./images/icon"

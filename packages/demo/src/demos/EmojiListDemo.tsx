@@ -1,13 +1,13 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeList, { type ListLogic } from "@duct-ui/components/data-display/list"
-import makeButton from "@duct-ui/components/button/button"
-import makeSelect from "@duct-ui/components/dropdown/select"
-import makeToggle, { type ToggleState } from "@duct-ui/components/button/toggle"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
-import makeEmojiItem from "../components/EmojiItem"
+import List, { type ListLogic } from "@duct-ui/components/data-display/list"
+import Button from "@duct-ui/components/button/button"
+import Select from "@duct-ui/components/dropdown/select"
+import Toggle, { type ToggleState } from "@duct-ui/components/button/toggle"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
+import EmojiItem, { type EmojiItemLogic } from "../components/EmojiItem"
 import type { SelectItem } from "@duct-ui/components/dropdown/select"
 
 export interface EmojiListDemoEvents extends BaseComponentEvents {
@@ -56,7 +56,7 @@ type EmojiKey = keyof (typeof emojiData)
 
 // Using refs instead of global variables
 const eventLogRef = createRef<EventLogLogic>()
-const emojiListRef = createRef<ListLogic<string, any>>()
+const emojiListRef = createRef<ListLogic<Record<string, any>, EmojiItemLogic>>()
 let currentCategory = "all"
 let currentPage = 0
 const pageSize = 8
@@ -190,15 +190,6 @@ async function handleToggleFavorites(_el: HTMLElement, state: ToggleState) {
 }
 
 function render(props: BaseProps<EmojiListDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const EmojiList = makeList()
-  const CategorySelect = makeSelect()
-  const PrevBtn = makeButton()
-  const NextBtn = makeButton()
-  const FavoritesToggle = makeToggle()
-  const EventLog = makeEventLog()
-
-
   // Category options
   const categories = Array.from(new Set(Object.values(emojiData).map(item => item.category)))
   const categoryOptions: SelectItem[] = [
@@ -219,7 +210,7 @@ function render(props: BaseProps<EmojiListDemoProps>) {
             <div class="flex flex-wrap gap-4 items-center p-4 bg-base-200 rounded-lg">
               <div class="flex items-center gap-2">
                 <span class="text-sm font-medium">Category:</span>
-                <CategorySelect
+                <Select
                   items={categoryOptions}
                   placeholder="Select category"
                   class="w-48"
@@ -230,7 +221,7 @@ function render(props: BaseProps<EmojiListDemoProps>) {
               </div>
 
               <div class="flex items-center gap-2">
-                <PrevBtn
+                <Button
                   label="← Previous"
                   class="btn btn-sm btn-outline"
                   on:click={handlePrevPage}
@@ -238,14 +229,14 @@ function render(props: BaseProps<EmojiListDemoProps>) {
                 <span class="text-sm px-2" id="page-label">
                   Page {currentPage + 1} of {getTotalPages()}
                 </span>
-                <NextBtn
+                <Button
                   label="Next →"
                   class="btn btn-sm btn-outline"
                   on:click={handleNextPage}
                 />
               </div>
 
-              <FavoritesToggle
+              <Toggle
                 onLabel="Show All"
                 offLabel="Show Favorites"
                 initialState={showFavoritesOnly ? 'on' : 'off'}
@@ -258,10 +249,10 @@ function render(props: BaseProps<EmojiListDemoProps>) {
 
             <div>
               <h2 class="text-xl font-semibold mb-4">Emoji Collection</h2>
-              <EmojiList
+              <List
                 ref={emojiListRef}
                 getItems={getFilteredEmojis}
-                makeItem={makeEmojiItem}
+                ItemComponent={EmojiItem}
                 itemProps={{
                   showCategory: currentCategory === "all",
                   "on:click": handleEmojiClick,
@@ -326,12 +317,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<EmojiListDemoEvents>)
 
 const id = { id: "duct-demo/emoji-list-demo" }
 
-export default () => {
-  return createBlueprint<EmojiListDemoProps, EmojiListDemoEvents, EmojiListDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const EmojiListDemo = createBlueprint<EmojiListDemoProps, EmojiListDemoEvents, EmojiListDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default EmojiListDemo

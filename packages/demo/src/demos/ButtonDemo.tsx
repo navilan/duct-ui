@@ -1,9 +1,9 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeButton from "@duct-ui/components/button/button"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import Button from "@duct-ui/components/button/button"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 
 export interface ButtonDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -33,11 +33,7 @@ function handleButtonClick(el: Element, _e: Event) {
 
 
 function render(props: BaseProps<ButtonDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const Button1 = makeButton()
-  const Button2 = makeButton()
-  const Button3 = makeButton()
-  const EventLog = makeEventLog()
+  // All components can now be used directly without factory calls
 
 
 
@@ -51,21 +47,21 @@ function render(props: BaseProps<ButtonDemoProps>) {
         <div>
           <h2 class="text-2xl font-semibold mb-4">Three Buttons Example</h2>
           <div id="buttons" class="flex flex-row items-start gap-4">
-            <Button1
+            <Button
               label="One"
               class="btn btn-primary"
               data-message="First button clicked!"
               data-button-id="button1"
               on:click={handleButtonClick}
             />
-            <Button2
+            <Button
               label="Two"
               class="btn btn-secondary"
               data-message="Second button clicked!"
               data-button-id="button2"
               on:click={handleButtonClick}
             />
-            <Button3
+            <Button
               label="Three"
               class="btn btn-outline"
               data-message="Third button clicked!"
@@ -109,12 +105,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<ButtonDemoEvents>): B
 
 const id = { id: "duct-demo/button-demo" }
 
-export default () => {
-  return createBlueprint<ButtonDemoProps, ButtonDemoEvents, ButtonDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const ButtonDemo = createBlueprint<ButtonDemoProps, ButtonDemoEvents, ButtonDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default ButtonDemo

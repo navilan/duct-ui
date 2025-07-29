@@ -226,13 +226,13 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<InputEvents>): BindRet
 
 const id = { id: "duct/editable-input" }
 
-export default () => {
-  return createBlueprint<InputProps, InputEvents, InputLogic>(
-    id,
-    render,
-    {
-      domEvents: ['click', 'dblclick'],
-      bind
-    },
-  )
-}
+const Editable = createBlueprint<InputProps, InputEvents, InputLogic>(
+  id,
+  render,
+  {
+    domEvents: ['click', 'dblclick'],
+    bind
+  },
+)
+
+export default Editable

@@ -2,13 +2,112 @@
 
 ![NPM Version](https://img.shields.io/npm/v/%40duct-ui%2Fcomponents)
 
-The Duct component library offers a battery pack consisting of standard library of components which can either be used as is, composed or simply copied and modified to create derived components.
-
-Some of the components in the library offer styles for tailwind. You can import them in your
-`main.css` file using the `@source @duct-ui/components/path/to/css;` directive.
-
-See [the repository overview](https://github.com/navilan/duct-ui) for more insight into the whys and hows of Duct.
-
-The [Duct Website](https://duct-ui.org) offers comprehensive set of demos to understand its capabilities, workings and the built-in suite of components.
+A comprehensive component library for Duct UI with buttons, forms, navigation, layout, and data display components.
 
 > **⚠️ Under Construction**: This library is currently in early development and may exhibit unexpected behavior. APIs are subject to change and components may not be fully stable. Use with caution in production environments.
+
+## Installation
+
+```bash
+npm install @duct-ui/components @duct-ui/core
+```
+
+## Usage
+
+```typescript
+import { createRef } from '@duct-ui/core'
+import Button from '@duct-ui/components/button/button'
+import Toggle from '@duct-ui/components/button/toggle'
+import Modal from '@duct-ui/components/layout/modal'
+
+const buttonRef = createRef<ButtonLogic>()
+const modalRef = createRef<ModalLogic>()
+
+function MyApp() {
+  return (
+    <div>
+      <Button
+        ref={buttonRef}
+        label="Open Modal"
+        class="btn btn-primary"
+        on:click={() => modalRef.current?.show()}
+      />
+
+      <Toggle
+        onLabel="Hide"
+        offLabel="Show"
+        initialState="off"
+        on:change={(el, state) => console.log('Toggle:', state)}
+      />
+
+      <Modal
+        ref={modalRef}
+        content={() => <div>Modal content here</div>}
+        on:close={() => console.log('Modal closed')}
+      />
+    </div>
+  )
+}
+```
+
+## Available Components
+
+### Buttons
+- `Button` - Basic button with customizable styling
+- `IconButton` - Button with icon support
+- `Toggle` - Toggle button with on/off states
+- `AsyncToggle` - Toggle with async operations
+
+### Forms & Input
+- `EditableInput` - Click-to-edit text input
+
+### Dropdown & Navigation
+- `Menu` - Dropdown menu with items
+- `MenuItem` - Individual menu item
+- `MenuSeparator` - Visual separator for menus
+- `Select` - Dropdown selection component
+
+### Layout
+- `Modal` - Modal dialogs with positioning
+- `Tabs` - Tabbed interface component
+- `Drawer` - Responsive drawer/sidebar
+- `SidebarNav` - Navigation sidebar
+
+### Data Display
+- `List` - Paginated list component
+- `TreeView` - Hierarchical tree view
+
+### Images
+- `Icon` - Icon component with SVG support
+
+## Styling
+
+Components use Tailwind CSS classes. Some components include additional CSS files that should be imported:
+
+```css
+/* In your main CSS file */
+@import '@duct-ui/components/layout/drawer.css';
+@import '@duct-ui/components/layout/modal.css';
+@import '@duct-ui/components/data-display/tree-view.css';
+@import '@duct-ui/components/layout/sidebar-nav.css';
+```
+
+## Component Logic Access
+
+All components expose their logic through refs:
+
+```typescript
+const componentRef = createRef<ComponentLogic>()
+
+// Use in JSX
+<Component ref={componentRef} />
+
+// Access methods
+componentRef.current?.someMethod()
+```
+
+## Resources
+
+- [Main Repository](https://github.com/navilan/duct-ui)
+- [Core Framework](@duct-ui/core)
+- [Live Demos](https://duct-ui.org)
