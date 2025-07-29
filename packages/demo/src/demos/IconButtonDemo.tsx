@@ -1,9 +1,9 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeIconButton from "@duct-ui/components/button/icon-button"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import IconButton from "@duct-ui/components/button/icon-button"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 import iconOne from "../icons/one.svg"
 import iconTwo from "../icons/two.svg"
 import iconThree from "../icons/three.svg"
@@ -41,20 +41,7 @@ function handleButtonBind(el: HTMLElement) {
 }
 
 function render(props: BaseProps<IconButtonDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const IconButton1 = makeIconButton()
-  const IconButton2 = makeIconButton()
-  const IconButton3 = makeIconButton()
-  const IconButton4 = makeIconButton()
-  const IconButton5 = makeIconButton()
-  const IconButton6 = makeIconButton()
-  const EmojiButton1 = makeIconButton()
-  const EmojiButton2 = makeIconButton()
-  const EmojiButton3 = makeIconButton()
-  const EmojiButton4 = makeIconButton()
-  const EmojiButton5 = makeIconButton()
-  const EmojiButton6 = makeIconButton()
-  const EventLog = makeEventLog()
+  // All components can now be used directly without factory calls
 
 
   return (
@@ -71,7 +58,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
             <div>
               <h3 class="text-lg font-medium mb-3">Icon Positions</h3>
               <div id="buttons" class="flex flex-row items-start gap-4 tiny-button-image">
-                <IconButton1
+                <IconButton
                   icon={{ src: iconOne }}
                   position="start"
                   label="Start Icon"
@@ -80,7 +67,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                   data-button-id="icon-button1"
                   on:click={handleButtonClick}
                 />
-                <IconButton2
+                <IconButton
                   icon={{ src: iconTwo }}
                   position="end"
                   label="End Icon"
@@ -89,7 +76,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                   data-button-id="icon-button2"
                   on:click={handleButtonClick}
                 />
-                <IconButton3
+                <IconButton
                   icon={{ src: iconThree }}
                   class="btn btn-outline px-3 rounded-full"
                   data-message="Icon-only button bound!"
@@ -102,7 +89,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
             <div>
               <h3 class="text-lg font-medium mb-3">Different Styles</h3>
               <div class="flex flex-row items-start gap-4 tiny-button-image">
-                <IconButton4
+                <IconButton
                   icon={{ src: iconOne }}
                   label="Primary"
                   class="btn btn-primary"
@@ -110,7 +97,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                   data-button-id="icon-button4"
                   on:click={handleButtonClick}
                 />
-                <IconButton5
+                <IconButton
                   icon={{ src: iconTwo }}
                   label="Secondary"
                   class="btn btn-secondary"
@@ -118,7 +105,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                   data-button-id="icon-button5"
                   on:click={handleButtonClick}
                 />
-                <IconButton6
+                <IconButton
                   icon={{ src: iconThree }}
                   label="Accent"
                   class="btn btn-accent"
@@ -135,7 +122,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                 <div>
                   <h4 class="text-md font-medium mb-2 text-base-content/80">Actions</h4>
                   <div class="flex flex-row items-start gap-4">
-                    <EmojiButton1
+                    <IconButton
                       icon="❤️"
                       label="Like"
                       class="btn btn-outline"
@@ -143,7 +130,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                       data-button-id="emoji-button1"
                       on:click={handleButtonClick}
                     />
-                    <EmojiButton2
+                    <IconButton
                       icon="💾"
                       label="Save"
                       class="btn btn-outline"
@@ -151,7 +138,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                       data-button-id="emoji-button2"
                       on:click={handleButtonClick}
                     />
-                    <EmojiButton3
+                    <IconButton
                       icon="🗑️"
                       class="btn btn-outline btn-error px-3"
                       data-message="Deleted!"
@@ -164,7 +151,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                 <div>
                   <h4 class="text-md font-medium mb-2 text-base-content/80">Navigation</h4>
                   <div class="flex flex-row items-start gap-4">
-                    <EmojiButton4
+                    <IconButton
                       icon="🏠"
                       label="Home"
                       class="btn btn-primary"
@@ -172,7 +159,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                       data-button-id="emoji-button4"
                       on:click={handleButtonClick}
                     />
-                    <EmojiButton5
+                    <IconButton
                       icon="⚙️"
                       label="Settings"
                       class="btn btn-secondary"
@@ -180,7 +167,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                       data-button-id="emoji-button5"
                       on:click={handleButtonClick}
                     />
-                    <EmojiButton6
+                    <IconButton
                       icon="📊"
                       label="Analytics"
                       class="btn btn-accent"
@@ -231,12 +218,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<IconButtonDemoEvents>
 
 const id = { id: "duct-demo/icon-button-demo" }
 
-export default () => {
-  return createBlueprint<IconButtonDemoProps, IconButtonDemoEvents, IconButtonDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const IconButtonDemo = createBlueprint<IconButtonDemoProps, IconButtonDemoEvents, IconButtonDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default IconButtonDemo

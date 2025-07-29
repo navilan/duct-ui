@@ -1,5 +1,5 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeDemoLayout from "../components/DemoLayout"
+import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "../utils/htmlUtils"
 
 export interface DocsBuildingDemoEvents extends BaseComponentEvents { }
@@ -10,8 +10,6 @@ export interface DocsBuildingDemoProps {
 }
 
 function render(props: BaseProps<DocsBuildingDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-
   return (
     <div {...props}>
       <DemoLayout
@@ -100,16 +98,16 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<ButtonEvents>, props: 
   }
 }
 
-// 6. Create the blueprint
+// 6. Create and export the component directly
 const id = { id: "my-app/button" }
 
-export default function makeButton() {
-  return createBlueprint<ButtonProps, ButtonEvents, ButtonLogic>(
-    id,
-    render,
-    { bind }
-  )
-}`)}</code></pre>
+const Button = createBlueprint<ButtonProps, ButtonEvents, ButtonLogic>(
+  id,
+  render,
+  { bind }
+)
+
+export default Button`)}</code></pre>
             </div>
           </div>
 
@@ -369,33 +367,33 @@ export default function makeUserSelect() {
 
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{escapeHtml(`// Recommended: Use refs for synchronous access
+              <pre class="text-sm"><code>{escapeHtml(`// Import and use components directly
 import { createRef } from '@duct-ui/core'
+import Button from './Button' // Your component
 
 const buttonRef = createRef<ButtonLogic>()
-const Button = makeButton()
 
-function render() {
-  return <Button ref={buttonRef} label="Click me" />
+function MyApp() {
+  return (
+    <Button 
+      ref={buttonRef} 
+      label="Click me" 
+      class="btn btn-primary"
+      on:click={handleClick}
+    />
+  )
 }
 
-// Access methods immediately after component is bound
+// Access component methods via ref
 buttonRef.current?.setDisabled(true)
-buttonRef.current?.updateLabel('New Text')
-
-// Alternative: Use getLogic when you need callback timing
-// (e.g., initialization that must happen after component binding)
-Button.getLogic().then(logic => {
-  logic.setDisabled(true)
-  logic.on('click', handleClick)
-})`)}</code></pre>
+buttonRef.current?.setLabel('New Text')`)}</code></pre>
             </div>
           </div>
 
           <div class="alert alert-info my-4">
             <span class="text-sm">
-              <strong>Best Practice:</strong> Use refs for most cases as they provide synchronous access.
-              Only use getLogic when you need the callback timing for initialization or testing.
+              <strong>Direct Usage:</strong> Components can be used directly in JSX without factory functions.
+              Use refs to access component methods and state after the component is mounted.
             </span>
           </div>
 
@@ -409,6 +407,7 @@ Button.getLogic().then(logic => {
                   <ul class="text-sm space-y-2">
                     <li>✓ Use TypeScript interfaces for everything</li>
                     <li>✓ Keep render functions pure</li>
+                    <li>✓ Export components directly, not factory functions</li>
                     <li>✓ Use refs for component logic access</li>
                     <li>✓ Use data attributes for element selection</li>
                     <li>✓ Always implement the release function</li>
@@ -426,7 +425,6 @@ Button.getLogic().then(logic => {
                   <ul class="text-sm space-y-2">
                     <li>❌ Put side effects in render functions</li>
                     <li>❌ Forget to remove event listeners</li>
-                    <li>❌ Use getLogic when refs would work</li>
                     <li>❌ Use global variables for component state</li>
                     <li>❌ Query DOM elements by tag name or class</li>
                     <li>❌ Mutate props directly</li>
@@ -446,22 +444,26 @@ Button.getLogic().then(logic => {
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`// Test example
-import makeButton from './Button'
+import Button from './Button'
+import { createRef } from '@duct-ui/core'
 
 describe('Button Component', () => {
   let container: HTMLElement
-  let buttonLogic: ButtonLogic
+  let buttonRef: any
 
-  beforeEach(async () => {
-    const Button = makeButton()
-
+  beforeEach(() => {
+    buttonRef = createRef()
+    
     // Render component
     container = document.createElement('div')
-    container.innerHTML = Button({ label: 'Test Button' }).toString()
     document.body.appendChild(container)
-
-    // Get component logic
-    buttonLogic = await Button.getLogic()
+    
+    // Render the button component
+    const buttonElement = Button({ 
+      ref: buttonRef,
+      label: 'Test Button' 
+    })
+    container.appendChild(buttonElement)
   })
 
   afterEach(() => {
@@ -474,23 +476,20 @@ describe('Button Component', () => {
   })
 
   test('should disable when setDisabled(true) is called', () => {
-    buttonLogic.setDisabled(true)
+    buttonRef.current?.setDisabled(true)
     const button = container.querySelector('button')
     expect(button?.disabled).toBe(true)
   })
 
-  test('should emit click event when clicked', (done) => {
+  test('should handle click events', () => {
     const button = container.querySelector('button')
-
-    // Listen for component event
-    const Button = makeButton()
-    Button.getLogic().then(logic => {
-      logic.on('click', () => {
-        done()
-      })
-    })
-
+    const clickSpy = jest.fn()
+    
+    // Set up click handler
+    button?.addEventListener('click', clickSpy)
     button?.click()
+    
+    expect(clickSpy).toHaveBeenCalled()
   })
 })`)}</code></pre>
             </div>
@@ -519,10 +518,10 @@ function bind(): BindReturn<DocsBuildingDemoLogic> {
 
 const id = { id: "duct-demo/docs-building" }
 
-export default () => {
-  return createBlueprint<DocsBuildingDemoProps, DocsBuildingDemoEvents, DocsBuildingDemoLogic>(
-    id,
-    render,
-    { bind }
-  )
-}
+const DocsBuildingDemo = createBlueprint<DocsBuildingDemoProps, DocsBuildingDemoEvents, DocsBuildingDemoLogic>(
+  id,
+  render,
+  { bind }
+)
+
+export default DocsBuildingDemo

@@ -1,22 +1,22 @@
-import makeButtonDemo from "./ButtonDemo"
-import makeIconButtonDemo from "./IconButtonDemo"
-import makeToggleDemo from "./ToggleDemo"
-import makeAsyncToggleDemo from "./AsyncToggleDemo"
-import makeEditableInputDemo from "./EditableInputDemo"
-import makeMenuDemo from "./MenuDemo"
-import makeSelectDemo from "./SelectDemo"
-import makeTreeViewDemo from "./TreeViewDemo"
-import makeSidebarDemo from "./SidebarDemo"
-import makeDrawerDemo from "./DrawerDemo"
-import makeTabsDemo from "./TabsDemo"
-import makeModalDemo from "./ModalDemo"
-import makeEmojiListDemo from "./EmojiListDemo"
-import makeCounterDemo from "./CounterDemo"
-import makeDocsIntroDemo from "./DocsIntroDemo"
-import makeDocsWhyDuctDemo from "./DocsWhyDuctDemo"
-import makeDocsComparisonDemo from "./DocsComparisonDemo"
-import makeDocsBuildingDemo from "./DocsBuildingDemo"
-import makeDocsClaudeCodeDemo from "./DocsClaudeCodeDemo"
+import ButtonDemo from "./ButtonDemo"
+import IconButtonDemo from "./IconButtonDemo"
+import ToggleDemo from "./ToggleDemo"
+import AsyncToggleDemo from "./AsyncToggleDemo"
+import EditableInputDemo from "./EditableInputDemo"
+import MenuDemo from "./MenuDemo"
+import SelectDemo from "./SelectDemo"
+import TreeViewDemo from "./TreeViewDemo"
+import SidebarDemo from "./SidebarDemo"
+import DrawerDemo from "./DrawerDemo"
+import TabsDemo from "./TabsDemo"
+import ModalDemo from "./ModalDemo"
+import EmojiListDemo from "./EmojiListDemo"
+import CounterDemo from "./CounterDemo"
+import DocsIntroDemo from "./DocsIntroDemo"
+import DocsWhyDuctDemo from "./DocsWhyDuctDemo"
+import DocsComparisonDemo from "./DocsComparisonDemo"
+import DocsBuildingDemo from "./DocsBuildingDemo"
+import DocsClaudeCodeDemo from "./DocsClaudeCodeDemo"
 
 export interface DemoInfo {
   id: string
@@ -41,7 +41,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "What is Duct?",
         description: "Introduction to the Duct UI Framework and its core concepts",
         component: () => {
-          const DocsIntroDemo = makeDocsIntroDemo()
           return DocsIntroDemo({})
         }
       },
@@ -50,7 +49,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Why Choose Duct?",
         description: "Benefits and advantages of using the Duct UI Framework",
         component: () => {
-          const DocsWhyDuctDemo = makeDocsWhyDuctDemo()
           return DocsWhyDuctDemo({})
         }
       },
@@ -59,7 +57,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Duct vs Other Frameworks",
         description: "How Duct compares to React, Vue, and Svelte",
         component: () => {
-          const DocsComparisonDemo = makeDocsComparisonDemo()
           return DocsComparisonDemo({})
         }
       },
@@ -68,7 +65,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Building Components",
         description: "A comprehensive guide to creating Duct components",
         component: () => {
-          const DocsBuildingDemo = makeDocsBuildingDemo()
           return DocsBuildingDemo({})
         }
       },
@@ -77,7 +73,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Using Claude Code",
         description: "How to train Claude Code to generate high-quality Duct components",
         component: () => {
-          const DocsClaudeCodeDemo = makeDocsClaudeCodeDemo()
           return DocsClaudeCodeDemo({})
         }
       }
@@ -96,7 +91,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Basic Button",
         description: "Basic button component with event handling",
         component: () => {
-          const ButtonDemo = makeButtonDemo()
           return ButtonDemo({})
         }
       },
@@ -105,7 +99,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Icon Button",
         description: "Button component with icon support",
         component: () => {
-          const IconButtonDemo = makeIconButtonDemo()
           return IconButtonDemo({})
         }
       },
@@ -114,7 +107,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Toggle Button",
         description: "Toggle button with on/off states and custom styling",
         component: () => {
-          const ToggleDemo = makeToggleDemo()
           return ToggleDemo({})
         }
       },
@@ -123,7 +115,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Async Toggle",
         description: "Asynchronous toggle button with custom async operations and loading states",
         component: () => {
-          const AsyncToggleDemo = makeAsyncToggleDemo()
           return AsyncToggleDemo({})
         }
       }
@@ -138,7 +129,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Editable Input",
         description: "Click-to-edit input with keyboard shortcuts",
         component: () => {
-          const EditableInputDemo = makeEditableInputDemo()
           return EditableInputDemo({})
         }
       }
@@ -153,7 +143,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Menu & MenuItem",
         description: "Dropdown menus with customizable placement and actions",
         component: () => {
-          const MenuDemo = makeMenuDemo()
           return MenuDemo({})
         }
       },
@@ -162,7 +151,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Select",
         description: "Dropdown select component with selection markers",
         component: () => {
-          const SelectDemo = makeSelectDemo()
           return SelectDemo({})
         }
       }
@@ -177,7 +165,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "TreeView",
         description: "Collapsible tree view for hierarchical data",
         component: () => {
-          const TreeViewDemo = makeTreeViewDemo()
           return TreeViewDemo({})
         }
       },
@@ -186,7 +173,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "List",
         description: "Interactive list with filtering, pagination, and component logic access",
         component: () => {
-          const EmojiListDemo = makeEmojiListDemo()
           return EmojiListDemo({})
         }
       }
@@ -201,7 +187,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Tabs",
         description: "Tabbed interface with dynamic content and nested tabs",
         component: () => {
-          const TabsDemo = makeTabsDemo()
           return TabsDemo({})
         }
       },
@@ -210,7 +195,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Modal Window",
         description: "Modal dialogs with customizable overlays and content",
         component: () => {
-          const ModalDemo = makeModalDemo()
           return ModalDemo({})
         }
       },
@@ -219,7 +203,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Sidebar Navigation",
         description: "Navigation sidebar with sections and hierarchical items",
         component: () => {
-          const SidebarDemo = makeSidebarDemo()
           return SidebarDemo({})
         }
       },
@@ -228,7 +211,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Drawer",
         description: "Responsive drawer component for mobile and desktop layouts",
         component: () => {
-          const DrawerDemo = makeDrawerDemo()
           return DrawerDemo({})
         }
       }
@@ -243,7 +225,6 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Async Counter",
         description: "Counter component demonstrating async data loading with IndexedDB persistence",
         component: () => {
-          const CounterDemo = makeCounterDemo()
           return CounterDemo({})
         }
       }

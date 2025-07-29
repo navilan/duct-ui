@@ -36,13 +36,13 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<MenuSeparatorEvents>):
 
 const id = { id: "duct/menu-separator" }
 
-export default () => {
-  return createBlueprint<MenuSeparatorProps, MenuSeparatorEvents, MenuSeparatorLogic>(
-    id,
-    render,
-    {
-      domEvents: [],
-      bind
-    },
-  )
-}
+const MenuSeparator = createBlueprint<MenuSeparatorProps, MenuSeparatorEvents, MenuSeparatorLogic>(
+  id,
+  render,
+  {
+    domEvents: [],
+    bind
+  },
+)
+
+export default MenuSeparator

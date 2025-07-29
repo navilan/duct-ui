@@ -152,12 +152,12 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<ModalEvents>, props: a
 
 const id = { id: "duct/modal" }
 
-export default () => {
-  return createBlueprint<ModalProps, ModalEvents, ModalLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const Modal = createBlueprint<ModalProps, ModalEvents, ModalLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default Modal

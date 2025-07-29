@@ -179,13 +179,13 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<MenuEvents>): BindRetu
 
 const id = { id: "duct/menu" }
 
-export default () => {
-  return createBlueprint<MenuProps, MenuEvents, MenuLogic>(
-    id,
-    render,
-    {
-      domEvents: ['click'],
-      bind
-    },
-  )
-}
+const Menu = createBlueprint<MenuProps, MenuEvents, MenuLogic>(
+  id,
+  render,
+  {
+    domEvents: ['click'],
+    bind
+  },
+)
+
+export default Menu

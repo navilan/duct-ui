@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import makeIcon, { type IconSource } from "../images/icon"
+import Icon, { type IconSource } from "../images/icon"
 
 export interface MenuItemEvents extends BaseComponentEvents {
   click: (el: HTMLElement, event: MouseEvent) => void
@@ -25,8 +25,7 @@ export type MenuItemProps = {
 } & Record<string, any>
 
 function renderIcon(icon: MenuItemIcon): JSX.Element {
-  const IconComponent = makeIcon()
-  return <IconComponent icon={icon} size="sm" class="mr-2" />
+  return <Icon icon={icon} size="sm" class="mr-2" />
 }
 
 function render(props: BaseProps<MenuItemProps>) {
@@ -129,13 +128,13 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<MenuItemEvents>): Bind
 
 const id = { id: "duct/menu-item" }
 
-export default () => {
-  return createBlueprint<MenuItemProps, MenuItemEvents, MenuItemLogic>(
-    id,
-    render,
-    {
-      domEvents: ['click'],
-      bind
-    },
-  )
-}
+const MenuItem = createBlueprint<MenuItemProps, MenuItemEvents, MenuItemLogic>(
+  id,
+  render,
+  {
+    domEvents: ['click'],
+    bind
+  },
+)
+
+export default MenuItem

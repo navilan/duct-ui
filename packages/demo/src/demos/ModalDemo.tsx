@@ -1,12 +1,12 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeModal, { ModalLogic, type ModalContentPosition } from "@duct-ui/components/layout/modal"
-import makeButton from "@duct-ui/components/button/button"
-import makeToggle from "@duct-ui/components/button/toggle"
-import makeEditable from "@duct-ui/components/input/editable"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import Modal, { ModalLogic, type ModalContentPosition } from "@duct-ui/components/layout/modal"
+import Button from "@duct-ui/components/button/button"
+import Toggle from "@duct-ui/components/button/toggle"
+import EditableInput from "@duct-ui/components/input/editable"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 
 export interface ModalDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -92,8 +92,6 @@ function handleOverlayClick(_el: HTMLElement) {
 
 // Modal content components
 function createSimpleModalContent() {
-  const CloseBtn = makeButton()
-
   return (
     <div class="p-6">
       <div class="flex items-center justify-between mb-4">
@@ -113,7 +111,7 @@ function createSimpleModalContent() {
       </div>
 
       <div class="flex justify-end gap-2">
-        <CloseBtn
+        <Button
           label="Close"
           class="btn btn-primary"
           data-modal-close
@@ -124,12 +122,6 @@ function createSimpleModalContent() {
 }
 
 function createFormModalContent() {
-  const SaveBtn = makeButton()
-  const CancelBtn = makeButton()
-  const NameInput = makeEditable()
-  const EmailInput = makeEditable()
-  const NotifyToggle = makeToggle()
-
   return (
     <div class="p-6">
       <div class="flex items-center justify-between mb-4">
@@ -147,7 +139,7 @@ function createFormModalContent() {
           <label class="label">
             <span class="label-text">Full Name</span>
           </label>
-          <NameInput
+          <EditableInput
             text="John Doe"
             placeholder="Enter your name"
             labelClass="name-label"
@@ -161,7 +153,7 @@ function createFormModalContent() {
           <label class="label">
             <span class="label-text">Email Address</span>
           </label>
-          <EmailInput
+          <EditableInput
             text="john@example.com"
             placeholder="Enter your email"
             class="input input-bordered w-full"
@@ -174,7 +166,7 @@ function createFormModalContent() {
         <div class="form-control">
           <label class="label cursor-pointer">
             <span class="label-text">Email Notifications</span>
-            <NotifyToggle
+            <Toggle
               onLabel="On"
               offLabel="Off"
               initialState="on"
@@ -188,12 +180,12 @@ function createFormModalContent() {
       </form>
 
       <div class="flex justify-end gap-2">
-        <CancelBtn
+        <Button
           label="Cancel"
           class="btn btn-outline"
           data-modal-close
         />
-        <SaveBtn
+        <Button
           label="Save Changes"
           class="btn btn-primary"
           on:click={() => addToLog('Form saved successfully')}
@@ -204,9 +196,6 @@ function createFormModalContent() {
 }
 
 function createConfirmModalContent() {
-  const ConfirmBtn = makeButton()
-  const CancelBtn = makeButton()
-
   return (
     <div class="p-6">
       <div class="flex items-center mb-4">
@@ -221,12 +210,12 @@ function createConfirmModalContent() {
       </div>
 
       <div class="flex justify-end gap-2">
-        <CancelBtn
+        <Button
           label="Cancel"
           class="btn btn-outline"
           data-modal-close
         />
-        <ConfirmBtn
+        <Button
           label="Delete"
           class="btn btn-error"
           on:click={() => {
@@ -241,8 +230,6 @@ function createConfirmModalContent() {
 }
 
 function createLargeModalContent() {
-  const CloseBtn = makeButton()
-
   return (
     <div class="p-6">
       <div class="flex items-center justify-between mb-4">
@@ -275,7 +262,7 @@ function createLargeModalContent() {
       </div>
 
       <div class="flex justify-end gap-2 sticky bottom-0 bg-white pt-4 border-t">
-        <CloseBtn
+        <Button
           label="Close"
           class="btn btn-primary"
           data-modal-close
@@ -336,27 +323,6 @@ const midCenterModalRef = createRef<ModalLogic>()
 const bottomRightModalRef = createRef<ModalLogic>()
 
 function render(props: BaseProps<ModalDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const SimpleModal = makeModal()
-  const FormModal = makeModal()
-  const ConfirmModal = makeModal()
-  const LargeModal = makeModal()
-  const TopLeftModal = makeModal()
-  const MidCenterModal = makeModal()
-  const BottomRightModal = makeModal()
-  const EventLog = makeEventLog()
-
-
-  // Trigger buttons
-  const SimpleBtn = makeButton()
-  const FormBtn = makeButton()
-  const ConfirmBtn = makeButton()
-  const LargeBtn = makeButton()
-  const TopLeftBtn = makeButton()
-  const MidCenterBtn = makeButton()
-  const BottomRightBtn = makeButton()
-
-
   return (
     <div {...props}>
       <DemoLayout
@@ -370,22 +336,22 @@ function render(props: BaseProps<ModalDemoProps>) {
           <div>
             <h2 class="text-xl font-semibold mb-4">Modal Examples</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <SimpleBtn
+              <Button
                 label="Simple Modal"
                 class="btn btn-primary"
                 on:click={() => simpleModalRef.current?.show()}
               />
-              <FormBtn
+              <Button
                 label="Form Modal"
                 class="btn btn-secondary"
                 on:click={() => formModalRef.current?.show()}
               />
-              <ConfirmBtn
+              <Button
                 label="Confirmation"
                 class="btn btn-warning"
                 on:click={() => confirmModalRef.current?.show()}
               />
-              <LargeBtn
+              <Button
                 label="Large Modal"
                 class="btn btn-accent"
                 on:click={() => largeModalRef.current?.show()}
@@ -400,17 +366,17 @@ function render(props: BaseProps<ModalDemoProps>) {
               Demonstration of different modal positions using the contentPosition prop.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <TopLeftBtn
+              <Button
                 label="Top Left"
                 class="btn btn-outline"
                 on:click={() => topLeftModalRef.current?.show()}
               />
-              <MidCenterBtn
+              <Button
                 label="Mid Center"
                 class="btn btn-outline"
                 on:click={() => midCenterModalRef.current?.show()}
               />
-              <BottomRightBtn
+              <Button
                 label="Bottom Right"
                 class="btn btn-outline"
                 on:click={() => bottomRightModalRef.current?.show()}
@@ -457,7 +423,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           </div>
 
           {/* Modal Components */}
-          <SimpleModal
+          <Modal
             ref={simpleModalRef}
             content={createSimpleModalContent}
             data-simple-modal
@@ -466,7 +432,7 @@ function render(props: BaseProps<ModalDemoProps>) {
             on:overlayClick={handleOverlayClick}
           />
 
-          <FormModal
+          <Modal
             ref={formModalRef}
             content={createFormModalContent}
             contentClass="bg-white rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-auto"
@@ -476,7 +442,7 @@ function render(props: BaseProps<ModalDemoProps>) {
             on:overlayClick={handleOverlayClick}
           />
 
-          <ConfirmModal
+          <Modal
             ref={confirmModalRef}
             content={createConfirmModalContent}
             contentClass="bg-white rounded-lg shadow-xl max-w-sm w-full mx-4"
@@ -486,7 +452,7 @@ function render(props: BaseProps<ModalDemoProps>) {
             on:overlayClick={handleOverlayClick}
           />
 
-          <LargeModal
+          <Modal
             ref={largeModalRef}
             content={createLargeModalContent}
             contentClass="max-w-4xl"
@@ -496,7 +462,7 @@ function render(props: BaseProps<ModalDemoProps>) {
             on:overlayClick={handleOverlayClick}
           />
 
-          <TopLeftModal
+          <Modal
             ref={topLeftModalRef}
             content={createTopLeftContent}
             contentPosition="top-left"
@@ -506,7 +472,7 @@ function render(props: BaseProps<ModalDemoProps>) {
             on:overlayClick={handleOverlayClick}
           />
 
-          <MidCenterModal
+          <Modal
             ref={midCenterModalRef}
             content={createMidCenterContent}
             contentPosition="mid-center"
@@ -516,7 +482,7 @@ function render(props: BaseProps<ModalDemoProps>) {
             on:overlayClick={handleOverlayClick}
           />
 
-          <BottomRightModal
+          <Modal
             ref={bottomRightModalRef}
             content={createBottomRightContent}
             contentPosition="bottom-right"
@@ -542,12 +508,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<ModalDemoEvents>): Bi
 
 const id = { id: "duct-demo/modal-demo" }
 
-export default () => {
-  return createBlueprint<ModalDemoProps, ModalDemoEvents, ModalDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const ModalDemo = createBlueprint<ModalDemoProps, ModalDemoEvents, ModalDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default ModalDemo

@@ -1,12 +1,12 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeTabs, { type TabItem } from "@duct-ui/components/layout/tabs"
-import makeButton from "@duct-ui/components/button/button"
-import makeToggle from "@duct-ui/components/button/toggle"
-import makeEditable from "@duct-ui/components/input/editable"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import Tabs, { type TabItem } from "@duct-ui/components/layout/tabs"
+import Button from "@duct-ui/components/button/button"
+import Toggle from "@duct-ui/components/button/toggle"
+import EditableInput from "@duct-ui/components/input/editable"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 
 export interface TabsDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -36,7 +36,6 @@ function handleTabChange(_el: HTMLElement, activeTabId: string) {
 
 // Sample tab content components
 function createOverviewContent() {
-  const Button1 = makeButton()
   return (
     <div class="p-4 space-y-4">
       <h3 class="text-lg font-semibold">Welcome to the Dashboard</h3>
@@ -56,7 +55,7 @@ function createOverviewContent() {
         </div>
       </div>
       <div class="mt-4">
-        <Button1
+        <Button
           label="View Details"
           class="btn btn-primary"
           on:click={() => addToLog('Overview details button clicked')}
@@ -67,12 +66,11 @@ function createOverviewContent() {
 }
 
 function createAnalyticsContent() {
-  const RefreshBtn = makeButton()
   return (
     <div class="p-4 space-y-4">
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-semibold">Analytics Dashboard</h3>
-        <RefreshBtn
+        <Button
           label="Refresh Data"
           class="btn btn-sm btn-outline"
           on:click={() => addToLog('Analytics data refreshed')}
@@ -105,9 +103,6 @@ function createAnalyticsContent() {
 }
 
 function createSettingsContent() {
-  // Create nested tabs for settings
-  const SettingsTabs = makeTabs()
-  
   const settingsTabItems: TabItem[] = [
     {
       id: 'general',
@@ -134,7 +129,7 @@ function createSettingsContent() {
   return (
     <div class="p-4 space-y-4">
       <h3 class="text-lg font-semibold">Settings</h3>
-      <SettingsTabs
+      <Tabs
         items={settingsTabItems}
         activeTabId="general"
         tabClass="tab tab-sm"
@@ -147,17 +142,13 @@ function createSettingsContent() {
 }
 
 function createGeneralSettingsContent() {
-  const SaveBtn = makeButton()
-  const NotificationsToggle = makeToggle()
-  const UsernameInput = makeEditable()
-
   return (
     <div class="space-y-6">
       <div class="form-control">
         <label class="label">
           <span class="label-text">Username</span>
         </label>
-        <UsernameInput
+        <EditableInput
           text="john_doe"
           labelClass="user-name-label"
           inputClass="user-name-input"
@@ -170,7 +161,7 @@ function createGeneralSettingsContent() {
       <div class="form-control">
         <label class="label cursor-pointer">
           <span class="label-text">Email Notifications</span>
-          <NotificationsToggle
+          <Toggle
             onLabel="Enabled"
             offLabel="Disabled"
             initialState="on"
@@ -185,12 +176,12 @@ function createGeneralSettingsContent() {
       <div class="divider"></div>
 
       <div class="flex gap-2">
-        <SaveBtn
+        <Button
           label="Save Changes"
           class="btn btn-primary"
           on:click={() => addToLog('General settings saved')}
         />
-        <SaveBtn
+        <Button
           label="Reset"
           class="btn btn-outline"
           on:click={() => addToLog('General settings reset')}
@@ -201,10 +192,6 @@ function createGeneralSettingsContent() {
 }
 
 function createProfileSettingsContent() {
-  const NameInput = makeEditable()
-  const BioInput = makeEditable()
-  const SaveBtn = makeButton()
-  
   return (
     <div class="space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -212,7 +199,7 @@ function createProfileSettingsContent() {
           <label class="label">
             <span class="label-text">Display Name</span>
           </label>
-          <NameInput
+          <EditableInput
             text="John Doe"
             labelClass="display-name-label"
             inputClass="display-name-input"
@@ -225,7 +212,7 @@ function createProfileSettingsContent() {
           <label class="label">
             <span class="label-text">Bio</span>
           </label>
-          <BioInput
+          <EditableInput
             text="Software developer"
             labelClass="bio-label"
             inputClass="bio-input"
@@ -235,7 +222,7 @@ function createProfileSettingsContent() {
           />
         </div>
       </div>
-      <SaveBtn
+      <Button
         label="Update Profile"
         class="btn btn-primary"
         on:click={() => addToLog('Profile settings saved')}
@@ -245,9 +232,6 @@ function createProfileSettingsContent() {
 }
 
 function createSecuritySettingsContent() {
-  const ChangePasswordBtn = makeButton()
-  const TwoFactorToggle = makeToggle()
-  
   return (
     <div class="space-y-4">
       <div class="alert alert-warning">
@@ -260,7 +244,7 @@ function createSecuritySettingsContent() {
       <div class="form-control">
         <label class="label cursor-pointer">
           <span class="label-text">Two-Factor Authentication</span>
-          <TwoFactorToggle
+          <Toggle
             onLabel="Enabled"
             offLabel="Disabled"
             initialState="off"
@@ -272,7 +256,7 @@ function createSecuritySettingsContent() {
         </label>
       </div>
       
-      <ChangePasswordBtn
+      <Button
         label="Change Password"
         class="btn btn-warning"
         on:click={() => addToLog('Password change initiated')}
@@ -282,16 +266,12 @@ function createSecuritySettingsContent() {
 }
 
 function createPrivacySettingsContent() {
-  const PublicProfileToggle = makeToggle()
-  const DataSharingToggle = makeToggle()
-  const SaveBtn = makeButton()
-  
   return (
     <div class="space-y-4">
       <div class="form-control">
         <label class="label cursor-pointer">
           <span class="label-text">Public Profile</span>
-          <PublicProfileToggle
+          <Toggle
             onLabel="Public"
             offLabel="Private"
             initialState="on"
@@ -306,7 +286,7 @@ function createPrivacySettingsContent() {
       <div class="form-control">
         <label class="label cursor-pointer">
           <span class="label-text">Data Sharing</span>
-          <DataSharingToggle
+          <Toggle
             onLabel="Allowed"
             offLabel="Blocked"
             initialState="off"
@@ -320,7 +300,7 @@ function createPrivacySettingsContent() {
       
       <div class="divider"></div>
       
-      <SaveBtn
+      <Button
         label="Save Privacy Settings"
         class="btn btn-primary"
         on:click={() => addToLog('Privacy settings saved')}
@@ -331,11 +311,6 @@ function createPrivacySettingsContent() {
 
 
 function render(props: BaseProps<TabsDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const MainTabs = makeTabs()
-  const EventLog = makeEventLog()
-
-
   // Main dashboard tabs
   const mainTabItems: TabItem[] = [
     {
@@ -373,7 +348,7 @@ function render(props: BaseProps<TabsDemoProps>) {
           {/* Main Tabs Example */}
           <div>
             <h2 class="text-xl font-semibold mb-4">Dashboard with Nested Tabs</h2>
-            <MainTabs
+            <Tabs
               items={mainTabItems}
               activeTabId="overview"
               tabClass="tab"
@@ -436,12 +411,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<TabsDemoEvents>): Bin
 
 const id = { id: "duct-demo/tabs-demo" }
 
-export default () => {
-  return createBlueprint<TabsDemoProps, TabsDemoEvents, TabsDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const TabsDemo = createBlueprint<TabsDemoProps, TabsDemoEvents, TabsDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default TabsDemo

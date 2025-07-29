@@ -193,12 +193,12 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<TabsEvents>, props: an
 
 const id = { id: "duct/tabs" }
 
-export default () => {
-  return createBlueprint<TabsProps, TabsEvents, TabsLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const Tabs = createBlueprint<TabsProps, TabsEvents, TabsLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default Tabs

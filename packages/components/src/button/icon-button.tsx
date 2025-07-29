@@ -1,6 +1,6 @@
 import { type BaseProps, createBlueprint } from "@duct-ui/core/blueprint"
 import { ButtonEvents, ButtonProps } from "./button"
-import makeIcon, { type IconSource, type IconSize } from "../images/icon"
+import Icon, { type IconSource, type IconSize } from "../images/icon"
 
 export type IconPosition = "start" | "end"
 
@@ -12,8 +12,7 @@ export type IconButtonProps = Partial<ButtonProps> & {
 }
 
 function renderIcon(icon: IconSource, size?: IconSize, iconClass?: string): JSX.Element {
-  const IconComponent = makeIcon()
-  return <IconComponent icon={icon} size={size || "sm"} class={iconClass} />
+  return <Icon icon={icon} size={size || "sm"} class={iconClass} />
 }
 
 function render(props: BaseProps<IconButtonProps>) {
@@ -42,11 +41,12 @@ function render(props: BaseProps<IconButtonProps>) {
 const id = { id: "duct/icon-button" }
 
 // Create the final component
-export default () => {
-  return createBlueprint<IconButtonProps, ButtonEvents>(
-    id,
-    render,
-    {
-      domEvents: ['click', 'dblclick'], // Automatically bind these DOM events
-    })
-}
+const IconButton = createBlueprint<IconButtonProps, ButtonEvents>(
+  id,
+  render,
+  {
+    domEvents: ['click', 'dblclick'], // Automatically bind these DOM events
+  }
+)
+
+export default IconButton

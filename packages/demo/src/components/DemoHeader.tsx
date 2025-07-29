@@ -1,4 +1,4 @@
-import makeIconButton from "@duct-ui/components/button/icon-button"
+import IconButton from "@duct-ui/components/button/icon-button"
 
 export interface DemoHeaderProps {
   isMenuOpen?: boolean
@@ -7,7 +7,7 @@ export interface DemoHeaderProps {
   'on:menuToggle'?: (el: HTMLElement) => void
 }
 
-const IconButton = makeIconButton()
+// IconButton is now imported directly
 
 // Hamburger icon as string (3 horizontal lines)
 const hamburgerIcon = "☰"

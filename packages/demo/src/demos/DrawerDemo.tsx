@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import makeDemoLayout from "../components/DemoLayout"
+import DemoLayout from "../components/DemoLayout"
 
 export interface DrawerDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -16,8 +16,6 @@ export interface DrawerDemoProps {
 }
 
 function render(props: BaseProps<DrawerDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-
   return (
     <div {...props}>
       <DemoLayout
@@ -135,12 +133,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<DrawerDemoEvents>): B
 
 const id = { id: "duct-demo/drawer-demo" }
 
-export default () => {
-  return createBlueprint<DrawerDemoProps, DrawerDemoEvents, DrawerDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const DrawerDemo = createBlueprint<DrawerDemoProps, DrawerDemoEvents, DrawerDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default DrawerDemo

@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import makeIcon, { IconSize, type IconSource } from "../images/icon"
+import Icon, { IconSize, type IconSource } from "../images/icon"
 
 export type SelectPlacement = 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end' | 'bottom' | 'top'
 
@@ -53,8 +53,7 @@ export type SelectProps = {
 } & Record<string, any>
 
 function renderIcon(icon: SelectItemIcon, iconSize: IconSize = 'sm', iconClass: string = ""): JSX.Element {
-  const IconComponent = makeIcon()
-  return <IconComponent icon={icon} size={iconSize} class={iconClass} />
+  return <Icon icon={icon} size={iconSize} class={iconClass} />
 }
 
 function render(props: BaseProps<SelectProps>) {
@@ -344,13 +343,13 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<SelectEvents>): BindRe
 
 const id = { id: "duct/select" }
 
-export default () => {
-  return createBlueprint<SelectProps, SelectEvents, SelectLogic>(
-    id,
-    render,
-    {
-      domEvents: ['click'],
-      bind
-    },
-  )
-}
+const Select = createBlueprint<SelectProps, SelectEvents, SelectLogic>(
+  id,
+  render,
+  {
+    domEvents: ['click'],
+    bind
+  },
+)
+
+export default Select

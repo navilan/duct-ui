@@ -1,7 +1,7 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import Dexie, { type Table } from 'dexie'
-import makeDemoLayout from "../components/DemoLayout"
+import DemoLayout from "../components/DemoLayout"
 
 // Dexie database for persistent counter storage
 interface CounterData {
@@ -42,8 +42,6 @@ interface LoadedCounterData {
 }
 
 function render(props: BaseProps<CounterDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-
   return (
     <div {...props}>
       <DemoLayout
@@ -170,13 +168,13 @@ function bind(
 
 const id = { id: "duct-demo/counter-demo" }
 
-export default () => {
-  return createBlueprint<CounterDemoProps, CounterDemoEvents, CounterDemoLogic, LoadedCounterData>(
-    id,
-    render,
-    {
-      load,
-      bind
-    }
-  )
-}
+const CounterDemo = createBlueprint<CounterDemoProps, CounterDemoEvents, CounterDemoLogic, LoadedCounterData>(
+  id,
+  render,
+  {
+    load,
+    bind
+  }
+)
+
+export default CounterDemo

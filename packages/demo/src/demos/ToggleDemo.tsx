@@ -1,9 +1,9 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import makeToggle, { type ToggleState } from "@duct-ui/components/button/toggle"
-import makeDemoLayout from "../components/DemoLayout"
-import makeEventLog, { EventLogLogic } from "../components/EventLog"
+import Toggle, { type ToggleState } from "@duct-ui/components/button/toggle"
+import DemoLayout from "../components/DemoLayout"
+import EventLog, { EventLogLogic } from "../components/EventLog"
 
 export interface ToggleDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -44,14 +44,6 @@ function handlePremiumToggle(_el: HTMLElement, state: ToggleState) {
 }
 
 function render(props: BaseProps<ToggleDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-  const LightToggle = makeToggle()
-  const NotificationsToggle = makeToggle()
-  const ModeToggle = makeToggle()
-  const PremiumToggle = makeToggle()
-  const EventLog = makeEventLog()
-
-
   return (
     <div {...props}>
       <DemoLayout
@@ -71,7 +63,7 @@ function render(props: BaseProps<ToggleDemoProps>) {
                     <div class="font-medium">Room Light</div>
                     <div class="text-sm text-base-content/60">Control room lighting</div>
                   </div>
-                  <LightToggle
+                  <Toggle
                     onLabel="Turn Off"
                     offLabel="Turn On"
                     initialState="off"
@@ -87,7 +79,7 @@ function render(props: BaseProps<ToggleDemoProps>) {
                     <div class="font-medium">Notifications</div>
                     <div class="text-sm text-base-content/60">Enable push notifications</div>
                   </div>
-                  <NotificationsToggle
+                  <Toggle
                     onLabel="Disable"
                     offLabel="Enable"
                     initialState="on"
@@ -109,7 +101,7 @@ function render(props: BaseProps<ToggleDemoProps>) {
                     <div class="font-medium">Theme Mode</div>
                     <div class="text-sm text-base-content/60">Switch between light and dark</div>
                   </div>
-                  <ModeToggle
+                  <Toggle
                     onLabel="🌙 Dark"
                     offLabel="☀️ Light"
                     initialState="off"
@@ -125,7 +117,7 @@ function render(props: BaseProps<ToggleDemoProps>) {
                     <div class="font-medium">Premium Features</div>
                     <div class="text-sm text-base-content/60">Access premium functionality</div>
                   </div>
-                  <PremiumToggle
+                  <Toggle
                     onLabel="⭐ Active"
                     offLabel="Upgrade"
                     initialState="off"
@@ -191,12 +183,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<ToggleDemoEvents>): B
 
 const id = { id: "duct-demo/toggle-demo" }
 
-export default () => {
-  return createBlueprint<ToggleDemoProps, ToggleDemoEvents, ToggleDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const ToggleDemo = createBlueprint<ToggleDemoProps, ToggleDemoEvents, ToggleDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default ToggleDemo

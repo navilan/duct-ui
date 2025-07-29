@@ -331,13 +331,13 @@ function bind<T>(el: HTMLElement, eventEmitter: EventEmitter<TreeViewEvents>): B
 
 const id = { id: "duct/tree-view" }
 
-export default () => {
-  return createBlueprint<TreeViewProps, TreeViewEvents, TreeViewLogic>(
-    id,
-    render,
-    {
-      domEvents: ['click'],
-      bind
-    }
-  )
-}
+const TreeView = createBlueprint<TreeViewProps, TreeViewEvents, TreeViewLogic>(
+  id,
+  render,
+  {
+    domEvents: ['click'],
+    bind
+  }
+)
+
+export default TreeView

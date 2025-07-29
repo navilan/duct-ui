@@ -157,13 +157,13 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<DrawerEvents>): BindRe
 
 const id = { id: "duct/drawer" }
 
-export default () => {
-  return createBlueprint<DrawerProps, DrawerEvents, DrawerLogic>(
-    id,
-    render,
-    {
-      domEvents: ['click'],
-      bind
-    },
-  )
-}
+const Drawer = createBlueprint<DrawerProps, DrawerEvents, DrawerLogic>(
+  id,
+  render,
+  {
+    domEvents: ['click'],
+    bind
+  },
+)
+
+export default Drawer

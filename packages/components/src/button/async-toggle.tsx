@@ -229,10 +229,10 @@ function bind(
 
 const id = { id: 'duct/async-toggle' }
 
-export default () => {
-  return createBlueprint<AsyncToggleProps, AsyncToggleEvents, AsyncToggleLogic, AsyncToggleLoadData>(
-    id,
-    render,
-    { bind, load }
-  )
-}
+const AsyncToggle = createBlueprint<AsyncToggleProps, AsyncToggleEvents, AsyncToggleLogic, AsyncToggleLoadData>(
+  id,
+  render,
+  { bind, load }
+)
+
+export default AsyncToggle

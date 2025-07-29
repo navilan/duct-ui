@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import makeDemoLayout from "../components/DemoLayout"
+import DemoLayout from "../components/DemoLayout"
 
 export interface SidebarDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -16,8 +16,6 @@ export interface SidebarDemoProps {
 }
 
 function render(props: BaseProps<SidebarDemoProps>) {
-  const DemoLayout = makeDemoLayout()
-
   return (
     <div {...props}>
       <DemoLayout
@@ -100,12 +98,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarDemoEvents>): 
 
 const id = { id: "duct-demo/sidebar-demo" }
 
-export default () => {
-  return createBlueprint<SidebarDemoProps, SidebarDemoEvents, SidebarDemoLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const SidebarDemo = createBlueprint<SidebarDemoProps, SidebarDemoEvents, SidebarDemoLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default SidebarDemo

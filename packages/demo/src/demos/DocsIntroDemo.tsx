@@ -1,5 +1,5 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
-import makeDemoLayout from "../components/DemoLayout"
+import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "../utils/htmlUtils"
 
 export interface DocsIntroDemoEvents extends BaseComponentEvents { }
@@ -10,7 +10,6 @@ export interface DocsIntroDemoProps {
 }
 
 function render(props: BaseProps<DocsIntroDemoProps>) {
-  const DemoLayout = makeDemoLayout()
 
   return (
     <div {...props}>
@@ -150,25 +149,19 @@ export interface ButtonEvents extends BaseComponentEvents {
 
           <h3>Component Logic Access</h3>
           <p>
-            Components expose their logic for programmatic control using refs (recommended) or getLogic callbacks:
+            Components expose their logic for programmatic control using refs:
           </p>
           <div class="not-prose">
             <div class="bg-base-200 rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`// Recommended: Use refs for synchronous access
+import { Button } from '@duct-ui/components'
 const buttonRef = createRef()
-const MyButton = makeButton()
 
-<MyButton ref={buttonRef} label="Test" />
+<Button ref={buttonRef} label="Test" />
 
 // Access component logic immediately
 buttonRef.current?.setDisabled(true)
-buttonRef.current?.updateLabel('New Text')
-
-// Alternative: Use getLogic when you need callback timing
-MyButton.getLogic().then(logic => {
-  logic.setDisabled(true)
-  logic.updateLabel('New Text')
-})`)}</code></pre>
+buttonRef.current?.updateLabel('New Text')`)}</code></pre>
             </div>
           </div>
 
@@ -227,10 +220,10 @@ function bind(): BindReturn<DocsIntroDemoLogic> {
 
 const id = { id: "duct-demo/docs-intro" }
 
-export default () => {
-  return createBlueprint<DocsIntroDemoProps, DocsIntroDemoEvents, DocsIntroDemoLogic>(
-    id,
-    render,
-    { bind }
-  )
-}
+const DocsIntro = createBlueprint<DocsIntroDemoProps, DocsIntroDemoEvents, DocsIntroDemoLogic>(
+  id,
+  render,
+  { bind }
+);
+
+export default DocsIntro;

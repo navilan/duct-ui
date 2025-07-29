@@ -114,12 +114,12 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<EventLogEvents>): Bin
 
 const id = { id: "duct-demo/event-log" }
 
-export default () => {
-  return createBlueprint<EventLogProps, EventLogEvents, EventLogLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const EventLog = createBlueprint<EventLogProps, EventLogEvents, EventLogLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default EventLog

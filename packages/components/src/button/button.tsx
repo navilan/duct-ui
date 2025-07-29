@@ -20,12 +20,12 @@ function render(props: BaseProps<ButtonProps>) {
 
 const id = { id: "duct/button" }
 
-export default () => {
-  return createBlueprint<ButtonProps, ButtonEvents>(
-    id,
-    render,
-    {
-      domEvents: ['click', 'dblclick']
-    }
-  )
-}
+const Button = createBlueprint<ButtonProps, ButtonEvents>(
+  id,
+  render,
+  {
+    domEvents: ['click', 'dblclick']
+  }
+)
+
+export default Button

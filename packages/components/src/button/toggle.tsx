@@ -115,12 +115,12 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<ToggleEvents>, props: 
 
 const id = { id: "duct/toggle" }
 
-export default () => {
-  return createBlueprint<ToggleProps, ToggleEvents, ToggleLogic>(
-    id,
-    render,
-    {
-      bind
-    }
-  )
-}
+const Toggle = createBlueprint<ToggleProps, ToggleEvents, ToggleLogic>(
+  id,
+  render,
+  {
+    bind
+  }
+)
+
+export default Toggle
