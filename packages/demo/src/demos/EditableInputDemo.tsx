@@ -3,6 +3,7 @@ import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import EditableInput from "@duct-ui/components/input/editable"
 import Button from "@duct-ui/components/button/button"
+import Toggle from "@duct-ui/components/button/toggle"
 import DemoLayout from "../components/DemoLayout"
 import EventLog, { EventLogLogic } from "../components/EventLog"
 
@@ -49,11 +50,18 @@ function setRandomText(el: HTMLElement, e: MouseEvent) {
   }
 }
 
-function toggleEditMode(el: HTMLElement, e: MouseEvent) {
+function toggleEditMode(el: HTMLElement, state: 'on' | 'off') {
   if (input3Ref.current) {
     const wasEditing = input3Ref.current.isEditing()
-    input3Ref.current.toggleEdit()
-    addToLog(`Toggled edit mode: ${wasEditing ? 'editing' : 'viewing'} → ${!wasEditing ? 'editing' : 'viewing'}`)
+    
+    // Force the input to match the toggle state
+    if (state === 'on' && !wasEditing) {
+      input3Ref.current.beginEdit()
+    } else if (state === 'off' && wasEditing) {
+      input3Ref.current.cancelEdit()
+    }
+    
+    addToLog(`Toggle set to ${state}: ${wasEditing ? 'editing' : 'viewing'} → ${state === 'on' ? 'editing' : 'viewing'}`)
   } else {
     addToLog("⚠️ Input3 logic not ready yet - component may not be fully mounted")
   }
@@ -143,11 +151,14 @@ function render(props: BaseProps<EditableInputDemoProps>) {
                     data-editable-control="true"
                     on:click={setRandomText}
                   />
-                  <Button 
-                    label="Toggle Edit Mode"
-                    class="btn btn-sm btn-outline btn-accent"
-                    data-editable-control="true"
-                    on:click={toggleEditMode}
+                  <Toggle
+                    onLabel="Editing"
+                    offLabel="Viewing"
+                    initialState="off"
+                    onClass="btn-accent"
+                    offClass="btn-outline btn-accent"
+                    class="btn btn-sm"
+                    on:change={toggleEditMode}
                   />
                 </div>
               </div>

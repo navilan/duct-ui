@@ -292,8 +292,8 @@ function render(props: BaseProps<EmojiListDemoProps>) {
                 </ul>
               </div>
 
-              <div class="mt-4 p-3 bg-info/10 rounded border border-info/20">
-                <p class="text-sm text-info-content">
+              <div class="mt-4 p-3 bg-info-content rounded border border-info/20">
+                <p class="text-sm text-info/70">
                   <strong>Try it:</strong> Click the star button to favorite emojis, then click "Show Favorites"
                   to filter the list to only show your favorite emojis. The favorites state is managed globally
                   and persists across pagination and category changes!

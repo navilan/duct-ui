@@ -10,8 +10,9 @@
 
 /* Modal Content - Content box with absolute positioning */
 .modal-content {
-  @apply absolute z-10 bg-white rounded-lg shadow-xl max-w-md w-full max-h-full overflow-auto;
+  @apply absolute z-10 bg-base-100 rounded-lg shadow-2xl max-w-md w-full max-h-full overflow-auto;
   transform: translate(-50%, -50%);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 /* Content Position Classes - Top Row */

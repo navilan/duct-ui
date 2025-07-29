@@ -261,7 +261,7 @@ function createLargeModalContent() {
         ))}
       </div>
 
-      <div class="flex justify-end gap-2 sticky bottom-0 bg-white pt-4 border-t">
+      <div class="flex justify-end gap-2 sticky bottom-0 bg-base-100 pt-4 border-t border-base-300">
         <Button
           label="Close"
           class="btn btn-primary"
@@ -413,8 +413,8 @@ function render(props: BaseProps<ModalDemoProps>) {
               </ul>
             </div>
 
-            <div class="mt-4 p-3 bg-info/10 rounded border border-info/20">
-              <p class="text-sm text-info-content">
+            <div class="mt-4 p-3 bg-info-content rounded border border-info/20">
+              <p class="text-sm text-info/70">
                 <strong>Try it:</strong> Click any button to open different modal types. Try the "Position Demo" to see
                 all 9 positioning options. Notice how each modal maintains its own state and can contain interactive components.
                 Use Escape key or click overlay to close.
@@ -435,7 +435,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           <Modal
             ref={formModalRef}
             content={createFormModalContent}
-            contentClass="bg-white rounded-lg shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-auto"
+            contentClass="bg-base-100 rounded-lg shadow-2xl max-w-lg w-full mx-4 max-h-[90vh] overflow-auto"
             data-form-modal
             on:open={handleFormModalOpen}
             on:close={handleFormModalClose}
@@ -445,7 +445,7 @@ function render(props: BaseProps<ModalDemoProps>) {
           <Modal
             ref={confirmModalRef}
             content={createConfirmModalContent}
-            contentClass="bg-white rounded-lg shadow-xl max-w-sm w-full mx-4"
+            contentClass="bg-base-100 rounded-lg shadow-2xl max-w-sm w-full mx-4"
             data-confirm-modal
             on:open={handleConfirmModalOpen}
             on:close={handleConfirmModalClose}
