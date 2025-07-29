@@ -159,8 +159,8 @@ function render(props: BaseProps<ToggleDemoProps>) {
                 </ul>
               </div>
 
-              <div class="mt-4 p-3 bg-info/10 rounded border border-info/20">
-                <p class="text-sm text-info-content">
+              <div class="mt-4 p-3 bg-info-content rounded border border-info/20">
+                <p class="text-sm text-info/70">
                   <strong>Try it:</strong> Click any toggle to see how the state changes are tracked in the activity log.
                   Each toggle maintains its own independent state and can have different styling for on/off states.
                 </p>

@@ -8,7 +8,7 @@ function ductDemosPlugin() {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         if (req.url.startsWith('/docs/') && !req.url.endsWith('.html')) {
-          req.url = '/docs.html';
+          req.url = '/docs/index.html';
         }
         next();
       });

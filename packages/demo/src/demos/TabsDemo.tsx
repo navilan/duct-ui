@@ -387,8 +387,8 @@ function render(props: BaseProps<TabsDemoProps>) {
               </ul>
             </div>
 
-            <div class="mt-4 p-3 bg-info/10 rounded border border-info/20">
-              <p class="text-sm text-info-content">
+            <div class="mt-4 p-3 bg-info-content rounded border border-info/20">
+              <p class="text-sm text-info/70">
                 <strong>Try it:</strong> Click on the "Settings" tab to see nested tabs in action. Each settings category 
                 (General, Profile, Security, Privacy) has its own tab within the main Settings tab. All tab changes are 
                 logged in the activity log below.

@@ -18,7 +18,9 @@ function render(props: BaseProps<LandingPageProps>) {
           <div class="text-center">
             {/* Logo */}
             <div class="flex justify-center mb-8">
-              <img src={ductLogo} alt="Duct UI" class="h-32 w-32" />
+              <div class="relative inline-block rounded-full border-2 m-8 border-primary/30 bg-primary/5">
+                <img src={ductLogo} alt="Duct UI" class="h-32 w-32" />
+              </div>
             </div>
 
             {/* Title */}
@@ -32,7 +34,7 @@ function render(props: BaseProps<LandingPageProps>) {
             </p>
 
             {/* Tagline */}
-            <p class="text-lg text-base-content/60 mb-12 max-w-2xl mx-auto">
+            <p class="text-lg text-base-content/70 mb-12 max-w-2xl mx-auto">
               Build maintainable, explicit UI components with clear separation of concerns.
               Perfect for teams that value debuggable code over complex abstractions.
             </p>
@@ -67,7 +69,7 @@ function render(props: BaseProps<LandingPageProps>) {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
-              <h3 class="text-xl font-semibold text-base-content mb-3">Explicit & Debuggable</h3>
+              <h3 class="text-xl font-semibold text-base-content/80 mb-3">Explicit & Debuggable</h3>
               <p class="text-base-content/70 leading-relaxed">
                 No hidden magic or complex abstractions. Every component behavior is explicit and easy to trace.
               </p>
@@ -79,7 +81,7 @@ function render(props: BaseProps<LandingPageProps>) {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                 </svg>
               </div>
-              <h3 class="text-xl font-semibold text-base-content mb-3">Clean Architecture</h3>
+              <h3 class="text-xl font-semibold text-base-content/80 mb-3">Clean Architecture</h3>
               <p class="text-base-content/70 leading-relaxed">
                 Clear separation between templates and logic. Blueprint pattern keeps code organized and maintainable.
               </p>
@@ -91,7 +93,7 @@ function render(props: BaseProps<LandingPageProps>) {
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 class="text-xl font-semibold text-base-content mb-3">Direct DOM Control</h3>
+              <h3 class="text-xl font-semibold text-base-content/80 mb-3">Direct DOM Control</h3>
               <p class="text-base-content/70 leading-relaxed">
                 No virtual DOM overhead. Direct manipulation gives you predictable performance and full control.
               </p>
@@ -101,7 +103,7 @@ function render(props: BaseProps<LandingPageProps>) {
           {/* Quick Start */}
           <div class="max-w-5xl mx-auto">
             <div class="text-center mb-8">
-              <h2 class="text-3xl font-bold text-base-content mb-4">Quick Start</h2>
+              <h2 class="text-3xl font-bold text-base-content/90 mb-4">Quick Start</h2>
               <p class="text-base-content/70">Get up and running with Duct in minutes</p>
             </div>
 
@@ -111,12 +113,14 @@ function render(props: BaseProps<LandingPageProps>) {
                 <div>
                   <h3 class="text-xl font-semibold mb-4 flex items-center">
                     <span class="w-8 h-8 bg-primary text-primary-content rounded-full flex items-center justify-center text-sm font-bold mr-3">1</span>
-                    Install
+                    <span class="text-base-content/70">
+                      Install
+                    </span>
                   </h3>
                   <div class="text-center mt-2 flex justify-start px-12">
                     <img alt="NPM Version" src="https://img.shields.io/npm/v/%40duct-ui%2Fcore?style=for-the-badge" />
                   </div>
-                  <div class="bg-base-300/50 rounded-lg p-4 font-mono text-sm">
+                  <div class="bg-base-300/50 rounded-lg p-4 font-mono text-md">
                     <div class="text-success">pnpm install @duct-ui/core</div>
                     <div class="text-success">pnpm install @duct-ui/components</div>
                   </div>
@@ -126,9 +130,11 @@ function render(props: BaseProps<LandingPageProps>) {
                 <div>
                   <h3 class="text-xl font-semibold mb-4 flex items-center">
                     <span class="w-8 h-8 bg-primary text-primary-content rounded-full flex items-center justify-center text-sm font-bold mr-3">2</span>
-                    Use
+                    <span class="text-base-content/70">
+                      Use
+                    </span>
                   </h3>
-                  <div class="bg-base-300/50 rounded-lg p-4 font-mono text-sm">
+                  <div class="bg-base-300/50 rounded-lg p-4 font-mono text-md">
                     <br />
                     <pre class="text-info">
                       {

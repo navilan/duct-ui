@@ -33,12 +33,6 @@ function handleButtonClick(el: Element, _e: Event) {
   }
 }
 
-function handleButtonBind(el: HTMLElement) {
-  const message = el.dataset['message']
-  if (message && eventLogRef.current) {
-    eventLogRef.current.addEvent(`${message} (bound to DOM)`)
-  }
-}
 
 function render(props: BaseProps<IconButtonDemoProps>) {
   // All components can now be used directly without factory calls
@@ -63,6 +57,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                   position="start"
                   label="Start Icon"
                   class="btn btn-outline px-6"
+                  iconSize='lg'
                   data-message="Start position icon clicked!"
                   data-button-id="icon-button1"
                   on:click={handleButtonClick}
@@ -71,6 +66,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                   icon={{ src: iconTwo }}
                   position="end"
                   label="End Icon"
+                  iconSize='lg'
                   class="btn btn-outline px-6"
                   data-message="End position icon clicked!"
                   data-button-id="icon-button2"
@@ -79,9 +75,10 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                 <IconButton
                   icon={{ src: iconThree }}
                   class="btn btn-outline px-3 rounded-full"
-                  data-message="Icon-only button bound!"
+                  iconSize='lg'
+                  data-message="Icon-only button clicked!"
                   data-button-id="icon-button3"
-                  on:bind={handleButtonBind}
+                  on:click={handleButtonClick}
                 />
               </div>
             </div>
@@ -92,25 +89,28 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                 <IconButton
                   icon={{ src: iconOne }}
                   label="Primary"
-                  class="btn btn-primary"
+                  class="btn border-primary"
                   data-message="Primary icon button!"
                   data-button-id="icon-button4"
+                  iconSize='lg'
                   on:click={handleButtonClick}
                 />
                 <IconButton
                   icon={{ src: iconTwo }}
                   label="Secondary"
-                  class="btn btn-secondary"
+                  class="btn border-secondary"
                   data-message="Secondary icon button!"
                   data-button-id="icon-button5"
+                  iconSize='lg'
                   on:click={handleButtonClick}
                 />
                 <IconButton
                   icon={{ src: iconThree }}
                   label="Accent"
-                  class="btn btn-accent"
+                  class="btn border-accent"
                   data-message="Accent icon button!"
                   data-button-id="icon-button6"
+                  iconSize='lg'
                   on:click={handleButtonClick}
                 />
               </div>
@@ -154,7 +154,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                     <IconButton
                       icon="🏠"
                       label="Home"
-                      class="btn btn-primary"
+                      class="btn border-primary"
                       data-message="Navigate to home!"
                       data-button-id="emoji-button4"
                       on:click={handleButtonClick}
@@ -162,7 +162,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                     <IconButton
                       icon="⚙️"
                       label="Settings"
-                      class="btn btn-secondary"
+                      class="btn border-secondary"
                       data-message="Open settings!"
                       data-button-id="emoji-button5"
                       on:click={handleButtonClick}
@@ -170,7 +170,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
                     <IconButton
                       icon="📊"
                       label="Analytics"
-                      class="btn btn-accent"
+                      class="btn border-accent"
                       data-message="View analytics!"
                       data-button-id="emoji-button6"
                       on:click={handleButtonClick}

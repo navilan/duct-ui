@@ -81,8 +81,8 @@ function render(props: BaseProps<CounterDemoProps>) {
               <li><strong>Bind Phase</strong> - Event handlers bound with loaded data</li>
               <li><strong>Persistence</strong> - Counter changes are saved back to IndexedDB</li>
             </ul>
-            <div class="mt-4 p-3 bg-info/10 rounded border border-info/20">
-              <p class="text-sm text-info-content">
+            <div class="mt-4 p-3 bg-info-content rounded border border-info/20">
+              <p class="text-sm text-info/70">
                 <strong>Try it:</strong> Increment/decrement the counter, then refresh the page.
                 The counter will load its previous value from the database!
               </p>
