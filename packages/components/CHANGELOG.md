@@ -1,5 +1,17 @@
 # @duct-ui/components
 
+## 0.5.1
+
+### Patch Changes
+
+- [#33](https://github.com/navilan/duct-ui/pull/33) [`bd1f7fc`](https://github.com/navilan/duct-ui/commit/bd1f7fcb77069a507c0948c1874b7c7a4900bd2b) Thanks [@navilan](https://github.com/navilan)! - Ensure ref is not rendered.
+
+  - Add landing page for duct website
+  - Minor clean up in blueprint
+
+- Updated dependencies [[`bd1f7fc`](https://github.com/navilan/duct-ui/commit/bd1f7fcb77069a507c0948c1874b7c7a4900bd2b)]:
+  - @duct-ui/core@0.5.1
+
 ## 0.5.0
 
 ### Minor Changes
