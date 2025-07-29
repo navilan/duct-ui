@@ -202,7 +202,7 @@ function bind(el, eventEmitter) {
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
               <div class="card bg-base-200">
                 <div class="card-body">
-                  <h4 class="card-title text-green-600">Vue Component</h4>
+                  <h4 class="card-title text-secondary">Vue Component</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`<template>
   <button
     :class="buttonClass"
@@ -307,7 +307,7 @@ function bind(el, eventEmitter) {
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
               <div class="card bg-base-200">
                 <div class="card-body">
-                  <h4 class="card-title text-orange-600">Svelte Component</h4>
+                  <h4 class="card-title text-accent">Svelte Component</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`<script>
   export let label;
   let clicked = false;
@@ -401,7 +401,7 @@ export default Button;`)}</code></pre>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
               <div class="card bg-base-200">
                 <div class="card-body">
-                  <h4 class="card-title text-gray-600">Web Components</h4>
+                  <h4 class="card-title text-neutral">Web Components</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`class ButtonElement extends HTMLElement {
   constructor() {
     super();
@@ -537,9 +537,9 @@ export default Button;`)}</code></pre>
 
             {/* Other Frameworks - Grid */}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
-              <div class="card bg-green-50 border border-green-200">
+              <div class="card bg-secondary/10 border border-secondary/20">
                 <div class="card-body">
-                  <h4 class="card-title text-green-700">Choose Vue When</h4>
+                  <h4 class="card-title text-secondary">Choose Vue When</h4>
                   <ul class="text-sm space-y-1">
                     <li>• You want balanced complexity</li>
                     <li>• You like single-file components</li>
@@ -550,9 +550,9 @@ export default Button;`)}</code></pre>
                 </div>
               </div>
 
-              <div class="card bg-blue-50 border border-blue-200">
+              <div class="card bg-info/10 border border-info/20">
                 <div class="card-body">
-                  <h4 class="card-title text-blue-700">Choose React When</h4>
+                  <h4 class="card-title text-info">Choose React When</h4>
                   <ul class="text-sm space-y-1">
                     <li>• You need the largest ecosystem</li>
                     <li>• You have React expertise</li>
@@ -563,9 +563,9 @@ export default Button;`)}</code></pre>
                 </div>
               </div>
 
-              <div class="card bg-orange-50 border border-orange-200">
+              <div class="card bg-accent/10 border border-accent/20">
                 <div class="card-body">
-                  <h4 class="card-title text-orange-700">Choose Svelte When</h4>
+                  <h4 class="card-title text-accent">Choose Svelte When</h4>
                   <ul class="text-sm space-y-1">
                     <li>• You want the smallest bundle sizes</li>
                     <li>• You like compile-time optimizations</li>
@@ -576,9 +576,9 @@ export default Button;`)}</code></pre>
                 </div>
               </div>
 
-              <div class="card bg-purple-50 border border-purple-200">
+              <div class="card bg-neutral/10 border border-neutral/20">
                 <div class="card-body">
-                  <h4 class="card-title text-purple-700">Choose Web Components When</h4>
+                  <h4 class="card-title text-neutral">Choose Web Components When</h4>
                   <ul class="text-sm space-y-1">
                     <li>• You need true framework interoperability</li>
                     <li>• You want standards-based components</li>

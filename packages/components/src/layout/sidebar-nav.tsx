@@ -109,7 +109,7 @@ function render(props: BaseProps<SidebarNavProps>) {
                   {section.items.map(navItem => (
                     <li data-key={navItem.id} class={`sidebar-nav-item ${itemClass}`.trim()}>
                       <a
-                        href={navItem.href || `/${navItem.id}`}
+                        href={navItem.href || `/docs/${navItem.id}`}
                         class={`sidebar-nav-item-link ${currentItem === navItem.id ? 'active' : ''} ${itemLinkClass}`.trim()}
                         data-nav-item-id={navItem.id}
                       >

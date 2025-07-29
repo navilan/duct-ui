@@ -34,7 +34,7 @@ export interface SidebarProps {
 function render(props: BaseProps<SidebarProps>) {
   const { categories, currentDemo, ...moreProps } = props
 
-  // Transform demo categories to sidebar content  
+  // Transform demo categories to sidebar content
   const content = categories.map(category => {
     if ('type' in category && category.type === 'separator') {
       return category
@@ -59,7 +59,9 @@ function render(props: BaseProps<SidebarProps>) {
   const headerContent = (
     <>
       <div class="flex flex-col items-center mb-8">
-        <img class="h-36 aspect-square" src={ductLogo} />
+        <a href="/">
+          <img class="h-36 aspect-square" src={ductLogo} />
+        </a>
         <div class="flex flex-col text-center justify-center">
           <h1 class="text-xl font-bold text-base-content">Duct UI</h1>
           <p class="text-sm text-base-content -mt-2">A compact, DOM first UI library</p>
@@ -94,7 +96,7 @@ function render(props: BaseProps<SidebarProps>) {
       <div class="flex items-center justify-center">
         <img alt="NPM Version" src="https://img.shields.io/npm/v/%40duct-ui%2Fcore?style=for-the-badge" />
       </div>
-      <div class="bg-black/60 flex flex-col text-green-400 p-4 rounded-xl">
+      <div class="bg-neutral/10 flex flex-col text-info p-4 rounded-xl">
         <span>pnpm install @duct-ui/core</span>
         <span>pnpm install @duct-ui/components</span>
       </div>

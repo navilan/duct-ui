@@ -28,7 +28,7 @@ function bindEventToInstance<T extends (...args: any[]) => void>(
   handler: T
 ) {
   const wrappedHandler = (el: HTMLElement, ...args: any[]) => {
-    const dataId = el.dataset['ductId']
+    const dataId = el?.dataset ? el.dataset['ductId'] : ""
     if (dataId === instanceId) {
       handler(el, ...args)
     }
@@ -63,6 +63,8 @@ function extractEventProps<P extends Record<string, any>>(props: P) {
     if (key.startsWith('on:')) {
       const eventName = key.slice(3) // Remove 'on:' prefix
       eventProps[eventName] = value
+    } else if (key === 'ref') {
+      // Don't render it
     } else {
       regularProps[key] = value
     }
@@ -160,6 +162,12 @@ export function createBlueprint<
     // Extract and bind event props
     const { eventProps, regularProps } = extractEventProps(props)
 
+    const fullProps = {
+      ...regularProps,
+      "data-duct-id": instanceId
+    } as BaseProps<Props>
+
+
     // Create instance data if not exists
     if (!instances.has(instanceId)) {
       const eventEmitter = createInstanceEventEmitter(instanceId)
@@ -190,7 +198,7 @@ export function createBlueprint<
           // Call async load if provided
           let loadData: LoadData | undefined
           if (config.load) {
-            loadData = await config.load(htmlEl, getDuct()?.getProps(instanceId))
+            loadData = await config.load(htmlEl, fullProps)
           }
 
           // Emit lifecycle events
@@ -199,7 +207,7 @@ export function createBlueprint<
           // Create component logic
           let logic: Logic
           if (config.bind) {
-            const customLogic = config.bind(htmlEl, eventEmitter, getDuct()?.getProps(instanceId), loadData)
+            const customLogic = config.bind(htmlEl, eventEmitter, fullProps, loadData)
             // Merge default on/off with custom logic
             logic = {
               ...createDefaultLogic(eventEmitter),
@@ -214,7 +222,6 @@ export function createBlueprint<
           getDuct().register(htmlEl, logic)
 
           // Check if props contain a ref and set it
-          const props = getDuct()?.getProps(instanceId)
           if (props?.ref && props.ref instanceof MutableRef) {
             props.ref.current = logic
           }
@@ -238,7 +245,6 @@ export function createBlueprint<
           unbindInstanceHandlers(instanceId)
 
           // Clean up ref if it exists
-          const props = getDuct()?.getProps(instanceId)
           if (props?.ref && props.ref instanceof MutableRef) {
             props.ref.current = null
             props.ref.destroy()
@@ -267,10 +273,6 @@ export function createBlueprint<
       bindEventToInstance(instanceId, eventName, handler)
     })
 
-    const fullProps = {
-      ...regularProps,
-      "data-duct-id": instanceId
-    } as BaseProps<Props>
 
     getDuct()?.saveProps(instanceId, fullProps)
 

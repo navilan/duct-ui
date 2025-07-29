@@ -7,7 +7,12 @@ let currentDemo: string
 const appLayoutRef = createRef<AppLayoutLogic>()
 
 function getInitialDemo(): string {
-  const pathname = window.location.pathname.slice(1) // Remove leading /
+  let pathname = window.location.pathname.slice(1) // Remove leading /
+  
+  // Remove /docs prefix if present
+  if (pathname.startsWith('docs/')) {
+    pathname = pathname.slice(5) // Remove 'docs/'
+  }
   
   // First try pathname
   if (pathname) {
@@ -28,7 +33,12 @@ function getInitialDemo(): string {
 
 function setupRouting(): void {
   window.addEventListener('popstate', () => {
-    const pathname = window.location.pathname.slice(1) // Remove leading /
+    let pathname = window.location.pathname.slice(1) // Remove leading /
+    
+    // Remove /docs prefix if present
+    if (pathname.startsWith('docs/')) {
+      pathname = pathname.slice(5) // Remove 'docs/'
+    }
     
     // First try pathname
     let demo = null
@@ -52,7 +62,7 @@ function setupRouting(): void {
 }
 
 function handleNavigation(_el: HTMLElement, demoId: string): void {
-  window.history.pushState({}, '', `/${demoId}`)
+  window.history.pushState({}, '', `/docs/${demoId}`)
   currentDemo = demoId
   updateContent()
 }
@@ -62,6 +72,7 @@ function updateContent(): void {
     const currentDemoInfo = getDemoById(currentDemo) || getDefaultDemo()
     appLayoutRef.current.refreshChildren(currentDemoInfo.component())
     appLayoutRef.current.updateCurrentDemo(currentDemo)
+    appLayoutRef.current.scrollContentToTop()
   }
 }
 
