@@ -1,5 +1,16 @@
 # @duct-ui/core
 
+## 0.5.0
+
+### Minor Changes
+
+- Remove factory method pattern for component instantiation
+
+  - Ensure that you can use the imported default component directly
+  - Remove getLogic in favor of refs
+  - Update all demos & documentation
+  - Use regular urls for demo navigation
+
 ## 0.4.1
 
 ### Patch Changes
