@@ -134,20 +134,56 @@ function render(props: BaseProps<LandingPageProps>) {
                       Use
                     </span>
                   </h3>
-                  <div class="bg-base-300/50 rounded-lg p-4 font-mono text-md">
-                    <br />
-                    <pre class="text-info">
+                  <div class="bg-base-300/50 rounded-lg p-4 font-mono text-sm md:text-md flex flex-col gap-2">
+                    <div class="text-info">
+                      {escapeHtml(`import Button from '@duct-ui/components/button'`)}
+                    </div>
+                    <div class="text-info">
+                      {escapeHtml(`import type {ButtonLogic} from '@duct-ui/components/button'`)}
+                    </div>
+                    <div class="text-info">
+                      {escapeHtml(`import {createRef} from "@duct-ui/core"`)}
+                    </div>
+                    <div class="text-info">
                       {
-                        escapeHtml(`
-import Button, { type ButtonLogic } from '@duct-ui/components/button'
-import { createRef } from "@duct-ui/core"
-...
-const buttonRef: MutableRef<ButtonLogic> = createRef()
-...
-<Button ref={buttonRef} label="Let's Go" on:click={...} />
-                      `)
+                        escapeHtml(`...`)
                       }
-                    </pre>
+                    </div>
+                    <div class="text-info">
+                      {
+                        escapeHtml(`const buttonRef: MutableRef<ButtonLogic> = createRef()`)
+                      }
+                    </div>
+                    <div class="text-info">
+                      {
+                        escapeHtml(`...`)
+                      }
+                    </div>
+                    <div class="text-info">
+                      {
+                        escapeHtml(`<Button`)
+                      }
+                    </div>
+                    <div class="text-info">
+                      {
+                        escapeHtml(` ref={buttonRef}`)
+                      }
+                    </div>
+                    <div class="text-info">
+                      {
+                        escapeHtml(`label="Let's Go"`)
+                      }
+                    </div>
+                    <div class="text-info">
+                      {
+                        escapeHtml(`on:click={...}`)
+                      }
+                    </div>
+                    <div class="text-info">
+                      {
+                        escapeHtml(`/>`)
+                      }
+                    </div>
                   </div>
                 </div>
               </div>

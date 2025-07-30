@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import DemoLayout from "../components/DemoLayout"
-import { escapeHtml } from "../utils/htmlUtils"
+import { escapeHtml } from "@kitajs/html"
 
 export interface DocsComparisonDemoEvents extends BaseComponentEvents { }
 export interface DocsComparisonDemoLogic { }
@@ -459,8 +459,8 @@ function bind(el, eventEmitter) {
 
   el.addEventListener('click', handleClick);
 
-  return { 
-    release: () => el.removeEventListener('click', handleClick) 
+  return {
+    release: () => el.removeEventListener('click', handleClick)
   };
 }
 
