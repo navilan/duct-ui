@@ -2,14 +2,14 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "@kitajs/html"
 
-export interface DocsWhyDuctDemoEvents extends BaseComponentEvents { }
-export interface DocsWhyDuctDemoLogic { }
-export interface DocsWhyDuctDemoProps {
+export interface DocsWhyDuctEvents extends BaseComponentEvents { }
+export interface DocsWhyDuctLogic { }
+export interface DocsWhyDuctProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
 }
 
-function render(props: BaseProps<DocsWhyDuctDemoProps>) {
+function render(props: BaseProps<DocsWhyDuctProps>) {
   return (
     <div {...props}>
       <DemoLayout
@@ -113,7 +113,7 @@ function render(props: BaseProps<DocsWhyDuctDemoProps>) {
             This makes it easy to understand exactly what's happening in your components:
           </p>
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`function bind(el: HTMLElement, eventEmitter, props) {
   const button = el.querySelector('button')
   const counter = el.querySelector('.counter')
@@ -154,7 +154,7 @@ function render(props: BaseProps<DocsWhyDuctDemoProps>) {
 
           <h3>Transparent Component Behavior</h3>
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`// When you see this code, you know exactly what it does:
 function bind(el, eventEmitter, props, loadData) {
   // 1. Find elements (explicit queries)
@@ -250,7 +250,7 @@ function bind(el, eventEmitter, props, loadData) {
   )
 }
 
-function bind(): BindReturn<DocsWhyDuctDemoLogic> {
+function bind(): BindReturn<DocsWhyDuctLogic> {
   return {
     release: () => { }
   }
@@ -258,10 +258,10 @@ function bind(): BindReturn<DocsWhyDuctDemoLogic> {
 
 const id = { id: "duct-demo/docs-why-duct" }
 
-const DocsWhyDuctDemo = createBlueprint<DocsWhyDuctDemoProps, DocsWhyDuctDemoEvents, DocsWhyDuctDemoLogic>(
+const DocsWhyDuct = createBlueprint<DocsWhyDuctProps, DocsWhyDuctEvents, DocsWhyDuctLogic>(
   id,
   render,
   { bind }
 )
 
-export default DocsWhyDuctDemo
+export default DocsWhyDuct

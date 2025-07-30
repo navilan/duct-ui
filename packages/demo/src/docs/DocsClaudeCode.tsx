@@ -2,14 +2,14 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "@kitajs/html"
 
-export interface DocsClaudeCodeDemoEvents extends BaseComponentEvents { }
-export interface DocsClaudeCodeDemoLogic { }
-export interface DocsClaudeCodeDemoProps {
+export interface DocsClaudeCodeEvents extends BaseComponentEvents { }
+export interface DocsClaudeCodeLogic { }
+export interface DocsClaudeCodeProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
 }
 
-function render(props: BaseProps<DocsClaudeCodeDemoProps>) {
+function render(props: BaseProps<DocsClaudeCodeProps>) {
 
   return (
     <div {...props}>
@@ -37,25 +37,25 @@ function render(props: BaseProps<DocsClaudeCodeDemoProps>) {
                 <div class="step step-primary">
                   <div class="text-left ml-4">
                     <h3 class="font-bold text-base">Step 1: Review the GitHub Repository</h3>
-                    <p class="text-sm text-base-content/70">Start by having Claude examine the overall project structure</p>
+                    <p class="text-sm">Start by having Claude examine the overall project structure</p>
                   </div>
                 </div>
                 <div class="step step-primary">
                   <div class="text-left ml-4">
                     <h3 class="font-bold text-base">Step 2: Study the Core Package</h3>
-                    <p class="text-sm text-base-content/70">Deep dive into blueprint patterns and runtime systems</p>
+                    <p class="text-sm">Deep dive into blueprint patterns and runtime systems</p>
                   </div>
                 </div>
                 <div class="step step-primary">
                   <div class="text-left ml-4">
                     <h3 class="font-bold text-base">Step 3: Analyze Components</h3>
-                    <p class="text-sm text-base-content/70">Learn from real component implementations</p>
+                    <p class="text-sm">Learn from real component implementations</p>
                   </div>
                 </div>
                 <div class="step step-primary">
                   <div class="text-left ml-4">
                     <h3 class="font-bold text-base">Step 4: Review All Demos</h3>
-                    <p class="text-sm text-base-content/70">Understand practical usage patterns and integration</p>
+                    <p class="text-sm">Understand practical usage patterns and integration</p>
                   </div>
                 </div>
               </div>
@@ -69,7 +69,7 @@ function render(props: BaseProps<DocsClaudeCodeDemoProps>) {
             </p>
 
             <div class="not-prose">
-              <div class="bg-base-200 rounded-lg p-6 my-6">
+              <div class="rounded-lg p-6 my-6">
                 <div class="flex justify-between items-center mb-4">
                   <h4 class="font-bold text-lg">Training Prompt for Claude Code</h4>
                   <button class="btn btn-sm btn-outline" onclick="navigator.clipboard.writeText(document.getElementById('training-prompt').textContent)">
@@ -282,7 +282,7 @@ Always reference specific Duct UI patterns and provide concrete examples from th
             </p>
 
             <div class="not-prose">
-              <div class="bg-base-200 rounded-lg p-6 my-6">
+              <div class="rounded-lg p-6 my-6">
                 <h4 class="font-bold mb-4">Example Requests:</h4>
                 <div class="space-y-4">
                   <div class="bg-base-100 p-4 rounded border-l-4 border-primary">
@@ -335,7 +335,7 @@ Always reference specific Duct UI patterns and provide concrete examples from th
                     Claude may forget the correct component usage pattern:
                   </p>
                   <div class="not-prose">
-                    <div class="bg-base-200 rounded-lg p-4 my-2">
+                    <div class="rounded-lg p-4 my-2">
                       <pre class="text-sm"><code>{escapeHtml(`// Correct: Direct component usage with refs
 import Button from '@duct-ui/components/button/button'
 import { createRef } from '@duct-ui/core'
@@ -367,7 +367,7 @@ buttonRef.current?.setDisabled(true)`)}</code></pre>
   )
 }
 
-function bind(): BindReturn<DocsClaudeCodeDemoLogic> {
+function bind(): BindReturn<DocsClaudeCodeLogic> {
   return {
     release: () => { }
   }
@@ -375,10 +375,10 @@ function bind(): BindReturn<DocsClaudeCodeDemoLogic> {
 
 const id = { id: "duct-demo/docs-claude-code" }
 
-const DocsClaudeCodeDemo = createBlueprint<DocsClaudeCodeDemoProps, DocsClaudeCodeDemoEvents, DocsClaudeCodeDemoLogic>(
+const DocsClaudeCode = createBlueprint<DocsClaudeCodeProps, DocsClaudeCodeEvents, DocsClaudeCodeLogic>(
   id,
   render,
   { bind }
 )
 
-export default DocsClaudeCodeDemo
+export default DocsClaudeCode

@@ -72,8 +72,27 @@ interface MyComponentLogic {
 }
 ```
 
+## Server-Side Rendering
+
+Duct Core is SSR-friendly and works in Node.js environments for static site generation:
+
+```typescript
+// Components work the same in SSR and client-side
+export default function MyPage() {
+  const isSSR = typeof window === 'undefined'
+  
+  return (
+    <div>
+      <h1>My Page</h1>
+      {!isSSR && <ClientOnlyComponent />}
+    </div>
+  )
+}
+```
+
 ## Resources
 
 - [Main Repository](https://github.com/navilan/duct-ui)
-- [Component Library](@duct-ui/components)
+- [Component Library](https://www.npmjs.com/package/@duct-ui/components)
+- [Static Site Generation](https://www.npmjs.com/package/@duct-ui/cli)
 - [Live Demos](https://duct-ui.org)

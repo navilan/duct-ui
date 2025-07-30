@@ -106,8 +106,27 @@ const componentRef = createRef<ComponentLogic>()
 componentRef.current?.someMethod()
 ```
 
+## Static Site Generation
+
+All components work seamlessly with Duct's static site generation:
+
+```typescript
+// In your SSG pages
+import Button from '@duct-ui/components/button/button'
+
+export default function HomePage() {
+  return (
+    <div>
+      <h1>Welcome</h1>
+      <Button label="Get Started" class="btn btn-primary" />
+    </div>
+  )
+}
+```
+
 ## Resources
 
 - [Main Repository](https://github.com/navilan/duct-ui)
-- [Core Framework](@duct-ui/core)
+- [Core Framework](https://www.npmjs.com/package/@duct-ui/core)
+- [Static Site Generation](https://www.npmjs.com/package/@duct-ui/cli)
 - [Live Demos](https://duct-ui.org)

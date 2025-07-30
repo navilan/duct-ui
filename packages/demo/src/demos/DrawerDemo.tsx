@@ -91,7 +91,7 @@ function render(props: BaseProps<DrawerDemoProps>) {
                   </ul>
                 </div>
                 <div class="space-y-2">
-                  <h4 class="font-medium text-info-content">Mobile/Tablet (&lt;1024px):</h4>
+                  <h4 class="font-medium text-info-content">Mobile/Tablet (under 1024px):</h4>
                   <ul class="space-y-1 text-info-content/80">
                     <li>• Drawer overlay on top of content</li>
                     <li>• Backdrop/overlay behind drawer</li>

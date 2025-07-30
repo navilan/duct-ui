@@ -1,47 +1,60 @@
-import ButtonDemo from "./ButtonDemo"
-import IconButtonDemo from "./IconButtonDemo"
-import ToggleDemo from "./ToggleDemo"
-import AsyncToggleDemo from "./AsyncToggleDemo"
-import EditableInputDemo from "./EditableInputDemo"
-import MenuDemo from "./MenuDemo"
-import SelectDemo from "./SelectDemo"
-import TreeViewDemo from "./TreeViewDemo"
-import SidebarDemo from "./SidebarDemo"
-import DrawerDemo from "./DrawerDemo"
-import TabsDemo from "./TabsDemo"
-import ModalDemo from "./ModalDemo"
-import EmojiListDemo from "./EmojiListDemo"
-import CounterDemo from "./CounterDemo"
-import DocsIntroDemo from "./DocsIntroDemo"
-import DocsWhyDuctDemo from "./DocsWhyDuctDemo"
-import DocsComparisonDemo from "./DocsComparisonDemo"
-import DocsBuildingDemo from "./DocsBuildingDemo"
-import DocsClaudeCodeDemo from "./DocsClaudeCodeDemo"
+// Import all demo components
+import ButtonDemo from "./demos/ButtonDemo"
+import IconButtonDemo from "./demos/IconButtonDemo"
+import ToggleDemo from "./demos/ToggleDemo"
+import AsyncToggleDemo from "./demos/AsyncToggleDemo"
+import EditableInputDemo from "./demos/EditableInputDemo"
+import MenuDemo from "./demos/MenuDemo"
+import SelectDemo from "./demos/SelectDemo"
+import TreeViewDemo from "./demos/TreeViewDemo"
+import SidebarDemo from "./demos/SidebarDemo"
+import DrawerDemo from "./demos/DrawerDemo"
+import TabsDemo from "./demos/TabsDemo"
+import ModalDemo from "./demos/ModalDemo"
+import EmojiListDemo from "./demos/EmojiListDemo"
+import CounterDemo from "./demos/CounterDemo"
+import DocsIntro from "./docs/DocsIntro"
+import DocsWhyDuct from "./docs/DocsWhyDuct"
+import DocsComparison from "./docs/DocsComparison"
+import DocsBuilding from "./docs/DocsBuilding"
+import DocsClaudeCode from "./docs/DocsClaudeCode"
+import DocsSSG from "./docs/DocsSSG"
 
-export interface DemoInfo {
+export interface PageInfo {
   id: string
   title: string
   description: string
   component: () => JSX.Element
 }
 
-export interface DemoCategory {
+export interface PageCategory {
+  type: 'category'
   id: string
   title: string
-  demos: DemoInfo[]
+  page: 'docs' | 'demos'
+  items: PageInfo[]
 }
 
-export const demoCategories: (DemoCategory | { type: 'separator', title?: string })[] = [
+export interface PageSeparator {
+  type: 'separator'
+  title?: string
+}
+
+export type PageSection = PageCategory | PageSeparator
+
+export const sections: PageSection[] = [
   {
+    type: 'category',
     id: "documentation",
     title: "Documentation",
-    demos: [
+    page: "docs",
+    items: [
       {
         id: "what-is-duct",
         title: "What is Duct?",
         description: "Introduction to the Duct UI Framework and its core concepts",
         component: () => {
-          return DocsIntroDemo({})
+          return DocsIntro({})
         }
       },
       {
@@ -49,7 +62,7 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Why Choose Duct?",
         description: "Benefits and advantages of using the Duct UI Framework",
         component: () => {
-          return DocsWhyDuctDemo({})
+          return DocsWhyDuct({})
         }
       },
       {
@@ -57,7 +70,7 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Duct vs Other Frameworks",
         description: "How Duct compares to React, Vue, and Svelte",
         component: () => {
-          return DocsComparisonDemo({})
+          return DocsComparison({})
         }
       },
       {
@@ -65,7 +78,7 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Building Components",
         description: "A comprehensive guide to creating Duct components",
         component: () => {
-          return DocsBuildingDemo({})
+          return DocsBuilding({})
         }
       },
       {
@@ -73,7 +86,15 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
         title: "Using Claude Code",
         description: "How to train Claude Code to generate high-quality Duct components",
         component: () => {
-          return DocsClaudeCodeDemo({})
+          return DocsClaudeCode({})
+        }
+      },
+      {
+        id: "static-site-generation",
+        title: "Static Site Generation",
+        description: "Build fast, SEO-friendly websites with file-based routing and SSG",
+        component: () => {
+          return DocsSSG({})
         }
       }
     ]
@@ -83,9 +104,11 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
     title: 'Component Demos'
   },
   {
+    type: 'category',
     id: "button",
     title: "Button",
-    demos: [
+    page: "demos",
+    items: [
       {
         id: "button",
         title: "Basic Button",
@@ -121,9 +144,11 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
     ]
   },
   {
+    type: 'category',
     id: "input",
     title: "Input",
-    demos: [
+    page: "demos",
+    items: [
       {
         id: "editable-input",
         title: "Editable Input",
@@ -135,9 +160,11 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
     ]
   },
   {
+    type: 'category',
     id: "dropdown",
     title: "Dropdown",
-    demos: [
+    page: "demos",
+    items: [
       {
         id: "menu",
         title: "Menu & MenuItem",
@@ -157,9 +184,11 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
     ]
   },
   {
+    type: 'category',
     id: "data-display",
     title: "Data Display",
-    demos: [
+    page: "demos",
+    items: [
       {
         id: "tree-view",
         title: "TreeView",
@@ -179,9 +208,11 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
     ]
   },
   {
+    type: 'category',
     id: "layout",
     title: "Layout",
-    demos: [
+    page: "demos",
+    items: [
       {
         id: "tabs",
         title: "Tabs",
@@ -217,9 +248,11 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
     ]
   },
   {
+    type: 'category',
     id: "advanced",
     title: "Advanced",
-    demos: [
+    page: "demos",
+    items: [
       {
         id: "counter",
         title: "Async Counter",
@@ -232,15 +265,24 @@ export const demoCategories: (DemoCategory | { type: 'separator', title?: string
   }
 ]
 
-// Flatten all demos for easy lookup
-export const allDemos: DemoInfo[] = demoCategories.flatMap(category => 
-  'demos' in category ? category.demos : []
+// Flatten all pages for easy lookup
+export const allPages: PageInfo[] = sections.flatMap(category =>
+  'items' in category ? category.items : []
 )
 
-export function getDemoById(id: string): DemoInfo | undefined {
-  return allDemos.find(demo => demo.id === id)
+// Separate docs and component demos
+export const docsItems: PageInfo[] = sections
+  .filter(category => 'items' in category && category.page === 'docs')
+  .flatMap(category => (category as PageCategory).items)
+
+export const componentDemos: PageInfo[] = sections
+  .filter(category => 'items' in category && category.page === 'demos')
+  .flatMap(category => (category as PageCategory).items)
+
+export function getItemById(id: string): PageInfo | undefined {
+  return allPages.find(demo => demo.id === id)
 }
 
-export function getDefaultDemo(): DemoInfo {
-  return allDemos[0]
+export function getDefaultItem(): PageInfo {
+  return allPages[0]
 }

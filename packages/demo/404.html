@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="duct">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>404 - Page Not Found | Duct UI</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-  
+
   <!-- Import the same CSS as the main app -->
   <link rel="stylesheet" href="/src/styles/main.css" />
-  
+
   <!-- Add DaisyUI via CDN for fallback -->
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
-  
+
   <style>
     /* Ensure proper theme switching */
     @media (prefers-color-scheme: dark) {
@@ -20,49 +21,54 @@
         color-scheme: dark;
       }
     }
-    
+
     /* Custom animations */
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-20px);
+      }
     }
-    
+
     .float-animation {
       animation: float 3s ease-in-out infinite;
     }
-    
+
     @keyframes fadeInUp {
       from {
         opacity: 0;
         transform: translateY(30px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-    
+
     .fade-in-up {
       animation: fadeInUp 0.6s ease-out;
     }
-    
+
     .logo-container {
       max-width: 200px;
       width: 100%;
     }
   </style>
 </head>
+
 <body class="min-h-screen bg-base-100">
   <div class="min-h-screen flex flex-col items-center justify-center p-8">
     <div class="text-center max-w-2xl mx-auto">
       <!-- Logo -->
       <div class="logo-container mx-auto mb-8 float-animation">
-        <img 
-          src="/src/icons/duct-logo.svg" 
-          alt="Duct UI Logo" 
-          class="w-full h-auto"
-          onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';"
-        />
+        <img src="/src/icons/duct-logo.svg" alt="Duct UI Logo" class="w-full h-auto"
+          onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';" />
         <!-- Fallback logo if SVG fails to load -->
         <div id="fallback-logo" class="hidden">
           <div class="w-24 h-24 mx-auto bg-primary rounded-full flex items-center justify-center mb-4">
@@ -70,123 +76,127 @@
           </div>
         </div>
       </div>
-      
+
       <!-- 404 Message -->
       <div class="fade-in-up">
         <h1 class="text-6xl font-bold text-primary mb-4">404</h1>
         <h2 class="text-3xl font-semibold text-base-content mb-6">Page Not Found</h2>
         <p class="text-lg text-base-content/80 mb-8 leading-relaxed">
-          Oops! The page you're looking for seems to have wandered off into the digital void. 
+          Oops! The page you're looking for seems to have wandered off into the digital void.
           <br class="hidden sm:block" />
           But don't worry – we'll help you get back on track!
         </p>
       </div>
-      
+
       <!-- Navigation Links -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 fade-in-up">
         <!-- Home -->
         <a href="/" class="card bg-base-200 hover:bg-base-300 transition-colors group">
           <div class="card-body items-center text-center p-6">
-            <svg class="w-8 h-8 text-primary mb-2 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            <svg class="w-8 h-8 text-primary mb-2 group-hover:scale-110 transition-transform" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+              </path>
             </svg>
             <h3 class="font-semibold text-base-content">Home</h3>
             <p class="text-sm text-base-content/70">Back to landing page</p>
           </div>
         </a>
-        
+
         <!-- Documentation -->
         <a href="/docs" class="card bg-base-200 hover:bg-base-300 transition-colors group">
           <div class="card-body items-center text-center p-6">
-            <svg class="w-8 h-8 text-secondary mb-2 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            <svg class="w-8 h-8 text-secondary mb-2 group-hover:scale-110 transition-transform" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+              </path>
             </svg>
             <h3 class="font-semibold text-base-content">Documentation</h3>
             <p class="text-sm text-base-content/70">Components & guides</p>
           </div>
         </a>
-        
+
         <!-- Components -->
-        <a href="/docs/button" class="card bg-base-200 hover:bg-base-300 transition-colors group">
+        <a href="/demos/button" class="card bg-base-200 hover:bg-base-300 transition-colors group">
           <div class="card-body items-center text-center p-6">
-            <svg class="w-8 h-8 text-accent mb-2 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            <svg class="w-8 h-8 text-accent mb-2 group-hover:scale-110 transition-transform" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+              </path>
             </svg>
             <h3 class="font-semibold text-base-content">Components</h3>
             <p class="text-sm text-base-content/70">Browse components</p>
           </div>
         </a>
       </div>
-      
+
       <!-- External Links -->
       <div class="flex flex-wrap justify-center gap-4 mb-8 fade-in-up">
-        <a 
-          href="https://github.com/navilan/duct" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          class="btn btn-outline btn-sm gap-2"
-        >
+        <a href="https://github.com/navilan/duct" target="_blank" rel="noopener noreferrer"
+          class="btn btn-outline btn-sm gap-2">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            <path
+              d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
           </svg>
           GitHub
         </a>
-        
-        <a 
-          href="https://www.npmjs.com/package/@duct-ui/core" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          class="btn btn-outline btn-sm gap-2"
-        >
+
+        <a href="https://www.npmjs.com/package/@duct-ui/core" target="_blank" rel="noopener noreferrer"
+          class="btn btn-outline btn-sm gap-2">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0H1.763zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113L5.13 5.323z"/>
+            <path
+              d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0H1.763zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113L5.13 5.323z" />
           </svg>
           NPM
         </a>
       </div>
-      
+
       <!-- Popular Demos Section -->
       <div class="fade-in-up mb-8">
         <h3 class="text-xl font-semibold text-base-content mb-4">Popular Component Demos</h3>
         <div class="flex flex-wrap justify-center gap-2">
-          <a href="/docs/button" class="btn btn-sm btn-ghost">Button</a>
-          <a href="/docs/input" class="btn btn-sm btn-ghost">Input</a>
-          <a href="/docs/modal" class="btn btn-sm btn-ghost">Modal</a>
-          <a href="/docs/drawer" class="btn btn-sm btn-ghost">Drawer</a>
-          <a href="/docs/menu" class="btn btn-sm btn-ghost">Menu</a>
-          <a href="/docs/toggle" class="btn btn-sm btn-ghost">Toggle</a>
-          <a href="/docs/select" class="btn btn-sm btn-ghost">Select</a>
-          <a href="/docs/tabs" class="btn btn-sm btn-ghost">Tabs</a>
-          <a href="/docs/sidebar" class="btn btn-sm btn-ghost">Sidebar</a>
-          <a href="/docs/tree-view" class="btn btn-sm btn-ghost">Tree View</a>
+          <a href="/demos/button" class="btn btn-sm btn-ghost">Button</a>
+          <a href="/demos/editable-input" class="btn btn-sm btn-ghost">Input</a>
+          <a href="/demos/modal" class="btn btn-sm btn-ghost">Modal</a>
+          <a href="/demos/drawer" class="btn btn-sm btn-ghost">Drawer</a>
+          <a href="/demos/menu" class="btn btn-sm btn-ghost">Menu</a>
+          <a href="/demos/toggle" class="btn btn-sm btn-ghost">Toggle</a>
+          <a href="/demos/select" class="btn btn-sm btn-ghost">Select</a>
+          <a href="/demos/tabs" class="btn btn-sm btn-ghost">Tabs</a>
+          <a href="/demos/sidebar" class="btn btn-sm btn-ghost">Sidebar</a>
+          <a href="/demos/tree-view" class="btn btn-sm btn-ghost">Tree View</a>
         </div>
       </div>
-      
+
       <!-- Go Back Button -->
       <div class="mt-8 fade-in-up">
         <button onclick="goBack()" class="btn btn-ghost gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18">
+            </path>
           </svg>
           Go Back
         </button>
       </div>
     </div>
   </div>
-  
+
   <!-- Theme Toggle (Floating) -->
-  <button 
-    id="theme-toggle"
+  <button id="theme-toggle"
     class="fixed bottom-6 right-6 btn btn-circle btn-primary shadow-lg hover:shadow-xl transition-all z-50"
-    onclick="toggleTheme()"
-    aria-label="Toggle theme"
-    title="Toggle between light and dark theme"
-  >
-    <svg id="sun-icon" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle between light and dark theme">
+    <svg id="sun-icon" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+      stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
     </svg>
-    <svg id="moon-icon" class="w-6 h-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+    <svg id="moon-icon" class="w-6 h-6 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+      stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
     </svg>
   </button>
 
@@ -195,33 +205,33 @@
     function getInitialTheme() {
       const stored = localStorage.getItem('theme');
       const hasOverride = localStorage.getItem('theme-override') === 'true';
-      
+
       if (hasOverride && (stored === 'duct' || stored === 'duct-dark')) {
         return stored;
       }
-      
+
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       return prefersDark ? 'duct-dark' : 'duct';
     }
-    
+
     function applyTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       document.documentElement.setAttribute('theme', theme);
       document.body.setAttribute('data-theme', theme);
-      
+
       document.documentElement.classList.remove('theme-duct', 'theme-duct-dark');
       document.documentElement.classList.add(`theme-${theme}`);
-      
+
       localStorage.setItem('theme', theme);
       localStorage.setItem('theme-override', 'true');
-      
+
       updateThemeIcons(theme);
     }
-    
+
     function updateThemeIcons(theme) {
       const sunIcon = document.getElementById('sun-icon');
       const moonIcon = document.getElementById('moon-icon');
-      
+
       if (theme === 'duct-dark') {
         sunIcon.classList.add('hidden');
         moonIcon.classList.remove('hidden');
@@ -230,14 +240,14 @@
         moonIcon.classList.add('hidden');
       }
     }
-    
+
     function toggleTheme() {
       const currentTheme = document.documentElement.getAttribute('data-theme') || 'duct';
       const newTheme = currentTheme === 'duct' ? 'duct-dark' : 'duct';
       applyTheme(newTheme);
     }
-    
-    
+
+
     // Navigation
     function goBack() {
       if (window.history.length > 1) {
@@ -246,23 +256,24 @@
         window.location.href = '/';
       }
     }
-    
+
     // Initialize theme on page load
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const initialTheme = getInitialTheme();
       applyTheme(initialTheme);
-      
+
       // Listen for system theme changes
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      mediaQuery.addEventListener('change', function(e) {
+      mediaQuery.addEventListener('change', function (e) {
         const hasOverride = localStorage.getItem('theme-override') === 'true';
         if (!hasOverride) {
           const newTheme = e.matches ? 'duct-dark' : 'duct';
           applyTheme(newTheme);
         }
       });
-      
+
     });
   </script>
 </body>
+
 </html>

@@ -148,3 +148,7 @@
 .select-item-anchor {
   @apply flex flex-row gap-5;
 }
+
+.not-prose pre {
+  @apply bg-base-200/80 rounded-2xl p-4;
+}

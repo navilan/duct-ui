@@ -2,6 +2,7 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import { EventEmitter } from "@duct-ui/core/shared"
 import SidebarNav from "@duct-ui/components/layout/sidebar-nav"
 import ductLogo from "../icons/duct-logo.svg"
+import { PageSection } from "../catalog"
 
 export interface SidebarEvents extends BaseComponentEvents {
   navigate: (el: HTMLElement, demoId: string) => void
@@ -14,16 +15,12 @@ function handleNavigate(navEl: HTMLElement, itemId: string): void {
 }
 
 export interface SidebarLogic {
-  updateCurrentDemo: (currentDemo: string) => void
+  updateCurrentItem: (currentDemo: string) => void
 }
 
 export interface SidebarProps {
-  categories: Array<{
-    id: string
-    title: string
-    demos: Array<{ id: string; title: string; description?: string }>
-  } | { type: 'separator', title?: string }>
-  currentDemo: string
+  sections: Array<PageSection>
+  currentItem: string
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
   'on:navigate'?: (el: HTMLElement, demoId: string) => void
@@ -32,25 +29,22 @@ export interface SidebarProps {
 // SidebarNav is now imported directly
 
 function render(props: BaseProps<SidebarProps>) {
-  const { categories, currentDemo, ...moreProps } = props
+  const { sections, currentItem, ...moreProps } = props
 
   // Transform demo categories to sidebar content
-  const content = categories.map(category => {
-    if ('type' in category && category.type === 'separator') {
-      return category
+  const content = sections.map(section => {
+    if (section.type === 'separator') {
+      return section
     } else {
-      const demoCategory = category as {
-        id: string
-        title: string
-        demos: Array<{ id: string; title: string; description?: string }>
-      }
       return {
-        id: demoCategory.id,
-        title: demoCategory.title,
-        items: demoCategory.demos.map(demo => ({
-          id: demo.id,
-          title: demo.title,
-          description: demo.description
+        id: section.id,
+        title: section.title,
+        items: section.items.map(item => ({
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          // Set href based on page attribute
+          href: `/${section.page}/${item.id}`
         }))
       }
     }
@@ -108,7 +102,7 @@ function render(props: BaseProps<SidebarProps>) {
     <div {...moreProps}>
       <SidebarNav
         content={content}
-        currentItem={currentDemo}
+        currentItem={currentItem}
         headerContent={headerContent}
         on:navigate={handleNavigate}
       />
@@ -120,7 +114,7 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): Bind
   let currentDemo = ''
   eventEmitter = _eventEmitter
 
-  function updateCurrentDemo(newDemo: string): void {
+  function updateCurrentItem(newDemo: string): void {
     currentDemo = newDemo
 
     // Update the sidebar nav's current item attribute for consistency
@@ -145,7 +139,7 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): Bind
   function release() { }
 
   return {
-    updateCurrentDemo,
+    updateCurrentItem,
     release
   }
 }
