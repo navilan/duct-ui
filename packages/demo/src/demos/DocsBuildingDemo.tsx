@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import DemoLayout from "../components/DemoLayout"
-import { escapeHtml } from "../utils/htmlUtils"
+import { escapeHtml } from "@kitajs/html"
 
 export interface DocsBuildingDemoEvents extends BaseComponentEvents { }
 export interface DocsBuildingDemoLogic { }
@@ -375,9 +375,9 @@ const buttonRef = createRef<ButtonLogic>()
 
 function MyApp() {
   return (
-    <Button 
-      ref={buttonRef} 
-      label="Click me" 
+    <Button
+      ref={buttonRef}
+      label="Click me"
       class="btn btn-primary"
       on:click={handleClick}
     />
@@ -453,15 +453,15 @@ describe('Button Component', () => {
 
   beforeEach(() => {
     buttonRef = createRef()
-    
+
     // Render component
     container = document.createElement('div')
     document.body.appendChild(container)
-    
+
     // Render the button component
-    const buttonElement = Button({ 
+    const buttonElement = Button({
       ref: buttonRef,
-      label: 'Test Button' 
+      label: 'Test Button'
     })
     container.appendChild(buttonElement)
   })
@@ -484,11 +484,11 @@ describe('Button Component', () => {
   test('should handle click events', () => {
     const button = container.querySelector('button')
     const clickSpy = jest.fn()
-    
+
     // Set up click handler
     button?.addEventListener('click', clickSpy)
     button?.click()
-    
+
     expect(clickSpy).toHaveBeenCalled()
   })
 })`)}</code></pre>
