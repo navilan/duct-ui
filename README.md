@@ -112,7 +112,20 @@ export default MyComponent
 
 - **@duct-ui/core**: Core framework runtime and utilities
 - **@duct-ui/components**: Pre-built component library
+- **@duct-ui/cli**: Static site generation and build tools
 - **@duct-ui/demo**: Interactive demos and documentation
+
+## Static Site Generation
+
+Duct includes first-class support for static site generation with file-based routing:
+
+```bash
+npm install @duct-ui/cli --save-dev
+```
+
+Build fast, SEO-friendly static sites with Duct components using file-based routing, dynamic routes, and Nunjucks layouts. Perfect for documentation sites, blogs, and marketing pages.
+
+[→ Learn more about SSG](https://duct-ui.org/docs/static-site-generation)
 
 ## Philosophy
 

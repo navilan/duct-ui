@@ -2,14 +2,14 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "@kitajs/html"
 
-export interface DocsBuildingDemoEvents extends BaseComponentEvents { }
-export interface DocsBuildingDemoLogic { }
-export interface DocsBuildingDemoProps {
+export interface DocsBuildingEvents extends BaseComponentEvents { }
+export interface DocsBuildingLogic { }
+export interface DocsBuildingProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
 }
 
-function render(props: BaseProps<DocsBuildingDemoProps>) {
+function render(props: BaseProps<DocsBuildingProps>) {
   return (
     <div {...props}>
       <DemoLayout
@@ -29,7 +29,7 @@ function render(props: BaseProps<DocsBuildingDemoProps>) {
           </p>
 
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-6">
+            <div class="rounded-lg p-6 my-6">
               <pre class="text-sm overflow-x-auto"><code>{escapeHtml(`import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 
 // 1. Define your event interface
@@ -120,7 +120,7 @@ export default Button`)}</code></pre>
           </p>
 
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`// Events your component can emit
 export interface MyComponentEvents extends BaseComponentEvents {
   change: (el: HTMLElement, value: string) => void
@@ -216,7 +216,7 @@ export interface MyComponentProps {
           </p>
 
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`function bind(
   el: HTMLElement,
   eventEmitter: EventEmitter<InputEvents>,
@@ -296,7 +296,7 @@ export interface MyComponentProps {
           </p>
 
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`interface UserSelectData {
   users: Array<{ id: string, name: string, email: string }>
 }
@@ -366,7 +366,7 @@ export default function makeUserSelect() {
           </p>
 
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`// Import and use components directly
 import { createRef } from '@duct-ui/core'
 import Button from './Button' // Your component
@@ -442,7 +442,7 @@ buttonRef.current?.setLabel('New Text')`)}</code></pre>
           </p>
 
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`// Test example
 import Button from './Button'
 import { createRef } from '@duct-ui/core'
@@ -510,7 +510,7 @@ describe('Button Component', () => {
   )
 }
 
-function bind(): BindReturn<DocsBuildingDemoLogic> {
+function bind(): BindReturn<DocsBuildingLogic> {
   return {
     release: () => { }
   }
@@ -518,10 +518,10 @@ function bind(): BindReturn<DocsBuildingDemoLogic> {
 
 const id = { id: "duct-demo/docs-building" }
 
-const DocsBuildingDemo = createBlueprint<DocsBuildingDemoProps, DocsBuildingDemoEvents, DocsBuildingDemoLogic>(
+const DocsBuilding = createBlueprint<DocsBuildingProps, DocsBuildingEvents, DocsBuildingLogic>(
   id,
   render,
   { bind }
 )
 
-export default DocsBuildingDemo
+export default DocsBuilding

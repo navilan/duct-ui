@@ -13,6 +13,14 @@
       "path": "../packages/components"
     },
     {
+      "name": "Router",
+      "path": "../packages/router"
+    },
+    {
+      "name": "CLI",
+      "path": "../packages/cli"
+    },
+    {
       "name": "Demo",
       "path": "../packages/demo"
     }

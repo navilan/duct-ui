@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import { createRef } from "@duct-ui/core"
+import { createRef, isBrowser } from "@duct-ui/core"
 import Button from "@duct-ui/components/button/button"
 import DemoLayout from "../components/DemoLayout"
 import EventLog, { EventLogLogic } from "../components/EventLog"
@@ -45,7 +45,7 @@ function render(props: BaseProps<ButtonDemoProps>) {
         sourcePath="/demos/ButtonDemo.tsx"
       >
         <div>
-          <h2 class="text-2xl font-semibold mb-4">Three Buttons Example</h2>
+          <h2 class="text-2xl font-semibold mb-4">Three Buttons</h2>
           <div id="buttons" class="flex flex-row items-start gap-4">
             <Button
               label="One"
@@ -98,7 +98,6 @@ function render(props: BaseProps<ButtonDemoProps>) {
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<ButtonDemoEvents>): BindReturn<ButtonDemoLogic> {
   return {
     release: () => {
-      // Ref cleanup is handled automatically
     }
   }
 }

@@ -1,4 +1,6 @@
 packages:
   - packages/components
   - packages/core
+  - packages/router
+  - packages/cli
   - packages/demo

@@ -5,25 +5,32 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node node_modules/@duct-ui/cli/dist/cli.js build",
     "preview": "vite preview",
-    "package": "pnpm -w build"
+    "package": "pnpm -w build",
+    "test": "vitest run",
+    "test-watch": "vitest"
   },
   "dependencies": {
     "@duct-ui/components": "workspace:*",
     "@duct-ui/core": "workspace:*",
+    "@duct-ui/router": "workspace:*",
     "daisyui": "^5.0.46"
   },
   "devDependencies": {
     "@kitajs/html": "^4.2.9",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/nunjucks": "^3.2.6",
     "autoprefixer": "^10.4.21",
     "dexie": "^4.0.11",
+    "nunjucks": "^3.2.4",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3",
-    "vite": "^7.0.4",
-    "wrangler": "^4.26.0"
+    "vite": "^7.0.6",
+    "vitest": "^1.0.0",
+    "wrangler": "^4.26.0",
+    "@duct-ui/cli": "workspace:*"
   }
 }

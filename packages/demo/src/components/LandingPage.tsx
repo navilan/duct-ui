@@ -193,7 +193,7 @@ function render(props: BaseProps<LandingPageProps>) {
           {/* Links Section */}
           <div class="mt-16 text-center">
             <div class="flex flex-wrap justify-center gap-6">
-              <a href="/docs/button" class="link link-primary text-lg font-medium">
+              <a href="/demos" class="link link-primary text-lg font-medium">
                 ▶️ Demos
               </a>
               <a href="/docs/what-is-duct" class="link link-primary text-lg font-medium">

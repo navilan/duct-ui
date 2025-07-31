@@ -1,2 +1,6 @@
 export { createRef, MutableRef, type RefEvents } from './ref'
-export { }
+export { createBlueprint, type BaseProps, type BlueprintConfig, type ComponentProps } from './blueprint'
+export { observeLifecycle, cleanupLifecycleHandler, type LifecycleCallbacks } from './lifecycle'
+export { getDuct } from './runtime'
+export { EventEmitter } from './shared'
+export { isNodeJS, isBrowser, hasDocument, isSSR, canUseDOMAPIs } from './env'

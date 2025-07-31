@@ -1,10 +1,16 @@
 import { DuctGlobal } from "./types/duct"
+import { isBrowser } from "./env.js"
 
 export type { DuctGlobal }
-export function initializeDuct() {
-  const existing = window.Duct || undefined
 
-  window.Duct = {
+declare global {
+  var Duct: DuctGlobal | undefined
+}
+
+export function initializeDuct() {
+  const existing = globalThis.Duct || undefined
+
+  globalThis.Duct = {
     runtime: {
       version: "0.1.0",
       config: {
@@ -17,19 +23,22 @@ export function initializeDuct() {
       props: existing?.state?.props ?? new Map<string, any>()
     },
     register(el, logic) {
-      window.Duct!.state.bound.set(el, logic)
+      if (isBrowser) {
+        globalThis.Duct!.state.bound.set(el, logic)
+      }
+      // No-op in SSR
     },
     saveProps(id, props) {
-      window.Duct!.state.props.set(id, props)
+      globalThis.Duct!.state.props.set(id, props)
     },
     getLogic(el) {
-      return window.Duct!.state.bound.get(el)
+      return globalThis.Duct!.state.bound.get(el)
     },
     getProps(id) {
-      return window.Duct!.state.props.get(id)
+      return globalThis.Duct!.state.props.get(id)
     },
     clearProps(id) {
-      window.Duct!.state.props.delete(id)
+      globalThis.Duct!.state.props.delete(id)
     }
   }
 }
@@ -37,6 +46,8 @@ export function initializeDuct() {
 initializeDuct()
 
 export function getDuct(): DuctGlobal {
-  if (!window.Duct) throw new Error("Duct runtime not initialized")
-  return window.Duct
+  if (!globalThis.Duct) {
+    initializeDuct()
+  }
+  return globalThis.Duct!
 }

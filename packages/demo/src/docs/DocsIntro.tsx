@@ -2,14 +2,14 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "@kitajs/html"
 
-export interface DocsIntroDemoEvents extends BaseComponentEvents { }
-export interface DocsIntroDemoLogic { }
-export interface DocsIntroDemoProps {
+export interface DocsIntroEvents extends BaseComponentEvents { }
+export interface DocsIntroLogic { }
+export interface DocsIntroProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
 }
 
-function render(props: BaseProps<DocsIntroDemoProps>) {
+function render(props: BaseProps<DocsIntroProps>) {
 
   return (
     <div {...props}>
@@ -31,7 +31,7 @@ function render(props: BaseProps<DocsIntroDemoProps>) {
             Every Duct component follows a blueprint pattern with distinct phases:
           </p>
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="card bg-base-100 shadow-sm">
                   <div class="card-body p-4">
@@ -108,7 +108,7 @@ function render(props: BaseProps<DocsIntroDemoProps>) {
             Duct provides a strongly typed event system built on TypeScript:
           </p>
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`// Define component events with full type safety
 export interface ButtonEvents extends BaseComponentEvents {
   click: (el: HTMLElement) => void
@@ -129,7 +129,7 @@ export interface ButtonEvents extends BaseComponentEvents {
             Duct components have direct access to DOM elements, allowing for efficient updates without virtual DOM overhead:
           </p>
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`function bind(el: HTMLElement, eventEmitter: EventEmitter<Events>) {
   const button = el.querySelector('button')
 
@@ -152,7 +152,7 @@ export interface ButtonEvents extends BaseComponentEvents {
             Components expose their logic for programmatic control using refs:
           </p>
           <div class="not-prose">
-            <div class="bg-base-200 rounded-lg p-6 my-4">
+            <div class="rounded-lg p-6 my-4">
               <pre class="text-sm"><code>{escapeHtml(`// Recommended: Use refs for synchronous access
 import { Button } from '@duct-ui/components'
 const buttonRef = createRef()
@@ -212,7 +212,7 @@ buttonRef.current?.updateLabel('New Text')`)}</code></pre>
   )
 }
 
-function bind(): BindReturn<DocsIntroDemoLogic> {
+function bind(): BindReturn<DocsIntroLogic> {
   return {
     release: () => { }
   }
@@ -220,7 +220,7 @@ function bind(): BindReturn<DocsIntroDemoLogic> {
 
 const id = { id: "duct-demo/docs-intro" }
 
-const DocsIntro = createBlueprint<DocsIntroDemoProps, DocsIntroDemoEvents, DocsIntroDemoLogic>(
+const DocsIntro = createBlueprint<DocsIntroProps, DocsIntroEvents, DocsIntroLogic>(
   id,
   render,
   { bind }

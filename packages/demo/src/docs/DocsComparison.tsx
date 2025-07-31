@@ -2,14 +2,14 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "@kitajs/html"
 
-export interface DocsComparisonDemoEvents extends BaseComponentEvents { }
-export interface DocsComparisonDemoLogic { }
-export interface DocsComparisonDemoProps {
+export interface DocsComparisonEvents extends BaseComponentEvents { }
+export interface DocsComparisonLogic { }
+export interface DocsComparisonProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
 }
 
-function render(props: BaseProps<DocsComparisonDemoProps>) {
+function render(props: BaseProps<DocsComparisonProps>) {
   return (
     <div {...props}>
       <DemoLayout
@@ -110,7 +110,7 @@ function render(props: BaseProps<DocsComparisonDemoProps>) {
 
           <div class="not-prose">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
-              <div class="card bg-base-200">
+              <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-error">React Component</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`function Button({ label, onClick }) {
@@ -200,7 +200,7 @@ function bind(el, eventEmitter) {
 
           <div class="not-prose">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
-              <div class="card bg-base-200">
+              <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-secondary">Vue Component</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`<template>
@@ -305,7 +305,7 @@ function bind(el, eventEmitter) {
 
           <div class="not-prose">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
-              <div class="card bg-base-200">
+              <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-accent">Svelte Component</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`<script>
@@ -399,7 +399,7 @@ export default Button;`)}</code></pre>
 
           <div class="not-prose">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-6">
-              <div class="card bg-base-200">
+              <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-neutral">Web Components</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`class ButtonElement extends HTMLElement {
@@ -550,9 +550,9 @@ export default Button;`)}</code></pre>
                 </div>
               </div>
 
-              <div class="card bg-info/10 border border-info/20">
+              <div class="card border">
                 <div class="card-body">
-                  <h4 class="card-title text-info">Choose React When</h4>
+                  <h4 class="card-title">Choose React When</h4>
                   <ul class="text-sm space-y-1">
                     <li>• You need the largest ecosystem</li>
                     <li>• You have React expertise</li>
@@ -606,7 +606,7 @@ export default Button;`)}</code></pre>
   )
 }
 
-function bind(): BindReturn<DocsComparisonDemoLogic> {
+function bind(): BindReturn<DocsComparisonLogic> {
   return {
     release: () => { }
   }
@@ -614,10 +614,10 @@ function bind(): BindReturn<DocsComparisonDemoLogic> {
 
 const id = { id: "duct-demo/docs-comparison" }
 
-const DocsComparisonDemo = createBlueprint<DocsComparisonDemoProps, DocsComparisonDemoEvents, DocsComparisonDemoLogic>(
+const DocsComparison = createBlueprint<DocsComparisonProps, DocsComparisonEvents, DocsComparisonLogic>(
   id,
   render,
   { bind }
 )
 
-export default DocsComparisonDemo
+export default DocsComparison

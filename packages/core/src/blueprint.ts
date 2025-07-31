@@ -3,6 +3,7 @@ import { observeLifecycle, cleanupLifecycleHandler } from "./lifecycle"
 import { ObservableV2 as Observable } from 'lib0/observable'
 import { MutableRef } from "./ref"
 import { EventEmitter } from "./shared"
+import { isBrowser, hasDocument } from './env.js'
 
 export type BaseProps<Props> = Props & { "data-duct-id": string }
 
@@ -135,7 +136,8 @@ export function createBlueprint<
   function createInstanceEventEmitter(instanceId: string): EventEmitter<Events> {
     return {
       emit<K extends keyof Events>(event: K, ...args: Parameters<Events[K]>) {
-        globalEventObservable.emit(event as string, [document.querySelector(`[data-duct-id="${instanceId}"]`), ...args])
+        const element = hasDocument ? document.querySelector(`[data-duct-id="${instanceId}"]`) : null
+        globalEventObservable.emit(event as string, [element, ...args])
       },
       on<K extends keyof Events>(event: K, callback: Events[K]) {
         bindEventToInstance(instanceId, event as string, callback)
@@ -184,8 +186,8 @@ export function createBlueprint<
           const instance = instances.get(instanceId)!
           const { eventEmitter, domEventHandlers } = instance
 
-          // Bind DOM event listeners if specified
-          if (config.domEvents) {
+          // Bind DOM event listeners if specified (only in browser)
+          if (config?.domEvents && isBrowser) {
             config.domEvents.forEach(eventName => {
               const handler = (e: Event) => {
                 eventEmitter.emit(eventName as keyof Events, htmlEl, e)
@@ -197,7 +199,7 @@ export function createBlueprint<
 
           // Call async load if provided
           let loadData: LoadData | undefined
-          if (config.load) {
+          if (config?.load) {
             loadData = await config.load(htmlEl, fullProps)
           }
 
@@ -206,7 +208,7 @@ export function createBlueprint<
 
           // Create component logic
           let logic: Logic
-          if (config.bind) {
+          if (config?.bind) {
             const customLogic = config.bind(htmlEl, eventEmitter, fullProps, loadData)
             // Merge default on/off with custom logic
             logic = {
