@@ -1,6 +1,7 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import ductLogo from "../icons/duct-logo.svg"
 import { escapeHtml } from "@kitajs/html"
+import ThemeToggle from "./ThemeToggle"
 
 export interface LandingPageEvents extends BaseComponentEvents { }
 export interface LandingPageLogic { }
@@ -222,6 +223,9 @@ function render(props: BaseProps<LandingPageProps>) {
           </div>
         </div>
       </div>
+      
+      {/* Theme Toggle */}
+      <ThemeToggle />
     </div>
   )
 }

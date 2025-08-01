@@ -1,6 +1,6 @@
 {
   "name": "@duct-ui/router",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "type": "module",
   "description": "File-based routing system for Duct UI with SSG and SSR support",
   "main": "./dist/index.js",

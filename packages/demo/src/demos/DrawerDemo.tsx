@@ -57,7 +57,7 @@ function render(props: BaseProps<DrawerDemoProps>) {
               </div>
             </div>
 
-            <div class="p-6 bg-neutral/10 border border-neutral/20 rounded-lg">
+            <div class="info-card info-card-neutral">
               <h3 class="text-lg font-medium mb-3 text-base-content">
                 📱 Mobile-Specific Features
               </h3>

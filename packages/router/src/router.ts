@@ -55,17 +55,38 @@ export class DuctRouter {
     const jsxElement = component.default(pageProps)
     const componentHtml = jsxElement.toString()
     
+    // Generate reanimation script for this page
+    const reanimationScript = this.generateReanimationScript(path, componentPath, finalMeta)
+    
     // Render with layout if specified
     let html: string
     if (layoutConfig) {
       const templateContext = {
         ...layoutConfig.context,
-        page: finalMeta,
+        page: {
+          ...finalMeta,
+          scripts: [
+            ...(finalMeta.scripts || []),
+            reanimationScript // Add reanimation script to page scripts
+          ]
+        },
         content: componentHtml
       }
       html = this.nunjucksEnv.render(layoutConfig.path, templateContext)
     } else {
-      html = componentHtml
+      // If no layout, wrap in basic HTML with reanimation script
+      html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${finalMeta.title || 'Duct App'}</title>
+</head>
+<body>
+  <div id="app">${componentHtml}</div>
+  <script type="module">${reanimationScript}</script>
+</body>
+</html>`
     }
 
     return {
@@ -132,5 +153,17 @@ export class DuctRouter {
     }
 
     return layout
+  }
+
+  /**
+   * Generate reanimation script for a page
+   */
+  private generateReanimationScript(path: string, componentPath: string, meta: PageMeta): string {
+    // Convert filesystem path to module path
+    // e.g., /src/pages/demos/index.tsx -> /src/pages/demos/index
+    const modulePath = componentPath.replace(/\.(tsx?|jsx?)$/, '')
+    
+    // Generate a unique virtual module path for this reanimation script
+    return `/@duct/reanimate${path === '/' ? '/index' : path}.js`
   }
 }

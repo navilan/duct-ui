@@ -19,8 +19,8 @@ export class RouteGenerator {
   async discoverRoutes(): Promise<Route[]> {
     const routes: Route[] = []
     
-    // Find all index.tsx and sub.tsx files
-    const files = await glob('**/+(index|sub).tsx', {
+    // Find all .tsx files
+    const files = await glob('**/*.tsx', {
       cwd: this.pagesDir,
       absolute: false
     })
@@ -31,13 +31,14 @@ export class RouteGenerator {
       const componentPath = path.join(this.pagesDir, file)
       
       if (parsed.name === 'index') {
-        // Static route
+        // Static index route - maps to directory path
         routes.push({
           path: routePath,
           componentPath,
           isDynamic: false
         })
-      } else if (parsed.name === 'sub') {
+      } else if (parsed.name.startsWith('[') && parsed.name.endsWith(']')) {
+        // Dynamic route with bracket syntax [sub].tsx
         // Dynamic route - we'll need to load the component to get routes
         // This will be handled by the CLI which can compile and load the component
         routes.push({
@@ -47,6 +48,14 @@ export class RouteGenerator {
           // staticPaths will be populated by the CLI after compilation
           staticPaths: undefined
         })
+      } else {
+        // Static named route - maps to filename
+        const namedRoutePath = this.fileToNamedRoutePath(file)
+        routes.push({
+          path: namedRoutePath,
+          componentPath,
+          isDynamic: false
+        })
       }
     }
 
@@ -54,7 +63,7 @@ export class RouteGenerator {
   }
 
   /**
-   * Convert file path to route path
+   * Convert file path to route path (for index.tsx and [sub].tsx files)
    */
   private fileToRoutePath(filePath: string): string {
     // Remove the filename
@@ -67,6 +76,22 @@ export class RouteGenerator {
     
     // Ensure leading slash
     return '/' + dir
+  }
+
+  /**
+   * Convert file path to named route path (for specific .tsx files like 404.tsx)
+   */
+  private fileToNamedRoutePath(filePath: string): string {
+    const parsed = path.parse(filePath)
+    const dir = path.dirname(filePath)
+    
+    // If it's in root directory
+    if (dir === '.') {
+      return '/' + parsed.name
+    }
+    
+    // If it's in a subdirectory
+    return '/' + dir + '/' + parsed.name
   }
 
 

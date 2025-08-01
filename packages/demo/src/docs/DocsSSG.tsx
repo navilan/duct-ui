@@ -42,25 +42,45 @@ export default defineConfig({
       <div class="not-prose">
         <pre class="p-4 rounded-lg mb-6 overflow-x-auto">
           <code class="text-sm">{`src/
-├── pages/          # Page components
-│   ├── index.tsx   # Home page (/)
+├── pages/              # Page components
+│   ├── index.tsx       # Home page (/)
+│   ├── 404.tsx         # 404 error page (/404)
+│   ├── contact.tsx     # Contact page (/contact)
 │   ├── about/
-│   │   └── index.tsx  # About page (/about)
+│   │   └── index.tsx   # About page (/about)
 │   └── blog/
-│       ├── index.tsx  # Blog index (/blog)
-│       └── sub.tsx    # Dynamic blog posts (/blog/*)
-└── layouts/        # HTML templates
-    └── shell.html  # Main layout template`}</code>
+│       ├── index.tsx   # Blog index (/blog)
+│       └── [sub].tsx   # Dynamic blog posts (/blog/*)
+└── layouts/            # HTML templates
+    └── shell.html      # Main layout template`}</code>
         </pre>
       </div>
 
       <h2 class="text-2xl font-semibold mt-8 mb-4">Page Components</h2>
 
-      <p class="mb-4/80">Each page component must export specific functions:</p>
+      <p class="mb-4">Page components in Duct SSG return either:</p>
+      <ul class="list-disc ml-6 mb-4">
+        <li><strong>Duct components</strong> (created with <code class="px-2 py-1 rounded">createBlueprint</code>) - These are reinstantiated on the client with full logic binding and interactivity</li>
+        <li><strong>Plain JSX</strong> - Rendered as static HTML with no client-side presence or interactivity</li>
+      </ul>
+
+      <div class="tip">
+        <p class="text-sm">
+          <strong>📝 Note:</strong> See real examples in the Duct demo source:
+          <a href="https://github.com/navilan/duct-ui/blob/main/packages/demo/src/pages/demos/index.tsx" class="text-primary hover:underline ml-2" target="_blank" rel="noopener noreferrer">pages/demos/index.tsx</a>,
+          <a href="https://github.com/navilan/duct-ui/blob/main/packages/demo/src/pages/demos/[sub].tsx" class="text-primary hover:underline ml-2" target="_blank" rel="noopener noreferrer">pages/demos/[sub].tsx</a>, and
+          <a href="https://github.com/navilan/duct-ui/blob/main/packages/demo/src/pages/404.tsx" class="text-primary hover:underline ml-2" target="_blank" rel="noopener noreferrer">pages/404.tsx</a>
+        </p>
+      </div>
+
+      <p class="mb-4">Each page component must export specific functions:</p>
 
       <div class="not-prose">
         <pre class="p-4 rounded-lg mb-6 overflow-x-auto">
           <code class="text-sm">{escapeHtml(`// src/pages/about/index.tsx
+import type { DuctPageComponent, PageProps } from '@duct-ui/router'
+import AboutContent from '../../components/AboutContent' // A Duct component
+
 export function getLayout(): string {
   return 'shell.html'  // Layout template to use
 }
@@ -77,25 +97,43 @@ export function getPageContext(): Record<string, any> {
   }
 }
 
-// Default export: Your Duct component
-export default function AboutPage() {
+// Example 1: Returning a Duct component (with client-side interactivity)
+const AboutPage: DuctPageComponent = ({ meta, path, env }: PageProps) => {
+  // AboutContent is created with createBlueprint and will be 
+  // reinstantiated on the client with full logic binding
+  return <AboutContent />
+}
+
+// Example 2: Returning plain JSX (static HTML only)
+const StaticAboutPage: DuctPageComponent = ({ meta, path, env }: PageProps) => {
+  // This JSX will be rendered as static HTML with no client-side presence
   return (
     <div class="container mx-auto px-4 py-8">
       <h1>About Us</h1>
-      <p>Welcome to our about page!</p>
+      <p>This is static content with no interactivity.</p>
     </div>
   )
-}`)}</code>
+}
+
+export default AboutPage // Use the interactive version`)}</code>
         </pre>
       </div>
 
-      <h2 class="text-2xl font-semibold mt-8 mb-4">Dynamic Routes</h2>
+      <h2 class="text-2xl font-semibold mt-8 mb-4">Route Types</h2>
 
-      <p class="mb-4/80">For dynamic routes, create a <code class="px-2 py-1 rounded">sub.tsx</code> file:</p>
+      <h3 class="text-xl font-medium mt-6 mb-3">Static Routes</h3>
+      <p class="mb-4">Static routes are created using:</p>
+      <ul class="list-disc ml-6 mb-4">
+        <li><code class="px-2 py-1 rounded">index.tsx</code> - Maps to the directory path (e.g., <code>/about/index.tsx</code> → <code>/about</code>)</li>
+        <li><strong>Named files</strong> - Any <code>.tsx</code> file maps to its filename (e.g., <code>404.tsx</code> → <code>/404</code>, <code>contact.tsx</code> → <code>/contact</code>)</li>
+      </ul>
+
+      <h3 class="text-xl font-medium mt-6 mb-3">Dynamic Routes</h3>
+      <p class="mb-4">For dynamic routes, create a <code class="px-2 py-1 rounded">[sub].tsx</code> file:</p>
 
       <div class="not-prose">
         <pre class="p-4 rounded-lg mb-6 overflow-x-auto">
-          <code class="text-sm">{escapeHtml(`// src/pages/blog/sub.tsx
+          <code class="text-sm">{escapeHtml(`// src/pages/blog/[sub].tsx
 export function getLayout(): string {
   return 'shell.html'
 }
@@ -127,12 +165,21 @@ export async function getRoutes(): Promise<Record<string, any>> {
   return routes
 }
 
-// Component receives route information
-export default function BlogPost({ path }: { path: string }) {
+// Page component that returns a Duct component
+const BlogPostPage: DuctPageComponent = ({ meta, path, env }: PageProps) => {
   const slug = path.split('/').pop()
-  // Render your blog post component
-  return <div>Blog post: {slug}</div>
-}`)}</code>
+  const post = blogPosts.find(p => p.slug === slug)
+  
+  if (!post) {
+    // Plain JSX - no client-side presence
+    return <div>Post not found</div>
+  }
+  
+  // BlogPost is a Duct component - will be interactive on client
+  return <BlogPost post={post} />
+}
+
+export default BlogPostPage`)}</code>
         </pre>
       </div>
 
@@ -278,13 +325,16 @@ export default {
         </pre>
       </div>
 
-      <div class="rounded-lg p-6 mt-8 border">
+      <div class="info-card mt-8">
         <h3 class="text-lg font-semibold mb-2">💡 Pro Tips</h3>
         <ul class="list-disc ml-6 space-y-1">
+          <li>Return Duct components (created with <code class="px-2 py-1 rounded">createBlueprint</code>) for interactive pages</li>
+          <li>Return plain JSX for purely static content that needs no client-side logic</li>
           <li>Use descriptive page context for better SEO</li>
           <li>Include Open Graph images for social media sharing</li>
           <li>Keep static generation fast by minimizing data fetching in <code class="px-2 py-1 rounded">getRoutes()</code></li>
           <li>Use environment variables for configuration that changes between environments</li>
+          <li>Study the <a href="https://github.com/navilan/duct-ui/tree/main/packages/demo/src/pages" class="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">demo pages source</a> for real-world examples</li>
         </ul>
       </div>
     </div>

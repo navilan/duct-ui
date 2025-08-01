@@ -9,8 +9,7 @@ export function getLayout() {
 export function getPageMeta() {
   return {
     title: 'Component Demo',
-    description: 'Interactive component demonstration',
-    scripts: ['/src/main.tsx']
+    description: 'Interactive component demonstration'
   }
 }
 

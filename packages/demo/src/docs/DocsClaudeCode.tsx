@@ -285,22 +285,22 @@ Always reference specific Duct UI patterns and provide concrete examples from th
               <div class="rounded-lg p-6 my-6">
                 <h4 class="font-bold mb-4">Example Requests:</h4>
                 <div class="space-y-4">
-                  <div class="bg-base-100 p-4 rounded border-l-4 border-primary">
+                  <div class="alert-left-primary">
                     <p class="text-sm font-medium text-primary">Component Generation</p>
                     <p class="text-sm">"Create a Duct accordion component with expand/collapse animations and keyboard navigation."</p>
                   </div>
 
-                  <div class="bg-base-100 p-4 rounded border-l-4 border-secondary">
+                  <div class="alert-left-secondary">
                     <p class="text-sm font-medium text-secondary">Debugging</p>
                     <p class="text-sm">"This Duct modal component isn't closing when clicking the overlay. Can you fix the event handling?"</p>
                   </div>
 
-                  <div class="bg-base-100 p-4 rounded border-l-4 border-success">
+                  <div class="alert-left-success">
                     <p class="text-sm font-medium text-success">Enhancement</p>
                     <p class="text-sm">"Add async data loading to this existing list component using the load function pattern."</p>
                   </div>
 
-                  <div class="bg-base-100 p-4 rounded border-l-4 border-warning">
+                  <div class="alert-left-warning">
                     <p class="text-sm font-medium text-warning">Architecture</p>
                     <p class="text-sm">"How should I structure a multi-step form using Duct components? Show me the component architecture."</p>
                   </div>
@@ -350,7 +350,7 @@ buttonRef.current?.setDisabled(true)`)}</code></pre>
               </ol>
             </div>
 
-            <div class="alert alert-success mt-6">
+            <div class="alert mt-6">
               <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>

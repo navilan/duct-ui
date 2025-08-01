@@ -9,8 +9,7 @@ export function getLayout() {
 export function getPageMeta() {
   return {
     title: 'Component Demos - Duct UI',
-    description: 'Interactive demos showcasing Duct UI components',
-    scripts: ['/src/main.tsx']
+    description: 'Interactive demos showcasing Duct UI components'
   }
 }
 

@@ -72,13 +72,35 @@ interface MyComponentLogic {
 }
 ```
 
+## App Container
+
+Duct Core provides `reanimate` and `mount` functions for initializing applications:
+
+```typescript
+import { reanimate, mount } from '@duct-ui/core'
+import MyApp from './MyApp'
+
+// Reanimate server-rendered HTML (for SSG/SSR)
+reanimate(MyApp, {
+  rootElement: '#app',
+  clearContent: true,
+  meta: { /* page metadata */ },
+  env: { /* environment variables */ }
+})
+
+// Mount fresh (for client-only apps)
+mount(MyApp, {
+  rootElement: '#app'
+})
+```
+
 ## Server-Side Rendering
 
-Duct Core is SSR-friendly and works in Node.js environments for static site generation:
+Duct Core is SSR-friendly and works in Node.js environments:
 
 ```typescript
 // Components work the same in SSR and client-side
-export default function MyPage() {
+const MyPage: DuctPageComponent = ({ meta, path, env }) => {
   const isSSR = typeof window === 'undefined'
   
   return (
@@ -89,6 +111,8 @@ export default function MyPage() {
   )
 }
 ```
+
+With SSG, the framework automatically reanimates page components - no manual initialization needed.
 
 ## Resources
 

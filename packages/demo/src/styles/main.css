@@ -152,3 +152,106 @@
 .not-prose pre {
   @apply bg-base-200/80 rounded-2xl p-4;
 }
+
+/* Standardized Alert and Tip Classes */
+
+/* Base alert style */
+.alert {
+  @apply rounded-lg p-4 mb-6 border;
+}
+
+/* Tip variants - for helpful information */
+.tip {
+  @apply rounded-lg p-4 mb-6 border border-primary/20 bg-primary/10;
+}
+
+.tip-info {
+  @apply rounded-lg p-4 mb-6 border border-info/20 bg-info/10;
+}
+
+.tip-success {
+  @apply rounded-lg p-4 mb-6 border border-success/20 bg-success/10;
+}
+
+.tip-warning {
+  @apply rounded-lg p-4 mb-6 border border-warning/20 bg-warning/10;
+}
+
+.tip-error {
+  @apply rounded-lg p-4 mb-6 border border-error/20 bg-error/10;
+}
+
+/* Alert left-border variants */
+.alert-left {
+  @apply p-4 rounded border-l-4 bg-base-100;
+}
+
+.alert-left-primary {
+  @apply p-4 rounded border-l-4 border-primary bg-base-100;
+}
+
+.alert-left-secondary {
+  @apply p-4 rounded border-l-4 border-secondary bg-base-100;
+}
+
+.alert-left-success {
+  @apply p-4 rounded border-l-4 border-success bg-base-100;
+}
+
+.alert-left-warning {
+  @apply p-4 rounded border-l-4 border-warning bg-base-100;
+}
+
+.alert-left-error {
+  @apply p-4 rounded border-l-4 border-error bg-base-100;
+}
+
+/* Informational card variants */
+.info-card {
+  @apply card p-6 border;
+}
+
+.info-card-primary {
+  @apply card bg-primary/10 border border-primary/20;
+}
+
+.info-card-secondary {
+  @apply card bg-secondary/10 border border-secondary/20;
+}
+
+.info-card-success {
+  @apply card bg-success/10 border border-success/20;
+}
+
+.info-card-warning {
+  @apply card bg-warning/10 border border-warning/20;
+}
+
+.info-card-error {
+  @apply card bg-error/10 border border-error/20;
+}
+
+.info-card-info {
+  @apply card bg-info/10 border border-info/20;
+}
+
+.info-card-neutral {
+  @apply card bg-neutral/10 border border-neutral/20;
+}
+
+/* Gradient card variants */
+.info-card-gradient-primary {
+  @apply card bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20;
+}
+
+.info-card-gradient-secondary {
+  @apply card bg-gradient-to-br from-secondary/10 to-secondary/5 border border-secondary/20;
+}
+
+.info-card-gradient-success {
+  @apply card bg-gradient-to-br from-success/10 to-success/5 border border-success/20;
+}
+
+.info-card-gradient-warning {
+  @apply card bg-gradient-to-br from-warning/10 to-warning/5 border border-warning/20;
+}

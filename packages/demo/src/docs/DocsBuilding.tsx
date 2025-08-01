@@ -153,7 +153,7 @@ export interface MyComponentProps {
 
           <div class="not-prose">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 my-4">
-              <div class="card bg-success/10 border border-success/20">
+              <div class="info-card info-card-success">
                 <div class="card-body">
                   <h4 class="card-title text-success text-base">✅ Good Render Function</h4>
                   <pre class="text-xs"><code>{escapeHtml(`function render(props: BaseProps<InputProps>) {
@@ -182,7 +182,7 @@ export interface MyComponentProps {
                 </div>
               </div>
 
-              <div class="card bg-error/10 border border-error/20">
+              <div class="info-card info-card-error">
                 <div class="card-body">
                   <h4 class="card-title text-error text-base">❌ Bad Render Function</h4>
                   <pre class="text-xs"><code>{escapeHtml(`function render(props: BaseProps<InputProps>) {
@@ -401,7 +401,7 @@ buttonRef.current?.setLabel('New Text')`)}</code></pre>
 
           <div class="not-prose">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
-              <div class="card bg-success/10 border border-success/20">
+              <div class="info-card info-card-success">
                 <div class="card-body">
                   <h3 class="card-title text-success">Do</h3>
                   <ul class="text-sm space-y-2">
@@ -419,7 +419,7 @@ buttonRef.current?.setLabel('New Text')`)}</code></pre>
                 </div>
               </div>
 
-              <div class="card bg-error/10 border border-error/20">
+              <div class="info-card info-card-error">
                 <div class="card-body">
                   <h3 class="card-title text-error">Don't</h3>
                   <ul class="text-sm space-y-2">
@@ -495,7 +495,7 @@ describe('Button Component', () => {
             </div>
           </div>
 
-          <div class="alert alert-success mt-6">
+          <div class="alert mt-6">
             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>

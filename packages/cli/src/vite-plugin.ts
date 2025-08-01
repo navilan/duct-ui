@@ -7,6 +7,7 @@ import { loadConfig, resolveConfigPaths } from './config'
 export function ductSSGPlugin(): Plugin {
   let htmlDir: string
   let generatedHtml: Map<string, string> = new Map()
+  let pageRoutes: Map<string, { componentPath: string, meta: any }> = new Map()
   
   return {
     name: 'vite-plugin-duct-ssg',
@@ -21,10 +22,101 @@ export function ductSSGPlugin(): Plugin {
       htmlDir = path.join(process.cwd(), '.duct/html')
       await loadGeneratedHtml()
       
+      // Load page metadata from pages.json
+      try {
+        const pagesJson = await fs.readFile(path.join(process.cwd(), '.duct/pages.json'), 'utf-8')
+        const pagesData = JSON.parse(pagesJson)
+        
+        // Build page routes map
+        for (const page of pagesData.pages) {
+          pageRoutes.set(page.path, {
+            componentPath: page.componentPath,
+            meta: {}
+          })
+        }
+      } catch (error) {
+        console.warn('Failed to load pages.json:', error)
+      }
+      
       console.log(`✅ Loaded ${generatedHtml.size} static pages`)
     },
     
+    resolveId(id) {
+      // Handle virtual reanimation modules
+      if (id.startsWith('/@duct/reanimate/')) {
+        return id
+      }
+      return null
+    },
+    
+    load(id) {
+      // Generate reanimation script for virtual modules
+      if (id.startsWith('/@duct/reanimate/')) {
+        const pagePath = id.replace('/@duct/reanimate', '').replace('.js', '')
+        const normalizedPath = pagePath === '/index' ? '/' : pagePath
+        
+        const pageInfo = pageRoutes.get(normalizedPath)
+        if (!pageInfo) {
+          console.warn(`No page info found for ${normalizedPath}`)
+          return null
+        }
+        
+        // Generate the reanimation script
+        const componentPath = pageInfo.componentPath.replace(/\\/g, '/')
+        const importPath = componentPath.startsWith('.duct/') 
+          ? `/${componentPath}` 
+          : `/src/${componentPath}`
+        
+        return `
+import { reanimate } from '@duct-ui/core'
+import PageComponent from '${importPath}'
+
+document.addEventListener('DOMContentLoaded', () => {
+  reanimate(PageComponent, {
+    rootElement: '#app',
+    clearContent: true,
+    meta: ${JSON.stringify(pageInfo.meta || {})},
+    env: ${JSON.stringify({})} // TODO: Load from config
+  })
+})
+`
+      }
+      return null
+    },
+    
     configureServer(server) {
+      // First middleware: serve assets from dist/assets if they exist
+      server.middlewares.use(async (req, res, next) => {
+        let url = req.url?.split('?')[0] // Remove query params
+        
+        if (url && url.startsWith('/assets/')) {
+          const assetPath = path.join(process.cwd(), 'dist', url)
+          try {
+            const assetContent = await fs.readFile(assetPath)
+            const ext = path.extname(url).toLowerCase()
+            
+            // Set appropriate content type
+            let contentType = 'application/octet-stream'
+            if (ext === '.svg') contentType = 'image/svg+xml'
+            else if (ext === '.png') contentType = 'image/png'
+            else if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg'
+            else if (ext === '.ico') contentType = 'image/x-icon'
+            else if (ext === '.css') contentType = 'text/css'
+            else if (ext === '.js') contentType = 'application/javascript'
+            
+            res.statusCode = 200
+            res.setHeader('Content-Type', contentType)
+            res.end(assetContent)
+            return
+          } catch (error) {
+            // Asset not found in dist/assets, continue to next middleware
+          }
+        }
+        
+        next()
+      })
+      
+      // Second middleware: serve HTML pages
       server.middlewares.use(async (req, res, next) => {
         let url = req.url?.split('?')[0] // Remove query params
         
