@@ -1,5 +1,18 @@
 # @duct-ui/core
 
+## 0.6.1
+
+### Patch Changes
+
+- [#41](https://github.com/navilan/duct-ui/pull/41) [`e54e4e9`](https://github.com/navilan/duct-ui/commit/e54e4e9735d0429fcd2d12a772ea45ad488dcb2d) Thanks [@navilan](https://github.com/navilan)! - Add app container and component reanimation
+
+  - Generate a simple container script during generation
+  - Remove main.tsx and html files from demo. Everything is generated.
+  - Simplify vite config
+  - Streamline demo styles
+  - Fix demo ux
+  - Remove cloudflare functions
+
 ## 0.6.0
 
 ### Minor Changes
