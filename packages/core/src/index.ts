@@ -4,3 +4,4 @@ export { observeLifecycle, cleanupLifecycleHandler, type LifecycleCallbacks } fr
 export { getDuct } from './runtime'
 export { EventEmitter } from './shared'
 export { isNodeJS, isBrowser, hasDocument, isSSR, canUseDOMAPIs } from './env'
+export { reanimate, mount, type AppOptions } from './app'

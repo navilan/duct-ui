@@ -102,6 +102,22 @@ function render(props: BaseProps<DocsComparisonProps>) {
 
           <h2>Detailed Comparisons</h2>
 
+          <div class="not-prose">
+            <div class="alert mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <div>
+                <div class="font-bold">Notice</div>
+                <div class="text-sm">
+                  Pay attention to how Duct code is direct, explicit, and easily understandable. What you see is what executes - 
+                  no hidden abstractions, magic behaviors, or complex state management. This makes debugging straightforward 
+                  and code behavior predictable.
+                </div>
+              </div>
+            </div>
+          </div>
+
           <h3>Duct vs React</h3>
           <p>
             React popularized component-based UI development, but Duct takes a fundamentally different approach
@@ -131,7 +147,7 @@ function render(props: BaseProps<DocsComparisonProps>) {
                 </div>
               </div>
 
-              <div class="card bg-primary/10 border border-primary/20">
+              <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-primary">Duct Component</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Render function
@@ -165,7 +181,7 @@ function bind(el, eventEmitter) {
 
           <div class="not-prose">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-              <div class="card bg-success/10 border border-success/20">
+              <div class="info-card info-card-success">
                 <div class="card-body">
                   <h4 class="card-title text-success text-base">Duct Advantages</h4>
                   <ul class="text-sm space-y-1">
@@ -177,7 +193,7 @@ function bind(el, eventEmitter) {
                   </ul>
                 </div>
               </div>
-              <div class="card bg-warning/10 border border-warning/20">
+              <div class="info-card info-card-warning">
                 <div class="card-body">
                   <h4 class="card-title text-warning text-base">React Advantages</h4>
                   <ul class="text-sm space-y-1">
@@ -234,9 +250,9 @@ export default {
                 </div>
               </div>
 
-              <div class="card bg-primary/10 border border-primary/20">
+              <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title text-primary">Duct Approach</h4>
+                  <h4 class="card-title text-primary">Duct Component</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Template is pure presentation
 function render(props) {
   return (
@@ -270,7 +286,7 @@ function bind(el, eventEmitter) {
 
           <div class="not-prose">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-              <div class="card bg-success/10 border border-success/20">
+              <div class="info-card info-card-success">
                 <div class="card-body">
                   <h4 class="card-title text-success text-base">Duct Advantages</h4>
                   <ul class="text-sm space-y-1">
@@ -282,7 +298,7 @@ function bind(el, eventEmitter) {
                   </ul>
                 </div>
               </div>
-              <div class="card bg-warning/10 border border-warning/20">
+              <div class="info-card info-card-warning">
                 <div class="card-body">
                   <h4 class="card-title text-warning text-base">Vue Advantages</h4>
                   <ul class="text-sm space-y-1">
@@ -327,9 +343,9 @@ function bind(el, eventEmitter) {
                 </div>
               </div>
 
-              <div class="card bg-primary/10 border border-primary/20">
+              <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title text-primary">Duct Structure</h4>
+                  <h4 class="card-title text-primary">Duct Component</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Functions are completely separated
 function render(props) {
   return <button class="btn">{props.label}</button>;
@@ -364,7 +380,7 @@ export default Button;`)}</code></pre>
 
           <div class="not-prose">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-              <div class="card bg-success/10 border border-success/20">
+              <div class="info-card info-card-success">
                 <div class="card-body">
                   <h4 class="card-title text-success text-base">Duct Advantages</h4>
                   <ul class="text-sm space-y-1">
@@ -376,7 +392,7 @@ export default Button;`)}</code></pre>
                   </ul>
                 </div>
               </div>
-              <div class="card bg-warning/10 border border-warning/20">
+              <div class="info-card info-card-warning">
                 <div class="card-body">
                   <h4 class="card-title text-warning text-base">Svelte Advantages</h4>
                   <ul class="text-sm space-y-1">
@@ -435,7 +451,7 @@ customElements.define('my-button', ButtonElement);`)}</code></pre>
                 </div>
               </div>
 
-              <div class="card bg-primary/10 border border-primary/20">
+              <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-primary">Duct Component</h4>
                   <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Render function
@@ -479,7 +495,7 @@ export default Button;`)}</code></pre>
 
           <div class="not-prose">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
-              <div class="card bg-success/10 border border-success/20">
+              <div class="info-card info-card-success">
                 <div class="card-body">
                   <h4 class="card-title text-success text-base">Duct Advantages</h4>
                   <ul class="text-sm space-y-1">
@@ -492,7 +508,7 @@ export default Button;`)}</code></pre>
                   </ul>
                 </div>
               </div>
-              <div class="card bg-warning/10 border border-warning/20">
+              <div class="info-card info-card-warning">
                 <div class="card-body">
                   <h4 class="card-title text-warning text-base">Web Components Advantages</h4>
                   <ul class="text-sm space-y-1">
@@ -512,7 +528,7 @@ export default Button;`)}</code></pre>
 
           <div class="not-prose">
             {/* Duct - Full Width */}
-            <div class="card bg-primary/10 border border-primary/20 my-6">
+            <div class="info-card info-card-primary my-6">
               <div class="card-body">
                 <h4 class="card-title text-primary text-xl">Choose Duct When</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
@@ -591,7 +607,7 @@ export default Button;`)}</code></pre>
             </div>
           </div>
 
-          <div class="alert alert-info mt-6">
+          <div class="alert mt-6">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>

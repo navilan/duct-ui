@@ -27,7 +27,7 @@ function render(props: BaseProps<DocsWhyDuctProps>) {
 
           <div class="not-prose">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">
-              <div class="card bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20">
+              <div class="info-card info-card-gradient-primary">
                 <div class="card-body">
                   <h3 class="card-title text-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,7 +45,7 @@ function render(props: BaseProps<DocsWhyDuctProps>) {
                 </div>
               </div>
 
-              <div class="card bg-gradient-to-br from-secondary/10 to-secondary/5 border border-secondary/20">
+              <div class="info-card info-card-gradient-secondary">
                 <div class="card-body">
                   <h3 class="card-title text-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,7 +63,7 @@ function render(props: BaseProps<DocsWhyDuctProps>) {
                 </div>
               </div>
 
-              <div class="card bg-gradient-to-br from-success/10 to-success/5 border border-success/20">
+              <div class="info-card info-card-gradient-success">
                 <div class="card-body">
                   <h3 class="card-title text-success">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,7 +81,7 @@ function render(props: BaseProps<DocsWhyDuctProps>) {
                 </div>
               </div>
 
-              <div class="card bg-gradient-to-br from-warning/10 to-warning/5 border border-warning/20">
+              <div class="info-card info-card-gradient-warning">
                 <div class="card-body">
                   <h3 class="card-title text-warning">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -234,7 +234,7 @@ function bind(el, eventEmitter, props, loadData) {
             </div>
           </div>
 
-          <div class="alert alert-info mt-6">
+          <div class="alert mt-6">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>

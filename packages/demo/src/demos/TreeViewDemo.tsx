@@ -1,8 +1,9 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
-import TreeView from "@duct-ui/components/data-display/tree-view"
+import TreeView, { TreeViewLogic } from "@duct-ui/components/data-display/tree-view"
 import Button from "@duct-ui/components/button/button"
+import Toggle, { ToggleLogic, ToggleState } from "@duct-ui/components/button/toggle"
 import DemoLayout from "../components/DemoLayout"
 import EventLog, { EventLogLogic } from "../components/EventLog"
 import { TreeViewData, TreePath } from "@duct-ui/components/data-display/structure"
@@ -22,7 +23,25 @@ export interface TreeViewDemoProps {
 }
 
 const eventLogRef = createRef<EventLogLogic>()
-const treeView3Ref = createRef<any>()
+const treeView3Ref = createRef<TreeViewLogic>()
+const expandAllToggleRef = createRef<ToggleLogic>()
+const srcToggleRef = createRef<ToggleLogic>()
+
+// Track which project is currently loaded
+let currentProject: 'project1' | 'project2' = 'project1'
+
+// Helper function to get current main folder name
+function getCurrentMainFolderName(): string {
+  return currentProject === 'project1' ? 'src' : 'app'
+}
+
+// Helper function to update the folder label in the UI
+function updateMainFolderLabel() {
+  const labelElement = document.querySelector('[data-main-folder-label]')
+  if (labelElement) {
+    labelElement.textContent = `${getCurrentMainFolderName()}/:`
+  }
+}
 
 function addToLog(message: string) {
   if (eventLogRef.current) {
@@ -341,45 +360,65 @@ function clickedHandler(el: HTMLElement, path: TreePath) {
   addToLog(`Clicked: ${path.join(' → ')}`)
 }
 
-function expandAll(el: HTMLElement, e: MouseEvent) {
+function toggleExpandAll(el: HTMLElement, toggleState: ToggleState) {
   if (treeView3Ref.current) {
-    treeView3Ref.current.expandAll()
-    addToLog(`Expanded all nodes`)
+    if (toggleState === 'on') {
+      treeView3Ref.current.expandAll()
+      addToLog(`Expanded all nodes`)
+    } else {
+      treeView3Ref.current.collapseAll()
+      addToLog(`Collapsed all nodes`)
+    }
   }
 }
 
-function collapseAll(el: HTMLElement, e: MouseEvent) {
+function toggleMainFolder(el: HTMLElement, toggleState: ToggleState) {
   if (treeView3Ref.current) {
-    treeView3Ref.current.collapseAll()
-    addToLog(`Collapsed all nodes`)
-  }
-}
+    // Use tracked project state to determine main folder
+    const mainFolderPath = currentProject === 'project1' ? ["src"] : ["app"]
+    const folderName = mainFolderPath[0]
 
-function expandSrc(el: HTMLElement, e: MouseEvent) {
-  if (treeView3Ref.current) {
-    treeView3Ref.current.expandNode(["src"])
-    addToLog(`Expanded src/ folder`)
-  }
-}
-
-function collapseSrc(el: HTMLElement, e: MouseEvent) {
-  if (treeView3Ref.current) {
-    treeView3Ref.current.collapseNode(["src"])
-    addToLog(`Collapsed src/ folder`)
+    if (toggleState === 'on') {
+      treeView3Ref.current.expandNode(mainFolderPath)
+      addToLog(`Expanded ${folderName}/ folder`)
+    } else {
+      treeView3Ref.current.collapseNode(mainFolderPath)
+      addToLog(`Collapsed ${folderName}/ folder`)
+    }
   }
 }
 
 function loadProject1(el: HTMLElement, e: MouseEvent) {
   if (treeView3Ref.current) {
+    currentProject = 'project1'
     treeView3Ref.current.setData(project1FileSystem)
     addToLog(`Loaded React/TypeScript project structure`)
+    // Update the folder label
+    updateMainFolderLabel()
+    // Reset toggle states after loading new data
+    if (expandAllToggleRef.current) {
+      expandAllToggleRef.current.setState('off')
+    }
+    if (srcToggleRef.current) {
+      srcToggleRef.current.setState('on') // src is initially expanded
+    }
   }
 }
 
 function loadProject2(el: HTMLElement, e: MouseEvent) {
   if (treeView3Ref.current) {
+    currentProject = 'project2'
     treeView3Ref.current.setData(project2FileSystem)
     addToLog(`Loaded Web App project structure`)
+    // Update the folder label
+    updateMainFolderLabel()
+    // Reset toggle states after loading new data
+    if (expandAllToggleRef.current) {
+      expandAllToggleRef.current.setState('off')
+    }
+    if (srcToggleRef.current) {
+      srcToggleRef.current.setState('off') // app folder is not expanded initially
+    }
   }
 }
 
@@ -444,7 +483,7 @@ function render(props: BaseProps<TreeViewDemoProps>) {
               <div>
                 <h3 class="text-lg font-medium mb-2">Interactive File Tree with Programmatic Control</h3>
 
-                <div class="flex gap-2 mb-4 flex-wrap">
+                <div class="flex gap-4 mb-4 flex-wrap items-center">
                   <div class="flex gap-2">
                     <Button
                       label="Load Project 1"
@@ -458,27 +497,29 @@ function render(props: BaseProps<TreeViewDemoProps>) {
                     />
                   </div>
 
-                  <div class="flex gap-2">
-                    <Button
-                      label="Expand All"
-                      class="btn btn-sm btn-primary"
-                      on:click={expandAll}
-                    />
-                    <Button
-                      label="Collapse All"
-                      class="btn btn-sm btn-secondary"
-                      on:click={collapseAll}
-                    />
-                    <Button
-                      label="Expand src/"
-                      class="btn btn-sm btn-accent"
-                      on:click={expandSrc}
-                    />
-                    <Button
-                      label="Collapse src/"
-                      class="btn btn-sm btn-warning"
-                      on:click={collapseSrc}
-                    />
+                  <div class="flex gap-4 items-center">
+                    <div class="flex flex-row items-center gap-2">
+                      <span class="text-sm font-medium">All Nodes:</span>
+                      <Toggle
+                        ref={expandAllToggleRef}
+                        offLabel="Collapsed"
+                        onLabel="Expanded"
+                        initialState='off'
+                        class="btn rounded-full"
+                        on:change={toggleExpandAll}
+                      />
+                    </div>
+                    <div class="flex flex-row items-center gap-2">
+                      <span class="text-sm font-medium" data-main-folder-label>src/:</span>
+                      <Toggle
+                        ref={srcToggleRef}
+                        offLabel="Collapsed"
+                        onLabel="Expanded"
+                        initialState='on'
+                        class="btn rounded-full"
+                        on:change={toggleMainFolder}
+                      />
+                    </div>
                   </div>
                 </div>
 
@@ -541,6 +582,9 @@ function render(props: BaseProps<TreeViewDemoProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<TreeViewDemoEvents>): BindReturn<TreeViewDemoLogic> {
+  // Set initial folder label on component bind
+  updateMainFolderLabel()
+
   return {
     release: () => {
       // Ref cleanup is handled automatically
