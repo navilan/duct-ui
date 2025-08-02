@@ -2,8 +2,8 @@
 @import "@duct-ui/components/layout/sidebar-nav.css";
 @import "@duct-ui/components/layout/drawer.css";
 @import "@duct-ui/components/layout/modal.css";
-@import "./prism-gruvbox-light.css";
-@import "./prism-gruvbox-dark.css";
+@import "./prism-duct-light.css";
+@import "./prism-duct-dark.css";
 
 @plugin "@tailwindcss/typography";
 
