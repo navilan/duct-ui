@@ -2,6 +2,7 @@ import { createBlueprint, type BaseProps, type BindReturn, type BaseComponentEve
 import { EventEmitter } from "@duct-ui/core/shared"
 import MarkdownIt from "markdown-it"
 import markdownItPrism from "markdown-it-prism"
+import markdownItAttrs from "markdown-it-attrs"
 import type { Options as MarkdownOptions } from "markdown-it"
 import Prism from "prismjs"
 
@@ -43,7 +44,7 @@ export interface MarkdownProps {
 // Factory function to create markdown instances with custom configuration
 export function createMarkdownInstance(options?: MarkdownOptions) {
   const defaultOptions: MarkdownOptions = {
-    html: false, // Disable HTML by default for safety
+    html: true, // Enable HTML by default
     linkify: true,
     typographer: true,
     breaks: true,
@@ -59,6 +60,9 @@ export function createMarkdownInstance(options?: MarkdownOptions) {
       // Any Prism initialization if needed
     }
   })
+
+  // Add attributes plugin for {.class} syntax
+  md.use(markdownItAttrs)
 
   // Customize link rendering to add target attribute if specified
   const defaultLinkRenderer = md.renderer.rules.link_open || function (tokens, idx, options, env, self) {

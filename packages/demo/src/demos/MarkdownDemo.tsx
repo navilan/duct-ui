@@ -6,12 +6,6 @@ import Tabs, { type TabItem } from "@duct-ui/components/layout/tabs"
 import DemoLayout from "../components/DemoLayout"
 import DuctLogo from '../icons/duct-logo.svg'
 
-// Create a custom markdown instance with additional plugins
-const customMarkdown = createMarkdownInstance({
-  html: true,
-  linkify: true,
-  typographer: true
-})
 
 const sampleMarkdown = `# Markdown Component Demo
 
@@ -82,7 +76,7 @@ console.log(markdown.render('# Hello World'))
 |---------|-------------|--------|
 | CommonMark | Full CommonMark compliance | ✅ |
 | Syntax Highlighting | Prism.js integration | ✅ |
-| Custom Instances | Pass your own markdown-it | ✅ |
+| HTML Support | Raw HTML rendering enabled | ✅ |
 | TypeScript | Full type safety | ✅ |
 
 ### Horizontal Rules
@@ -185,36 +179,6 @@ function createTabItems(markdownRef: MutableRef<MarkdownLogic>): TabItem[] {
           </div>
         </div>
       )
-    },
-    {
-      id: 'custom',
-      label: 'Custom Instance',
-      content: () => (
-        <div>
-          <div class="mb-4">
-            <h3 class="text-lg font-semibold mb-2">Custom Markdown Instance</h3>
-            <p class="text-sm text-base-content/70">
-              This example uses a custom markdown-it instance with HTML enabled.
-            </p>
-          </div>
-          <div class="border border-base-300 rounded-lg p-4 bg-base-100">
-            <Markdown
-              markdownIt={customMarkdown}
-              content={`# Custom Instance Example
-
-This markdown is rendered with a custom markdown-it instance that has HTML enabled:
-
-<div class="alert alert-info">
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-  <span>This alert is rendered from raw HTML!</span>
-</div>
-
-You can pass any configured markdown-it instance to the component.`}
-              data-custom-markdown
-            />
-          </div>
-        </div>
-      )
     }
   ]
 }
@@ -263,7 +227,8 @@ import '@duct-ui/components/content/markdown/markdown.css'
 ## Advanced Usage
 
 ~~~typescript
-import { createMarkdownInstance } from '@duct-ui/components'
+// Basic usage
+<Markdown content={markdownText} />
 
 // With component options
 <Markdown
@@ -272,8 +237,9 @@ import { createMarkdownInstance } from '@duct-ui/components'
   class="custom-markdown"
 />
 
-// With custom markdown-it instance
-const md = createMarkdownInstance({ html: true })
+// With custom markdown-it instance (if needed)
+import { createMarkdownInstance } from '@duct-ui/components'
+const md = createMarkdownInstance({ breaks: false })
 <Markdown markdownIt={md} content={text} />
 ~~~
 

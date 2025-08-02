@@ -34,10 +34,10 @@
   "packageManager": "pnpm@10.13.1",
   "dependencies": {
     "@kitajs/html": "^4.2.9",
-    "lib0": "^0.2.111"
+    "lib0": "^0.2.114"
   },
   "devDependencies": {
-    "@types/node": "^20.10.0",
-    "typescript": "^5.8.3"
+    "@types/node": "^20.19.9",
+    "typescript": "^5.9.2"
   }
 }

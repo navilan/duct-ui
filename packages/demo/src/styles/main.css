@@ -114,6 +114,10 @@
 @source inline('dropdown-start');
 @source inline('block');
 @source inline('hidden');
+@source inline('text-primary');
+@source inline('text-secondary');
+@source inline('text-success');
+@source inline('text-warning');
 
 
 
@@ -256,4 +260,8 @@
 
 .info-card-gradient-warning {
   @apply card bg-gradient-to-br from-warning/10 to-warning/5 border border-warning/20;
+}
+
+.markdown-content pre code * {
+  display: inline;
 }

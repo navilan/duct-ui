@@ -1,0 +1,1 @@
+Understanding how Duct differs from popular frameworks helps you make informed architectural decisions. Here's an honest comparison of approaches and trade-offs.{.lead}
