@@ -5,29 +5,25 @@ Learn how to build Duct components step-by-step, from basic buttons to complex c
 Every Duct component consists of several key parts that work together in a predictable pattern:
 
 ~~~typescript
-import { createBlueprint, EventEmitter, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
 
 // 1. Define your event interface
 export interface ButtonEvents extends BaseComponentEvents {
-  click: (el: HTMLElement) => void
-  stateChange: (el: HTMLElement, state: string) => void
+  click: (el: HTMLElement, e: MouseEvent) => void
+  dblclick: (el: HTMLElement, e: MouseEvent) => void
 }
 
-// 2. Define your logic interface
-export interface ButtonLogic {
-  setDisabled: (disabled: boolean) => void
-  getLabel: () => string
-}
-
-// 3. Define your props interface
+// 2. Define your props interface  
 export interface ButtonProps {
   label: string
   disabled?: boolean
   class?: string
-  'on:click'?: (el: HTMLElement) => void
+  'on:click'?: (el: HTMLElement, e: MouseEvent) => void
+  'on:dblclick'?: (el: HTMLElement, e: MouseEvent) => void
 }
 
-// 4. Render function - pure presentation
+// 3. Render function - pure presentation
 function render(props: BaseProps<ButtonProps>) {
   const { label, disabled = false, class: className = '', ...moreProps } = props
 
@@ -42,64 +38,158 @@ function render(props: BaseProps<ButtonProps>) {
   )
 }
 
-// 5. Bind function - behavior and logic
-function bind(el: HTMLElement, eventEmitter: EventEmitter<ButtonEvents>, props: any): BindReturn<ButtonLogic> {
-  const button = el as HTMLButtonElement
-
-  function handleClick(e: Event) {
-    if (!button.disabled) {
-      eventEmitter.emit('click', button)
-    }
-  }
-
-  button.addEventListener('click', handleClick)
-
-  function setDisabled(disabled: boolean) {
-    button.disabled = disabled
-  }
-
-  function getLabel(): string {
-    return button.textContent || ''
-  }
-
-  function release() {
-    button.removeEventListener('click', handleClick)
-  }
-
-  return {
-    setDisabled,
-    getLabel,
-    release
-  }
-}
-
-// 6. Create and export the component directly
+// 4. Create component with domEvents (simple approach)
 const id = { id: "my-app/button" }
 
-const Button = createBlueprint<ButtonProps, ButtonEvents, ButtonLogic>(
+const Button = createBlueprint<ButtonProps, ButtonEvents>(
   id,
   render,
-  { bind }
+  {
+    domEvents: ['click', 'dblclick']  // Automatically handles DOM events
+  }
 )
 
 export default Button
 ~~~
 
-## Step-by-Step Guide
+## Alternative: Component with Custom Logic
 
-### Step 1: Define TypeScript Interfaces
-
-Start by defining clear contracts for your component. This provides excellent IDE support and catches errors early.
+For components that need custom behavior, use the bind function:
 
 ~~~typescript
-// Events your component can emit
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { EventEmitter } from "@duct-ui/core/shared"
+
+// Define toggle states
+export type ToggleState = 'on' | 'off'
+
+export interface ToggleEvents extends BaseComponentEvents {
+  change: (el: HTMLElement, state: ToggleState) => void
+}
+
+export interface ToggleLogic {
+  getState: () => ToggleState
+  setState: (state: ToggleState) => void
+  toggle: () => void
+}
+
+export interface ToggleProps {
+  initialState?: ToggleState
+  disabled?: boolean
+  class?: string
+  'on:change'?: (el: HTMLElement, state: ToggleState) => void
+}
+
+function render(props: BaseProps<ToggleProps>) {
+  const { initialState = 'off', disabled = false, class: className = '', ...moreProps } = props
+
+  return (
+    <button
+      class={`toggle ${initialState} ${className}`}
+      disabled={disabled}
+      data-state={initialState}
+      {...moreProps}
+    >
+      <span class="toggle-handle"></span>
+    </button>
+  )
+}
+
+function bind(
+  el: HTMLElement, 
+  eventEmitter: EventEmitter<ToggleEvents>, 
+  props: ToggleProps
+): BindReturn<ToggleLogic> {
+  const button = el as HTMLButtonElement
+  let currentState: ToggleState = props.initialState || 'off'
+
+  function updateUI() {
+    button.className = `toggle ${currentState} ${props.class || ''}`
+    button.setAttribute('data-state', currentState)
+  }
+
+  function handleClick() {
+    if (!button.disabled) {
+      toggle()
+    }
+  }
+
+  function setState(newState: ToggleState) {
+    if (currentState !== newState) {
+      currentState = newState
+      updateUI()
+      eventEmitter.emit('change', el, currentState)
+    }
+  }
+
+  function toggle() {
+    setState(currentState === 'on' ? 'off' : 'on')
+  }
+
+  function getState() {
+    return currentState
+  }
+
+  button.addEventListener('click', handleClick)
+
+  return {
+    getState,
+    setState,
+    toggle,
+    release: () => {
+      button.removeEventListener('click', handleClick)
+    }
+  }
+}
+
+const Toggle = createBlueprint<ToggleProps, ToggleEvents, ToggleLogic>(
+  id,
+  render,
+  { bind }
+)
+
+export default Toggle
+~~~
+
+## Step-by-Step Guide
+
+### Step 1: Choose Your Component Pattern
+
+Duct offers two main patterns:
+
+**Simple Components (domEvents):** For basic components that just need DOM event handling
+~~~typescript
+const Button = createBlueprint<ButtonProps, ButtonEvents>(
+  id,
+  render,
+  { domEvents: ['click', 'dblclick'] }
+)
+~~~
+
+**Complex Components (bind function):** For components with custom logic and state management
+~~~typescript  
+const Toggle = createBlueprint<ToggleProps, ToggleEvents, ToggleLogic>(
+  id,
+  render,
+  { bind }
+)
+~~~
+
+### Step 2: Define TypeScript Interfaces
+
+Start by defining clear contracts for your component:
+
+~~~typescript
+// Events your component can emit (include DOM event when relevant)
 export interface MyComponentEvents extends BaseComponentEvents {
   change: (el: HTMLElement, value: string) => void
   submit: (el: HTMLElement, data: FormData) => void
+  click: (el: HTMLElement, e: MouseEvent) => void  // DOM events include event object
 }
 
-// Methods your component exposes for external control
+// Methods your component exposes (only needed for bind function components)
 export interface MyComponentLogic {
+  getValue: () => string
   setValue: (value: string) => void
   reset: () => void
   focus: () => void
@@ -112,10 +202,11 @@ export interface MyComponentProps {
   required?: boolean
   'on:change'?: (el: HTMLElement, value: string) => void
   'on:submit'?: (el: HTMLElement, data: FormData) => void
+  'on:click'?: (el: HTMLElement, e: MouseEvent) => void
 }
 ~~~
 
-### Step 2: Create the Render Function
+### Step 3: Create the Render Function
 
 The render function should be pure - no side effects, just return JSX based on props.
 Think of it as your component's initial HTML structure.
