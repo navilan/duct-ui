@@ -1,6 +1,9 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import DemoLayout from "../components/DemoLayout"
-import { escapeHtml } from "@kitajs/html"
+import Markdown from "@duct-ui/components/content/markdown/markdown"
+import "@duct-ui/components/content/markdown/markdown.css"
+import overviewContent from "./content/intro/overview.md?raw"
+import keyFeaturesContent from "./content/intro/key-features.md?raw"
 
 export interface DocsIntroEvents extends BaseComponentEvents { }
 export interface DocsIntroLogic { }
@@ -19,48 +22,35 @@ function render(props: BaseProps<DocsIntroProps>) {
         sourcePath="/demos/DocsIntroDemo.tsx"
       >
         <div class="prose prose-lg max-w-none">
-          <p class="lead">
-            Duct is a modern UI framework that provides a clear separation between view code (templates) and logic code (companions).
-            It embraces simplicity and maintainability through a well-defined component architecture.
-          </p>
-
-          <h2>Core Architecture</h2>
-
-          <h3>Blueprint Pattern</h3>
-          <p>
-            Every Duct component follows a blueprint pattern with distinct phases:
-          </p>
+          <Markdown content={overviewContent} />
           <div class="not-prose">
-            <div class="rounded-lg p-6 my-4">
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="card bg-base-100 shadow-sm">
-                  <div class="card-body p-4">
-                    <h4 class="card-title text-base text-primary">Render</h4>
-                    <p class="text-sm">Pure JSX templates that define the component's structure and initial state</p>
-                  </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
+              <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-4">
+                  <h4 class="card-title text-base text-primary">Render</h4>
+                  <p class="text-sm">Pure JSX templates that define the component's structure and initial state</p>
                 </div>
-                <div class="card bg-base-100 shadow-sm">
-                  <div class="card-body p-4">
-                    <h4 class="card-title text-base text-secondary">Load</h4>
-                    <p class="text-sm">Optional async data fetching phase that runs before binding</p>
-                  </div>
+              </div>
+              <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-4">
+                  <h4 class="card-title text-base text-secondary">Load</h4>
+                  <p class="text-sm">Optional async data fetching phase that runs before binding</p>
                 </div>
-                <div class="card bg-base-100 shadow-sm">
-                  <div class="card-body p-4">
-                    <h4 class="card-title text-base text-success">Bind</h4>
-                    <p class="text-sm">Event handling, DOM manipulation, and component logic initialization</p>
-                  </div>
+              </div>
+              <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-4">
+                  <h4 class="card-title text-base text-success">Bind</h4>
+                  <p class="text-sm">Event handling, DOM manipulation, and component logic initialization</p>
                 </div>
-                <div class="card bg-base-100 shadow-sm">
-                  <div class="card-body p-4">
-                    <h4 class="card-title text-base text-warning">Release</h4>
-                    <p class="text-sm">Cleanup phase that removes listeners and frees resources</p>
-                  </div>
+              </div>
+              <div class="card bg-base-100 shadow-sm">
+                <div class="card-body p-4">
+                  <h4 class="card-title text-base text-warning">Release</h4>
+                  <p class="text-sm">Cleanup phase that removes listeners and frees resources</p>
                 </div>
               </div>
             </div>
           </div>
-
           <h3>Separation of Concerns</h3>
           <p>
             Duct enforces a clean separation between different aspects of component development:
@@ -100,98 +90,32 @@ function render(props: BaseProps<DocsIntroProps>) {
               </table>
             </div>
           </div>
-
-          <h2>Key Features</h2>
-
-          <h3>Type-Safe Event System</h3>
-          <p>
-            Duct provides a strongly typed event system built on TypeScript:
-          </p>
-          <div class="not-prose">
-            <div class="rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{escapeHtml(`// Define component events with full type safety
-export interface ButtonEvents extends BaseComponentEvents {
-  click: (el: HTMLElement) => void
-  stateChange: (el: HTMLElement, newState: string) => void
-}
-
-// Use events in templates with clear syntax
-<Button
-  label="Click me"
-  on:click={handleButtonClick}
-  on:stateChange={handleStateChange}
-/>`)}</code></pre>
-            </div>
-          </div>
-
-          <h3>Direct DOM Manipulation</h3>
-          <p>
-            Duct components have direct access to DOM elements, allowing for efficient updates without virtual DOM overhead:
-          </p>
-          <div class="not-prose">
-            <div class="rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{escapeHtml(`function bind(el: HTMLElement, eventEmitter: EventEmitter<Events>) {
-  const button = el.querySelector('button')
-
-  // Direct DOM updates are fast and explicit
-  function updateState(newState: string) {
-    button.className = \`btn btn-\${newState}\`
-    button.dataset.state = newState
-  }
-}`)}</code></pre>
-            </div>
-          </div>
-
-          <h3>Precompiled Templates</h3>
-          <p>
-            Templates are compiled at build time for optimal performance, with no runtime template parsing overhead.
-          </p>
-
-          <h3>Component Logic Access</h3>
-          <p>
-            Components expose their logic for programmatic control using refs:
-          </p>
-          <div class="not-prose">
-            <div class="rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{escapeHtml(`// Recommended: Use refs for synchronous access
-import { Button } from '@duct-ui/components'
-const buttonRef = createRef()
-
-<Button ref={buttonRef} label="Test" />
-
-// Access component logic immediately
-buttonRef.current?.setDisabled(true)
-buttonRef.current?.updateLabel('New Text')`)}</code></pre>
-            </div>
-          </div>
-
+          <Markdown content={keyFeaturesContent} />
           <h2>Lifecycle Flow</h2>
           <div class="not-prose">
-            <div class="my-6">
-              <div class="flex flex-col space-y-4">
-                <div class="flex items-center space-x-4">
-                  <div class="badge badge-primary badge-lg">1. Render</div>
-                  <div class="flex-1">
-                    <p class="text-sm">Generate initial HTML structure with JSX templates</p>
-                  </div>
+            <div class="flex flex-col space-y-4 my-6">
+              <div class="flex items-center space-x-4">
+                <div class="badge badge-primary badge-lg">1. Render</div>
+                <div class="flex-1">
+                  <p class="text-sm">Generate initial HTML structure with JSX templates</p>
                 </div>
-                <div class="flex items-center space-x-4">
-                  <div class="badge badge-secondary badge-lg">2. Load</div>
-                  <div class="flex-1">
-                    <p class="text-sm">Fetch data asynchronously (optional) - perfect for API calls</p>
-                  </div>
+              </div>
+              <div class="flex items-center space-x-4">
+                <div class="badge badge-secondary badge-lg">2. Load</div>
+                <div class="flex-1">
+                  <p class="text-sm">Fetch data asynchronously (optional) - perfect for API calls</p>
                 </div>
-                <div class="flex items-center space-x-4">
-                  <div class="badge badge-success badge-lg">3. Bind</div>
-                  <div class="flex-1">
-                    <p class="text-sm">Attach event listeners, initialize component logic, and update DOM with loaded data</p>
-                  </div>
+              </div>
+              <div class="flex items-center space-x-4">
+                <div class="badge badge-success badge-lg">3. Bind</div>
+                <div class="flex-1">
+                  <p class="text-sm">Attach event listeners, initialize component logic, and update DOM with loaded data</p>
                 </div>
-                <div class="flex items-center space-x-4">
-                  <div class="badge badge-warning badge-lg">4. Release</div>
-                  <div class="flex-1">
-                    <p class="text-sm">Clean up event listeners and resources when component is removed</p>
-                  </div>
+              </div>
+              <div class="flex items-center space-x-4">
+                <div class="badge badge-warning badge-lg">4. Release</div>
+                <div class="flex-1">
+                  <p class="text-sm">Clean up event listeners and resources when component is removed</p>
                 </div>
               </div>
             </div>

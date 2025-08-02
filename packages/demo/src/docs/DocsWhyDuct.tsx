@@ -1,6 +1,9 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import DemoLayout from "../components/DemoLayout"
-import { escapeHtml } from "@kitajs/html"
+import Markdown from "@duct-ui/components/content/markdown/markdown"
+import "@duct-ui/components/content/markdown/markdown.css"
+import introductionContent from "./content/why-duct/introduction.md?raw"
+import explicitOverImplicitContent from "./content/why-duct/explicit-over-implicit.md?raw"
 
 export interface DocsWhyDuctEvents extends BaseComponentEvents { }
 export interface DocsWhyDuctLogic { }
@@ -18,10 +21,7 @@ function render(props: BaseProps<DocsWhyDuctProps>) {
         sourcePath="/demos/DocsWhyDuctDemo.tsx"
       >
         <div class="prose prose-lg max-w-none">
-          <p class="lead">
-            Duct offers a refreshing approach to UI development that prioritizes simplicity, clarity,
-            and maintainability without sacrificing modern development practices.
-          </p>
+          <Markdown content={introductionContent} />
 
           <h2>Key Advantages</h2>
 
@@ -101,104 +101,7 @@ function render(props: BaseProps<DocsWhyDuctProps>) {
             </div>
           </div>
 
-          <h2>Explicit Over Implicit</h2>
-          <p>
-            One of Duct's core strengths is its explicit approach to component behavior. This philosophy makes it particularly
-            well-suited for working with AI-generated code and debugging complex components.
-          </p>
-
-          <h3>Direct DOM Manipulation</h3>
-          <p>
-            Unlike frameworks that abstract DOM interactions, Duct gives you direct access to DOM elements.
-            This makes it easy to understand exactly what's happening in your components:
-          </p>
-          <div class="not-prose">
-            <div class="rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{escapeHtml(`function bind(el: HTMLElement, eventEmitter, props) {
-  const button = el.querySelector('button')
-  const counter = el.querySelector('.counter')
-
-  // Explicit DOM updates - no magic, no surprises
-  function updateCounter(value) {
-    counter.textContent = value.toString()
-    button.disabled = value >= 10
-  }
-
-  // Clear event handling
-  const handleClick = () => {
-    const newValue = parseInt(counter.textContent) + 1
-    updateCounter(newValue)
-    eventEmitter.emit('change', newValue)
-  }
-  button.addEventListener('click', handleClick)
-
-  return {
-    release: () => button.removeEventListener('click', handleClick)
-  }
-}`)}</code></pre>
-            </div>
-          </div>
-
-          <h3>AI-Generated Code Debugging</h3>
-          <p>
-            When AI tools like Claude Code generate Duct components, the explicit nature makes it easy to:
-          </p>
-          <div class="not-prose">
-            <ul class="list-disc list-inside space-y-2 my-4">
-              <li><strong>Understand the code flow:</strong> No hidden lifecycle methods or implicit re-renders</li>
-              <li><strong>Debug issues:</strong> Direct DOM queries and updates are easy to trace</li>
-              <li><strong>Modify behavior:</strong> Clear separation between render, load, bind, and release phases</li>
-              <li><strong>Verify correctness:</strong> Event handlers and DOM manipulations are explicit</li>
-            </ul>
-          </div>
-
-          <h3>Transparent Component Behavior</h3>
-          <div class="not-prose">
-            <div class="rounded-lg p-6 my-4">
-              <pre class="text-sm"><code>{escapeHtml(`// When you see this code, you know exactly what it does:
-function bind(el, eventEmitter, props, loadData) {
-  // 1. Find elements (explicit queries)
-  const input = el.querySelector('input')
-  const display = el.querySelector('.display')
-
-  // 2. Initialize with loaded data (clear data flow)
-  if (loadData) {
-    input.value = loadData.initialValue
-    display.textContent = loadData.displayText
-  }
-
-  // 3. Set up event handlers (no hidden magic)
-  input.addEventListener('change', handleChange)
-
-  // 4. Return methods for external control (explicit API)
-  return {
-    setValue: (value) => { input.value = value },
-    getValue: () => input.value,
-    release: () => input.removeEventListener('change', handleChange)
-  }
-}`)}</code></pre>
-            </div>
-          </div>
-
-          <h2>Developer Experience</h2>
-
-          <h3>Predictable Component Structure</h3>
-          <p>
-            Every Duct component follows the same pattern. Once you understand one component, you understand them all.
-            This consistency reduces cognitive load and makes code reviews more effective.
-          </p>
-
-          <h3>Excellent TypeScript Integration</h3>
-          <p>
-            Duct is built with TypeScript from the ground up. You get full type safety for component props, events,
-            and exposed logic methods, with excellent IDE autocomplete and error detection.
-          </p>
-
-          <h3>Clear Data Flow</h3>
-          <p>
-            Data flows explicitly through the component lifecycle. There are no surprise re-renders or hidden state updates.
-            You control when and how the DOM changes.
-          </p>
+          <Markdown content={explicitOverImplicitContent} />
 
 
           <h2>When to Choose Duct</h2>

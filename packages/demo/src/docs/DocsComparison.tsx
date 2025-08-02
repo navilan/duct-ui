@@ -1,6 +1,14 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import DemoLayout from "../components/DemoLayout"
 import { escapeHtml } from "@kitajs/html"
+import Markdown from "@duct-ui/components/content/markdown/markdown"
+import "@duct-ui/components/content/markdown/markdown.css"
+import introductionContent from "./content/comparison/introduction.md?raw"
+import reactButtonExample from "./content/comparison/examples/react-button.md?raw"
+import vueButtonExample from "./content/comparison/examples/vue-button.md?raw"
+import svelteButtonExample from "./content/comparison/examples/svelte-button.md?raw"
+import webComponentsButtonExample from "./content/comparison/examples/webcomponents-button.md?raw"
+import ductButtonExample from "./content/comparison/examples/duct-button.md?raw"
 
 export interface DocsComparisonEvents extends BaseComponentEvents { }
 export interface DocsComparisonLogic { }
@@ -18,10 +26,7 @@ function render(props: BaseProps<DocsComparisonProps>) {
         sourcePath="/demos/DocsComparisonDemo.tsx"
       >
         <div class="prose prose-lg max-w-none">
-          <p class="lead">
-            Understanding how Duct differs from popular frameworks helps you make informed architectural decisions.
-            Here's an honest comparison of approaches and trade-offs.
-          </p>
+          <Markdown content={introductionContent} />
 
           <h2>Framework Comparison Table</h2>
 
@@ -110,8 +115,8 @@ function render(props: BaseProps<DocsComparisonProps>) {
               <div>
                 <div class="font-bold">Notice</div>
                 <div class="text-sm">
-                  Pay attention to how Duct code is direct, explicit, and easily understandable. What you see is what executes - 
-                  no hidden abstractions, magic behaviors, or complex state management. This makes debugging straightforward 
+                  Pay attention to how Duct code is direct, explicit, and easily understandable. What you see is what executes -
+                  no hidden abstractions, magic behaviors, or complex state management. This makes debugging straightforward
                   and code behavior predictable.
                 </div>
               </div>
@@ -129,51 +134,18 @@ function render(props: BaseProps<DocsComparisonProps>) {
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-error">React Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`function Button({ label, onClick }) {
-  const [clicked, setClicked] = useState(false);
-
-  return (
-    <button
-      className={clicked ? 'btn-clicked' : 'btn'}
-      onClick={() => {
-        setClicked(true);
-        onClick();
-      }}
-    >
-      {label}
-    </button>
-  );
-}`)}</code></pre>
+                  <div class="prose prose-sm max-w-none">
+                    <Markdown content={reactButtonExample} />
+                  </div>
                 </div>
               </div>
 
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-primary">Duct Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Render function
-function render(props) {
-  return (
-    <button class="btn" data-clicked="false">
-      {props.label}
-    </button>
-  );
-}
-
-// Bind function
-function bind(el, eventEmitter) {
-  let clicked = false;
-
-  const handleClick = () => {
-    clicked = true;
-    el.dataset.clicked = 'true';
-    el.className = 'btn-clicked';
-    eventEmitter.emit('click');
-  };
-
-  el.addEventListener('click', handleClick);
-
-  return { release: () => el.removeEventListener('click', handleClick) };
-}`)}</code></pre>
+                  <div class="prose prose-sm max-w-none">
+                    <Markdown content={ductButtonExample} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -219,65 +191,18 @@ function bind(el, eventEmitter) {
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-secondary">Vue Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`<template>
-  <button
-    :class="buttonClass"
-    @click="handleClick"
-  >
-    {{ label }}
-  </button>
-</template>
-
-<script>
-export default {
-  props: ['label'],
-  data() {
-    return { clicked: false };
-  },
-  computed: {
-    buttonClass() {
-      return this.clicked ? 'btn-clicked' : 'btn';
-    }
-  },
-  methods: {
-    handleClick() {
-      this.clicked = true;
-      this.$emit('click');
-    }
-  }
-};
-</script>`)}</code></pre>
+                  <div class="prose prose-sm max-w-none">
+                    <Markdown content={vueButtonExample} />
+                  </div>
                 </div>
               </div>
 
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-primary">Duct Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Template is pure presentation
-function render(props) {
-  return (
-    <button class="btn">
-      {props.label}
-    </button>
-  );
-}
-
-// Logic is completely separate
-function bind(el, eventEmitter) {
-  let clicked = false;
-
-  function handleClick() {
-    clicked = true;
-    el.className = 'btn-clicked';
-    eventEmitter.emit('click');
-  }
-
-  el.addEventListener('click', handleClick);
-
-  return {
-    release: () => el.removeEventListener('click', handleClick)
-  };
-}`)}</code></pre>
+                  <div class="prose prose-sm max-w-none">
+                    <Markdown content={ductButtonExample} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -324,55 +249,18 @@ function bind(el, eventEmitter) {
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-accent">Svelte Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`<script>
-  export let label;
-  let clicked = false;
-
-  function handleClick() {
-    clicked = true;
-    dispatch('click');
-  }
-</script>
-
-<button
-  class={clicked ? 'btn-clicked' : 'btn'}
-  on:click={handleClick}
->
-  {label}
-</button>`)}</code></pre>
+                  <div class="prose prose-sm max-w-none">
+                    <Markdown content={svelteButtonExample} />
+                  </div>
                 </div>
               </div>
 
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-primary">Duct Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Functions are completely separated
-function render(props) {
-  return <button class="btn">{props.label}</button>;
-}
-
-function bind(el, eventEmitter) {
-  let clicked = false;
-
-  const handleClick = () => {
-    clicked = true;
-    el.className = 'btn-clicked';
-    eventEmitter.emit('click');
-  };
-
-  el.addEventListener('click', handleClick);
-
-  return { release: () => el.removeEventListener('click', handleClick) };
-}
-
-// Explicit blueprint creation
-const Button = createBlueprint(
-  { id: "my/button" },
-  render,
-  { bind }
-);
-
-export default Button;`)}</code></pre>
+                  <div class="prose prose-sm max-w-none">
+                    <Markdown content={ductButtonExample} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -418,76 +306,18 @@ export default Button;`)}</code></pre>
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-neutral">Web Components</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`class ButtonElement extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-  }
-
-  connectedCallback() {
-    this.shadowRoot.innerHTML = \`
-      <style>
-        button { padding: 8px 16px; }
-        .clicked { background: blue; }
-      </style>
-      <button>\${this.getAttribute('label')}</button>
-    \`;
-
-    this.button = this.shadowRoot.querySelector('button');
-    this.button.addEventListener('click', this.handleClick.bind(this));
-  }
-
-  handleClick() {
-    this.button.classList.add('clicked');
-    this.dispatchEvent(new CustomEvent('button-click'));
-  }
-
-  disconnectedCallback() {
-    this.button?.removeEventListener('click', this.handleClick);
-  }
-}
-
-customElements.define('my-button', ButtonElement);`)}</code></pre>
+                  <div class="prose prose-sm max-w-none">
+                    <Markdown content={webComponentsButtonExample} />
+                  </div>
                 </div>
               </div>
 
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title text-primary">Duct Component</h4>
-                  <pre class="text-xs overflow-x-auto"><code>{escapeHtml(`// Render function
-function render(props) {
-  return (
-    <button class="btn">
-      {props.label}
-    </button>
-  );
-}
-
-// Bind function
-function bind(el, eventEmitter) {
-  let clicked = false;
-
-  const handleClick = () => {
-    clicked = true;
-    el.classList.add('clicked');
-    eventEmitter.emit('click');
-  };
-
-  el.addEventListener('click', handleClick);
-
-  return {
-    release: () => el.removeEventListener('click', handleClick)
-  };
-}
-
-// Create component
-const Button = createBlueprint(
-  { id: "my/button" },
-  render,
-  { bind }
-);
-
-export default Button;`)}</code></pre>
+                  <div class="prose prose-sm max-w-none">
+                    <Markdown content={ductButtonExample} />
+                  </div>
                 </div>
               </div>
             </div>

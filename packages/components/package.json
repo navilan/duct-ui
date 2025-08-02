@@ -22,6 +22,7 @@
     "./layout/sidebar-nav.css": "./dist/layout/sidebar-nav.css",
     "./layout/drawer.css": "./dist/layout/drawer.css",
     "./layout/modal.css": "./dist/layout/modal.css",
+    "./content/markdown/markdown.css": "./dist/content/markdown/markdown.css",
     "./*": {
       "import": "./dist/*.js",
       "types": "./dist/*.d.ts"
@@ -45,10 +46,36 @@
   "dependencies": {
     "@duct-ui/core": "workspace:*",
     "@kitajs/html": "^4.2.9",
-    "lib0": "^0.2.111"
+    "lib0": "^0.2.114"
+  },
+  "peerDependencies": {
+    "markdown-it": "^14.0.0",
+    "markdown-it-attrs": "^4.1.6",
+    "markdown-it-prism": "^3.0.0",
+    "prismjs": "^1.29.0"
+  },
+  "peerDependenciesMeta": {
+    "markdown-it": {
+      "optional": true
+    },
+    "markdown-it-prism": {
+      "optional": true
+    },
+    "markdown-it-attrs": {
+      "optional": true
+    },
+    "prismjs": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "typescript": "^5.8.3",
+    "@types/markdown-it": "^14.1.2",
+    "@types/markdown-it-attrs": "^4.1.3",
+    "@types/prismjs": "^1.26.5",
+    "markdown-it": "^14.1.0",
+    "markdown-it-prism": "^3.0.0",
+    "prismjs": "^1.30.0",
+    "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   }
 }

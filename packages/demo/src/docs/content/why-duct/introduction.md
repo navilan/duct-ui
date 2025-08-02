@@ -1,0 +1,1 @@
+Duct offers a refreshing approach to UI development that prioritizes simplicity, clarity, and maintainability without sacrificing modern development practices.{.lead}

@@ -13,6 +13,7 @@ import TabsDemo from "./demos/TabsDemo"
 import ModalDemo from "./demos/ModalDemo"
 import EmojiListDemo from "./demos/EmojiListDemo"
 import CounterDemo from "./demos/CounterDemo"
+import MarkdownDemo from "./demos/MarkdownDemo"
 import DocsIntro from "./docs/DocsIntro"
 import DocsWhyDuct from "./docs/DocsWhyDuct"
 import DocsComparison from "./docs/DocsComparison"
@@ -203,6 +204,22 @@ export const sections: PageSection[] = [
         description: "Interactive list with filtering, pagination, and component logic access",
         component: () => {
           return EmojiListDemo({})
+        }
+      }
+    ]
+  },
+  {
+    type: 'category',
+    id: "content",
+    title: "Content",
+    page: "demos",
+    items: [
+      {
+        id: "markdown",
+        title: "Markdown",
+        description: "Render markdown content with syntax highlighting - the same component used in this documentation",
+        component: () => {
+          return MarkdownDemo({})
         }
       }
     ]

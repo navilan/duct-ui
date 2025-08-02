@@ -1,0 +1,207 @@
+/**
+ * Duct light theme for Prism.js
+ * 
+ * Based on the duct theme color palette defined in main.css
+ * Optimized for readability and consistency with the Duct UI design system
+ * 
+ * @author Duct UI Team
+ * @version 1.0
+ */
+
+[data-theme="duct"] code[class*="language-"],
+[data-theme="duct"] pre[class*="language-"] {
+	color: oklch(20% 0.02 260); /* base-content */
+	font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.6;
+	font-size: 0.9em;
+
+	-moz-tab-size: 2;
+	-o-tab-size: 2;
+	tab-size: 2;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+[data-theme="duct"] pre[class*="language-"]::-moz-selection,
+[data-theme="duct"] pre[class*="language-"] ::-moz-selection,
+[data-theme="duct"] code[class*="language-"]::-moz-selection,
+[data-theme="duct"] code[class*="language-"] ::-moz-selection {
+	background: oklch(45% 0.15 260 / 0.2); /* primary with opacity */
+	color: oklch(20% 0.02 260); /* base-content */
+}
+
+[data-theme="duct"] pre[class*="language-"]::selection,
+[data-theme="duct"] pre[class*="language-"] ::selection,
+[data-theme="duct"] code[class*="language-"]::selection,
+[data-theme="duct"] code[class*="language-"] ::selection {
+	background: oklch(45% 0.15 260 / 0.2); /* primary with opacity */
+	color: oklch(20% 0.02 260); /* base-content */
+}
+
+/* Code blocks */
+[data-theme="duct"] pre[class*="language-"] {
+	padding: 1.5rem;
+	margin: 1rem 0;
+	overflow: auto;
+	background: oklch(95% 0.02 260); /* base-200 */
+	border-radius: 0.75rem;
+	border: 1px solid oklch(90% 0.03 260); /* base-300 */
+}
+
+[data-theme="duct"] :not(pre) > code[class*="language-"],
+[data-theme="duct"] pre[class*="language-"] {
+	background: oklch(95% 0.02 260); /* base-200 */
+}
+
+/* Inline code */
+[data-theme="duct"] :not(pre) > code[class*="language-"] {
+	padding: 0.2em 0.4em;
+	border-radius: 0.375rem;
+	white-space: normal;
+	background: oklch(90% 0.03 260); /* base-300 */
+	border: 1px solid oklch(90% 0.03 260);
+	font-size: 0.875em;
+}
+
+/* Comments and metadata */
+[data-theme="duct"] .token.comment,
+[data-theme="duct"] .token.prolog,
+[data-theme="duct"] .token.doctype,
+[data-theme="duct"] .token.cdata {
+	color: oklch(60% 0.04 260); /* muted gray */
+	font-style: italic;
+}
+
+/* Keywords, operators, and important syntax */
+[data-theme="duct"] .token.keyword,
+[data-theme="duct"] .token.selector,
+[data-theme="duct"] .token.important,
+[data-theme="duct"] .token.atrule,
+[data-theme="duct"] .token.rule {
+	color: oklch(45% 0.15 260); /* primary */
+	font-weight: 600;
+}
+
+/* Boolean, null, etc */
+[data-theme="duct"] .token.boolean,
+[data-theme="duct"] .token.number,
+[data-theme="duct"] .token.constant {
+	color: oklch(60% 0.15 25); /* error color - reddish */
+}
+
+/* Operators and punctuation */
+[data-theme="duct"] .token.operator,
+[data-theme="duct"] .token.punctuation {
+	color: oklch(45% 0.15 300); /* secondary - eggplant purple */
+}
+
+/* HTML/XML tags */
+[data-theme="duct"] .token.tag,
+[data-theme="duct"] .token.tag .punctuation {
+	color: oklch(55% 0.18 240); /* accent - brighter blue */
+}
+
+/* Attribute names */
+[data-theme="duct"] .token.attr-name {
+	color: oklch(45% 0.15 300); /* secondary */
+	font-style: italic;
+}
+
+/* Strings and character data */
+[data-theme="duct"] .token.string,
+[data-theme="duct"] .token.char,
+[data-theme="duct"] .token.attr-value {
+	color: oklch(60% 0.12 145); /* success - green */
+}
+
+[data-theme="duct"] .token.attr-value .punctuation {
+	color: oklch(60% 0.12 145); /* success - keep quotes same color as string */
+}
+
+/* Functions and class names */
+[data-theme="duct"] .token.function,
+[data-theme="duct"] .token.class-name,
+[data-theme="duct"] .token.builtin {
+	color: oklch(55% 0.18 240); /* accent */
+	font-weight: 500;
+}
+
+/* Variables and properties */
+[data-theme="duct"] .token.property,
+[data-theme="duct"] .token.variable {
+	color: oklch(45% 0.15 260); /* primary */
+}
+
+/* URLs and links */
+[data-theme="duct"] .token.url {
+	color: oklch(65% 0.12 220); /* info */
+	text-decoration: underline;
+}
+
+/* Regular expressions */
+[data-theme="duct"] .token.regex {
+	background: oklch(60% 0.12 145 / 0.1); /* success background */
+	color: oklch(60% 0.12 145); /* success */
+	padding: 0.1em 0.2em;
+	border-radius: 0.25rem;
+}
+
+/* Text formatting */
+[data-theme="duct"] .token.bold {
+	font-weight: 700;
+}
+
+[data-theme="duct"] .token.italic {
+	font-style: italic;
+}
+
+/* Diff highlighting */
+[data-theme="duct"] .token.inserted {
+	background: oklch(60% 0.12 145 / 0.2); /* success background */
+	color: oklch(60% 0.12 145); /* success */
+}
+
+[data-theme="duct"] .token.deleted {
+	background: oklch(60% 0.15 25 / 0.2); /* error background */
+	color: oklch(60% 0.15 25); /* error */
+}
+
+/* Namespace */
+[data-theme="duct"] .token.namespace {
+	opacity: 0.8;
+}
+
+/* Entity references */
+[data-theme="duct"] .token.entity {
+	color: oklch(70% 0.12 65); /* warning */
+}
+
+/* Special language-specific tokens */
+[data-theme="duct"] .token.symbol {
+	color: oklch(45% 0.15 300); /* secondary */
+}
+
+/* Line highlighting */
+[data-theme="duct"] .highlight-line {
+	background: oklch(45% 0.15 260 / 0.05); /* primary with very low opacity */
+	display: block;
+	margin: 0 -1.5rem;
+	padding: 0 1.5rem;
+}
+
+/* Line numbers plugin support */
+[data-theme="duct"] .line-numbers .line-numbers-rows {
+	border-right: 1px solid oklch(90% 0.03 260); /* base-300 */
+}
+
+[data-theme="duct"] .line-numbers-rows > span:before {
+	color: oklch(60% 0.04 260); /* muted */
+}
