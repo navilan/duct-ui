@@ -1,0 +1,149 @@
+/**
+ * Gruvbox dark theme
+ *
+ * Adapted from a theme based on:
+ * Vim Gruvbox dark Theme (https://github.com/morhetz/gruvbox)
+ *
+ * @author Azat S. <to@azat.io>
+ * @version 1.0
+ */
+
+[data-theme="duct-dark"] code[class*="language-"],
+[data-theme="duct-dark"] pre[class*="language-"] {
+	color: #ebdbb2; /* fg1 / fg */
+	font-family: Consolas, Monaco, "Andale Mono", monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+[data-theme="duct-dark"] pre[class*="language-"]::-moz-selection,
+[data-theme="duct-dark"] pre[class*="language-"] ::-moz-selection,
+[data-theme="duct-dark"] code[class*="language-"]::-moz-selection,
+[data-theme="duct-dark"] code[class*="language-"] ::-moz-selection {
+	color: #fbf1c7; /* fg0 */
+	background: #7c6f64; /* bg4 */
+}
+
+[data-theme="duct-dark"] pre[class*="language-"]::selection,
+[data-theme="duct-dark"] pre[class*="language-"] ::selection,
+[data-theme="duct-dark"] code[class*="language-"]::selection,
+[data-theme="duct-dark"] code[class*="language-"] ::selection {
+	color: #fbf1c7; /* fg0 */
+	background: #7c6f64; /* bg4 */
+}
+
+/* Code blocks */
+[data-theme="duct-dark"] pre[class*="language-"] {
+	padding: 1em;
+	margin: 0.5em 0;
+	overflow: auto;
+	background: #1d2021; /* bg0_h */
+}
+
+[data-theme="duct-dark"] :not(pre) > code[class*="language-"],
+[data-theme="duct-dark"] pre[class*="language-"] {
+	background: #1d2021; /* bg0_h */
+}
+
+/* Inline code */
+[data-theme="duct-dark"] :not(pre) > code[class*="language-"] {
+	padding: 0.1em;
+	border-radius: 0.3em;
+	white-space: normal;
+}
+
+[data-theme="duct-dark"] .token.comment,
+[data-theme="duct-dark"] .token.prolog,
+[data-theme="duct-dark"] .token.cdata {
+	color: #a89984; /* gray1 */
+}
+
+[data-theme="duct-dark"] .token.delimiter,
+[data-theme="duct-dark"] .token.boolean,
+[data-theme="duct-dark"] .token.keyword,
+[data-theme="duct-dark"] .token.selector,
+[data-theme="duct-dark"] .token.important,
+[data-theme="duct-dark"] .token.atrule {
+	color: #fb4934; /* red */
+}
+
+[data-theme="duct-dark"] .token.operator,
+[data-theme="duct-dark"] .token.punctuation,
+[data-theme="duct-dark"] .token.attr-name {
+	color: #a89984; /* gray1 */
+}
+
+[data-theme="duct-dark"] .token.tag,
+[data-theme="duct-dark"] .token.tag .punctuation,
+[data-theme="duct-dark"] .token.doctype,
+[data-theme="duct-dark"] .token.builtin {
+	color: #fabd2f; /* yellow */
+}
+
+[data-theme="duct-dark"] .token.entity,
+[data-theme="duct-dark"] .token.number,
+[data-theme="duct-dark"] .token.symbol {
+	color: #d3869b; /* purple */
+}
+
+[data-theme="duct-dark"] .token.property,
+[data-theme="duct-dark"] .token.constant,
+[data-theme="duct-dark"] .token.variable {
+	color: #fb4934; /* red */
+}
+
+[data-theme="duct-dark"] .token.string,
+[data-theme="duct-dark"] .token.char {
+	color: #b8bb26; /* green */
+}
+
+[data-theme="duct-dark"] .token.attr-value,
+[data-theme="duct-dark"] .token.attr-value .punctuation {
+	color: #a89984; /* gray1 */
+}
+
+[data-theme="duct-dark"] .token.attr-value .punctuation:first-child {
+	color: #a89984; /* gray1 */
+}
+
+[data-theme="duct-dark"] .token.url {
+	color: #b8bb26; /* green */
+	text-decoration: underline;
+}
+
+[data-theme="duct-dark"] .token.function {
+	color: #fabd2f; /* yellow */
+}
+
+[data-theme="duct-dark"] .token.regex {
+	background: #b8bb26; /* green */
+}
+
+[data-theme="duct-dark"] .token.bold {
+	font-weight: bold;
+}
+
+[data-theme="duct-dark"] .token.italic {
+	font-style: italic;
+}
+
+[data-theme="duct-dark"] .token.inserted {
+	background: #a89984; /* gray1 */
+}
+
+[data-theme="duct-dark"] .token.deleted {
+	background: #fb4934; /* red */
+}

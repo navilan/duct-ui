@@ -1,6 +1,7 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import DemoLayout from "../components/DemoLayout"
+import { escapeHtml } from "@kitajs/html"
 
 export interface DrawerDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo
@@ -91,7 +92,7 @@ function render(props: BaseProps<DrawerDemoProps>) {
                   </ul>
                 </div>
                 <div class="space-y-2">
-                  <h4 class="font-medium text-info-content">Mobile/Tablet (under 1024px):</h4>
+                  <h4 class="font-medium text-info-content">{escapeHtml(`Mobile/Tablet (< 1024px):`)}</h4>
                   <ul class="space-y-1 text-info-content/80">
                     <li>• Drawer overlay on top of content</li>
                     <li>• Backdrop/overlay behind drawer</li>

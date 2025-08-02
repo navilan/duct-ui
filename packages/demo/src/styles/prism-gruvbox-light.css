@@ -1,0 +1,149 @@
+/**
+ * Gruvbox light theme
+ *
+ * Based on Gruvbox: https://github.com/morhetz/gruvbox
+ * Adapted from PrismJS gruvbox-dark theme: https://github.com/schnerring/prism-themes/blob/master/themes/prism-gruvbox-dark.css
+ *
+ * @author Michael Schnerring (https://schnerring.net)
+ * @version 1.0
+ */
+
+[data-theme="duct"] code[class*="language-"],
+[data-theme="duct"] pre[class*="language-"] {
+	color: #3c3836; /* fg1 / fg */
+	font-family: Consolas, Monaco, "Andale Mono", monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+[data-theme="duct"] pre[class*="language-"]::-moz-selection,
+[data-theme="duct"] pre[class*="language-"] ::-moz-selection,
+[data-theme="duct"] code[class*="language-"]::-moz-selection,
+[data-theme="duct"] code[class*="language-"] ::-moz-selection {
+	color: #282828; /* fg0 */
+	background: #a89984; /* bg4 */
+}
+
+[data-theme="duct"] pre[class*="language-"]::selection,
+[data-theme="duct"] pre[class*="language-"] ::selection,
+[data-theme="duct"] code[class*="language-"]::selection,
+[data-theme="duct"] code[class*="language-"] ::selection {
+	color: #282828; /* fg0 */
+	background: #a89984; /* bg4 */
+}
+
+/* Code blocks */
+[data-theme="duct"] pre[class*="language-"] {
+	padding: 1em;
+	margin: 0.5em 0;
+	overflow: auto;
+	background: #f9f5d7; /* bg0_h */
+}
+
+[data-theme="duct"] :not(pre) > code[class*="language-"],
+[data-theme="duct"] pre[class*="language-"] {
+	background: #f9f5d7; /* bg0_h */
+}
+
+/* Inline code */
+[data-theme="duct"] :not(pre) > code[class*="language-"] {
+	padding: 0.1em;
+	border-radius: 0.3em;
+	white-space: normal;
+}
+
+[data-theme="duct"] .token.comment,
+[data-theme="duct"] .token.prolog,
+[data-theme="duct"] .token.cdata {
+	color: #7c6f64; /* gray1 */
+}
+
+[data-theme="duct"] .token.delimiter,
+[data-theme="duct"] .token.boolean,
+[data-theme="duct"] .token.keyword,
+[data-theme="duct"] .token.selector,
+[data-theme="duct"] .token.important,
+[data-theme="duct"] .token.atrule {
+	color: #9d0006; /* red */
+}
+
+[data-theme="duct"] .token.operator,
+[data-theme="duct"] .token.punctuation,
+[data-theme="duct"] .token.attr-name {
+	color: #7c6f64; /* gray1 */
+}
+
+[data-theme="duct"] .token.tag,
+[data-theme="duct"] .token.tag .punctuation,
+[data-theme="duct"] .token.doctype,
+[data-theme="duct"] .token.builtin {
+	color: #b57614; /* yellow */
+}
+
+[data-theme="duct"] .token.entity,
+[data-theme="duct"] .token.number,
+[data-theme="duct"] .token.symbol {
+	color: #8f3f71; /* purple */
+}
+
+[data-theme="duct"] .token.property,
+[data-theme="duct"] .token.constant,
+[data-theme="duct"] .token.variable {
+	color: #9d0006; /* red */
+}
+
+[data-theme="duct"] .token.string,
+[data-theme="duct"] .token.char {
+	color: #79740e; /* green */
+}
+
+[data-theme="duct"] .token.attr-value,
+[data-theme="duct"] .token.attr-value .punctuation {
+	color: #7c6f64; /* gray1 */
+}
+
+[data-theme="duct"] .token.attr-value .punctuation:first-child {
+	color: #7c6f64; /* gray1 */
+}
+
+[data-theme="duct"] .token.url {
+	color: #79740e; /* green */
+	text-decoration: underline;
+}
+
+[data-theme="duct"] .token.function {
+	color: #b57614; /* yellow */
+}
+
+[data-theme="duct"] .token.regex {
+	background: #79740e; /* green */
+}
+
+[data-theme="duct"] .token.bold {
+	font-weight: bold;
+}
+
+[data-theme="duct"] .token.italic {
+	font-style: italic;
+}
+
+[data-theme="duct"] .token.inserted {
+	background: #7c6f64; /* gray1 */
+}
+
+[data-theme="duct"] .token.deleted {
+	background: #9d0006; /* red */
+}
