@@ -1,5 +1,11 @@
 # @duct-ui/core
 
+## 0.6.2
+
+### Patch Changes
+
+- [#44](https://github.com/navilan/duct-ui/pull/44) [`a6f84d1`](https://github.com/navilan/duct-ui/commit/a6f84d128f7d77454e45206abbcd51cfc3ce7bf8) Thanks [@navilan](https://github.com/navilan)! - Add markdown component and update documentation
+
 ## 0.6.1
 
 ### Patch Changes
