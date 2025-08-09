@@ -13,79 +13,19 @@
   <div id="app">
     <!-- Main Content -->
     {{ content | safe }}
-    
-    <!-- Latest Blog Post Alert -->
-    {% set latestPost = collections.blog | sort(true, false, 'meta.date') | reverse | first %}
-    {% if latestPost %}
-    <div class="fixed bottom-4 left-4 right-4 max-w-4xl mx-auto z-50" data-blog-alert>
-      <div class="alert shadow-lg bg-base-100 border border-primary/30">
-        <div class="flex-1">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <div>
-            <h3 class="font-bold">Latest from our blog:</h3>
-            <div class="text-sm">
-              <a href="{{ latestPost.path }}" class="link link-primary font-semibold">
-                {{ latestPost.meta.title }}
-              </a>
-              <span class="text-base-content/60 ml-2">
-                - {{ latestPost.meta.date | date("MMM D, YYYY") }}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="flex gap-2">
-          <a href="/blog" class="btn btn-sm btn-primary">
-            View All Posts
-          </a>
-          <button class="btn btn-sm btn-ghost" onclick="this.closest('[data-blog-alert]').style.display='none'">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-    {% endif %}
+
   </div>
+
+  {% include "_latest_post_alert.html" %}
 
   <!-- Scripts -->
   {% for script in page.scripts %}
   <script type="module" src="{{ script }}"></script>
   {% endfor %}
-  
+
   {% if page.inlineScript %}
-  <script>{{ page.inlineScript | safe }}</script>
+  <script>{ { page.inlineScript | safe } }</script>
   {% endif %}
-  
-  <!-- Script to handle alert close with animation -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const alert = document.querySelector('[data-blog-alert]');
-      if (alert) {
-        // Check if alert was previously closed in this session
-        if (sessionStorage.getItem('blogAlertClosed') === 'true') {
-          alert.style.display = 'none';
-        }
-        
-        // Handle close button
-        const closeBtn = alert.querySelector('button[onclick]');
-        if (closeBtn) {
-          closeBtn.onclick = function(e) {
-            e.preventDefault();
-            alert.style.transition = 'opacity 0.3s, transform 0.3s';
-            alert.style.opacity = '0';
-            alert.style.transform = 'translateY(100%)';
-            sessionStorage.setItem('blogAlertClosed', 'true');
-            setTimeout(() => {
-              alert.style.display = 'none';
-            }, 300);
-          };
-        }
-      }
-    });
-  </script>
 </body>
 
 </html>

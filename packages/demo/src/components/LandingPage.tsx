@@ -159,25 +159,25 @@ on:click={...}
           {/* Links Section */}
           <div class="mt-16 text-center">
             <div class="flex flex-wrap justify-center gap-6">
-              <a href="/demos" class="link link-primary text-lg font-medium">
+              <a href="/demos" class="text-primary hover:text-primary-focus text-lg font-medium no-underline hover:underline transition-colors">
                 ▶️ Demos
               </a>
-              <a href="/docs/what-is-duct" class="link link-primary text-lg font-medium">
+              <a href="/docs/what-is-duct" class="text-primary hover:text-primary-focus text-lg font-medium no-underline hover:underline transition-colors">
                 📚 Documentation
               </a>
-              <a href="/docs/comparison" class="link link-primary text-lg font-medium">
+              <a href="/docs/comparison" class="text-primary hover:text-primary-focus text-lg font-medium no-underline hover:underline transition-colors">
                 ⚖️ Framework Comparison
               </a>
-              <a href="/docs/building-components" class="link link-primary text-lg font-medium">
+              <a href="/docs/building-components" class="text-primary hover:text-primary-focus text-lg font-medium no-underline hover:underline transition-colors">
                 🛠️ Building Components
               </a>
-              <a href="/docs/claude-code" class="link link-primary text-lg font-medium">
+              <a href="/docs/claude-code" class="text-primary hover:text-primary-focus text-lg font-medium no-underline hover:underline transition-colors">
                 🪄️ Working with Claude Code
               </a>
-              <a href="/blog" class="link link-primary text-lg font-medium">
+              <a href="/blog" class="text-primary hover:text-primary-focus text-lg font-medium no-underline hover:underline transition-colors">
                 📝 Blog
               </a>
-              <a href="https://www.npmjs.com/package/@duct-ui/core" target="_blank" rel="noopener noreferrer" class="link link-primary text-lg font-medium">
+              <a href="https://www.npmjs.com/package/@duct-ui/core" target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary-focus text-lg font-medium no-underline hover:underline transition-colors">
                 📦 NPM Package
               </a>
             </div>
