@@ -1,4 +1,7 @@
 import * as nunjucks from 'nunjucks'
+import MarkdownIt from 'markdown-it'
+import markdownItPrism from 'markdown-it-prism'
+import markdownItAttrs from 'markdown-it-attrs'
 import type { 
   RouterConfig, 
   Route, 
@@ -20,10 +23,21 @@ export class DuctRouter {
   private nunjucksEnv: nunjucks.Environment
   private componentLoader?: (path: string) => Promise<PageComponent>
   private allContent: Map<string, Array<{ path: string; meta: ContentMeta; body: string }>> = new Map()
+  private markdownIt: MarkdownIt
 
   constructor(config: RouterConfig & { componentLoader?: (path: string) => Promise<PageComponent> }) {
     this.config = config
     this.componentLoader = config.componentLoader
+    
+    // Initialize markdown renderer
+    this.markdownIt = new MarkdownIt({
+      html: true,
+      linkify: true,
+      typographer: true,
+      breaks: true,
+    })
+      .use(markdownItPrism)
+      .use(markdownItAttrs)
     
     // Create Nunjucks environment with configuration
     const nunjucksOptions = config.nunjucks?.options || {}
@@ -81,10 +95,8 @@ export class DuctRouter {
     const jsxElement = component.default(pageProps)
     const componentHtml = jsxElement.toString()
     
-    // Generate reanimation script for this page (skip for content pages)
-    const isContentPage = componentPath.endsWith('[#content#].tsx')
-    const reanimationScript = isContentPage ? null : this.generateReanimationScript(path, componentPath, finalMeta)
-    const isInlineScript = isContentPage
+    // Generate reanimation script for this page
+    const reanimationScript = this.generateReanimationScript(path, componentPath, finalMeta)
     
     // Render with layout if specified
     let html: string
@@ -96,28 +108,27 @@ export class DuctRouter {
         console.debug(`    Passing collection '${key}' with ${items.length} items to template`)
       }
       
+      // Check if this is a content page (has markdown content)
+      const isContentPage = componentPath.endsWith('__content__.tsx')
+      
       const templateContext = {
         ...layoutConfig.context,
         page: {
           ...finalMeta,
           scripts: [
             ...(finalMeta.scripts || []),
-            ...(reanimationScript && !isInlineScript ? [reanimationScript] : []) // Only add module scripts to scripts array
-          ],
-          inlineScript: (reanimationScript && isInlineScript) ? reanimationScript : undefined // Add inline script separately
+            reanimationScript // Always add reanimation script
+          ]
         },
         content: componentHtml,
+        // For content pages, provide separate static and interactive content
+        staticContent: isContentPage ? this.markdownIt.render((finalMeta as any).content || '') : null,
+        interactiveContent: isContentPage ? componentHtml : null,
         collections: contentData // All content collections available to templates
       }
       html = this.nunjucksEnv.render(layoutConfig.path, templateContext)
     } else {
-      // If no layout, wrap in basic HTML with reanimation script (if any)
-      const scriptTag = reanimationScript ? (
-        isInlineScript 
-          ? `<script>${reanimationScript}</script>`
-          : `<script type="module" src="${reanimationScript}"></script>`
-      ) : ''
-      
+      // If no layout, wrap in basic HTML with reanimation script
       html = `<!DOCTYPE html>
 <html>
 <head>
@@ -127,7 +138,7 @@ export class DuctRouter {
 </head>
 <body>
   <div id="app">${componentHtml}</div>
-  ${scriptTag}
+  <script type="module" src="${reanimationScript}"></script>
 </body>
 </html>`
     }
@@ -254,13 +265,7 @@ export class DuctRouter {
   /**
    * Generate reanimation script for a page
    */
-  private generateReanimationScript(path: string, componentPath: string, meta: PageMeta): string {
-    // For content pages, return inline script since they don't need complex reanimation
-    if (componentPath.endsWith('[#content#].tsx')) {
-      return `console.log('Duct: Content page loaded at ${path}');`
-    }
-    
-    // For regular pages, maintain the virtual module approach
+  private generateReanimationScript(path: string, _componentPath: string, _meta: PageMeta): string {
     // Generate a unique virtual module path for this reanimation script
     return `/@duct/reanimate${path === '/' ? '/index' : path}.js`
   }

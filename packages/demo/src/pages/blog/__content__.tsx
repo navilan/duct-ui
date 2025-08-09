@@ -1,20 +1,14 @@
 import type { PageProps, ContentMeta } from '@duct-ui/router'
-import Markdown from '@duct-ui/components/content/markdown/markdown'
-import '@duct-ui/components/content/markdown/markdown.css'
+import ThemeToggle from '../../components/ThemeToggle'
 
 /**
  * Blog post content page component
- * The post.html layout handles the article structure, header, and footer
+ * This component only handles interactive elements.
+ * The static markdown content is handled by the post.html layout.
  */
 const BlogPost = ({ meta }: PageProps) => {
-  const contentMeta = meta as ContentMeta
-
-  // Just return the markdown content - layout handles the rest
-  if (contentMeta.content) {
-    return <Markdown content={contentMeta.content} />
-  }
-
-  return <p>No content available</p>
+  // Only render interactive components for the #app container
+  return <ThemeToggle />
 }
 
 // Use the post layout for blog articles

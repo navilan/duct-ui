@@ -42,8 +42,11 @@
   <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 
-<body>
-  <div id="app">
+<body class="min-h-screen flex flex-col">
+  {% include "_header.html" %}
+
+  <!-- Static content container -->
+  <div id="content" class="flex-1">
     <article class="max-w-4xl mx-auto px-4 py-8">
       <!-- Article Header -->
       <header class="mb-8 pb-8 border-b border-base-300">
@@ -68,19 +71,69 @@
         {% if page.tags and page.tags.length > 0 %}
         <div class="flex flex-wrap gap-2 mt-4">
           {% for tag in page.tags %}
-          <span class="badge badge-primary">{{ tag }}</span>
+          <a href="/blog/tag/{{ tag | slug }}" class="badge badge-primary hover:badge-primary-focus transition-colors">
+            {{ tag }}
+          </a>
           {% endfor %}
         </div>
         {% endif %}
       </header>
 
-      <!-- Article Content -->
+      <!-- Article Content (from markdown) -->
       <div class="prose prose-lg max-w-none">
-        {{ content | safe }}
+        {{ staticContent | safe }}
       </div>
 
       <!-- Article Footer -->
       <footer class="mt-12 pt-8 border-t border-base-300">
+        <!-- Previous/Next Navigation -->
+        {% set allPosts = collections.blog | sort(true, false, 'meta.date') | reverse %}
+        {% set currentIndex = -1 %}
+        {% for post in allPosts %}
+        {% if post.path == page.contentPath %}
+        {% set currentIndex = loop.index0 %}
+        {% endif %}
+        {% endfor %}
+
+
+        {% if currentIndex >= 0 %}
+        {% set prevPost = allPosts[currentIndex + 1] %}
+        {% set nextPost = allPosts[currentIndex - 1] %}
+
+        <div class="flex justify-between items-center mb-8">
+          <!-- Previous Post -->
+          {% if prevPost %}
+          <a href="{{ prevPost.path }}" class="group flex-1 max-w-sm">
+            <div class="text-sm text-base-content/60 mb-1">← Previous Post</div>
+            <div class="text-lg font-semibold group-hover:text-primary transition-colors">
+              {{ prevPost.meta.title }}
+            </div>
+            <div class="text-sm text-base-content/60">
+              {{ prevPost.meta.date | date("MMM D, YYYY") }}
+            </div>
+          </a>
+          {% else %}
+          <div class="flex-1"></div>
+          {% endif %}
+
+          <!-- Next Post -->
+          {% if nextPost %}
+          <a href="{{ nextPost.path }}" class="group flex-1 max-w-sm text-right">
+            <div class="text-sm text-base-content/60 mb-1">Next Post →</div>
+            <div class="text-lg font-semibold group-hover:text-primary transition-colors">
+              {{ nextPost.meta.title }}
+            </div>
+            <div class="text-sm text-base-content/60">
+              {{ nextPost.meta.date | date("MMM D, YYYY") }}
+            </div>
+          </a>
+          {% else %}
+          <div class="flex-1"></div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Action Buttons -->
         <div class="flex justify-between items-center">
           <a href="/blog" class="btn btn-outline btn-sm">
             ← Back to Blog
@@ -112,14 +165,19 @@
     </article>
   </div>
 
+  <!-- Interactive content container -->
+  <div id="app">
+    {{ interactiveContent | safe }}
+  </div>
+
   <!-- Scripts -->
   {% for script in page.scripts %}
   <script type="module" src="{{ script }}"></script>
   {% endfor %}
-  
+
   <!-- Inline script for content pages -->
   {% if page.inlineScript %}
-  <script>{{ page.inlineScript | safe }}</script>
+  <script>{ { page.inlineScript | safe } }</script>
   {% endif %}
 </body>
 

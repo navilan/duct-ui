@@ -125,7 +125,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
       // Load dynamic routes and content pages
       for (const route of routes) {
         if (route.isContentPage) {
-          // Handle content pages ([#content#].tsx)
+          // Handle content pages (__content__.tsx)
           try {
             const component = await componentLoader(route.componentPath) as ContentPageComponent
             logger.indent().info(`Loading content for ${route.componentPath}...`)
@@ -241,7 +241,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
         // Use the path without extension as entry key, preserving directory structure
         const entryKey = page.path === '/' ? 'index' : page.path.slice(1)
         htmlEntries[entryKey] = filePath
-        logger.file(`${fileName} (from ${page.componentPath.endsWith('[#content#].tsx') ? 'content page' : 'component'}: ${page.path})`)
+        logger.file(`${fileName} (from ${page.componentPath.endsWith('__content__.tsx') ? 'content page' : 'component'}: ${page.path})`)
       }
 
       logger.info('Vite entries summary:')

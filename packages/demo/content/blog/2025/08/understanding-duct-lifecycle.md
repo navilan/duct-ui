@@ -6,8 +6,6 @@ author: Duct Team
 tags: [Advanced, Architecture, Lifecycle]
 ---
 
-# Understanding Duct Component Lifecycle
-
 One of Duct's core strengths is its predictable, explicit component lifecycle. Unlike React's sometimes mysterious re-render behavior, Duct components follow a clear sequence of phases that you can reason about and control.
 
 ## The Four Phases
@@ -42,11 +40,11 @@ async function load(el: HTMLElement, props: MyProps): Promise<LoadData> {
   // Show loading indicator
   const spinner = el.querySelector('.spinner')
   spinner?.classList.remove('hidden')
-  
+
   // Fetch data
   const response = await fetch(`/api/data/${props.id}`)
   const data = await response.json()
-  
+
   return { data }
 }
 ```
@@ -63,7 +61,7 @@ This is where your component comes alive. The bind phase receives the rendered D
 
 ```typescript
 function bind(
-  el: HTMLElement, 
+  el: HTMLElement,
   eventEmitter: EventEmitter<Events>,
   props: MyProps,
   loadData?: LoadData
@@ -71,16 +69,16 @@ function bind(
   // Hide loading indicator
   const spinner = el.querySelector('.spinner')
   spinner?.classList.add('hidden')
-  
+
   // Use loaded data
   if (loadData?.data) {
     renderData(el, loadData.data)
   }
-  
+
   // Set up event listeners
   const button = el.querySelector('button')
   button?.addEventListener('click', handleClick)
-  
+
   // Return public API and cleanup
   return {
     update: (newData) => renderData(el, newData),
@@ -106,13 +104,13 @@ The release phase is called when your component is being removed from the DOM. T
 function release() {
   // Remove event listeners
   button?.removeEventListener('click', handleClick)
-  
+
   // Clear timers
   clearInterval(updateTimer)
-  
+
   // Disconnect observers
   resizeObserver?.disconnect()
-  
+
   // Cancel pending requests
   abortController?.abort()
 }
@@ -206,21 +204,21 @@ function bind(
   const name = el.querySelector('[data-name]') as HTMLElement
   const bio = el.querySelector('[data-bio]') as HTMLElement
   const editBtn = el.querySelector('[data-edit]') as HTMLButtonElement
-  
+
   // Hide spinner, show content
   spinner.classList.add('hidden')
   content.classList.remove('hidden')
-  
+
   // Display loaded data
   if (loadData?.user) {
     avatar.src = loadData.user.avatar
     name.textContent = loadData.user.name
     bio.textContent = loadData.user.bio
   }
-  
+
   // Edit functionality
   let editMode = false
-  
+
   function setEditMode(enabled: boolean) {
     editMode = enabled
     if (editBtn) {
@@ -228,7 +226,7 @@ function bind(
     }
     // Additional edit mode logic...
   }
-  
+
   async function refresh() {
     const response = await fetch(`/api/users/${props.userId}`)
     const user = await response.json()
@@ -236,13 +234,13 @@ function bind(
     name.textContent = user.name
     bio.textContent = user.bio
   }
-  
+
   // Event listeners
   editBtn?.addEventListener('click', () => {
     setEditMode(!editMode)
     eventEmitter.emit('editToggle', el, editMode)
   })
-  
+
   // Public API
   return {
     refresh,
@@ -272,13 +270,13 @@ const ProfileCard = createBlueprint<ProfileProps, ProfileEvents, ProfileLogic, P
 
 ## Comparison with React
 
-| Aspect | Duct | React |
-|--------|------|-------|
-| Render | Pure template function | Mixed with hooks and state |
-| Data fetching | Explicit load phase | useEffect with dependencies |
-| Event handling | Direct DOM in bind | Inline in JSX |
-| Cleanup | Explicit release | useEffect cleanup |
-| Mental model | Sequential phases | Render cycles |
+| Aspect         | Duct                   | React                       |
+| -------------- | ---------------------- | --------------------------- |
+| Render         | Pure template function | Mixed with hooks and state  |
+| Data fetching  | Explicit load phase    | useEffect with dependencies |
+| Event handling | Direct DOM in bind     | Inline in JSX               |
+| Cleanup        | Explicit release       | useEffect cleanup           |
+| Mental model   | Sequential phases      | Render cycles               |
 
 ## Conclusion
 

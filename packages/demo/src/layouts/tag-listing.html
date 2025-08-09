@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ theme or 'duct' }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}{% if page.title %} - {% endif %}Duct UI</title>
+  <meta name="description" content="{{ page.description }}">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body class="min-h-screen flex flex-col">
+  {% include "_header.html" %}
+
+  <!-- Static content rendered by Nunjucks -->
+  <div class="max-w-6xl mx-auto px-4 py-8 flex-1">
+    <!-- Page Header -->
+    <header class="mb-12">
+      <!-- Breadcrumb -->
+      <div class="breadcrumbs text-sm mb-4">
+        <ul>
+          <li><a href="/" class="link link-hover">Home</a></li>
+          <li><a href="/blog" class="link link-hover">Blog</a></li>
+          <li>Tag: {{ page.tag or 'Unknown' }}</li>
+        </ul>
+      </div>
+      
+      <h1 class="text-5xl font-bold mb-4">Posts tagged "{{ page.tag or 'Unknown' }}"</h1>
+      <p class="text-xl text-base-content/70">{{ page.description }}</p>
+    </header>
+
+    <!-- Blog Posts Grid -->
+    <div class="grid gap-8">
+      {% set postsPerPage = page.postsPerPage or 10 %}
+      {% set currentPage = page.currentPage or 1 %}
+      {% set targetTag = page.tag %}
+      
+      <!-- Filter posts by tag -->
+      {% set allPosts = [] %}
+      {% for post in collections.blog %}
+        {% if post.meta.tags and targetTag in post.meta.tags %}
+          {% set _ = allPosts.push(post) %}
+        {% endif %}
+      {% endfor %}
+      
+      <!-- Sort posts by date (newest first) -->
+      {% set sortedPosts = allPosts | sort(true, false, 'meta.date') | reverse %}
+      {% set totalPosts = sortedPosts | length %}
+      {% set totalPages = (totalPosts / postsPerPage) | round(0, 'ceil') %}
+      {% set startIndex = (currentPage - 1) * postsPerPage %}
+      {% set endIndex = startIndex + postsPerPage %}
+      
+      <!-- Paginate posts -->
+      {% set pagePosts = [] %}
+      {% for post in sortedPosts %}
+        {% if loop.index0 >= startIndex and loop.index0 < endIndex %}
+          {% set _ = pagePosts.push(post) %}
+        {% endif %}
+      {% endfor %}
+
+      {% for post in pagePosts %}
+      <article class="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow">
+        <div class="card-body">
+          <!-- Post Header -->
+          <header>
+            <h2 class="card-title text-2xl mb-2">
+              <a href="{{ post.path }}" class="link link-hover">
+                {{ post.meta.title }}
+              </a>
+            </h2>
+            
+            <div class="flex flex-wrap gap-4 text-sm text-base-content/60 mb-4">
+              {% if post.meta.date %}
+              <time datetime="{{ post.meta.date }}">
+                {{ post.meta.date | date("MMMM D, YYYY") }}
+              </time>
+              {% endif %}
+              
+              {% if post.meta.author %}
+              <span>By {{ post.meta.author }}</span>
+              {% endif %}
+              
+              {% if post.meta.readingTime %}
+              <span>{{ post.meta.readingTime }} min read</span>
+              {% endif %}
+            </div>
+          </header>
+
+          <!-- Post Excerpt -->
+          <p class="text-base-content/80 mb-4">
+            {{ post.meta.description or post.body | excerpt(200) }}
+          </p>
+
+          <!-- Tags -->
+          {% if post.meta.tags and post.meta.tags.length > 0 %}
+          <div class="flex flex-wrap gap-2 mb-4">
+            {% for tag in post.meta.tags %}
+            <a href="/blog/tag/{{ tag | slug }}" class="badge badge-outline badge-sm hover:badge-primary transition-colors">
+              {{ tag }}
+            </a>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <!-- Read More -->
+          <div class="card-actions justify-end">
+            <a href="{{ post.path }}" class="btn btn-primary btn-sm">
+              Read More →
+            </a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+
+      {% if totalPosts == 0 %}
+      <div class="text-center py-12">
+        <p class="text-xl text-base-content/60">No blog posts found with the tag "{{ page.tag }}".</p>
+        <a href="/blog" class="btn btn-primary mt-4">Browse All Posts</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    {% if totalPages > 1 %}
+    <nav class="flex justify-center mt-12">
+      <div class="btn-group">
+        {% if currentPage > 1 %}
+        <a href="/blog/tag/{{ page.tagSlug }}/page/{{ currentPage - 1 }}" class="btn">
+          « Previous
+        </a>
+        {% endif %}
+
+        {% for pageNum in range(1, totalPages + 1) %}
+          {% if pageNum == currentPage %}
+          <button class="btn btn-active">{{ pageNum }}</button>
+          {% else %}
+          <a href="/blog/tag/{{ page.tagSlug }}{% if pageNum > 1 %}/page/{{ pageNum }}{% endif %}" class="btn">
+            {{ pageNum }}
+          </a>
+          {% endif %}
+        {% endfor %}
+
+        {% if currentPage < totalPages %}
+        <a href="/blog/tag/{{ page.tagSlug }}/page/{{ currentPage + 1 }}" class="btn">
+          Next »
+        </a>
+        {% endif %}
+      </div>
+    </nav>
+    {% endif %}
+
+    <!-- Tag Stats -->
+    <footer class="mt-12 pt-8 border-t border-base-300">
+      <div class="text-center text-sm text-base-content/60">
+        {% set actualEnd = endIndex %}
+        {% if actualEnd > totalPosts %}
+          {% set actualEnd = totalPosts %}
+        {% endif %}
+        {% if totalPosts > 0 %}
+        Showing posts {{ startIndex + 1 }}-{{ actualEnd }} of {{ totalPosts }} posts tagged "{{ page.tag }}"
+        {% endif %}
+      </div>
+      
+      <!-- Back to Blog -->
+      <div class="text-center mt-4">
+        <a href="/blog" class="btn btn-outline btn-sm">← Back to All Posts</a>
+      </div>
+    </footer>
+  </div>
+  
+  <!-- Interactive content container for Duct components (empty initially) -->
+  <div id="app"></div>
+
+  <!-- Scripts -->
+  {% for script in page.scripts %}
+  <script type="module" src="{{ script }}"></script>
+  {% endfor %}
+  
+  {% if page.inlineScript %}
+  <script>{{ page.inlineScript | safe }}</script>
+  {% endif %}
+</body>
+
+</html>

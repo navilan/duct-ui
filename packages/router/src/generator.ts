@@ -38,7 +38,7 @@ export class RouteGenerator {
           componentPath,
           isDynamic: false
         })
-      } else if (parsed.name === '[#content#]') {
+      } else if (parsed.name === '__content__') {
         // Content page - generates routes from markdown files
         routes.push({
           path: routePath,

@@ -6,8 +6,6 @@ author: Duct Team
 tags: [Tutorial, Duct, Getting Started]
 ---
 
-# Getting Started with Duct UI
-
 Duct UI is a revolutionary framework that brings clarity to web development through explicit separation of concerns. Unlike React's all-in-one approach, Duct clearly separates templates from logic, making your code more maintainable and easier to understand.
 
 ## Why Duct?
@@ -30,7 +28,7 @@ interface CounterProps {
 // Pure template - just structure and presentation
 function render(props: BaseProps<CounterProps>) {
   const { initialCount = 0, step = 1 } = props
-  
+
   return (
     <div class="counter">
       <button data-decrement class="btn">-{step}</button>
@@ -45,24 +43,24 @@ function bind(el: HTMLElement, eventEmitter, props: CounterProps) {
   const countEl = el.querySelector('[data-count]')!
   const incrementBtn = el.querySelector('[data-increment]')!
   const decrementBtn = el.querySelector('[data-decrement]')!
-  
+
   let count = props.initialCount || 0
   const step = props.step || 1
-  
+
   function updateDisplay() {
     countEl.textContent = count.toString()
   }
-  
+
   incrementBtn.addEventListener('click', () => {
     count += step
     updateDisplay()
   })
-  
+
   decrementBtn.addEventListener('click', () => {
     count -= step
     updateDisplay()
   })
-  
+
   return {
     release: () => {
       // Cleanup if needed

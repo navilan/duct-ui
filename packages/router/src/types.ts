@@ -113,7 +113,7 @@ export interface Route {
   componentPath: string
   /** Whether this is a dynamic route */
   isDynamic: boolean
-  /** Whether this is a content page ([#content#].tsx) */
+  /** Whether this is a content page (__content__.tsx) */
   isContentPage?: boolean
   /** Static paths for dynamic routes with their overlay meta */
   staticPaths?: Record<string, PageMeta>

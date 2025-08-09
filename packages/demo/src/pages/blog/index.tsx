@@ -1,4 +1,4 @@
-import type { DuctPageComponent, PageProps } from '@duct-ui/router'
+import ThemeToggle from '../../components/ThemeToggle'
 
 export function getLayout(): string {
   return 'blog-listing.html'
@@ -8,15 +8,14 @@ export function getPageMeta(): Record<string, any> {
   return {
     title: 'Blog',
     description: 'Latest posts from the Duct UI blog',
-    postsPerPage: 5, // Configure pagination
-    noReanimation: true // Skip reanimation since content is entirely in template
+    postsPerPage: 5 // Configure pagination
   }
 }
 
-// Blog listing page component - content is entirely in the template
-const BlogListingPage: DuctPageComponent = ({ meta, path, env }: PageProps) => {
-  // Return empty since all content is handled by the blog-listing.html template
-  return <></>
+// Blog listing page component with theme toggle
+const BlogListingPage = () => {
+  // Include ThemeToggle component for interactivity
+  return <ThemeToggle />
 }
 
 export default BlogListingPage
