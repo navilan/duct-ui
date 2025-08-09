@@ -2,7 +2,7 @@ import type { DuctPageComponent, PageProps } from '@duct-ui/router'
 import LandingPage from '../components/LandingPage'
 
 export function getLayout() {
-  return 'default.html'
+  return 'landing.html'
 }
 
 export function getPageMeta() {

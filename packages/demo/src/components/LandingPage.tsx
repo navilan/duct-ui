@@ -174,6 +174,9 @@ on:click={...}
               <a href="/docs/claude-code" class="link link-primary text-lg font-medium">
                 🪄️ Working with Claude Code
               </a>
+              <a href="/blog" class="link link-primary text-lg font-medium">
+                📝 Blog
+              </a>
               <a href="https://www.npmjs.com/package/@duct-ui/core" target="_blank" rel="noopener noreferrer" class="link link-primary text-lg font-medium">
                 📦 NPM Package
               </a>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ theme or 'duct' }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Page metadata -->
+  <title>{{ page.title }}{% if page.title %} - {% endif %}Duct UI Blog</title>
+  <meta name="description" content="{{ page.description or page.excerpt }}">
+
+  <!-- Article metadata -->
+  {% if page.author %}
+  <meta name="author" content="{{ page.author }}">
+  {% endif %}
+
+  {% if page.date %}
+  <meta property="article:published_time" content="{{ page.date }}">
+  {% endif %}
+
+  {% if page.tags %}
+  <meta name="keywords" content="{{ page.tags | join(', ') }}">
+  {% endif %}
+
+  <!-- Open Graph tags -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.description or page.excerpt }}">
+  {% if page.image %}
+  <meta property="og:image" content="{{ page.image }}">
+  {% endif %}
+
+  <!-- Twitter Card tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title }}">
+  <meta name="twitter:description" content="{{ page.description or page.excerpt }}">
+  {% if page.image %}
+  <meta name="twitter:image" content="{{ page.image }}">
+  {% endif %}
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body>
+  <div id="app">
+    <article class="max-w-4xl mx-auto px-4 py-8">
+      <!-- Article Header -->
+      <header class="mb-8 pb-8 border-b border-base-300">
+        <h1 class="text-4xl font-bold mb-4">{{ page.title or 'Untitled Post' }}</h1>
+
+        <div class="flex flex-wrap gap-4 text-sm text-base-content/70">
+          {% if page.date %}
+          <time datetime="{{ page.date }}">
+            {{ page.date | date("MMMM D, YYYY") }}
+          </time>
+          {% endif %}
+
+          {% if page.author %}
+          <span>By {{ page.author }}</span>
+          {% endif %}
+
+          {% if page.readingTime %}
+          <span>{{ page.readingTime }} min read</span>
+          {% endif %}
+        </div>
+
+        {% if page.tags and page.tags.length > 0 %}
+        <div class="flex flex-wrap gap-2 mt-4">
+          {% for tag in page.tags %}
+          <span class="badge badge-primary">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </header>
+
+      <!-- Article Content -->
+      <div class="prose prose-lg max-w-none">
+        {{ content | safe }}
+      </div>
+
+      <!-- Article Footer -->
+      <footer class="mt-12 pt-8 border-t border-base-300">
+        <div class="flex justify-between items-center">
+          <a href="/blog" class="btn btn-outline btn-sm">
+            ← Back to Blog
+          </a>
+
+          {% if page.githubUrl %}
+          <a href="{{ page.githubUrl }}" class="btn btn-ghost btn-sm" target="_blank" rel="noopener noreferrer">
+            Edit on GitHub
+          </a>
+          {% endif %}
+        </div>
+
+        {% if page.related and page.related.length > 0 %}
+        <div class="mt-8">
+          <h3 class="text-xl font-semibold mb-4">Related Posts</h3>
+          <div class="grid gap-4 md:grid-cols-2">
+            {% for post in page.related %}
+            <a href="{{ post.url }}" class="card bg-base-200 hover:bg-base-300 transition-colors">
+              <div class="card-body py-4">
+                <h4 class="card-title text-base">{{ post.title }}</h4>
+                <p class="text-sm text-base-content/70">{{ post.date | date("MMM D, YYYY") }}</p>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </footer>
+    </article>
+  </div>
+
+  <!-- Scripts -->
+  {% for script in page.scripts %}
+  <script type="module" src="{{ script }}"></script>
+  {% endfor %}
+  
+  <!-- Inline script for content pages -->
+  {% if page.inlineScript %}
+  <script>{{ page.inlineScript | safe }}</script>
+  {% endif %}
+</body>
+
+</html>

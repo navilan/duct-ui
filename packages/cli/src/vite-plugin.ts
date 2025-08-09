@@ -3,6 +3,7 @@ import * as path from 'path'
 import * as fs from 'fs/promises'
 import type { Plugin } from 'vite'
 import { loadConfig, resolveConfigPaths } from './config'
+import * as logger from './logger.js'
 
 export function ductSSGPlugin(): Plugin {
   let htmlDir: string
@@ -13,7 +14,7 @@ export function ductSSGPlugin(): Plugin {
     name: 'vite-plugin-duct-ssg',
     
     async buildStart() {
-      console.log('🏗️  Generating static pages for development...')
+      logger.build('Generating static pages for development...')
       
       // Run the Duct CLI to generate HTML files
       await runDuctBuild()
@@ -35,10 +36,13 @@ export function ductSSGPlugin(): Plugin {
           })
         }
       } catch (error) {
-        console.warn('Failed to load pages.json:', error)
+        logger.warn('Failed to load pages.json:', error)
       }
       
-      console.log(`✅ Loaded ${generatedHtml.size} static pages`)
+      logger.success(`Loaded ${generatedHtml.size} static pages:`)
+      for (const [path, _] of generatedHtml) {
+        logger.indent().info(`${path}`)
+      }
     },
     
     resolveId(id) {
@@ -57,15 +61,23 @@ export function ductSSGPlugin(): Plugin {
         
         const pageInfo = pageRoutes.get(normalizedPath)
         if (!pageInfo) {
-          console.warn(`No page info found for ${normalizedPath}`)
+          logger.warn(`No page info found for ${normalizedPath}`)
           return null
         }
         
         // Generate the reanimation script
         const componentPath = pageInfo.componentPath.replace(/\\/g, '/')
-        const importPath = componentPath.startsWith('.duct/') 
-          ? `/${componentPath}` 
-          : `/src/${componentPath}`
+        let importPath: string
+        
+        if (componentPath.startsWith('.duct/')) {
+          importPath = `/${componentPath}`
+        } else if (componentPath.startsWith('src/')) {
+          importPath = `/${componentPath}`
+        } else {
+          importPath = `/src/${componentPath}`
+        }
+        
+        logger.debug(`Generating reanimation for ${normalizedPath}: ${importPath}`)
         
         return `
 import { reanimate } from '@duct-ui/core'
@@ -206,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         generatedHtml.set(relativePath, content)
       }
     } catch (error) {
-      console.warn('Failed to load generated HTML:', error)
+      logger.warn('Failed to load generated HTML:', error)
     }
   }
   

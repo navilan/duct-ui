@@ -22,6 +22,7 @@
     "@kitajs/html": "^4.2.9",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^20.19.9",
     "@types/nunjucks": "^3.2.6",
     "autoprefixer": "^10.4.21",
     "dexie": "^4.0.11",

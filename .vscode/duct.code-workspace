@@ -42,6 +42,28 @@
       "editor.insertSpaces": true
     },
     "prettier.tabWidth": 2,
-    "prettier.useTabs": false
+    "prettier.useTabs": false,
+    "persistentTerminals.terminals": [
+      {
+        "name": "Claude",
+        "color": "terminal.ansiGreen",
+        "commands": ["claude --resume"]
+      },
+      {
+        "name": "Demo",
+        "color": "terminal.ansiBlue",
+        "commands": ["cd packages/demo", "pnpm dev"]
+      },
+      {
+        "name": "Main",
+        "color": "terminal.ansiYellow",
+        "commands": ["pnpm dev"]
+      },
+      {
+        "name": "Git",
+        "color": "terminal.ansiOrange",
+        "commands": ["git status"]
+      }
+    ]
   }
 }

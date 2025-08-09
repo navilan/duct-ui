@@ -132,6 +132,9 @@ importers:
       '@tailwindcss/typography':
         specifier: ^0.5.16
         version: 0.5.16(tailwindcss@4.1.11)
+      '@types/node':
+        specifier: ^20.19.9
+        version: 20.19.9
       '@types/nunjucks':
         specifier: ^3.2.6
         version: 3.2.6

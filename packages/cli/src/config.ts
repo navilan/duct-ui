@@ -5,6 +5,16 @@ export interface DuctConfig {
   pagesDir?: string
   layoutsDir?: string
   env?: Record<string, any>
+  nunjucks?: {
+    filters?: Record<string, (...args: any[]) => any>
+    globals?: Record<string, any>
+    options?: {
+      autoescape?: boolean
+      trimBlocks?: boolean
+      lstripBlocks?: boolean
+      throwOnUndefined?: boolean
+    }
+  }
 }
 
 const DEFAULT_CONFIG: DuctConfig = {

@@ -3,8 +3,9 @@ import * as path from 'path'
 import * as fs from 'fs/promises'
 import { build as viteBuild } from 'vite'
 import { RouteGenerator, DuctRouter } from '@duct-ui/router'
-import type { SubRouteComponent } from '@duct-ui/router'
+import type { SubRouteComponent, ContentPageComponent } from '@duct-ui/router'
 import { loadConfig, resolveConfigPaths } from '../config.js'
+import * as logger from '../logger.js'
 
 export const buildCommand = new Command('build')
   .description('Build Duct UI application with SSG')
@@ -16,7 +17,7 @@ export const buildCommand = new Command('build')
     const { config: configFile, htmlOnly } = options
     const cwd = process.cwd()
 
-    console.log('🏗️  Building Duct UI application with SSG...')
+    logger.build('Building Duct UI application with SSG...')
 
     try {
       // Load and resolve config
@@ -27,18 +28,19 @@ export const buildCommand = new Command('build')
       const resolvedPagesDir = options.pages ? path.resolve(cwd, options.pages) : resolvedConfig.pagesDir
       const resolvedLayoutsDir = options.layouts ? path.resolve(cwd, options.layouts) : resolvedConfig.layoutsDir
 
-      console.log(`📁 Pages directory: ${resolvedPagesDir}`)
-      console.log(`🎨 Layouts directory: ${resolvedLayoutsDir}`)
+      logger.folder(`Pages directory: ${resolvedPagesDir}`)
+      logger.folder(`Layouts directory: ${resolvedLayoutsDir}`)
       const tempDir = path.join(cwd, '.duct')
 
       // Step 1: Discover routes
-      console.log('🔍 Discovering routes...')
+      logger.step(1, 'Discovering routes...')
       const generator = new RouteGenerator(resolvedPagesDir)
       const routes = await generator.discoverRoutes()
-      console.log(`📄 Found ${routes.length} routes`)
+      const contentPages = routes.filter(r => r.isContentPage)
+      logger.info(`Found ${routes.length} routes (${contentPages.length} content pages)`)
 
       // Step 2: Create individual component entry points for Vite SSR build
-      console.log('📝 Preparing components for compilation...')
+      logger.step(2, 'Preparing components for compilation...')
       const ssrDir = path.join(tempDir, 'ssr')
       await fs.mkdir(ssrDir, { recursive: true })
 
@@ -57,10 +59,11 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
 
         entryPoints[entryName] = entryFile
         routeMap.set(entryName, route)
+        logger.debug(`Created entry point: ${entryName} -> ${route.componentPath}`)
       }
 
       // Step 3: Build components using Vite SSR
-      console.log('⚡ Compiling TypeScript components...')
+      logger.step(3, 'Compiling TypeScript components...')
       const ssrOutDir = path.join(tempDir, 'compiled')
 
       try {
@@ -73,7 +76,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
 
         try {
           for (const [entryName, entryFile] of Object.entries(entryPoints)) {
-            console.log(`  Building ${entryName}...`)
+            logger.compile(`Building ${entryName}...`)
 
             await viteBuild({
               configFile: false, // Don't use any config file
@@ -99,14 +102,14 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
           process.chdir(originalCwd)
         }
 
-        console.log(`  ✓ Compiled to ${ssrOutDir}`)
+        logger.success(`Compiled to ${ssrOutDir}`)
       } catch (buildError) {
-        console.error('❌ Vite SSR build failed:', buildError)
+        logger.error('Vite SSR build failed:', buildError)
         throw buildError
       }
 
       // Step 4: Load compiled components and resolve dynamic routes
-      console.log('🔗 Resolving dynamic routes...')
+      logger.step(4, 'Resolving dynamic routes...')
       const componentLoader = async (componentPath: string) => {
         // Find the route entry that matches this component path
         for (const [entryName, route] of routeMap) {
@@ -119,25 +122,50 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
         throw new Error(`Component not found: ${componentPath}`)
       }
 
-      // Load dynamic routes
+      // Load dynamic routes and content pages
       for (const route of routes) {
-        if (route.isDynamic) {
+        if (route.isContentPage) {
+          // Handle content pages ([#content#].tsx)
+          try {
+            const component = await componentLoader(route.componentPath) as ContentPageComponent
+            logger.indent().info(`Loading content for ${route.componentPath}...`)
+            
+            // Get content directory from component or use default
+            const contentDir = component.getContentDir?.() || 'content'
+            
+            // Populate content routes
+            await generator.populateContentRoutes(route, contentDir, cwd)
+            
+            if (route.staticPaths) {
+              logger.indent().success(`Found ${Object.keys(route.staticPaths).length} content pages`)
+              logger.indent().debug(`Content files: ${route.contentFiles?.length || 0}`)
+              logger.indent().debug(`Content directory: ${contentDir}`)
+            } else {
+              logger.indent().warn(`No static paths generated for ${route.componentPath}`)
+            }
+          } catch (error) {
+            logger.indent().error(`Failed to load content for ${route.componentPath}:`, error instanceof Error ? error.message : String(error))
+            route.staticPaths = {}
+            route.contentFiles = []
+          }
+        } else if (route.isDynamic) {
+          // Handle regular dynamic routes ([sub].tsx)
           try {
             const component = await componentLoader(route.componentPath) as SubRouteComponent
             if (component.getRoutes) {
-              console.log(`  Loading routes for ${route.componentPath}...`)
+              logger.indent().info(`Loading routes for ${route.componentPath}...`)
               route.staticPaths = await component.getRoutes()
-              console.log(`  Found ${Object.keys(route.staticPaths).length} dynamic routes`)
+              logger.indent().success(`Found ${Object.keys(route.staticPaths).length} dynamic routes`)
             }
           } catch (error) {
-            console.warn(`⚠️  Failed to load dynamic routes for ${route.componentPath}:`, error instanceof Error ? error.message : String(error))
+            logger.indent().error(`Failed to load dynamic routes for ${route.componentPath}:`, error instanceof Error ? error.message : String(error))
             route.staticPaths = {}
           }
         }
       }
 
       // Step 5: Generate static pages
-      console.log('🎨 Generating static pages...')
+      logger.step(5, 'Generating static pages...')
 
       const router = new DuctRouter({
         pagesDir: resolvedPagesDir,
@@ -148,11 +176,12 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
           buildTime: new Date().toISOString(),
           ...resolvedConfig.env
         },
+        nunjucks: resolvedConfig.nunjucks,
         componentLoader
       })
 
       const pages = await router.generateStaticPages(routes)
-      console.log(`✨ Generated ${pages.length} pages`)
+      logger.success(`Generated ${pages.length} pages`)
 
       // Step 5.5: Generate debug pages.json file
       const pagesDebugFile = path.join(tempDir, 'pages.json')
@@ -161,7 +190,9 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
           path: route.path,
           componentPath: path.relative(tempDir, route.componentPath),
           isDynamic: route.isDynamic,
-          staticPaths: route.staticPaths || null
+          isContentPage: route.isContentPage || false,
+          staticPaths: route.staticPaths || null,
+          contentFilesCount: route.contentFiles?.length || 0
         })),
         pages: pages.map(page => ({
           path: page.path,
@@ -176,7 +207,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
       await fs.writeFile(pagesDebugFile, JSON.stringify(debugData, null, 2))
 
       // Step 6: Write generated HTML files as entry points
-      console.log('📄 Writing HTML entry points...')
+      logger.step(6, 'Writing HTML entry points...')
 
       const htmlDir = path.join(tempDir, 'html')
       await fs.mkdir(htmlDir, { recursive: true })
@@ -210,18 +241,23 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
         // Use the path without extension as entry key, preserving directory structure
         const entryKey = page.path === '/' ? 'index' : page.path.slice(1)
         htmlEntries[entryKey] = filePath
-        console.log(`  ✓ ${fileName}`)
+        logger.file(`${fileName} (from ${page.componentPath.endsWith('[#content#].tsx') ? 'content page' : 'component'}: ${page.path})`)
+      }
+
+      logger.info('Vite entries summary:')
+      for (const [entryKey, filePath] of Object.entries(htmlEntries)) {
+        logger.indent().debug(`${entryKey} -> ${path.relative(cwd, filePath)}`)
       }
 
       // If --html-only flag is set, stop here
       if (htmlOnly) {
-        console.log('🎉 HTML generation complete!')
-        console.log(`📁 Generated files available in ${htmlDir}`)
+        logger.success('HTML generation complete!')
+        logger.folder(`Generated files available in ${htmlDir}`)
         return
       }
 
       // Step 7: Run Vite build with HTML files as entry points
-      console.log('📦 Building assets with Vite...')
+      logger.step(7, 'Building assets with Vite...')
 
       await viteBuild({
         configFile,
@@ -234,9 +270,20 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
       })
 
       // Step 8: Move HTML files from dist/.duct/html to dist/ preserving directory structure
-      console.log('📂 Moving HTML files to correct locations...')
+      logger.step(8, 'Moving HTML files to correct locations...')
       const distDir = path.join(cwd, 'dist')
       const distHtmlDir = path.join(distDir, '.duct', 'html')
+      
+      // Debug: Check what files exist in dist/.duct/html
+      logger.debug(`Checking files in ${distHtmlDir}:`)
+      try {
+        const distHtmlFiles = await fs.readdir(distHtmlDir, { recursive: true })
+        for (const file of distHtmlFiles) {
+          logger.indent().debug(`Found: ${file}`)
+        }
+      } catch (error) {
+        logger.indent().warn(`Directory ${distHtmlDir} doesn't exist or is empty`)
+      }
 
       // Move all HTML files from dist/.duct/html to dist/
       for (const page of pages) {
@@ -246,9 +293,13 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
           fileName = 'index.html'
         } else {
           const pathWithoutSlash = page.path.slice(1)
+          // Check if this page comes from an index.tsx file
           if (page.componentPath.endsWith('/index.tsx')) {
+            // pages/docs/index.tsx -> docs/index.html
             fileName = `${pathWithoutSlash}/index.html`
           } else {
+            // pages/docs/sub.tsx with dynamic routes -> docs/button.html, docs/toggle.html
+            // content pages like /blog/post-name -> blog/post-name.html
             fileName = `${pathWithoutSlash}.html`
           }
         }
@@ -256,22 +307,38 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
         const sourcePath = path.join(distHtmlDir, fileName)
         const targetPath = path.join(distDir, fileName)
 
+        logger.copy(`Attempting to move: ${fileName}`)
+        logger.indent().debug(`Source: ${sourcePath}`)
+        logger.indent().debug(`Target: ${targetPath}`)
+
+        // Check if source file exists
+        try {
+          await fs.access(sourcePath)
+        } catch (error) {
+          logger.indent().error(`Source file not found: ${sourcePath}`)
+          continue
+        }
+
         // Create target directory if needed
         await fs.mkdir(path.dirname(targetPath), { recursive: true })
 
         // Move the file
-        await fs.rename(sourcePath, targetPath)
-        console.log(`  ✓ Moved ${fileName}`)
+        try {
+          await fs.rename(sourcePath, targetPath)
+          logger.indent().success(`Successfully moved ${fileName}`)
+        } catch (error) {
+          logger.indent().error(`Failed to move ${fileName}:`, error)
+        }
       }
 
       // Clean up the temporary .duct directory in dist
       await fs.rm(path.join(distDir, '.duct'), { recursive: true, force: true })
 
-      console.log('🎉 Build complete!')
+      logger.success('Build complete!')
 
     } catch (error) {
-      console.error('❌ Build failed:', error)
-      console.log(`📁 Debug files available in ${path.join(cwd, '.duct')}`)
+      logger.error('Build failed:', error)
+      logger.folder(`Debug files available in ${path.join(cwd, '.duct')}`)
       process.exit(1)
     }
   })

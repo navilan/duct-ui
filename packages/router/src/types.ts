@@ -65,6 +65,45 @@ export interface SubRouteComponent extends PageComponent {
 }
 
 /**
+ * Content metadata from markdown front-matter
+ */
+export interface ContentMeta extends PageMeta {
+  /** Title of the content */
+  title?: string
+  /** Description of the content */
+  description?: string
+  /** Publication date */
+  date?: string
+  /** Author name */
+  author?: string
+  /** Tags/categories */
+  tags?: string[]
+  /** Draft status */
+  draft?: boolean
+}
+
+export interface ContentItem {
+  path: string
+  meta: ContentMeta
+  body: string
+}
+
+
+/**
+ * Content page component interface (for markdown-based content)
+ */
+export interface ContentPageComponent extends PageComponent {
+  /** Directory to scan for markdown files (defaults to 'content') */
+  getContentDir?(): string
+  /** Process and transform content metadata */
+  transformMeta?(meta: ContentMeta, path: string): ContentMeta
+  /** Filter which content files to include */
+  filterContent?(meta: ContentMeta, path: string): boolean
+  /** Sort content items */
+  sortContent?<T extends ContentItem>(items: Array<T>): Array<T>
+}
+
+/**
  * Route definition
  */
 export interface Route {
@@ -74,8 +113,12 @@ export interface Route {
   componentPath: string
   /** Whether this is a dynamic route */
   isDynamic: boolean
+  /** Whether this is a content page ([#content#].tsx) */
+  isContentPage?: boolean
   /** Static paths for dynamic routes with their overlay meta */
   staticPaths?: Record<string, PageMeta>
+  /** Content files for content pages */
+  contentFiles?: Array<{ path: string; meta: ContentMeta; body: string }>
 }
 
 /**
@@ -92,6 +135,20 @@ export interface RouterConfig {
   baseUrl?: string
   /** Environment variables to pass to page components */
   env?: Record<string, any>
+  /** Nunjucks environment configuration */
+  nunjucks?: {
+    /** Custom filters to add to the environment */
+    filters?: Record<string, (...args: any[]) => any>
+    /** Custom globals to add to the environment */
+    globals?: Record<string, any>
+    /** Nunjucks options */
+    options?: {
+      autoescape?: boolean
+      trimBlocks?: boolean
+      lstripBlocks?: boolean
+      throwOnUndefined?: boolean
+    }
+  }
 }
 
 /**
