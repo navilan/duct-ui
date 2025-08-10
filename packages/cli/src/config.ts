@@ -2,6 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs/promises'
 
 export interface DuctConfig {
+  contentDir?: string
   pagesDir?: string
   layoutsDir?: string
   env?: Record<string, any>
@@ -15,12 +16,20 @@ export interface DuctConfig {
       throwOnUndefined?: boolean
     }
   }
+  content?: {
+    /** Marker to indicate end of excerpt in markdown content. Default: <!--more--> */
+    excerptMarker?: string
+  }
 }
 
 const DEFAULT_CONFIG: DuctConfig = {
   pagesDir: 'src/pages',
   layoutsDir: 'src/layouts',
-  env: {}
+  contentDir: 'content',
+  env: {},
+  content: {
+    excerptMarker: '<!--more-->'
+  }
 }
 
 /**
@@ -33,11 +42,11 @@ export async function loadConfig(cwd: string = process.cwd()): Promise<Required<
     path.join(cwd, 'duct.config.ts'),
     path.join(cwd, 'duct.config.json')
   ]
-  
+
   for (const configPath of configPaths) {
     try {
       await fs.access(configPath)
-      
+
       if (configPath.endsWith('.json')) {
         const content = await fs.readFile(configPath, 'utf-8')
         const config = JSON.parse(content)
@@ -52,7 +61,7 @@ export async function loadConfig(cwd: string = process.cwd()): Promise<Required<
       // Config file doesn't exist, continue checking
     }
   }
-  
+
   // No config file found, return defaults
   return DEFAULT_CONFIG as Required<DuctConfig>
 }
@@ -64,6 +73,7 @@ export function resolveConfigPaths(config: Required<DuctConfig>, cwd: string = p
   return {
     ...config,
     pagesDir: path.resolve(cwd, config.pagesDir),
-    layoutsDir: path.resolve(cwd, config.layoutsDir)
+    layoutsDir: path.resolve(cwd, config.layoutsDir),
+    contentDir: path.resolve(cwd, config.contentDir)
   }
 }

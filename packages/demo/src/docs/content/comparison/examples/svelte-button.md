@@ -1,4 +1,4 @@
-```svelte
+```html
 <script>
   export let label;
   let clicked = false;

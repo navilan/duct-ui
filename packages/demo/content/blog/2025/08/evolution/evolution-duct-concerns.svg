@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" xmlns:xl="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="29.664062 102 880.7734 972" width="880.7734" height="972">
+  <defs>
+    <filter id="Shadow" filterUnits="userSpaceOnUse" x="-58.41328" y="4.8">
+      <feGaussianBlur in="SourceAlpha" result="blur" stdDeviation="1.3030978"/>
+      <feOffset in="blur" result="offset" dx="0" dy="2"/>
+      <feFlood flood-color="black" flood-opacity=".2" result="flood"/>
+      <feComposite in="flood" in2="offset" operator="in" result="color"/>
+      <feMerge>
+        <feMergeNode in="color"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g id="Canvas_1" stroke-opacity="1" stroke="none" stroke-dasharray="none" fill="none" fill-opacity="1">
+    <title>Canvas 1</title>
+    <g id="Canvas_1_Layer_1">
+      <title>Layer 1</title>
+      <g id="Group_5">
+        <g id="Graphic_2" filter="url(#Shadow)">
+          <path d="M 605.4375 572.2051 L 756.9375 572.2051 C 832.6875 572.2051 908.4375 534.3301 908.4375 420.7051 C 908.4375 307.08008 832.6875 269.20508 756.9375 269.20508 L 605.4375 269.20508 Z" fill="#3366bf"/>
+          <clipPath id="clip_path">
+            <path d="M 0 303 L 151.5 303 C 227.25 303 303 265.125 303 151.5 C 303 37.875 227.25 0 151.5 0 L 0 0 Z" fill="#3366bf"/>
+          </clipPath>
+          <text clip-path="url(#clip_path)" transform="translate(605.4375 269.20508)" fill="#e7effd">
+            <tspan font-family="Courier New" font-weight="bold" font-size="36" fill="#e7effd" x="31.183928" y="140" xml:space="preserve">Interactive</tspan>
+            <tspan font-family="Courier New" font-weight="bold" font-size="36" fill="#e7effd" x="74.50168" y="181" xml:space="preserve">Content</tspan>
+          </text>
+        </g>
+        <g id="Graphic_3" filter="url(#Shadow)">
+          <path d="M 605.4375 911.8652 L 756.9375 911.8652 C 832.6875 911.8652 908.4375 873.9902 908.4375 760.3652 C 908.4375 646.7402 832.6875 608.8652 756.9375 608.8652 L 605.4375 608.8652 Z" fill="#3366bf"/>
+          <clipPath id="clip_path_2">
+            <path d="M 0 303 L 151.5 303 C 227.25 303 303 265.125 303 151.5 C 303 37.875 227.25 0 151.5 0 L 0 0 Z" fill="#3366bf"/>
+          </clipPath>
+          <text clip-path="url(#clip_path_2)" transform="translate(605.4375 608.8652)" fill="#e7effd">
+            <tspan font-family="Courier New" font-weight="bold" font-size="36" fill="#e7effd" x="85.19272" y="140" xml:space="preserve">Static</tspan>
+            <tspan font-family="Courier New" font-weight="bold" font-size="36" fill="#e7effd" x="74.50168" y="181" xml:space="preserve">Content</tspan>
+          </text>
+        </g>
+      </g>
+      <g id="Graphic_4" filter="url(#Shadow)">
+        <path d="M 121.21406 102 L 539.11406 102 C 588.54566 102 628.66406 318.832 628.66406 586 C 628.66406 853.168 588.54566 1070 539.11406 1070 L 121.21406 1070 C 71.78246 1070 31.664062 853.168 31.664062 586 C 31.664062 318.832 71.78246 102 121.21406 102 Z" fill="#4588ff"/>
+      </g>
+      <g id="Graphic_6" filter="url(#Shadow)">
+        <path d="M 159.16406 243.38672 L 501.16406 414.3867 L 159.16406 585.3867 Z" fill="#4588ff"/>
+        <clipPath id="clip_path_3">
+          <path d="M 0 0 L 342 171 L 0 342 Z" fill="#4588ff"/>
+        </clipPath>
+        <text clip-path="url(#clip_path_3)" transform="translate(159.16406 243.38672)" fill="#e7effd">
+          <tspan font-family="Courier New" font-weight="bold" font-size="24" fill="#e7effd" x="42.28409" y="177" xml:space="preserve">bind</tspan>
+          <tspan font-family="Courier New" font-size="24" fill="#e7effd" y="177" xml:space="preserve">(Direct Dom)</tspan>
+        </text>
+      </g>
+      <g id="Graphic_7" filter="url(#Shadow)">
+        <path d="M 159.16406 595.6836 L 501.16406 766.6836 L 159.16406 937.6836 Z" fill="#4588ff"/>
+        <clipPath id="clip_path_4">
+          <path d="M 0 0 L 342 171 L 0 342 Z" fill="#4588ff"/>
+        </clipPath>
+        <text clip-path="url(#clip_path_4)" transform="translate(159.16406 595.6836)" fill="#e7effd">
+          <tspan font-family="Courier New" font-size="24" fill="#e7effd" x="86.89347" y="164" xml:space="preserve">Nunjucks</tspan>
+          <tspan font-family="Courier New" font-weight="bold" font-size="24" fill="#e7effd" x="65.22177" y="191" xml:space="preserve">render</tspan>
+          <tspan font-family="Courier New" font-size="24" fill="#e7effd" y="191" xml:space="preserve">(JSX)</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>

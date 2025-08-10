@@ -2,7 +2,7 @@ import { Command } from 'commander'
 import * as path from 'path'
 import * as fs from 'fs/promises'
 import { build as viteBuild } from 'vite'
-import { RouteGenerator, DuctRouter } from '@duct-ui/router'
+import { RouteGenerator, DuctRouter, findAssets } from '@duct-ui/router'
 import type { SubRouteComponent, ContentPageComponent } from '@duct-ui/router'
 import { loadConfig, resolveConfigPaths } from '../config.js'
 import * as logger from '../logger.js'
@@ -129,13 +129,16 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
           try {
             const component = await componentLoader(route.componentPath) as ContentPageComponent
             logger.indent().info(`Loading content for ${route.componentPath}...`)
-            
+
             // Get content directory from component or use default
             const contentDir = component.getContentDir?.() || 'content'
             
+            // Get excerpt marker from config
+            const excerptMarker = resolvedConfig.content?.excerptMarker || '<!--more-->'
+
             // Populate content routes
-            await generator.populateContentRoutes(route, contentDir, cwd)
-            
+            await generator.populateContentRoutes(route, contentDir, cwd, excerptMarker)
+
             if (route.staticPaths) {
               logger.indent().success(`Found ${Object.keys(route.staticPaths).length} content pages`)
               logger.indent().debug(`Content files: ${route.contentFiles?.length || 0}`)
@@ -273,7 +276,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
       logger.step(8, 'Moving HTML files to correct locations...')
       const distDir = path.join(cwd, 'dist')
       const distHtmlDir = path.join(distDir, '.duct', 'html')
-      
+
       // Debug: Check what files exist in dist/.duct/html
       logger.debug(`Checking files in ${distHtmlDir}:`)
       try {
@@ -333,6 +336,44 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
 
       // Clean up the temporary .duct directory in dist
       await fs.rm(path.join(distDir, '.duct'), { recursive: true, force: true })
+
+      // Step 9: Copy content assets (images) as final step
+      logger.step(9, 'Copying content assets...')
+
+      // Scan the entire content directory for assets
+      const assetExtensions = ['.png', '.jpg', '.jpeg', '.svg', '.gif', '.webp', '.ico']
+      const contentRootDir = resolvedConfig.contentDir
+      let totalAssetsCopied = 0
+
+      try {
+        logger.info(`Scanning for assets in: ${contentRootDir}`)
+        const assets = await findAssets(contentRootDir, assetExtensions)
+        logger.info(`Found ${assets.length} assets: ${assets.map(a => path.relative(cwd, a)).join(', ')}`)
+
+        for (const asset of assets) {
+          // Calculate relative path from project root content directory
+          const relativePath = path.relative(contentRootDir, asset)
+          const targetPath = path.join(cwd, 'dist', relativePath)
+
+          logger.info(`Asset copy: ${asset} -> ${targetPath}`)
+
+          // Create target directory if needed
+          await fs.mkdir(path.dirname(targetPath), { recursive: true })
+
+          // Copy the asset
+          await fs.copyFile(asset, targetPath)
+          logger.indent().info(`Copied: ${relativePath}`)
+          totalAssetsCopied++
+        }
+
+        if (totalAssetsCopied > 0) {
+          logger.success(`Copied ${totalAssetsCopied} content assets`)
+        } else {
+          logger.info('No content assets found to copy')
+        }
+      } catch (error) {
+        logger.warn('Failed to copy content assets:', error)
+      }
 
       logger.success('Build complete!')
 

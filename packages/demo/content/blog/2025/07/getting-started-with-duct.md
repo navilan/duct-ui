@@ -1,16 +1,20 @@
 ---
 title: Getting Started with Duct UI
-description: Learn the basics of Duct UI and how to build your first component with our unique template-logic separation approach
+image: /assets/duct-logo-DTh7D3qn.svg
 date: 2025-07-15
-author: Duct Team
+author: navilan
 tags: [Tutorial, Duct, Getting Started]
 ---
 
-Duct UI is a revolutionary framework that brings clarity to web development through explicit separation of concerns. Unlike React's all-in-one approach, Duct clearly separates templates from logic, making your code more maintainable and easier to understand.
+Duct UI is an opinionated framework that brings clarity to web development through explicit separation of concerns. Unlike React's all-in-one approach, Duct clearly separates templates from logic, making your code more maintainable and easier to understand.
 
 ## Why Duct?
 
-Duct was born from the frustration of debugging complex React components where render logic, state management, and side effects are all intertwined. We believe that **templates should be templates** and **logic should be logic**.
+Duct was born from the increasing complexity in debugging complex web applications where render logic, state management, and side effects are all intertwined. We believe that **templates should be templates** and **logic should be logic**.
+
+With the rise of AI driven development and websites being interfaces to LLMs in more than
+one way, the way we build and use websites are also changing. So we felt it is time for a
+fresh look at how we build interactive websites. More on this later.
 
 ## Your First Component
 
@@ -51,19 +55,25 @@ function bind(el: HTMLElement, eventEmitter, props: CounterProps) {
     countEl.textContent = count.toString()
   }
 
-  incrementBtn.addEventListener('click', () => {
+  function handleIncrement() {
     count += step
     updateDisplay()
-  })
+  }
 
-  decrementBtn.addEventListener('click', () => {
+  function handleDecrement() {
     count -= step
     updateDisplay()
-  })
+  }
+
+  // Add event listeners
+  incrementBtn.addEventListener('click', handleIncrement)
+  decrementBtn.addEventListener('click', handleDecrement)
 
   return {
     release: () => {
-      // Cleanup if needed
+      // Proper cleanup - remove event listeners
+      incrementBtn.removeEventListener('click', handleIncrement)
+      decrementBtn.removeEventListener('click', handleDecrement)
     }
   }
 }

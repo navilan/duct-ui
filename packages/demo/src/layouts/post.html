@@ -97,8 +97,8 @@
 
 
         {% if currentIndex >= 0 %}
-        {% set prevPost = allPosts[currentIndex + 1] %}
-        {% set nextPost = allPosts[currentIndex - 1] %}
+        {% set prevPost = allPosts[currentIndex - 1] %}
+        {% set nextPost = allPosts[currentIndex + 1] %}
 
         <div class="flex justify-between items-center mb-8">
           <!-- Previous Post -->

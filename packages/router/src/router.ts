@@ -2,6 +2,13 @@ import * as nunjucks from 'nunjucks'
 import MarkdownIt from 'markdown-it'
 import markdownItPrism from 'markdown-it-prism'
 import markdownItAttrs from 'markdown-it-attrs'
+import 'prismjs/components/prism-javascript.js'
+import 'prismjs/components/prism-typescript.js'
+import 'prismjs/components/prism-jsx.js'
+import 'prismjs/components/prism-tsx.js'
+import 'prismjs/components/prism-css.js'
+import 'prismjs/components/prism-json.js'
+import 'prismjs/components/prism-bash.js'
 import type { 
   RouterConfig, 
   Route, 
@@ -65,7 +72,6 @@ export class DuctRouter {
       }
     }
   }
-
 
   /**
    * Render a page component to HTML
@@ -164,7 +170,15 @@ export class DuctRouter {
       if (route.isContentPage && route.contentFiles) {
         const contentType = route.path.replace(/^\//, '') // Remove leading slash for content type key
         console.debug(`    Collecting content for type '${contentType}': ${route.contentFiles.length} items`)
-        this.allContent.set(contentType, route.contentFiles)
+        
+        // Sort content by date (most recent first) for collections
+        const sortedContent = [...route.contentFiles].sort((a, b) => {
+          const dateA = a.meta.date ? new Date(a.meta.date).getTime() : 0
+          const dateB = b.meta.date ? new Date(b.meta.date).getTime() : 0
+          return dateB - dateA // Descending order (most recent first)
+        })
+        
+        this.allContent.set(contentType, sortedContent)
       }
     }
 

@@ -5,6 +5,32 @@ import type { Route, PageMeta, ContentMeta } from './types.js'
 import { scanContentDirectory } from './markdown.js'
 
 /**
+ * Find assets (images, etc.) recursively in a directory
+ */
+export async function findAssets(dir: string, extensions: string[]): Promise<string[]> {
+  const results: string[] = []
+
+  try {
+    const entries = await fs.readdir(dir, { withFileTypes: true })
+
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name)
+
+      if (entry.isDirectory()) {
+        const subAssets = await findAssets(fullPath, extensions)
+        results.push(...subAssets)
+      } else if (extensions.some(ext => entry.name.toLowerCase().endsWith(ext))) {
+        results.push(fullPath)
+      }
+    }
+  } catch (error) {
+    // Directory might not exist, return empty array
+  }
+
+  return results
+}
+
+/**
  * Route generator for discovering and processing file-based routes
  */
 export class RouteGenerator {
@@ -111,7 +137,8 @@ export class RouteGenerator {
   async populateContentRoutes(
     route: Route, 
     contentDir: string = 'content',
-    projectRoot: string = process.cwd()
+    projectRoot: string = process.cwd(),
+    excerptMarker: string = '<!--more-->'
   ): Promise<void> {
     if (!route.isContentPage) return
 
@@ -134,7 +161,7 @@ export class RouteGenerator {
     }
 
     // Scan for markdown files
-    const contentFiles = await scanContentDirectory(fullContentDir, route.path)
+    const contentFiles = await scanContentDirectory(fullContentDir, route.path, excerptMarker)
     console.info(`    Found ${contentFiles.length} markdown files`)
 
     // Convert to route format

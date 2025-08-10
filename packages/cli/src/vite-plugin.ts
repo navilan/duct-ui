@@ -2,6 +2,8 @@ import { spawn } from 'child_process'
 import * as path from 'path'
 import * as fs from 'fs/promises'
 import type { Plugin } from 'vite'
+import mime from 'mime'
+import { findAssets } from '@duct-ui/router'
 import { loadConfig, resolveConfigPaths } from './config.js'
 import * as logger from './logger.js'
 
@@ -25,6 +27,30 @@ async function addLayoutFilesToWatch(context: any) {
     logger.info(`Added ${layoutFiles.length} layout files to watch list`)
   } catch (error) {
     logger.warn('Failed to add layout files to watch:', error)
+  }
+}
+
+/**
+ * Add all content files (assets and markdown) to Vite's watch list so changes trigger rebuilds
+ */
+async function addContentFilesToWatch(context: any) {
+  try {
+    const config = await loadConfig()
+    const { contentDir } = resolveConfigPaths(config)
+    const contentExtensions = ['.md', '.png', '.jpg', '.jpeg', '.svg', '.gif', '.webp', '.ico']
+
+    // Find all content files in content directory
+    const contentFiles = await findAssets(contentDir, contentExtensions)
+
+    // Add each content file to Vite's watch list
+    for (const contentFile of contentFiles) {
+      context.addWatchFile(contentFile)
+      logger.debug(`Watching content file: ${path.relative(process.cwd(), contentFile)}`)
+    }
+
+    logger.info(`Added ${contentFiles.length} content files (markdown & assets) to watch list`)
+  } catch (error) {
+    logger.warn('Failed to add content files to watch:', error)
   }
 }
 
@@ -55,6 +81,40 @@ async function findLayoutFiles(layoutsDir: string): Promise<string[]> {
   return results
 }
 
+/**
+ * Copy content assets to dist directory for development
+ */
+async function copyContentAssets() {
+  try {
+    const config = await loadConfig()
+    const { contentDir = 'content' } = resolveConfigPaths(config)
+    const assetExtensions = ['.png', '.jpg', '.jpeg', '.svg', '.gif', '.webp', '.ico']
+
+    // Find all assets in content directory
+    const assets = await findAssets(contentDir, assetExtensions)
+
+    let copiedCount = 0
+    for (const asset of assets) {
+      // Calculate relative path from content directory
+      const relativePath = path.relative(contentDir, asset)
+      const targetPath = path.join(process.cwd(), 'dist', relativePath)
+
+      // Create target directory if needed
+      await fs.mkdir(path.dirname(targetPath), { recursive: true })
+
+      // Copy the asset
+      await fs.copyFile(asset, targetPath)
+      copiedCount++
+    }
+
+    if (copiedCount > 0) {
+      logger.info(`Copied ${copiedCount} content assets to dist/`)
+    }
+  } catch (error) {
+    logger.warn('Failed to copy content assets:', error)
+  }
+}
+
 export function ductSSGPlugin(): Plugin {
   let htmlDir: string
   let generatedHtml: Map<string, string> = new Map()
@@ -68,6 +128,12 @@ export function ductSSGPlugin(): Plugin {
 
       // Add layout files to Vite's watch list
       await addLayoutFilesToWatch(this)
+
+      // Add content files (markdown & assets) to Vite's watch list
+      await addContentFilesToWatch(this)
+
+      // Copy content assets for development
+      await copyContentAssets()
 
       // Run the Duct CLI to generate HTML files
       await runDuctBuild()
@@ -155,9 +221,69 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const config = await loadConfig()
-        const { layoutsDir } = resolveConfigPaths(config)
+        const { layoutsDir, contentDir } = resolveConfigPaths(config)
         const normalizedLayoutsDir = path.resolve(layoutsDir)
+        const normalizedContentDir = path.resolve(contentDir)
         const normalizedChangedFile = path.resolve(changedFile)
+
+        // Check if this is a content file (markdown or asset)
+        const assetExtensions = ['.png', '.jpg', '.jpeg', '.svg', '.gif', '.webp', '.ico']
+        const isAsset = assetExtensions.some(ext => changedFile.toLowerCase().endsWith(ext))
+        const isMarkdown = changedFile.toLowerCase().endsWith('.md')
+        
+        if (normalizedChangedFile.startsWith(normalizedContentDir)) {
+          if (isAsset) {
+            logger.info(`Content asset changed: ${path.relative(process.cwd(), changedFile)}`)
+            
+            try {
+              // Re-copy the single asset file
+              const relativePath = path.relative(contentDir, changedFile)
+              const targetPath = path.join(process.cwd(), 'dist', relativePath)
+              
+              // Create target directory if needed
+              await fs.mkdir(path.dirname(targetPath), { recursive: true })
+              
+              // Copy the asset
+              await fs.copyFile(changedFile, targetPath)
+              logger.success(`Updated asset: ${relativePath}`)
+              
+              // Trigger full page reload to reflect asset change
+              ctx.server.ws.send({
+                type: 'full-reload',
+                path: '*'
+              })
+              
+              // Return empty array to prevent default HMR
+              return []
+            } catch (error) {
+              logger.error('Failed to update asset:', error)
+              return []
+            }
+          } else if (isMarkdown) {
+            logger.info(`Content markdown changed: ${path.relative(process.cwd(), changedFile)}`)
+            logger.build('Regenerating static pages...')
+            
+            try {
+              // Regenerate HTML files when markdown changes
+              await runDuctBuild()
+              await loadGeneratedHtml()
+              
+              logger.success('Static pages regenerated successfully')
+              
+              // Trigger full page reload to reflect content change
+              ctx.server.ws.send({
+                type: 'full-reload',
+                path: '*'
+              })
+              
+              // Return empty array to prevent default HMR
+              return []
+            } catch (error) {
+              logger.error('Failed to regenerate static pages:', error)
+              return []
+            }
+          }
+        }
 
         // Only process if the changed file is within the layouts directory and is an HTML file
         if (normalizedChangedFile.startsWith(normalizedLayoutsDir) && changedFile.endsWith('.html')) {
@@ -193,24 +319,16 @@ document.addEventListener('DOMContentLoaded', () => {
     },
 
     configureServer(server) {
-      // First middleware: serve assets from dist/assets if they exist
+      // First middleware: serve assets from dist/assets and dist/content if they exist
       server.middlewares.use(async (req, res, next) => {
         let url = req.url?.split('?')[0] // Remove query params
 
+        // Serve build assets
         if (url && url.startsWith('/assets/')) {
           const assetPath = path.join(process.cwd(), 'dist', url)
           try {
             const assetContent = await fs.readFile(assetPath)
-            const ext = path.extname(url).toLowerCase()
-
-            // Set appropriate content type
-            let contentType = 'application/octet-stream'
-            if (ext === '.svg') contentType = 'image/svg+xml'
-            else if (ext === '.png') contentType = 'image/png'
-            else if (ext === '.jpg' || ext === '.jpeg') contentType = 'image/jpeg'
-            else if (ext === '.ico') contentType = 'image/x-icon'
-            else if (ext === '.css') contentType = 'text/css'
-            else if (ext === '.js') contentType = 'application/javascript'
+            const contentType = mime.getType(url) || 'application/octet-stream'
 
             res.statusCode = 200
             res.setHeader('Content-Type', contentType)
@@ -218,6 +336,27 @@ document.addEventListener('DOMContentLoaded', () => {
             return
           } catch (error) {
             // Asset not found in dist/assets, continue to next middleware
+          }
+        }
+
+        // Serve content assets (images from markdown content) - try any path for potential assets
+        if (url) {
+          const ext = path.extname(url).toLowerCase()
+          const isAsset = ['.png', '.jpg', '.jpeg', '.svg', '.gif', '.webp', '.ico'].includes(ext)
+          
+          if (isAsset) {
+            const assetPath = path.join(process.cwd(), 'dist', url)
+            try {
+              const assetContent = await fs.readFile(assetPath)
+              const contentType = mime.getType(url) || 'application/octet-stream'
+
+              res.statusCode = 200
+              res.setHeader('Content-Type', contentType)
+              res.end(assetContent)
+              return
+            } catch (error) {
+              // Asset not found, continue to next middleware
+            }
           }
         }
 

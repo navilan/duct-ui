@@ -4,51 +4,74 @@ import { glob } from 'glob'
 import type { ContentMeta } from './types.js'
 
 /**
- * Parse front-matter from markdown content
+ * Parse front-matter from markdown content and extract excerpt
  */
-export function parseFrontMatter(content: string): { meta: ContentMeta; body: string } {
+export function parseFrontMatter(content: string, excerptMarker: string = '<!--more-->'): { meta: ContentMeta; body: string; excerpt?: string } {
   const frontMatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/
   const match = content.match(frontMatterRegex)
 
-  if (!match) {
-    return {
-      meta: {},
-      body: content
-    }
+  let frontMatter = ''
+  let body = content
+  
+  if (match) {
+    [, frontMatter, body] = match
   }
 
-  const [, frontMatter, body] = match
   const meta: ContentMeta = {}
 
   // Parse YAML-like front-matter (simple implementation)
-  const lines = frontMatter.split('\n')
-  for (const line of lines) {
-    const colonIndex = line.indexOf(':')
-    if (colonIndex === -1) continue
+  if (frontMatter) {
+    const lines = frontMatter.split('\n')
+    for (const line of lines) {
+      const colonIndex = line.indexOf(':')
+      if (colonIndex === -1) continue
 
-    const key = line.slice(0, colonIndex).trim()
-    let value = line.slice(colonIndex + 1).trim()
+      const key = line.slice(0, colonIndex).trim()
+      let value = line.slice(colonIndex + 1).trim()
 
-    // Handle basic types
-    if (value.startsWith('[') && value.endsWith(']')) {
-      // Array
-      meta[key] = value
-        .slice(1, -1)
-        .split(',')
-        .map(item => item.trim().replace(/^["']|["']$/g, ''))
-    } else if (value === 'true' || value === 'false') {
-      // Boolean
-      meta[key] = value === 'true'
-    } else if (!isNaN(Number(value)) && value !== '') {
-      // Number
-      meta[key] = Number(value)
-    } else {
-      // String (remove quotes if present)
-      meta[key] = value.replace(/^["']|["']$/g, '')
+      // Handle basic types
+      if (value.startsWith('[') && value.endsWith(']')) {
+        // Array
+        meta[key] = value
+          .slice(1, -1)
+          .split(',')
+          .map(item => item.trim().replace(/^["']|["']$/g, ''))
+      } else if (value === 'true' || value === 'false') {
+        // Boolean
+        meta[key] = value === 'true'
+      } else if (!isNaN(Number(value)) && value !== '') {
+        // Number
+        meta[key] = Number(value)
+      } else {
+        // String (remove quotes if present)
+        meta[key] = value.replace(/^["']|["']$/g, '')
+      }
     }
   }
 
-  return { meta, body }
+  // Extract excerpt if marker is present
+  let excerpt: string | undefined
+  if (excerptMarker && body.includes(excerptMarker)) {
+    const markerIndex = body.indexOf(excerptMarker)
+    excerpt = body.substring(0, markerIndex).trim()
+    
+    // Remove markdown formatting from excerpt for a plain text version
+    const plainExcerpt = excerpt
+      .replace(/#{1,6}\s/g, '') // Remove headers
+      .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
+      .replace(/\*(.*?)\*/g, '$1') // Remove italic
+      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove links
+      .replace(/<[^>]+>/g, '') // Remove HTML tags
+      .replace(/\n+/g, ' ') // Replace newlines with spaces
+      .trim()
+    
+    // If no description is provided in meta, use the excerpt
+    if (!meta.description && !meta.excerpt) {
+      meta.excerpt = plainExcerpt
+    }
+  }
+
+  return { meta, body, excerpt }
 }
 
 /**
@@ -72,7 +95,8 @@ export interface ContentFile {
  */
 export async function scanContentDirectory(
   contentDir: string,
-  baseRoute: string = '/'
+  baseRoute: string = '/',
+  excerptMarker: string = '<!--more-->'
 ): Promise<ContentFile[]> {
   const files: ContentFile[] = []
 
@@ -85,7 +109,7 @@ export async function scanContentDirectory(
   for (const mdFile of mdFiles) {
     const filePath = path.join(contentDir, mdFile)
     const content = await fs.readFile(filePath, 'utf-8')
-    const { meta, body } = parseFrontMatter(content)
+    const { meta, body, excerpt } = parseFrontMatter(content, excerptMarker)
 
     // Generate URL path from file path
     const parsed = path.parse(mdFile)

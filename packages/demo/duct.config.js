@@ -5,6 +5,7 @@
 export default {
   pagesDir: 'src/pages',
   layoutsDir: 'src/layouts',
+  contentDir: 'content',
   env: {
     SITE_NAME: 'Duct UI',
     SITE_URL: 'https://duct-ui.org',
@@ -67,7 +68,7 @@ export default {
           .replace(/^-+/, '')
           .replace(/-+$/, '')
       },
-      
+
       // Range filter for generating number sequences (useful for pagination)
       range(start, stop, step = 1) {
         const arr = []
@@ -76,7 +77,7 @@ export default {
         }
         return arr
       },
-      
+
       // Min filter to get minimum value
       min(...values) {
         return Math.min(...values.filter(v => v !== undefined && v !== null))
@@ -101,5 +102,12 @@ export default {
       lstripBlocks: true,
       throwOnUndefined: false // Allow graceful handling of missing variables
     }
+  },
+
+  // Content configuration
+  content: {
+    // Marker to indicate end of excerpt in markdown files
+    // When present, content before the marker becomes the excerpt
+    excerptMarker: '<!--more-->'
   }
 }

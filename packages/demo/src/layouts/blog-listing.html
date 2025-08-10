@@ -41,57 +41,7 @@
         {% endfor %}
 
         {% for post in pagePosts %}
-        <article class="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow">
-          <div class="card-body">
-            <!-- Post Header -->
-            <header>
-              <h2 class="card-title text-2xl mb-2">
-                <a href="{{ post.path }}" class="link link-hover">
-                  {{ post.meta.title }}
-                </a>
-              </h2>
-              
-              <div class="flex flex-wrap gap-4 text-sm text-base-content/60 mb-4">
-                {% if post.meta.date %}
-                <time datetime="{{ post.meta.date }}">
-                  {{ post.meta.date | date("MMMM D, YYYY") }}
-                </time>
-                {% endif %}
-                
-                {% if post.meta.author %}
-                <span>By {{ post.meta.author }}</span>
-                {% endif %}
-                
-                {% if post.meta.readingTime %}
-                <span>{{ post.meta.readingTime }} min read</span>
-                {% endif %}
-              </div>
-            </header>
-
-            <!-- Post Excerpt -->
-            <p class="text-base-content/80 mb-4">
-              {{ post.meta.description or post.body | excerpt(200) }}
-            </p>
-
-            <!-- Tags -->
-            {% if post.meta.tags and post.meta.tags.length > 0 %}
-            <div class="flex flex-wrap gap-2 mb-4">
-              {% for tag in post.meta.tags %}
-              <a href="/blog/tag/{{ tag | slug }}" class="badge badge-outline badge-sm hover:badge-primary transition-colors">
-                {{ tag }}
-              </a>
-              {% endfor %}
-            </div>
-            {% endif %}
-
-            <!-- Read More -->
-            <div class="card-actions justify-end">
-              <a href="{{ post.path }}" class="btn btn-primary btn-sm">
-                Read More →
-              </a>
-            </div>
-          </div>
-        </article>
+          {% include "_blog_listing_item.html" %}
         {% endfor %}
 
         {% if totalPosts == 0 %}

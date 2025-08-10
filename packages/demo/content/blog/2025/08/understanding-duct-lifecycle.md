@@ -1,12 +1,17 @@
 ---
 title: Understanding Duct Component Lifecycle
-description: Deep dive into the render, load, bind, and release phases of Duct components and how to use them effectively
-date: 2025-08-10
-author: Duct Team
+date: 2025-08-01
+image: /blog/2025/08/lifecycle/duct-lifecycle.svg
+imageClass: dark-invert
+author: navilan
 tags: [Advanced, Architecture, Lifecycle]
 ---
 
 One of Duct's core strengths is its predictable, explicit component lifecycle. Unlike React's sometimes mysterious re-render behavior, Duct components follow a clear sequence of phases that you can reason about and control.
+
+Deep dive into the render, load, bind, and release phases of Duct components and how to use them effectively. Learn how each phase serves a specific purpose in the component's lifetime.
+
+<!--more-->
 
 ## The Four Phases
 
@@ -26,6 +31,7 @@ function render(props: BaseProps<MyProps>) {
 ```
 
 **Key Points:**
+
 - No side effects allowed
 - No state management
 - No event handlers
@@ -50,6 +56,7 @@ async function load(el: HTMLElement, props: MyProps): Promise<LoadData> {
 ```
 
 **When to use:**
+
 - API calls
 - Reading from databases
 - Loading configuration
@@ -90,6 +97,7 @@ function bind(
 ```
 
 **Responsibilities:**
+
 - Attach event listeners
 - Initialize component state
 - Start timers or observers
@@ -116,33 +124,9 @@ function release() {
 }
 ```
 
-## Lifecycle Flow Diagram
+## Lifecycle Flow
 
-```
-┌─────────┐
-│ Render  │ → Pure function generates HTML
-└────┬────┘
-     │
-     ▼
-┌─────────┐
-│  Load   │ → Optional async data fetching
-└────┬────┘
-     │
-     ▼
-┌─────────┐
-│  Bind   │ → Attach logic and interactivity
-└────┬────┘
-     │
-     ▼
-┌─────────┐
-│ Active  │ → Component is interactive
-└────┬────┘
-     │
-     ▼
-┌─────────┐
-│ Release │ → Cleanup when unmounting
-└─────────┘
-```
+[![Duct Lifecycle](/blog/2025/08/lifecycle/duct-lifecycle.svg)](/blog/2025/08/lifecycle/duct-lifecycle.png) {.dark-invert}
 
 ## Practical Example: User Profile Card
 

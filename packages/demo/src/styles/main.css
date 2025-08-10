@@ -265,3 +265,8 @@
 .markdown-content pre code * {
   display: inline;
 }
+
+/* Theme-aware image class */
+[data-theme="duct-dark"] .dark-invert {
+  filter: invert(1) hue-rotate(180deg);
+}
