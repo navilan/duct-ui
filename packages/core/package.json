@@ -37,7 +37,7 @@
     "lib0": "^0.2.114"
   },
   "devDependencies": {
-    "@types/node": "^20.19.9",
+    "@types/node": "^24.2.1",
     "typescript": "^5.9.2"
   }
 }

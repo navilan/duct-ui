@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ theme or 'duct' }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Page metadata -->
+  <title>{{ page.title }}{% if page.title %} - {% endif %}Duct UI Changelog</title>
+  <meta name="description" content="{{ page.summary or page.description or page.excerpt }}">
+
+  <!-- Article metadata -->
+  {% if page.author %}
+  <meta name="author" content="{{ page.author }}">
+  {% endif %}
+
+  {% if page.date %}
+  <meta property="article:published_time" content="{{ page.date }}">
+  {% endif %}
+
+  {% if page.tags %}
+  <meta name="keywords" content="{{ page.tags | join(', ') }}">
+  {% endif %}
+
+  <!-- Open Graph tags -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.summary or page.description or page.excerpt }}">
+  {% if page.image %}
+  <meta property="og:image" content="{{ page.image }}">
+  {% endif %}
+
+  <!-- Twitter Card tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title }}">
+  <meta name="twitter:description" content="{{ page.summary or page.description or page.excerpt }}">
+  {% if page.image %}
+  <meta name="twitter:image" content="{{ page.image }}">
+  {% endif %}
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body class="min-h-screen flex flex-col">
+  {% include "_header.html" %}
+
+  <!-- Static content container -->
+  <div id="content" class="flex-1">
+    <article class="max-w-4xl mx-auto px-4 py-8">
+      <!-- Article Header -->
+      <header class="mb-8 pb-8 border-b border-base-300">
+        <h1 class="text-4xl font-bold mb-4">{{ page.title or 'Untitled Changelog' }}</h1>
+
+        <!-- Version Badge and Date -->
+        <div class="flex flex-wrap items-center gap-4 mb-4">
+          {% if page.version %}
+          <span class="badge badge-lg badge-primary">Version {{ page.version }}</span>
+          {% endif %}
+          
+          {% if page.date %}
+          <time datetime="{{ page.date }}" class="text-sm text-base-content/70">
+            Released on {{ page.date | date("MMMM D, YYYY") }}
+          </time>
+          {% endif %}
+
+          {% if page.author %}
+          <span class="text-sm text-base-content/70">By {{ page.author }}</span>
+          {% endif %}
+        </div>
+
+        <!-- Release Summary -->
+        {% if page.summary %}
+        <div class="alert alert-info mt-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <div>
+            <h3 class="font-bold">Release Summary</h3>
+            <div class="text-sm">{{ page.summary }}</div>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Tags -->
+        {% if page.tags and page.tags.length > 0 %}
+        <div class="flex flex-wrap gap-2 mt-4">
+          {% for tag in page.tags %}
+          <a href="/blog/tag/{{ tag | slug }}" class="badge badge-outline hover:badge-primary transition-colors">
+            {{ tag }}
+          </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Quick Stats (if provided) -->
+        {% if page.stats %}
+        <div class="stats stats-horizontal shadow mt-6 w-full">
+          {% if page.stats.features %}
+          <div class="stat">
+            <div class="stat-title">New Features</div>
+            <div class="stat-value text-primary">{{ page.stats.features }}</div>
+          </div>
+          {% endif %}
+          
+          {% if page.stats.improvements %}
+          <div class="stat">
+            <div class="stat-title">Improvements</div>
+            <div class="stat-value text-secondary">{{ page.stats.improvements }}</div>
+          </div>
+          {% endif %}
+          
+          {% if page.stats.fixes %}
+          <div class="stat">
+            <div class="stat-title">Bug Fixes</div>
+            <div class="stat-value text-success">{{ page.stats.fixes }}</div>
+          </div>
+          {% endif %}
+
+          {% if page.stats.breaking %}
+          <div class="stat">
+            <div class="stat-title">Breaking Changes</div>
+            <div class="stat-value text-warning">{{ page.stats.breaking }}</div>
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+      </header>
+
+      <!-- Article Content (from markdown) -->
+      <div class="prose prose-lg max-w-none">
+        {{ staticContent | safe }}
+      </div>
+
+      <!-- Article Footer -->
+      <footer class="mt-12 pt-8 border-t border-base-300">
+        <!-- Download/GitHub Links -->
+        {% if page.downloadUrl or page.githubUrl %}
+        <div class="flex flex-wrap gap-4 mb-8">
+          {% if page.downloadUrl %}
+          <a href="{{ page.downloadUrl }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+            </svg>
+            Download {{ page.version }}
+          </a>
+          {% endif %}
+          
+          {% if page.githubUrl %}
+          <a href="{{ page.githubUrl }}" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+          </a>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Previous/Next Changelog Navigation -->
+        {% set allChangelogs = [] %}
+        {% for post in collections.blog %}
+          {% if post.meta.version %}
+            {% set _ = allChangelogs.push(post) %}
+          {% endif %}
+        {% endfor %}
+        
+        {% set sortedChangelogs = allChangelogs | sort(true, false, 'meta.version') | reverse %}
+        {% set currentIndex = -1 %}
+        {% for changelog in sortedChangelogs %}
+          {% if changelog.path == page.contentPath %}
+            {% set currentIndex = loop.index0 %}
+          {% endif %}
+        {% endfor %}
+
+        {% if currentIndex >= 0 and sortedChangelogs.length > 1 %}
+        {% set prevChangelog = sortedChangelogs[currentIndex - 1] %}
+        {% set nextChangelog = sortedChangelogs[currentIndex + 1] %}
+
+        <div class="flex justify-between items-center mb-8">
+          <!-- Previous Version -->
+          {% if prevChangelog %}
+          <a href="{{ prevChangelog.path }}" class="group flex-1 max-w-sm">
+            <div class="text-sm text-base-content/60 mb-1">← Newer Version</div>
+            <div class="text-lg font-semibold group-hover:text-primary transition-colors">
+              v{{ prevChangelog.meta.version }}
+            </div>
+            <div class="text-sm text-base-content/60">
+              {{ prevChangelog.meta.date | date("MMM D, YYYY") }}
+            </div>
+          </a>
+          {% else %}
+          <div class="flex-1"></div>
+          {% endif %}
+
+          <!-- Next Version -->
+          {% if nextChangelog %}
+          <a href="{{ nextChangelog.path }}" class="group flex-1 max-w-sm text-right">
+            <div class="text-sm text-base-content/60 mb-1">Older Version →</div>
+            <div class="text-lg font-semibold group-hover:text-primary transition-colors">
+              v{{ nextChangelog.meta.version }}
+            </div>
+            <div class="text-sm text-base-content/60">
+              {{ nextChangelog.meta.date | date("MMM D, YYYY") }}
+            </div>
+          </a>
+          {% else %}
+          <div class="flex-1"></div>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Action Buttons -->
+        <div class="flex justify-between items-center">
+          <a href="/blog" class="btn btn-outline btn-sm">
+            ← Back to Blog
+          </a>
+          
+          <a href="/changelog" class="btn btn-outline btn-sm">
+            View All Releases
+          </a>
+        </div>
+      </footer>
+    </article>
+  </div>
+
+  <!-- Interactive content container -->
+  <div id="app">
+    {{ interactiveContent | safe }}
+  </div>
+
+  <!-- Scripts -->
+  {% for script in page.scripts %}
+  <script type="module" src="{{ script }}"></script>
+  {% endfor %}
+
+  <!-- Inline script for content pages -->
+  {% if page.inlineScript %}
+  <script>{{ page.inlineScript | safe }}</script>
+  {% endif %}
+</body>
+
+</html>

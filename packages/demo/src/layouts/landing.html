@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ theme or 'duct' }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title or 'Duct UI' }}</title>
+  <meta name="description" content="{{ page.description or 'A modern UI framework' }}">
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body>
+  <div id="app">
+    <!-- Main Content -->
+    {{ content | safe }}
+  </div>
+
+  {% include "_latest_post_alert.html" %}
+
+  <!-- Scripts -->
+  {% for script in page.scripts %}
+  <script type="module" src="{{ script }}"></script>
+  {% endfor %}
+
+  {% if page.inlineScript %}
+  <script>{ { page.inlineScript | safe } }</script>
+  {% endif %}
+</body>
+
+</html>

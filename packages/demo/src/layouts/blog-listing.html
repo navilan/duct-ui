@@ -1,0 +1,36 @@
+{% from "_macros.html" import listing %}
+<!DOCTYPE html>
+<html lang="en" data-theme="{{ theme or 'duct' }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}{% if page.title %} - {% endif %}Duct UI</title>
+  <meta name="description" content="{{ page.description }}">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body class="min-h-screen flex flex-col">
+  {% include "_header.html" %}
+
+  <!-- Static content rendered by Nunjucks -->
+  <div class="max-w-6xl mx-auto px-4 py-8 flex-1">
+    {{ listing(collections.blog or [], page, '/blog') }}
+  </div>
+  
+  <!-- Interactive content container for Duct components (empty initially) -->
+  <div id="app"></div>
+
+  <!-- Scripts -->
+  {% for script in page.scripts %}
+  <script type="module" src="{{ script }}"></script>
+  {% endfor %}
+  
+  {% if page.inlineScript %}
+  <script>{{ page.inlineScript | safe }}</script>
+  {% endif %}
+</body>
+
+</html>

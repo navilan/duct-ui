@@ -1,7 +1,8 @@
 import { Command } from 'commander'
+import * as logger from '../logger.js'
 
 export const ssgCommand = new Command('ssg')
   .description('Generate static pages (placeholder for future implementation)')
   .action(() => {
-    console.log('SSG command - to be implemented')
+    logger.info('SSG command - to be implemented')
   })

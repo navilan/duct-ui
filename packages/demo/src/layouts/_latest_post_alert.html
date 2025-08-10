@@ -1,0 +1,70 @@
+<!-- Latest Blog Post Alert -->
+{% set latestPost = collections.blog | sort(true, true, 'meta.date') | first %}
+{% if latestPost %}
+<div class="fixed top-0 left-0 right-0 z-50 opacity-0" data-blog-alert>
+  <div class="bg-primary/10 border-b border-primary/30 shadow-sm backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 py-2">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-primary shrink-0 w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+          </svg>
+          <div class="text-sm">
+            <span class="font-medium text-base-content">Latest:</span>
+            <a href="{{ latestPost.path }}" class="link link-primary font-semibold hover:link-hover ml-2">
+              {{ latestPost.meta.title }}
+            </a>
+            <span class="text-base-content/60 ml-2 hidden sm:inline">
+              {{ latestPost.meta.date | date("MMM D") }}
+            </span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="/blog" class="btn btn-xs btn-primary">
+            View All
+          </a>
+          <button class="btn btn-xs btn-ghost" data-close-alert>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Blog alert animation and interaction
+  document.addEventListener('DOMContentLoaded', function() {
+    const alert = document.querySelector('[data-blog-alert]');
+    if (!alert) return;
+    
+    // Check if alert was previously closed in this session
+    if (sessionStorage.getItem('blogAlertClosed') === 'true') {
+      alert.style.display = 'none';
+      return;
+    }
+    
+    // Animate in after delay with fade
+    setTimeout(() => {
+      alert.style.transition = 'opacity 0.5s ease-out';
+      alert.style.opacity = '1';
+    }, 1500); // 1.5 second delay
+    
+    // Handle close button
+    const closeBtn = alert.querySelector('[data-close-alert]');
+    if (closeBtn) {
+      closeBtn.onclick = function(e) {
+        e.preventDefault();
+        alert.style.transition = 'opacity 0.4s ease-in';
+        alert.style.opacity = '0';
+        sessionStorage.setItem('blogAlertClosed', 'true');
+        setTimeout(() => {
+          alert.style.display = 'none';
+        }, 400);
+      };
+    }
+  });
+</script>
+{% endif %}

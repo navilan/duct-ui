@@ -1,0 +1,38 @@
+<!-- Navigation Header -->
+<header class="border-b border-base-300 bg-base-100/80 backdrop-blur-sm sticky top-0 z-50">
+  <nav class="max-w-6xl mx-auto px-4 py-4">
+    <div class="flex items-center justify-between">
+      <!-- Logo/Brand -->
+      <a href="/" class="text-xl font-bold text-primary hover:text-primary-focus transition-colors">
+        Duct UI
+      </a>
+      
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center gap-6">
+        <a href="/" class="link link-hover font-medium">Home</a>
+        <a href="/demos" class="link link-hover font-medium">Demos</a>
+        <a href="/docs" class="link link-hover font-medium">Documentation</a>
+        <a href="/blog" class="link link-hover font-medium text-primary">Blog</a>
+        <a href="https://github.com/navilan/duct-ui" target="_blank" rel="noopener noreferrer" class="link link-hover font-medium">
+          GitHub
+        </a>
+      </div>
+      
+      <!-- Mobile Menu Button -->
+      <div class="dropdown dropdown-end md:hidden">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </div>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a href="/">Home</a></li>
+          <li><a href="/demos">Demos</a></li>
+          <li><a href="/docs">Documentation</a></li>
+          <li><a href="/blog" class="text-primary">Blog</a></li>
+          <li><a href="https://github.com/navilan/duct-ui" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

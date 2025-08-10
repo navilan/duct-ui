@@ -15,13 +15,14 @@
     "@duct-ui/components": "workspace:*",
     "@duct-ui/core": "workspace:*",
     "@duct-ui/router": "workspace:*",
-    "daisyui": "^5.0.46"
+    "daisyui": "^5.0.50"
   },
   "devDependencies": {
     "@duct-ui/cli": "workspace:*",
     "@kitajs/html": "^4.2.9",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^24.2.1",
     "@types/nunjucks": "^3.2.6",
     "autoprefixer": "^10.4.21",
     "dexie": "^4.0.11",
@@ -30,9 +31,9 @@
     "nunjucks": "^3.2.4",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
-    "typescript": "^5.8.3",
-    "vite": "^7.0.6",
-    "vitest": "^1.0.0",
-    "wrangler": "^4.26.0"
+    "typescript": "^5.9.2",
+    "vite": "^7.1.1",
+    "vitest": "^3.2.4",
+    "wrangler": "^4.28.1"
   }
 }
