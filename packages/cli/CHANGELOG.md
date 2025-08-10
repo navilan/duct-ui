@@ -1,5 +1,22 @@
 # @duct-ui/cli
 
+## 0.7.0
+
+### Minor Changes
+
+- [#46](https://github.com/navilan/duct-ui/pull/46) [`45711c0`](https://github.com/navilan/duct-ui/commit/45711c017dcc3d70cf53e5b20daf49945e84c15f) Thanks [@navilan](https://github.com/navilan)! - Add support for generating static pages from markdown
+
+  - Add support for generating pages from markdown in a pre-configured `contentDir`
+  - Add support for static asset copying
+  - Add hot reload for content in dev server
+  - Add prism js support
+  - Add support for excerpts
+
+### Patch Changes
+
+- Updated dependencies [[`45711c0`](https://github.com/navilan/duct-ui/commit/45711c017dcc3d70cf53e5b20daf49945e84c15f)]:
+  - @duct-ui/router@0.7.0
+
 ## 0.6.2
 
 ### Patch Changes
