@@ -4,7 +4,7 @@ image: /blog/2025/08/evolution/web-evolution.svg
 imageClass: dark-invert
 date: 2025-08-11
 author: navilan
-tags: [Philosophy, Perspective, Historical, Futuristic]
+tags: [Philosophy, Perspective, Article]
 ---
 
 

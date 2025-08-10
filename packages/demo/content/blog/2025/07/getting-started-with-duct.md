@@ -3,7 +3,7 @@ title: Getting Started with Duct UI
 image: /assets/duct-logo-DTh7D3qn.svg
 date: 2025-07-15
 author: navilan
-tags: [Tutorial, Duct, Getting Started]
+tags: [Tutorial, Article]
 ---
 
 Duct UI is an opinionated framework that brings clarity to web development through explicit separation of concerns. Unlike React's all-in-one approach, Duct clearly separates templates from logic, making your code more maintainable and easier to understand.

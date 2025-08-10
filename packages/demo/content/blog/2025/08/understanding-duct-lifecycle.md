@@ -4,7 +4,7 @@ date: 2025-08-01
 image: /blog/2025/08/lifecycle/duct-lifecycle.svg
 imageClass: dark-invert
 author: navilan
-tags: [Advanced, Architecture, Lifecycle]
+tags: [Advanced, Architecture, Lifecycle, Article, Tutorial]
 ---
 
 One of Duct's core strengths is its predictable, explicit component lifecycle. Unlike React's sometimes mysterious re-render behavior, Duct components follow a clear sequence of phases that you can reason about and control.

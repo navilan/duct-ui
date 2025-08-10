@@ -1,0 +1,115 @@
+{#
+  Listing macro for blog posts with pagination
+  
+  Parameters:
+  - posts: Array of posts to display  
+  - page: Page metadata
+  - baseUrl: Base URL for pagination (e.g., '/blog' or '/blog/tag/tutorial')
+  - breadcrumbs: Optional breadcrumb items array
+  - emptyMessage: Custom message when no posts found
+#}
+{% macro listing(posts, page, baseUrl, breadcrumbs=null, emptyMessage="No blog posts found.") %}
+  <!-- Page Header -->
+  <header class="mb-12">
+    {% if breadcrumbs %}
+    <!-- Breadcrumb -->
+    <div class="breadcrumbs text-sm mb-4">
+      <ul>
+        {% for crumb in breadcrumbs %}
+        {% if crumb.url %}
+        <li><a href="{{ crumb.url }}" class="link link-hover">{{ crumb.text }}</a></li>
+        {% else %}
+        <li>{{ crumb.text }}</li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <h1 class="text-5xl font-bold mb-4">{{ page.title }}</h1>
+    <p class="text-xl text-base-content/70">{{ page.description }}</p>
+  </header>
+
+  <!-- Posts Grid -->
+  <div class="grid gap-8">
+    {% set postsPerPage = page.postsPerPage or 10 %}
+    {% set currentPage = page.currentPage or 1 %}
+    
+    <!-- Sort posts by date (newest first) -->
+    {% set sortedPosts = posts | sort(attribute='meta.date', reverse=true) %}
+    {% set totalPosts = sortedPosts | length %}
+    {% set totalPages = (totalPosts / postsPerPage) | round(0, 'ceil') %}
+    {% set startIndex = (currentPage - 1) * postsPerPage %}
+    {% set endIndex = startIndex + postsPerPage %}
+
+    <!-- Paginate posts -->
+    {% set pagePosts = [] %}
+    {% for post in sortedPosts %}
+      {% if loop.index0 >= startIndex and loop.index0 < endIndex %}
+        {% set _ = pagePosts.push(post) %}
+      {% endif %}
+    {% endfor %}
+
+    {% for post in pagePosts %}
+      {% include "_blog_listing_item.html" %}
+    {% endfor %}
+
+    {% if totalPosts == 0 %}
+    <div class="text-center py-12">
+      <p class="text-xl text-base-content/60">{{ emptyMessage }}</p>
+      {% if baseUrl != '/blog' %}
+      <a href="/blog" class="btn btn-primary mt-4">Browse All Posts</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Pagination -->
+  {% if totalPages > 1 %}
+  <nav class="flex justify-center mt-12">
+    <div class="btn-group">
+      {% if currentPage > 1 %}
+      <a href="{{ baseUrl }}{% if currentPage > 2 %}/page/{{ currentPage - 1 }}{% endif %}" class="btn">
+        « Previous
+      </a>
+      {% endif %}
+
+      {% for pageNum in range(1, totalPages + 1) %}
+        {% if pageNum == currentPage %}
+        <button class="btn btn-active">{{ pageNum }}</button>
+        {% else %}
+        <a href="{{ baseUrl }}{% if pageNum > 1 %}/page/{{ pageNum }}{% endif %}" class="btn">
+          {{ pageNum }}
+        </a>
+        {% endif %}
+      {% endfor %}
+
+      {% if currentPage < totalPages %}
+      <a href="{{ baseUrl }}/page/{{ currentPage + 1 }}" class="btn">
+        Next »
+      </a>
+      {% endif %}
+    </div>
+  </nav>
+  {% endif %}
+
+  <!-- Footer Stats -->
+  <footer class="mt-12 pt-8 border-t border-base-300">
+    <div class="text-center text-sm text-base-content/60">
+      {% if totalPosts > 0 %}
+      {% set actualEnd = endIndex %}
+      {% if actualEnd > totalPosts %}
+        {% set actualEnd = totalPosts %}
+      {% endif %}
+      Showing posts {{ startIndex + 1 }}-{{ actualEnd }} of {{ totalPosts }} total posts
+      {% endif %}
+    </div>
+
+    {% if baseUrl != '/blog' %}
+    <!-- Back to Blog -->
+    <div class="text-center mt-4">
+      <a href="/blog" class="btn btn-outline btn-sm">← Back to All Posts</a>
+    </div>
+    {% endif %}
+  </footer>
+{% endmacro %}

@@ -66,8 +66,7 @@
               <path d="M 264 264 L 0 132 L 264 -2842171e-20 Z" fill="#4588ff" fill-opacity=".44834184"/>
             </clipPath>
             <text clip-path="url(#clip_path)" transform="translate(1132.146 217.3125)" fill="#3d79e3">
-              <tspan font-family="Apple Color Emoji" font-size="32" fill="#3d79e3" x="98.1339" y="143" xml:space="preserve">👤</tspan>
-              <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" y="143" xml:space="preserve">User</tspan>
+              <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" x="98.1339" y="143" xml:space="preserve">👤User</tspan>
             </text>
           </g>
           <g id="Graphic_14" filter="url(#Shadow)">
@@ -76,10 +75,8 @@
               <path d="M 264 264 L 0 132 L 264 0 Z" fill="#4588ff" fill-opacity=".44834184"/>
             </clipPath>
             <text clip-path="url(#clip_path_2)" transform="translate(1132.146 622.1042)" fill="#3d79e3">
-              <tspan font-family="Apple Color Emoji" font-size="32" fill="#3d79e3" x="119.0463" y="122" xml:space="preserve">👤</tspan>
-              <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" y="122" xml:space="preserve">User</tspan>
-              <tspan font-family="Apple Color Emoji" font-size="32" fill="#3d79e3" x="119.1339" y="164" xml:space="preserve">🤖</tspan>
-              <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" y="164" xml:space="preserve">Bots</tspan>
+              <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" x="119.0463" y="122" xml:space="preserve">👤User</tspan>
+              <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" x="119.1339" y="164" xml:space="preserve">🤖Bots</tspan>
             </text>
           </g>
           <g id="Graphic_15" filter="url(#Shadow)">
@@ -88,8 +85,7 @@
               <path d="M 264 264 L 0 132 L 264 0 Z" fill="#4588ff" fill-opacity=".44834184"/>
             </clipPath>
             <text clip-path="url(#clip_path_3)" transform="translate(1132.146 1026.8958)" fill="#3d79e3">
-              <tspan font-family="Apple Color Emoji" font-size="32" fill="#3d79e3" x="127.64787" y="123" xml:space="preserve">🤖</tspan>
-              <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" y="123" xml:space="preserve">MCP</tspan>
+              <tspan font-family="Courier New" font-weight="bold"  font-size="32" fill="#3d79e3" x="127.64787" y="123" xml:space="preserve">🤖MCP</tspan>
               <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" x="102.32921" y="160" xml:space="preserve"> Server</tspan>
             </text>
           </g>
@@ -99,8 +95,7 @@
               <path d="M 264 264 L 0 132 L 264 0 Z" fill="#4588ff" fill-opacity=".44834184"/>
             </clipPath>
             <text clip-path="url(#clip_path_4)" transform="translate(1132.146 1431.6875)" fill="#3d79e3">
-              <tspan font-family="Apple Color Emoji" font-size="32" fill="#3d79e3" x="126.14787" y="124.5" xml:space="preserve">🤖</tspan>
-              <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" y="124.5" xml:space="preserve">MCP </tspan>
+              <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" x="126.14787" y="124.5" xml:space="preserve">🤖MCP</tspan>
               <tspan font-family="Courier New" font-weight="bold" font-size="32" fill="#3d79e3" x="113.43077" y="161.5" xml:space="preserve">Server</tspan>
             </text>
           </g>

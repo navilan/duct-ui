@@ -1,3 +1,4 @@
+{% from "_macros.html" import listing %}
 <!DOCTYPE html>
 <html lang="en" data-theme="{{ theme or 'duct' }}">
 
@@ -16,81 +17,7 @@
 
   <!-- Static content rendered by Nunjucks -->
   <div class="max-w-6xl mx-auto px-4 py-8 flex-1">
-      <!-- Page Header -->
-      <header class="mb-12">
-        <h1 class="text-5xl font-bold mb-4">{{ page.title }}</h1>
-        <p class="text-xl text-base-content/70">{{ page.description }}</p>
-      </header>
-
-      <!-- Blog Posts Grid -->
-      <div class="grid gap-8">
-        {% set postsPerPage = page.postsPerPage or 10 %}
-        {% set currentPage = page.currentPage or 1 %}
-        {% set allPosts = collections.blog or [] %}
-        {% set totalPosts = allPosts | length %}
-        {% set totalPages = (totalPosts / postsPerPage) | round(0, 'ceil') %}
-        {% set startIndex = (currentPage - 1) * postsPerPage %}
-        {% set endIndex = startIndex + postsPerPage %}
-        
-        <!-- Simple iteration without slice for now -->
-        {% set pagePosts = [] %}
-        {% for post in allPosts %}
-          {% if loop.index0 >= startIndex and loop.index0 < endIndex %}
-            {% set _ = pagePosts.push(post) %}
-          {% endif %}
-        {% endfor %}
-
-        {% for post in pagePosts %}
-          {% include "_blog_listing_item.html" %}
-        {% endfor %}
-
-        {% if totalPosts == 0 %}
-        <div class="text-center py-12">
-          <p class="text-xl text-base-content/60">No blog posts found.</p>
-        </div>
-        {% endif %}
-      </div>
-
-      <!-- Pagination -->
-      {% if totalPages > 1 %}
-      <nav class="flex justify-center mt-12">
-        <div class="btn-group">
-          {% if currentPage > 1 %}
-          <a href="/blog/page/{{ currentPage - 1 }}" class="btn">
-            « Previous
-          </a>
-          {% endif %}
-
-          {% for pageNum in range(1, totalPages + 1) %}
-            {% if pageNum == currentPage %}
-            <button class="btn btn-active">{{ pageNum }}</button>
-            {% else %}
-            <a href="/blog{% if pageNum > 1 %}/page/{{ pageNum }}{% endif %}" class="btn">
-              {{ pageNum }}
-            </a>
-            {% endif %}
-          {% endfor %}
-
-          {% if currentPage < totalPages %}
-          <a href="/blog/page/{{ currentPage + 1 }}" class="btn">
-            Next »
-          </a>
-          {% endif %}
-        </div>
-      </nav>
-      {% endif %}
-
-      <!-- Blog Stats -->
-      <footer class="mt-12 pt-8 border-t border-base-300">
-        <div class="text-center text-sm text-base-content/60">
-          {% set actualEnd = endIndex %}
-          {% if actualEnd > totalPosts %}
-            {% set actualEnd = totalPosts %}
-          {% endif %}
-          Showing posts {{ startIndex + 1 }}-{{ actualEnd }} of {{ totalPosts }} total posts
-        </div>
-      </footer>
-    </div>
+    {{ listing(collections.blog or [], page, '/blog') }}
   </div>
   
   <!-- Interactive content container for Duct components (empty initially) -->

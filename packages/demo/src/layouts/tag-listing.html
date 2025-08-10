@@ -1,3 +1,4 @@
+{% from "_macros.html" import listing %}
 <!DOCTYPE html>
 <html lang="en" data-theme="{{ theme or 'duct' }}">
 
@@ -6,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }}{% if page.title %} - {% endif %}Duct UI</title>
   <meta name="description" content="{{ page.description }}">
-  
+
   <!-- Styles -->
   <link rel="stylesheet" href="/src/styles/main.css">
 </head>
@@ -16,110 +17,39 @@
 
   <!-- Static content rendered by Nunjucks -->
   <div class="max-w-6xl mx-auto px-4 py-8 flex-1">
-    <!-- Page Header -->
-    <header class="mb-12">
-      <!-- Breadcrumb -->
-      <div class="breadcrumbs text-sm mb-4">
-        <ul>
-          <li><a href="/" class="link link-hover">Home</a></li>
-          <li><a href="/blog" class="link link-hover">Blog</a></li>
-          <li>Tag: {{ page.tag or 'Unknown' }}</li>
-        </ul>
-      </div>
-      
-      <h1 class="text-5xl font-bold mb-4">Posts tagged "{{ page.tag or 'Unknown' }}"</h1>
-      <p class="text-xl text-base-content/70">{{ page.description }}</p>
-    </header>
-
-    <!-- Blog Posts Grid -->
-    <div class="grid gap-8">
-      {% set postsPerPage = page.postsPerPage or 10 %}
-      {% set currentPage = page.currentPage or 1 %}
-      {% set targetTag = page.tag %}
-      
-      <!-- Filter posts by tag -->
-      {% set allPosts = [] %}
-      {% for post in collections.blog %}
-        {% if post.meta.tags and targetTag in post.meta.tags %}
-          {% set _ = allPosts.push(post) %}
-        {% endif %}
-      {% endfor %}
-      
-      <!-- Sort posts by date (newest first) -->
-      {% set sortedPosts = allPosts | sort(true, false, 'meta.date') | reverse %}
-      {% set totalPosts = sortedPosts | length %}
-      {% set totalPages = (totalPosts / postsPerPage) | round(0, 'ceil') %}
-      {% set startIndex = (currentPage - 1) * postsPerPage %}
-      {% set endIndex = startIndex + postsPerPage %}
-      
-      <!-- Paginate posts -->
-      {% set pagePosts = [] %}
-      {% for post in sortedPosts %}
-        {% if loop.index0 >= startIndex and loop.index0 < endIndex %}
-          {% set _ = pagePosts.push(post) %}
-        {% endif %}
-      {% endfor %}
-
-      {% for post in pagePosts %}
-        {% include "_blog_listing_item.html" %}
-      {% endfor %}
-
-      {% if totalPosts == 0 %}
-      <div class="text-center py-12">
-        <p class="text-xl text-base-content/60">No blog posts found with the tag "{{ page.tag }}".</p>
-        <a href="/blog" class="btn btn-primary mt-4">Browse All Posts</a>
-      </div>
+    {# Filter posts by tag #}
+    {% set targetTag = page.tag %}
+    {% set filteredPosts = [] %}
+    {% for post in collections.blog %}
+      {% if post.meta.tags and targetTag in post.meta.tags %}
+        {% set _ = filteredPosts.push(post) %}
       {% endif %}
-    </div>
+    {% endfor %}
 
-    <!-- Pagination -->
-    {% if totalPages > 1 %}
-    <nav class="flex justify-center mt-12">
-      <div class="btn-group">
-        {% if currentPage > 1 %}
-        <a href="/blog/tag/{{ page.tagSlug }}/page/{{ currentPage - 1 }}" class="btn">
-          « Previous
-        </a>
-        {% endif %}
+    {# Set up breadcrumbs #}
+    {% set breadcrumbs = [
+      {url: '/', text: 'Home'},
+      {url: '/blog', text: 'Blog'},
+      {text: 'Tag: ' + (page.tag or 'Unknown')}
+    ] %}
 
-        {% for pageNum in range(1, totalPages + 1) %}
-          {% if pageNum == currentPage %}
-          <button class="btn btn-active">{{ pageNum }}</button>
-          {% else %}
-          <a href="/blog/tag/{{ page.tagSlug }}{% if pageNum > 1 %}/page/{{ pageNum }}{% endif %}" class="btn">
-            {{ pageNum }}
-          </a>
-          {% endif %}
-        {% endfor %}
+    {# Custom page data for macro #}
+    {% set tagPage = {
+      title: 'Posts tagged "' + (page.tag or 'Unknown') + '"',
+      description: page.description,
+      postsPerPage: page.postsPerPage,
+      currentPage: page.currentPage
+    } %}
 
-        {% if currentPage < totalPages %}
-        <a href="/blog/tag/{{ page.tagSlug }}/page/{{ currentPage + 1 }}" class="btn">
-          Next »
-        </a>
-        {% endif %}
-      </div>
-    </nav>
-    {% endif %}
-
-    <!-- Tag Stats -->
-    <footer class="mt-12 pt-8 border-t border-base-300">
-      <div class="text-center text-sm text-base-content/60">
-        {% set actualEnd = endIndex %}
-        {% if actualEnd > totalPosts %}
-          {% set actualEnd = totalPosts %}
-        {% endif %}
-        {% if totalPosts > 0 %}
-        Showing posts {{ startIndex + 1 }}-{{ actualEnd }} of {{ totalPosts }} posts tagged "{{ page.tag }}"
-        {% endif %}
-      </div>
-      
-      <!-- Back to Blog -->
-      <div class="text-center mt-4">
-        <a href="/blog" class="btn btn-outline btn-sm">← Back to All Posts</a>
-      </div>
-    </footer>
+    {{ listing(
+      filteredPosts, 
+      tagPage, 
+      '/blog/tag/' + (page.tagSlug or 'unknown'),
+      breadcrumbs,
+      'No blog posts found with the tag "' + (page.tag or 'Unknown') + '".'
+    ) }}
   </div>
-  
+
   <!-- Interactive content container for Duct components (empty initially) -->
   <div id="app"></div>
 
@@ -127,7 +57,7 @@
   {% for script in page.scripts %}
   <script type="module" src="{{ script }}"></script>
   {% endfor %}
-  
+
   {% if page.inlineScript %}
   <script>{{ page.inlineScript | safe }}</script>
   {% endif %}

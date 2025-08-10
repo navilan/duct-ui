@@ -3,9 +3,10 @@ import * as path from 'path'
 import * as fs from 'fs/promises'
 import { build as viteBuild } from 'vite'
 import { RouteGenerator, DuctRouter, findAssets } from '@duct-ui/router'
-import type { SubRouteComponent, ContentPageComponent } from '@duct-ui/router'
+import type { SubRouteComponent, ContentPageComponent, ContentItem } from '@duct-ui/router'
 import { loadConfig, resolveConfigPaths } from '../config.js'
 import * as logger from '../logger.js'
+import type { ContentMeta } from '@duct-ui/router'
 
 export const buildCommand = new Command('build')
   .description('Build Duct UI application with SSG')
@@ -122,7 +123,9 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
         throw new Error(`Component not found: ${componentPath}`)
       }
 
-      // Load dynamic routes and content pages
+      // First pass: Load all content pages to collect content
+      const allContent = new Map<string, Array<ContentItem>>()
+
       for (const route of routes) {
         if (route.isContentPage) {
           // Handle content pages (__content__.tsx)
@@ -132,7 +135,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
 
             // Get content directory from component or use default
             const contentDir = component.getContentDir?.() || 'content'
-            
+
             // Get excerpt marker from config
             const excerptMarker = resolvedConfig.content?.excerptMarker || '<!--more-->'
 
@@ -143,6 +146,12 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
               logger.indent().success(`Found ${Object.keys(route.staticPaths).length} content pages`)
               logger.indent().debug(`Content files: ${route.contentFiles?.length || 0}`)
               logger.indent().debug(`Content directory: ${contentDir}`)
+
+              // Store content for dynamic routes to use
+              if (route.contentFiles) {
+                const contentType = route.path.replace(/^\//, '') // Remove leading slash for content type key
+                allContent.set(contentType, route.contentFiles)
+              }
             } else {
               logger.indent().warn(`No static paths generated for ${route.componentPath}`)
             }
@@ -151,13 +160,18 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
             route.staticPaths = {}
             route.contentFiles = []
           }
-        } else if (route.isDynamic) {
+        }
+      }
+
+      // Second pass: Load dynamic routes (with access to all content)
+      for (const route of routes) {
+        if (route.isDynamic && !route.isContentPage) {
           // Handle regular dynamic routes ([sub].tsx)
           try {
             const component = await componentLoader(route.componentPath) as SubRouteComponent
             if (component.getRoutes) {
               logger.indent().info(`Loading routes for ${route.componentPath}...`)
-              route.staticPaths = await component.getRoutes()
+              route.staticPaths = await component.getRoutes(allContent)
               logger.indent().success(`Found ${Object.keys(route.staticPaths).length} dynamic routes`)
             }
           } catch (error) {

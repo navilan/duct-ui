@@ -59,7 +59,7 @@ export interface PageComponent {
  */
 export interface SubRouteComponent extends PageComponent {
   /** Returns static paths to generate at build time with overlay page meta */
-  getRoutes(): Record<string, PageMeta> | Promise<Record<string, PageMeta>>
+  getRoutes(content?: Map<string, ContentItem[]>): Record<string, PageMeta> | Promise<Record<string, PageMeta>>
   /** Fallback handler for Cloudflare Worker (dynamic routes) (optional) */
   fallback?(request: Request): Promise<FallbackResult | undefined>
 }
