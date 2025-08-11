@@ -28,7 +28,10 @@ function render(props: BaseProps<DocsComparisonProps>) {
         <div class="prose prose-lg max-w-none">
           <Markdown content={introductionContent} />
 
-          <h2>Framework Comparison Table</h2>
+          <h2>Component Library Comparison</h2>
+          <p>
+            This section compares Duct as a component library for building interactive UI components.
+          </p>
 
           <div class="not-prose">
             <div class="overflow-x-auto my-6">
@@ -354,13 +357,13 @@ function render(props: BaseProps<DocsComparisonProps>) {
             </div>
           </div>
 
-          <h2>When to Choose Each Framework</h2>
+          <h3>When to Choose Component Libraries</h3>
 
           <div class="not-prose">
-            {/* Duct - Full Width */}
+            {/* Duct Components - Full Width */}
             <div class="info-card info-card-primary my-6">
               <div class="card-body">
-                <h4 class="card-title text-primary text-xl">Choose Duct When</h4>
+                <h4 class="card-title text-primary text-xl">Choose Duct Components When</h4>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                   <ul class="text-sm space-y-2">
                     <li>✓ You value explicit, debuggable code</li>
@@ -381,21 +384,8 @@ function render(props: BaseProps<DocsComparisonProps>) {
               </div>
             </div>
 
-            {/* Other Frameworks - Grid */}
+            {/* Other Component Libraries */}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
-              <div class="card bg-secondary/10 border border-secondary/20">
-                <div class="card-body">
-                  <h4 class="card-title text-secondary">Choose Vue When</h4>
-                  <ul class="text-sm space-y-1">
-                    <li>• You want balanced complexity</li>
-                    <li>• You like single-file components</li>
-                    <li>• You need official router/state management</li>
-                    <li>• You're migrating from jQuery</li>
-                    <li>• You want good documentation</li>
-                  </ul>
-                </div>
-              </div>
-
               <div class="card border">
                 <div class="card-body">
                   <h4 class="card-title">Choose React When</h4>
@@ -405,6 +395,19 @@ function render(props: BaseProps<DocsComparisonProps>) {
                     <li>• You need enterprise support</li>
                     <li>• You're building complex SPAs</li>
                     <li>• You need extensive third-party libraries</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="card bg-secondary/10 border border-secondary/20">
+                <div class="card-body">
+                  <h4 class="card-title text-secondary">Choose Vue When</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• You want balanced complexity</li>
+                    <li>• You like single-file components</li>
+                    <li>• You need official router/state management</li>
+                    <li>• You're migrating from jQuery</li>
+                    <li>• You want good documentation</li>
                   </ul>
                 </div>
               </div>
@@ -431,6 +434,192 @@ function render(props: BaseProps<DocsComparisonProps>) {
                     <li>• You need CSS encapsulation</li>
                     <li>• You're building design systems</li>
                     <li>• You want no build dependencies</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h2>Complete Framework Comparison</h2>
+          <p>
+            This section compares Duct as a complete framework for building full applications with SSG, routing, and content management.
+          </p>
+
+          <div class="not-prose">
+            <div class="overflow-x-auto my-6">
+              <table class="table table-zebra table-sm">
+                <thead>
+                  <tr>
+                    <th class="font-bold">Feature</th>
+                    <th class="font-bold text-primary">Duct</th>
+                    <th class="font-bold">Next.js</th>
+                    <th class="font-bold">Nuxt</th>
+                    <th class="font-bold">SvelteKit</th>
+                    <th class="font-bold">Astro</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="font-medium">SSG/SSR</td>
+                    <td class="text-success">✅ Built-in SSG</td>
+                    <td class="text-success">✅ Full SSG/SSR</td>
+                    <td class="text-success">✅ Full SSG/SSR</td>
+                    <td class="text-success">✅ Full SSG/SSR</td>
+                    <td class="text-success">✅ Content-focused SSG</td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium">File-based Routing</td>
+                    <td class="text-success">✅ Built-in</td>
+                    <td class="text-success">✅ Pages & app router</td>
+                    <td class="text-success">✅ Built-in</td>
+                    <td class="text-success">✅ Built-in</td>
+                    <td class="text-success">✅ Built-in</td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium">Content Management</td>
+                    <td class="text-success">✅ Markdown + assets</td>
+                    <td class="text-warning">⚠️ Via plugins</td>
+                    <td class="text-warning">⚠️ Via modules</td>
+                    <td class="text-warning">⚠️ Manual setup</td>
+                    <td class="text-success">✅ Content collections</td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium">Asset Management</td>
+                    <td class="text-success">✅ Automatic copying</td>
+                    <td class="text-success">✅ Advanced optimization</td>
+                    <td class="text-success">✅ Built-in optimization</td>
+                    <td class="text-warning">⚠️ Via adapters</td>
+                    <td class="text-success">✅ Built-in optimization</td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium">Learning Curve</td>
+                    <td class="text-success">Low</td>
+                    <td class="text-error">High</td>
+                    <td class="text-warning">Medium-High</td>
+                    <td class="text-warning">Medium</td>
+                    <td class="text-success">Low-Medium</td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium">Architecture</td>
+                    <td>SSG with hydrated islands</td>
+                    <td>Full-stack React</td>
+                    <td>Full-stack Vue</td>
+                    <td>Full-stack Svelte</td>
+                    <td>Islands with framework choice</td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium">API Routes</td>
+                    <td class="text-error">❌ Static-only</td>
+                    <td class="text-success">✅ Full API support</td>
+                    <td class="text-success">✅ Full API support</td>
+                    <td class="text-success">✅ Full API support</td>
+                    <td class="text-warning">⚠️ Via integrations</td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium">Template System</td>
+                    <td class="text-primary">Nunjucks (static) + JSX (components)</td>
+                    <td>JSX everywhere</td>
+                    <td>Vue templates everywhere</td>
+                    <td>Svelte templates everywhere</td>
+                    <td>Astro templates + framework islands</td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium">Static/Dynamic Separation</td>
+                    <td class="text-success">✅ Clear separation</td>
+                    <td class="text-warning">⚠️ Mixed concerns</td>
+                    <td class="text-warning">⚠️ Mixed concerns</td>
+                    <td class="text-warning">⚠️ Mixed concerns</td>
+                    <td class="text-success">✅ Islands pattern</td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium">Deployment Target</td>
+                    <td>Static hosting (CDN)</td>
+                    <td>Vercel/Node.js/Edge</td>
+                    <td>Various platforms</td>
+                    <td>Various adapters</td>
+                    <td>Static hosting/Edge</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <h3>When to Choose Complete Frameworks</h3>
+            
+          <div class="not-prose">
+            <div class="info-card info-card-primary my-6">
+              <div class="card-body">
+                <h4 class="card-title text-primary text-xl">Choose Duct Framework When</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                  <ul class="text-sm space-y-2">
+                    <li>✓ You're building content-driven sites</li>
+                    <li>✓ You want simple SSG without complexity</li>
+                    <li>✓ You need automatic content management</li>
+                  </ul>
+                  <ul class="text-sm space-y-2">
+                    <li>✓ You prefer static-first architecture</li>
+                    <li>✓ You want clear static/dynamic separation</li>
+                    <li>✓ You like proven templating (Nunjucks)</li>
+                  </ul>
+                  <ul class="text-sm space-y-2">
+                    <li>✓ You want fast, SEO-friendly sites</li>
+                    <li>✓ You prefer explicit over magic</li>
+                    <li>✓ You value simplicity and maintainability</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Complete Frameworks Grid */}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
+              <div class="card border">
+                <div class="card-body">
+                  <h4 class="card-title">Choose Next.js When</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• You need full-stack React applications</li>
+                    <li>• You want advanced SSR/SSG features</li>
+                    <li>• You need API routes and serverless</li>
+                    <li>• You're building e-commerce sites</li>
+                    <li>• You need enterprise React features</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="card bg-secondary/10 border border-secondary/20">
+                <div class="card-body">
+                  <h4 class="card-title text-secondary">Choose Nuxt When</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• You prefer Vue ecosystem</li>
+                    <li>• You want opinionated structure</li>
+                    <li>• You need full-stack capabilities</li>
+                    <li>• You want automatic routing</li>
+                    <li>• You need Vue-specific optimizations</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="card bg-accent/10 border border-accent/20">
+                <div class="card-body">
+                  <h4 class="card-title text-accent">Choose SvelteKit When</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• You love Svelte's approach</li>
+                    <li>• You want small bundle sizes</li>
+                    <li>• You need full-stack capabilities</li>
+                    <li>• You prefer compile-time optimizations</li>
+                    <li>• You want simple mental models</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="card bg-neutral/10 border border-neutral/20">
+                <div class="card-body">
+                  <h4 class="card-title text-neutral">Choose Astro When</h4>
+                  <ul class="text-sm space-y-1">
+                    <li>• You want zero JS by default</li>
+                    <li>• You need content-heavy sites</li>
+                    <li>• You want islands architecture</li>
+                    <li>• You need framework flexibility</li>
+                    <li>• You prioritize maximum performance</li>
                   </ul>
                 </div>
               </div>

@@ -20,6 +20,7 @@ import DocsComparison from "./docs/DocsComparison"
 import DocsBuilding from "./docs/DocsBuilding"
 import DocsClaudeCode from "./docs/DocsClaudeCode"
 import DocsSSG from "./docs/DocsSSG"
+import DocsBlog from "./docs/DocsBlog"
 
 export interface PageInfo {
   id: string
@@ -96,6 +97,14 @@ export const sections: PageSection[] = [
         description: "Build fast, SEO-friendly websites with file-based routing and SSG",
         component: () => {
           return DocsSSG({})
+        }
+      },
+      {
+        id: "creating-a-blog",
+        title: "Creating a Blog",
+        description: "Complete guide to building a blog with markdown content, tagging, and pagination",
+        component: () => {
+          return DocsBlog({})
         }
       }
     ]
