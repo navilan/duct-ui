@@ -2,6 +2,7 @@
 title: Understanding Duct Component Lifecycle
 date: 2025-08-01
 image: /blog/2025/08/lifecycle/duct-lifecycle.svg
+ogPath: /blog/2025/08/lifecycle/duct-lifecycle.png
 imageClass: dark-invert
 author: navilan
 tags: [Advanced, Architecture, Lifecycle, Article, Tutorial]

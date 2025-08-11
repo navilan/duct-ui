@@ -3,12 +3,7 @@
 <html lang="en" data-theme="{{ theme or 'duct' }}">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }}{% if page.title %} - {% endif %}Duct UI</title>
-  <meta name="description" content="{{ page.description }}">
-  
-  <!-- Styles -->
+  {% include "_meta_tags.html" %}
   <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 
