@@ -2,43 +2,8 @@
 <html lang="en" data-theme="{{ theme or 'duct' }}">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Page metadata -->
-  <title>{{ page.title }}{% if page.title %} - {% endif %}Duct UI Changelog</title>
-  <meta name="description" content="{{ page.summary or page.description or page.excerpt }}">
-
-  <!-- Article metadata -->
-  {% if page.author %}
-  <meta name="author" content="{{ page.author }}">
-  {% endif %}
-
-  {% if page.date %}
-  <meta property="article:published_time" content="{{ page.date }}">
-  {% endif %}
-
-  {% if page.tags %}
-  <meta name="keywords" content="{{ page.tags | join(', ') }}">
-  {% endif %}
-
-  <!-- Open Graph tags -->
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="{{ page.title }}">
-  <meta property="og:description" content="{{ page.summary or page.description or page.excerpt }}">
-  {% if page.image %}
-  <meta property="og:image" content="{{ page.image }}">
-  {% endif %}
-
-  <!-- Twitter Card tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ page.title }}">
-  <meta name="twitter:description" content="{{ page.summary or page.description or page.excerpt }}">
-  {% if page.image %}
-  <meta name="twitter:image" content="{{ page.image }}">
-  {% endif %}
-
-  <!-- Styles -->
+  {% set ogType = 'article' %}
+  {% include "_meta_tags.html" %}
   <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 

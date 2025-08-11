@@ -1,0 +1,77 @@
+<!-- Basic meta tags -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title | default('Duct UI') }}</title>
+<meta name="description" content="{{ page.description | default('A modern UI framework with clear separation of concerns') }}">
+
+<!-- Open Graph tags -->
+<meta property="og:type" content="{{ page.ogType | default(ogType) | default('website') }}">
+<meta property="og:title" content="{{ page.ogTitle | default(page.title) | default('Duct UI') }}">
+<meta property="og:description" content="{{ page.ogDescription | default(page.description) | default('A modern UI framework with clear separation of concerns') }}">
+<meta property="og:url" content="{{ page.ogUrl | default(page.canonicalUrl) | default('https://duct-ui.org') }}">
+<meta property="og:site_name" content="Duct UI">
+{% if page.ogImage %}
+<meta property="og:image" content="{{ page.ogImage }}">
+{% elif page.ogPath %}
+<meta property="og:image" content="https://duct-ui.org{{ page.ogPath }}">
+{% elif page.image %}
+<meta property="og:image" content="https://duct-ui.org{{ page.image }}">
+{% else %}
+<meta property="og:image" content="https://duct-ui.org/og-default.png">
+{% endif %}
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ page.ogImageAlt | default('Duct UI Framework') }}">
+
+<!-- Twitter Card tags -->
+<meta name="twitter:card" content="{{ page.twitterCard | default('summary_large_image') }}">
+<meta name="twitter:title" content="{{ page.twitterTitle | default(page.ogTitle) | default(page.title) | default('Duct UI') }}">
+<meta name="twitter:description" content="{{ page.twitterDescription | default(page.ogDescription) | default(page.description) | default('A modern UI framework with clear separation of concerns') }}">
+{% if page.twitterImage %}
+<meta name="twitter:image" content="{{ page.twitterImage }}">
+{% elif page.ogImage %}
+<meta name="twitter:image" content="{{ page.ogImage }}">
+{% elif page.ogPath %}
+<meta name="twitter:image" content="https://duct-ui.org{{ page.ogPath }}">
+{% elif page.image %}
+<meta name="twitter:image" content="https://duct-ui.org{{ page.image }}">
+{% else %}
+<meta name="twitter:image" content="https://duct-ui.org/og-default.png">
+{% endif %}
+{% if page.twitterSite %}
+<meta name="twitter:site" content="{{ page.twitterSite }}">
+{% endif %}
+{% if page.twitterCreator %}
+<meta name="twitter:creator" content="{{ page.twitterCreator }}">
+{% endif %}
+
+<!-- Additional meta tags -->
+{% if page.canonicalUrl %}
+<link rel="canonical" href="{{ page.canonicalUrl }}">
+{% endif %}
+{% if page.author %}
+<meta name="author" content="{{ page.author }}">
+{% endif %}
+{% if page.keywords %}
+<meta name="keywords" content="{{ page.keywords }}">
+{% elif page.tags %}
+<meta name="keywords" content="{{ page.tags | join(', ') }}">
+{% endif %}
+
+<!-- Article-specific meta tags (for blog posts) -->
+{% if page.ogType == 'article' or ogType == 'article' or page.date %}
+<meta property="article:published_time" content="{{ page.date }}">
+{% if page.modified %}
+<meta property="article:modified_time" content="{{ page.modified }}">
+{% endif %}
+{% if page.author %}
+<meta property="article:author" content="{{ page.author }}">
+{% endif %}
+{% if page.tags %}
+{% for tag in page.tags %}
+<meta property="article:tag" content="{{ tag }}">
+{% endfor %}
+{% endif %}
+{% endif %}
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">

@@ -1,6 +1,7 @@
 ---
 title: Duct and the evolution of websites
 image: /blog/2025/08/evolution/web-evolution.svg
+ogPath: /blog/2025/08/evolution/web-evolution.png
 imageClass: dark-invert
 date: 2025-08-11
 author: navilan
