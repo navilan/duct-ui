@@ -212,6 +212,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
           ...resolvedConfig.env
         },
         nunjucks: resolvedConfig.nunjucks,
+        markdownParser: resolvedConfig.content?.markdownParser,
         componentLoader
       })
 

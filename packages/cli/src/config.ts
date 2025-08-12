@@ -19,6 +19,8 @@ export interface DuctConfig {
   content?: {
     /** Marker to indicate end of excerpt in markdown content. Default: <!--more--> */
     excerptMarker?: string
+    /** Custom markdown parser function. Receives markdown string and should return HTML string */
+    markdownParser?: (markdown: string) => string | Promise<string>
   }
 }
 
@@ -28,7 +30,8 @@ const DEFAULT_CONFIG: DuctConfig = {
   contentDir: 'content',
   env: {},
   content: {
-    excerptMarker: '<!--more-->'
+    excerptMarker: '<!--more-->',
+    markdownParser: undefined // Will use default markdown parsing (just return raw markdown)
   }
 }
 
