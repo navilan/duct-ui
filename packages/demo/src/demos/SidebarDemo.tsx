@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import DemoLayout from "../components/DemoLayout"
+import DemoLayout from "@components/DemoLayout"
 
 export interface SidebarDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo

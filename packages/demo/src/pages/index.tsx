@@ -1,5 +1,5 @@
 import type { DuctPageComponent, PageProps } from '@duct-ui/router'
-import LandingPage from '../components/LandingPage'
+import LandingPage from '@components/LandingPage'
 
 export function getLayout() {
   return 'landing.html'

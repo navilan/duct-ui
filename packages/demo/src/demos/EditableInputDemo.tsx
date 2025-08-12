@@ -4,8 +4,8 @@ import { createRef } from "@duct-ui/core"
 import EditableInput from "@duct-ui/components/input/editable"
 import Button from "@duct-ui/components/button/button"
 import Toggle from "@duct-ui/components/button/toggle"
-import DemoLayout from "../components/DemoLayout"
-import EventLog, { EventLogLogic } from "../components/EventLog"
+import DemoLayout from "@components/DemoLayout"
+import EventLog, { EventLogLogic } from "@components/EventLog"
 
 export interface EditableInputDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo

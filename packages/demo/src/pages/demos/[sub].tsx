@@ -1,5 +1,5 @@
 import type { DuctPageComponent, PageProps } from '@duct-ui/router'
-import AppLayout from '../../components/AppLayout'
+import AppLayout from '@components/AppLayout'
 import { componentDemos } from '../../catalog'
 
 export function getLayout() {

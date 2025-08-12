@@ -1,5 +1,5 @@
 import type { PageProps, ContentMeta } from '@duct-ui/router'
-import ThemeToggle from '../../components/ThemeToggle'
+import ThemeToggle from '@components/ThemeToggle'
 
 /**
  * Blog post content page component

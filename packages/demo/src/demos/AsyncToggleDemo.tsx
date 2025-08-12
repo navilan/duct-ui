@@ -4,8 +4,8 @@ import { createRef } from "@duct-ui/core"
 import AsyncToggle, { type AsyncToggleState, type AsyncToggleLogic } from "@duct-ui/components/button/async-toggle"
 import Button from "@duct-ui/components/button/button"
 import Toggle, { type ToggleState } from "@duct-ui/components/button/toggle"
-import DemoLayout from "../components/DemoLayout"
-import EventLog, { EventLogLogic } from "../components/EventLog"
+import DemoLayout from "@components/DemoLayout"
+import EventLog, { EventLogLogic } from "@components/EventLog"
 
 export interface AsyncToggleDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo

@@ -1,12 +1,11 @@
 import { Command } from 'commander'
 import * as path from 'path'
 import * as fs from 'fs/promises'
-import { build as viteBuild } from 'vite'
+import { build as viteBuild, loadConfigFromFile, InlineConfig } from 'vite'
 import { RouteGenerator, DuctRouter, findAssets } from '@duct-ui/router'
 import type { SubRouteComponent, ContentPageComponent, ContentItem } from '@duct-ui/router'
 import { loadConfig, resolveConfigPaths } from '../config.js'
 import * as logger from '../logger.js'
-import type { ContentMeta } from '@duct-ui/router'
 
 export const buildCommand = new Command('build')
   .description('Build Duct UI application with SSG')
@@ -24,6 +23,15 @@ export const buildCommand = new Command('build')
       // Load and resolve config
       const config = await loadConfig(cwd)
       const resolvedConfig = resolveConfigPaths(config, cwd)
+
+      // Load project's Vite config
+      let baseViteConfig: any = {}
+      const viteConfigFile = path.resolve(cwd, configFile)
+      
+      // For html-only builds, use 'html_only' mode to prevent plugin execution
+      const mode = htmlOnly ? 'html_only' : 'production'
+      const viteConfigResult = await loadConfigFromFile({ command: 'build', mode }, viteConfigFile)
+      baseViteConfig = viteConfigResult?.config || {}
 
       // Override with CLI options if provided
       const resolvedPagesDir = options.pages ? path.resolve(cwd, options.pages) : resolvedConfig.pagesDir
@@ -71,23 +79,32 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
         // Build each component separately to ensure proper output
         await fs.mkdir(ssrOutDir, { recursive: true })
 
-        // Change to .duct directory to avoid picking up project's vite config
+        // Don't change directory - stay in original project directory
         const originalCwd = process.cwd()
-        process.chdir(tempDir)
 
         try {
           for (const [entryName, entryFile] of Object.entries(entryPoints)) {
             logger.compile(`Building ${entryName}...`)
 
-            await viteBuild({
-              configFile: false, // Don't use any config file
+            // Create SSR-specific Vite config based on user's config
+            const ssrViteConfig: InlineConfig = {
+              ...baseViteConfig,
+              configFile: false, // Don't load config file again
               logLevel: 'warn',
+              root: originalCwd, // Use original project root
+              // Filter out ductSSGPlugin to prevent recursion
+              plugins: (baseViteConfig.plugins || []).filter((plugin: any) => 
+                plugin?.name !== 'vite-plugin-duct-ssg'
+              ),
               resolve: {
-                extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
+                ...(baseViteConfig.resolve || {}),
+                extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
+                // Keep original aliases as they are - they should work from the original root
+                alias: baseViteConfig.resolve?.alias
               },
               build: {
                 ssr: entryFile,
-                outDir: 'compiled',
+                outDir: path.resolve(tempDir, 'compiled'),
                 rollupOptions: {
                   output: {
                     entryFileNames: `${entryName}.js`,
@@ -96,11 +113,12 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
                 },
                 emptyOutDir: false
               }
-            })
+            }
+
+            await viteBuild(ssrViteConfig)
           }
         } finally {
-          // Always restore original working directory
-          process.chdir(originalCwd)
+          // No need to restore directory since we didn't change it
         }
 
         logger.success(`Compiled to ${ssrOutDir}`)

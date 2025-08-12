@@ -1,7 +1,7 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import Dexie, { type Table } from 'dexie'
-import DemoLayout from "../components/DemoLayout"
+import DemoLayout from "@components/DemoLayout"
 
 // Dexie database for persistent counter storage
 interface CounterData {
