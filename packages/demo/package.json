@@ -7,9 +7,7 @@
     "dev": "vite",
     "build": "node node_modules/@duct-ui/cli/dist/cli.js build",
     "preview": "vite preview",
-    "package": "pnpm -w build",
-    "test": "vitest run",
-    "test-watch": "vitest"
+    "package": "pnpm -w build"
   },
   "dependencies": {
     "@duct-ui/components": "workspace:*",
@@ -32,8 +30,8 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2",
-    "vite": "^7.1.1",
+    "vite": "^7.1.2",
     "vitest": "^3.2.4",
-    "wrangler": "^4.28.1"
+    "wrangler": "^4.29.0"
   }
 }
