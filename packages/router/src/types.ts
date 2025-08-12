@@ -135,6 +135,8 @@ export interface RouterConfig {
   baseUrl?: string
   /** Environment variables to pass to page components */
   env?: Record<string, any>
+  /** Custom markdown parser function. Receives markdown string and should return HTML string */
+  markdownParser?: (markdown: string) => string | Promise<string>
   /** Nunjucks environment configuration */
   nunjucks?: {
     /** Custom filters to add to the environment */

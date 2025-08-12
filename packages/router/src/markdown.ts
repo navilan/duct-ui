@@ -1,7 +1,47 @@
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import { glob } from 'glob'
+import MarkdownIt from 'markdown-it'
+import markdownItPrism from 'markdown-it-prism'
+import markdownItAttrs from 'markdown-it-attrs'
+import 'prismjs/components/prism-javascript.js'
+import 'prismjs/components/prism-typescript.js'
+import 'prismjs/components/prism-jsx.js'
+import 'prismjs/components/prism-tsx.js'
+import 'prismjs/components/prism-css.js'
+import 'prismjs/components/prism-json.js'
+import 'prismjs/components/prism-bash.js'
 import type { ContentMeta } from './types.js'
+
+// Default markdown-it instance for fallback parsing
+const defaultMarkdownIt = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  breaks: true,
+})
+  .use(markdownItPrism)
+  .use(markdownItAttrs)
+
+/**
+ * Parse markdown to HTML using custom parser or default markdown-it
+ */
+export async function parseMarkdown(
+  markdown: string,
+  customParser?: (markdown: string) => string | Promise<string>
+): Promise<string> {
+  if (customParser) {
+    try {
+      return await customParser(markdown)
+    } catch (error) {
+      console.warn('Custom markdown parser failed, falling back to default:', error)
+      // Fall back to default parser
+    }
+  }
+  
+  // Use default markdown-it parser
+  return defaultMarkdownIt.render(markdown)
+}
 
 /**
  * Parse front-matter from markdown content and extract excerpt

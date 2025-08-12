@@ -9,6 +9,7 @@ import 'prismjs/components/prism-tsx.js'
 import 'prismjs/components/prism-css.js'
 import 'prismjs/components/prism-json.js'
 import 'prismjs/components/prism-bash.js'
+import { parseMarkdown } from './markdown.js'
 import type { 
   RouterConfig, 
   Route, 
@@ -128,7 +129,7 @@ export class DuctRouter {
         },
         content: componentHtml,
         // For content pages, provide separate static and interactive content
-        staticContent: isContentPage ? this.markdownIt.render((finalMeta as any).content || '') : null,
+        staticContent: isContentPage ? await parseMarkdown((finalMeta as any).content || '', this.config.markdownParser) : null,
         interactiveContent: isContentPage ? componentHtml : null,
         collections: contentData // All content collections available to templates
       }
