@@ -1,0 +1,35 @@
+@import 'tailwindcss';
+@import "@duct-ui/components/layout/modal.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@plugin "@tailwindcss/typography";
+
+@plugin "daisyui" {
+  themes: coffee --prefersdark, light --default;
+  root: "body";
+}
+
+
+@layer base {
+  html {
+    font-family: Inter, system-ui, sans-serif;
+  }
+
+}
+
+@layer components {
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    @apply font-semibold;
+  }
+}
