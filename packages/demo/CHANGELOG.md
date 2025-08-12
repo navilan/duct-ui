@@ -1,5 +1,16 @@
 # @duct-ui/demo
 
+## 0.7.1
+
+### Patch Changes
+
+- [#50](https://github.com/navilan/duct-ui/pull/50) [`74c4ca5`](https://github.com/navilan/duct-ui/commit/74c4ca5371f69bb97d2730482f4fb7c7b06e6fb5) Thanks [@navilan](https://github.com/navilan)! - Use vite config provided by user
+
+- Updated dependencies [[`74c4ca5`](https://github.com/navilan/duct-ui/commit/74c4ca5371f69bb97d2730482f4fb7c7b06e6fb5)]:
+  - @duct-ui/components@0.7.1
+  - @duct-ui/core@0.7.1
+  - @duct-ui/router@0.7.1
+
 ## 0.7.0
 
 ### Minor Changes
