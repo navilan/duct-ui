@@ -23,6 +23,10 @@
     {
       "name": "Demo",
       "path": "../packages/demo"
+    },
+    {
+      "name": "Starter",
+      "path": "../packages/starter"
     }
   ],
   "settings": {

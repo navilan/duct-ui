@@ -1,6 +1,42 @@
 import * as path from 'path'
 import * as fs from 'fs/promises'
 
+/**
+ * Deep merge two configuration objects
+ */
+function mergeConfig(base: DuctConfig, override: DuctConfig): Required<DuctConfig> {
+  const result = { ...base } as Required<DuctConfig>
+  
+  // Merge top-level properties
+  if (override.pagesDir) result.pagesDir = override.pagesDir
+  if (override.layoutsDir) result.layoutsDir = override.layoutsDir
+  if (override.contentDir) result.contentDir = override.contentDir
+  
+  // Deep merge env
+  if (override.env) {
+    result.env = { ...result.env, ...override.env }
+  }
+  
+  // Deep merge nunjucks
+  if (override.nunjucks) {
+    result.nunjucks = {
+      filters: { ...(result.nunjucks?.filters || {}), ...(override.nunjucks.filters || {}) },
+      globals: { ...(result.nunjucks?.globals || {}), ...(override.nunjucks.globals || {}) },
+      options: { ...(result.nunjucks?.options || {}), ...(override.nunjucks.options || {}) }
+    }
+  }
+  
+  // Deep merge content
+  if (override.content) {
+    result.content = {
+      excerptMarker: override.content.excerptMarker || result.content?.excerptMarker || '<!--more-->',
+      markdownParser: override.content.markdownParser || result.content?.markdownParser
+    }
+  }
+  
+  return result
+}
+
 export interface DuctConfig {
   contentDir?: string
   pagesDir?: string
@@ -29,6 +65,11 @@ const DEFAULT_CONFIG: DuctConfig = {
   layoutsDir: 'src/layouts',
   contentDir: 'content',
   env: {},
+  nunjucks: {
+    filters: {},
+    globals: {},
+    options: {}
+  },
   content: {
     excerptMarker: '<!--more-->',
     markdownParser: undefined // Will use default markdown parsing (just return raw markdown)
@@ -53,12 +94,12 @@ export async function loadConfig(cwd: string = process.cwd()): Promise<Required<
       if (configPath.endsWith('.json')) {
         const content = await fs.readFile(configPath, 'utf-8')
         const config = JSON.parse(content)
-        return { ...DEFAULT_CONFIG, ...config }
+        return mergeConfig(DEFAULT_CONFIG, config)
       } else {
         // Dynamic import for JS/TS configs
         const module = await import(configPath)
         const config = module.default || module
-        return { ...DEFAULT_CONFIG, ...config }
+        return mergeConfig(DEFAULT_CONFIG, config)
       }
     } catch {
       // Config file doesn't exist, continue checking

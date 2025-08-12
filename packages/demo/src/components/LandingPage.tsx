@@ -1,6 +1,5 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import ductLogo from "../icons/duct-logo.svg"
-import { escapeHtml } from "@kitajs/html"
 import ThemeToggle from "./ThemeToggle"
 import { Markdown } from "@duct-ui/components"
 

@@ -1,0 +1,39 @@
+{
+  "name": "@duct-ui/starter",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A starter project template for Duct UI applications",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "duct build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@duct-ui/components": "workspace:*",
+    "@duct-ui/core": "workspace:*",
+    "@duct-ui/router": "workspace:*",
+    "@tailwindcss/postcss": "^4.1.11",
+    "daisyui": "^5.0.50"
+  },
+  "devDependencies": {
+    "@duct-ui/cli": "workspace:*",
+    "@kitajs/html": "^4.2.9",
+    "@types/node": "^24.2.1",
+    "autoprefixer": "^10.4.21",
+    "luxon": "^3.7.1",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.2"
+  },
+  "files": [
+    "src",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "tsconfig.json",
+    "vite.config.ts",
+    "duct.config.js"
+  ]
+}
