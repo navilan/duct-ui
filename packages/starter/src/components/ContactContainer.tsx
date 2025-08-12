@@ -2,7 +2,7 @@ import { createBlueprint, type BaseProps } from '@duct-ui/core'
 import { createRef } from '@duct-ui/core'
 import { EventEmitter } from '@duct-ui/core/shared'
 import Modal, { ModalLogic } from '@duct-ui/components/layout/modal'
-import FormDataModal from './FormDataModal'
+import FormDataModal, { type FormDataModalLogic } from './FormDataModal'
 
 interface ContactContainerProps { }
 
@@ -14,13 +14,8 @@ interface ContactContainerLogic {
 
 let formDataCache: FormData | null = null
 
-let formDataLogic: any
-
-function createModalContent() {
-  return <FormDataModal formData={formDataCache || undefined} />
-}
-
 const modalRef = createRef<ModalLogic>()
+const formDataRef = createRef<FormDataModalLogic>()
 
 function render(props: BaseProps<ContactContainerProps>) {
   return (
@@ -212,11 +207,12 @@ function render(props: BaseProps<ContactContainerProps>) {
       {/* Modal for form submission summary */}
       <Modal
         ref={modalRef}
-        content={createModalContent}
         contentClass="bg-base-100 rounded-lg shadow-2xl max-w-lg w-full mx-4"
         on:open={(el) => console.log('Contact modal opened')}
         on:close={(el) => console.log('Contact modal closed')}
-      />
+      >
+        <FormDataModal ref={formDataRef} formData={formDataCache || undefined} />
+      </Modal>
     </div>
   )
 }
@@ -226,14 +222,18 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<ContactContainerEvents
 
   function handleFormSubmit(e: Event) {
     e.preventDefault()
-
-    console.log(formDataLogic)
     const formData = new FormData(form)
     showModal(formData)
   }
 
   function showModal(formData: FormData) {
     formDataCache = formData
+
+    // Update the FormDataModal with new data
+    if (formDataRef.current?.updateFormData) {
+      formDataRef.current.updateFormData(formData)
+    }
+
     modalRef.current?.show()
   }
 

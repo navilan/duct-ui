@@ -20,7 +20,8 @@ export type ModalContentPosition =
   | 'bottom-left' | 'bottom-center' | 'bottom-right'
 
 export interface ModalProps {
-  content: () => JSX.Element
+  content?: () => JSX.Element
+  children?: JSX.Element | JSX.Element[]
   isOpen?: boolean
   contentPosition?: ModalContentPosition
   overlayClass?: string
@@ -36,6 +37,7 @@ export interface ModalProps {
 function render(props: BaseProps<ModalProps>) {
   const {
     content,
+    children,
     isOpen = false,
     contentPosition = 'mid-center',
     overlayClass = '',
@@ -60,7 +62,7 @@ function render(props: BaseProps<ModalProps>) {
         class={`modal-content ${contentClass}`}
         data-modal-content
       >
-        {content()}
+        {children || (content && content())}
       </div>
     </div>
   )

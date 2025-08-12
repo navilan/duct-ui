@@ -2,6 +2,17 @@
 
 Duct's static site generation (SSG) makes it easy to create content-driven websites like blogs. This guide walks you through setting up a complete blog with markdown content, automatic asset management, tagging, and pagination.
 
+> **💡 Quick Start with Starter Template**
+>
+> Want to get started faster? The [Duct Starter Template](https://github.com/navilan/duct-ui/tree/main/packages/starter) includes a complete blog implementation with:
+> - Pre-configured blog pages and layouts
+> - Sample blog posts with tagging
+> - Responsive design with DaisyUI themes
+> - Full-height layouts with proper footer placement
+> - Theme toggle functionality
+> 
+> Copy the `packages/starter` directory as your starting point and customize from there! The implementation follows all the patterns described in this guide.
+
 ## Prerequisites
 
 - A Duct UI project set up with the CLI
