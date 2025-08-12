@@ -1,5 +1,14 @@
 # @duct-ui/components
 
+## 0.7.2
+
+### Patch Changes
+
+- [#52](https://github.com/navilan/duct-ui/pull/52) [`3e2967f`](https://github.com/navilan/duct-ui/commit/3e2967f391849ccf72ea6ea092bbdd315982feb7) Thanks [@navilan](https://github.com/navilan)! - Add custom markdown parser support
+
+- Updated dependencies [[`3e2967f`](https://github.com/navilan/duct-ui/commit/3e2967f391849ccf72ea6ea092bbdd315982feb7)]:
+  - @duct-ui/core@0.7.2
+
 ## 0.7.1
 
 ### Patch Changes
