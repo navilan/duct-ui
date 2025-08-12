@@ -3,7 +3,7 @@ import { createRef, type MutableRef } from "@duct-ui/core"
 import Markdown, { createMarkdownInstance, type MarkdownLogic } from "@duct-ui/components/content/markdown/markdown"
 import "@duct-ui/components/content/markdown/markdown.css"
 import Tabs, { type TabItem } from "@duct-ui/components/layout/tabs"
-import DemoLayout from "../components/DemoLayout"
+import DemoLayout from "@components/DemoLayout"
 import DuctLogo from '../icons/duct-logo.svg'
 
 

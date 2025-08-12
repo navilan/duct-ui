@@ -1,5 +1,5 @@
-~~~plaintext
-I want you to learn the Duct UI framework so you can help me build components.
+I want you to learn the Duct UI framework so you can help me convert this project which uses Hakyll to use Duct for static generation.
+
 Please follow this exact sequence to understand the patterns:
 
 1. **Review the GitHub Repository Structure**
@@ -22,11 +22,19 @@ Please follow this exact sequence to understand the patterns:
     - Notice the consistent pattern: render function, bind function, TypeScript interfaces
     - Pay attention to how events are handled and how logic is exposed
 
-4. **Review All Demos** (/packages/demo/src/demos/)
+4. **Study Router and CLI** (/packages/router/src/, /packages/cli/src)
+
+    - Study the router and generator modules
+    - Study the vite plugin
+    - Study the cli commands
+    - Understand how routing and content management work
+
+5. **Review All Demos** (/packages/demo/src/demos/)
 
     - Look at how components are used in practice
     - See integration patterns and event handling
     - Notice how complex interactions are built up from simple components
+    - Review how content is setup for blog generation
 
 After you've completed this review, you should understand:
 - The blueprint pattern with render/bind/load/release functions
@@ -36,7 +44,7 @@ After you've completed this review, you should understand:
 - DOM manipulation patterns
 - Component lifecycle management
 - How to expose component logic using refs
+- How to manage content using Duct static generation
 
 
-Please confirm when you've completed each step, and then I'll start asking you to help build Duct components.
-~~~
+Please confirm when you've completed each step, and then I'll start asking you to help migrate this website to Duct.

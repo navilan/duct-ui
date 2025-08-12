@@ -1,4 +1,4 @@
-import ThemeToggle from '../../../../../components/ThemeToggle'
+import ThemeToggle from '@components/ThemeToggle'
 
 export function getLayout(): string {
   return 'tag-listing.html'

@@ -2,8 +2,8 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef, isBrowser } from "@duct-ui/core"
 import Button from "@duct-ui/components/button/button"
-import DemoLayout from "../components/DemoLayout"
-import EventLog, { EventLogLogic } from "../components/EventLog"
+import DemoLayout from "@components/DemoLayout"
+import EventLog, { EventLogLogic } from "@components/EventLog"
 
 export interface ButtonDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo

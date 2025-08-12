@@ -4,6 +4,9 @@
   "compilerOptions": {
     "moduleResolution": "bundler",
     "jsxImportSource": "@kitajs/html",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "@components/*": ["./src/components/*"]
+    }
   }
 }

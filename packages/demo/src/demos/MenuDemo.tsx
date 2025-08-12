@@ -5,8 +5,8 @@ import Menu from "@duct-ui/components/dropdown/menu"
 import MenuItem from "@duct-ui/components/dropdown/menu-item"
 import MenuSeparator from "@duct-ui/components/dropdown/menu-separator"
 import EditableInput from "@duct-ui/components/input/editable"
-import DemoLayout from "../components/DemoLayout"
-import EventLog, { EventLogLogic } from "../components/EventLog"
+import DemoLayout from "@components/DemoLayout"
+import EventLog, { EventLogLogic } from "@components/EventLog"
 
 export interface MenuDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo

@@ -5,8 +5,8 @@ import Modal, { ModalLogic, type ModalContentPosition } from "@duct-ui/component
 import Button from "@duct-ui/components/button/button"
 import Toggle from "@duct-ui/components/button/toggle"
 import EditableInput from "@duct-ui/components/input/editable"
-import DemoLayout from "../components/DemoLayout"
-import EventLog, { EventLogLogic } from "../components/EventLog"
+import DemoLayout from "@components/DemoLayout"
+import EventLog, { EventLogLogic } from "@components/EventLog"
 
 export interface ModalDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo

@@ -2,8 +2,8 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import Toggle, { type ToggleState } from "@duct-ui/components/button/toggle"
-import DemoLayout from "../components/DemoLayout"
-import EventLog, { EventLogLogic } from "../components/EventLog"
+import DemoLayout from "@components/DemoLayout"
+import EventLog, { EventLogLogic } from "@components/EventLog"
 
 export interface ToggleDemoEvents extends BaseComponentEvents {
   // No custom events needed for this demo

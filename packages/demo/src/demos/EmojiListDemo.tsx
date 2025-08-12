@@ -5,9 +5,9 @@ import List, { type ListLogic } from "@duct-ui/components/data-display/list"
 import Button from "@duct-ui/components/button/button"
 import Select from "@duct-ui/components/dropdown/select"
 import Toggle, { type ToggleState } from "@duct-ui/components/button/toggle"
-import DemoLayout from "../components/DemoLayout"
-import EventLog, { EventLogLogic } from "../components/EventLog"
-import EmojiItem, { type EmojiItemLogic } from "../components/EmojiItem"
+import DemoLayout from "@components/DemoLayout"
+import EventLog, { EventLogLogic } from "@components/EventLog"
+import EmojiItem, { type EmojiItemLogic } from "@components/EmojiItem"
 import type { SelectItem } from "@duct-ui/components/dropdown/select"
 
 export interface EmojiListDemoEvents extends BaseComponentEvents {

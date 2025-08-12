@@ -2,9 +2,9 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import Drawer, { DrawerLogic } from "@duct-ui/components/layout/drawer"
-import Sidebar, { SidebarLogic } from "./Sidebar"
-import DemoHeader from "./DemoHeader"
-import ThemeToggle from "./ThemeToggle"
+import Sidebar, { SidebarLogic } from "@components/Sidebar"
+import DemoHeader from "@components/DemoHeader"
+import ThemeToggle from "@components/ThemeToggle"
 import { sections, getItemById, getDefaultItem, docsItems, componentDemos } from "../catalog"
 
 export interface AppLayoutEvents extends BaseComponentEvents {

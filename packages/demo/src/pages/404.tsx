@@ -1,5 +1,5 @@
 import type { DuctPageComponent, PageProps } from '@duct-ui/router'
-import NotFoundPage from '../components/NotFoundPage'
+import NotFoundPage from '@components/NotFoundPage'
 
 export function getLayout() {
   return '404.html'

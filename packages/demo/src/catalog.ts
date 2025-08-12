@@ -104,7 +104,7 @@ export const sections: PageSection[] = [
         title: "Creating a Blog",
         description: "Complete guide to building a blog with markdown content, tagging, and pagination",
         component: () => {
-          return DocsBlog({})
+          return DocsBlog()
         }
       }
     ]

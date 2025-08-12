@@ -119,11 +119,26 @@ export function ductSSGPlugin(): Plugin {
   let htmlDir: string
   let generatedHtml: Map<string, string> = new Map()
   let pageRoutes: Map<string, { componentPath: string, meta: any }> = new Map()
+  let viteMode: string = 'development'
 
   return {
     name: 'vite-plugin-duct-ssg',
 
-    async buildStart() {
+    configResolved(config) {
+      viteMode = config.mode
+    },
+
+    async buildStart(options) {
+      // Skip plugin execution during --html-only builds to prevent recursion
+      if (process.env.DUCT_HTML_ONLY === 'true') {
+        return
+      }
+      
+      // Also skip if Vite mode is 'html_only'
+      if (viteMode === 'html_only') {
+        return
+      }
+      
       logger.build('Generating static pages for development...')
 
       // Add layout files to Vite's watch list
@@ -425,7 +440,11 @@ document.addEventListener('DOMContentLoaded', () => {
       // Run the CLI build command, but only up to HTML generation
       const proc = spawn('node', [ductCliPath, 'build', '--html-only'], {
         cwd: process.cwd(),
-        stdio: 'inherit'
+        stdio: 'inherit',
+        env: {
+          ...process.env,
+          DUCT_HTML_ONLY: 'true'
+        }
       })
 
       proc.on('exit', (code) => {
