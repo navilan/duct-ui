@@ -1,5 +1,14 @@
 # @duct-ui/cli
 
+## 0.7.4
+
+### Patch Changes
+
+- [#56](https://github.com/navilan/duct-ui/pull/56) [`4e136a2`](https://github.com/navilan/duct-ui/commit/4e136a2b1f46cd3c5132aee0373ae7ae3d53f411) Thanks [@navilan](https://github.com/navilan)! - Add markdown parsing for excerpts
+
+- Updated dependencies [[`4e136a2`](https://github.com/navilan/duct-ui/commit/4e136a2b1f46cd3c5132aee0373ae7ae3d53f411)]:
+  - @duct-ui/router@0.7.4
+
 ## 0.7.3
 
 ### Patch Changes
