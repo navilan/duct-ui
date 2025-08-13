@@ -148,7 +148,7 @@ export default BlogIndexPage
 Create `src/pages/blog/tag/[tag].tsx` for tag-based filtering:
 
 ```tsx
-import type { ContentItem } from '@duct-ui/router'
+import type { ContentFile } from '@duct-ui/router'
 import ThemeToggle from '../../../components/ThemeToggle'
 
 export function getLayout(): string {
@@ -164,7 +164,7 @@ export function getPageMeta(): Record<string, any> {
 }
 
 // Generate static paths for all tags found in blog posts
-export async function getRoutes(content?: Map<string, ContentItem[]>): Promise<Record<string, any>> {
+export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<Record<string, any>> {
   const routes: Record<string, any> = {}
 
   if (content) {

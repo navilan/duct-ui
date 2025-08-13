@@ -13,12 +13,13 @@ import { parseMarkdown } from './markdown.js'
 import type {
   RouterConfig,
   Route,
-  PageComponent,
-  SubRouteComponent,
-  ContentPageComponent,
+  DuctPageModule,
+  SubRouteModule,
+  ContentPageModule,
   RenderedPage,
   PageMeta,
   ContentMeta,
+  ContentFile,
   LayoutConfig,
   PageProps
 } from './types.js'
@@ -29,13 +30,13 @@ import type {
 export class DuctRouter {
   private config: RouterConfig
   private nunjucksEnv: nunjucks.Environment
-  private componentLoader?: (path: string) => Promise<PageComponent>
-  private allContent: Map<string, Array<{ path: string; meta: ContentMeta; body: string }>> = new Map()
+  private moduleLoader?: (path: string) => Promise<DuctPageModule>
+  private allContent: Map<string, Array<ContentFile>> = new Map()
   private markdownIt: MarkdownIt
 
-  constructor(config: RouterConfig & { componentLoader?: (path: string) => Promise<PageComponent> }) {
+  constructor(config: RouterConfig & { moduleLoader?: (path: string) => Promise<DuctPageModule> }) {
     this.config = config
-    this.componentLoader = config.componentLoader
+    this.moduleLoader = config.moduleLoader
 
     // Initialize markdown renderer
     this.markdownIt = new MarkdownIt({
@@ -78,17 +79,17 @@ export class DuctRouter {
    * Render a page component to HTML
    */
   async renderPage(
-    component: PageComponent,
+    pageModule: DuctPageModule,
     path: string,
     componentPath: string,
     isDynamic: boolean,
     metaOverlay?: PageMeta
   ): Promise<RenderedPage> {
     // Get layout configuration
-    const layoutConfig = this.getLayoutConfig(component)
+    const layoutConfig = this.getLayoutConfig(pageModule)
 
     // Get page metadata
-    const baseMeta = component.getPageMeta?.() || {}
+    const baseMeta = pageModule.getPageMeta?.() || {}
     const finalMeta = { ...baseMeta, ...metaOverlay }
 
     // Create page props
@@ -99,7 +100,7 @@ export class DuctRouter {
     }
 
     // Render the DuctPageComponent
-    const jsxElement = component.default(pageProps)
+    const jsxElement = pageModule.default(pageProps)
     const componentHtml = jsxElement.toString()
 
     // Generate reanimation script for this page
@@ -112,7 +113,6 @@ export class DuctRouter {
       const contentData: Record<string, any[]> = {}
       for (const [key, items] of this.allContent) {
         contentData[key] = items
-        console.debug(`    Passing collection '${key}' with ${items.length} items to template`)
       }
 
       // Check if this is a content page (has markdown content)
@@ -188,29 +188,29 @@ export class DuctRouter {
     for (const route of routes) {
       if (route.isContentPage && route.staticPaths) {
         // Generate pages for content files
-        const component = await this.loadComponent(route.componentPath) as ContentPageComponent
+        const pageModule = await this.loadPageModule(route.componentPath) as ContentPageModule
 
         // Apply content-specific transformations and filtering if defined
         let contentItems = route.contentFiles || []
 
         // Filter content if filter function is provided
-        if (component.filterContent) {
+        if (pageModule.filterContent) {
           contentItems = contentItems.filter(item =>
-            component.filterContent!(item.meta, item.path)
+            pageModule.filterContent!(item.meta, item.urlPath)
           )
         }
 
         // Transform metadata if transform function is provided
-        if (component.transformMeta) {
+        if (pageModule.transformMeta) {
           contentItems = contentItems.map(item => ({
             ...item,
-            meta: component.transformMeta!(item.meta, item.path)
+            meta: pageModule.transformMeta!(item.meta, item.urlPath)
           }))
         }
 
         // Sort content if sort function is provided
-        if (component.sortContent) {
-          contentItems = component.sortContent(contentItems)
+        if (pageModule.sortContent) {
+          contentItems = pageModule.sortContent(contentItems)
         }
 
         // Generate a page for each content file
@@ -218,11 +218,11 @@ export class DuctRouter {
           const contentMeta: ContentMeta = {
             ...item.meta,
             content: item.body, // Add markdown body to meta for rendering
-            contentPath: item.path
+            contentPath: item.urlPath
           }
           const renderedPage = await this.renderPage(
-            component,
-            item.path,
+            pageModule,
+            item.urlPath,
             route.componentPath,
             true,
             contentMeta
@@ -232,14 +232,14 @@ export class DuctRouter {
       } else if (route.isDynamic && route.staticPaths) {
         // Generate pages for all static paths (regular dynamic routes)
         for (const [staticPath, metaOverlay] of Object.entries(route.staticPaths)) {
-          const component = await this.loadComponent(route.componentPath) as SubRouteComponent
-          const renderedPage = await this.renderPage(component, staticPath, route.componentPath, true, metaOverlay)
+          const pageModule = await this.loadPageModule(route.componentPath) as SubRouteModule
+          const renderedPage = await this.renderPage(pageModule, staticPath, route.componentPath, true, metaOverlay)
           pages.push(renderedPage)
         }
       } else if (!route.isDynamic) {
         // Generate regular static page
-        const component = await this.loadComponent(route.componentPath)
-        const renderedPage = await this.renderPage(component, route.path, route.componentPath, false)
+        const pageModule = await this.loadPageModule(route.componentPath)
+        const renderedPage = await this.renderPage(pageModule, route.path, route.componentPath, false)
         pages.push(renderedPage)
       }
     }
@@ -248,25 +248,25 @@ export class DuctRouter {
   }
 
   /**
-   * Load a page component from file path
+   * Load a page module from file path
    */
-  async loadComponent(componentPath: string): Promise<PageComponent> {
-    if (this.componentLoader) {
-      return this.componentLoader(componentPath)
+  async loadPageModule(componentPath: string): Promise<DuctPageModule> {
+    if (this.moduleLoader) {
+      return this.moduleLoader(componentPath)
     }
 
     // Default behavior - try to import directly (won't work with .tsx files)
     throw new Error(
       `Cannot load component from ${componentPath}. ` +
-      `A componentLoader must be provided to handle TypeScript/JSX files.`
+      `A moduleLoader must be provided to handle TypeScript/JSX files.`
     )
   }
 
   /**
-   * Get layout configuration from component
+   * Get layout configuration from page module
    */
-  private getLayoutConfig(component: PageComponent): LayoutConfig | null {
-    const layout = component.getLayout?.()
+  private getLayoutConfig(pageModule: DuctPageModule): LayoutConfig | null {
+    const layout = pageModule.getLayout?.()
     if (!layout) return null
 
     if (typeof layout === 'string') {

@@ -11,7 +11,7 @@ import 'prismjs/components/prism-tsx.js'
 import 'prismjs/components/prism-css.js'
 import 'prismjs/components/prism-json.js'
 import 'prismjs/components/prism-bash.js'
-import type { ContentMeta, ContentConfig, ParsedContent } from './types.js'
+import type { ContentMeta, ContentConfig, ParsedContent, ContentFile } from './types.js'
 
 // Default markdown-it instance for fallback parsing
 const defaultMarkdownIt = new MarkdownIt({
@@ -93,37 +93,27 @@ export async function parseFrontMatter(content: string, contentConfig?: ContentC
   let excerpt: string | undefined
   const excerptMarker = contentConfig?.excerptMarker || '<!--more-->'
 
+
   if (excerptMarker && body.includes(excerptMarker)) {
     const markerIndex = body.indexOf(excerptMarker)
     const excerptMarkdown = body.substring(0, markerIndex).trim()
 
+
     // Parse the markdown excerpt to HTML
     excerpt = await parseMarkdown(excerptMarkdown, contentConfig?.markdownParser)
 
-    // If no description is provided in meta, use the parsed excerpt
-    if (!meta.description && !meta.excerpt) {
+
+    // If no excerpt is provided in meta, use the parsed excerpt
+    if (!meta.excerpt) {
       meta.excerpt = excerpt
+    } else {
     }
   }
+
 
   return { meta, body, excerpt }
 }
 
-/**
- * Content file information
- */
-export interface ContentFile {
-  /** Relative path from content directory */
-  relativePath: string
-  /** URL path for the content */
-  urlPath: string
-  /** Parsed metadata from front-matter */
-  meta: ContentMeta
-  /** Markdown body content */
-  body: string
-  /** Full file path */
-  filePath: string
-}
 
 /**
  * Scan a directory for markdown content files
@@ -169,6 +159,7 @@ export async function scanContentDirectory(
       urlPath,
       meta,
       body,
+      excerpt,
       filePath
     })
   }

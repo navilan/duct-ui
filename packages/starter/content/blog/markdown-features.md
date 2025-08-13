@@ -29,9 +29,9 @@ function createUser(data: Partial<User>): User {
   } as User
 }
 
-const user = createUser({ 
-  name: "John Doe", 
-  email: "john@example.com" 
+const user = createUser({
+  name: "John Doe",
+  email: "john@example.com"
 })
 ```
 
@@ -147,7 +147,7 @@ console.log(fibonacci(10)) // 55
 
 Task lists:
 - [x] Completed task
-- [ ] Pending task  
+- [ ] Pending task
 - [x] Another completed task
 
 ## Tables
@@ -165,7 +165,7 @@ Task lists:
 This custom markdown parser provides a rich set of features for creating engaging blog content:
 
 1. **Enhanced Code Blocks** - Syntax highlighting for many languages
-2. **Visual Callouts** - Custom containers for different types of information  
+2. **Visual Callouts** - Custom containers for different types of information
 3. **Better Navigation** - Automatic header anchors
 4. **Rich Typography** - Smart quotes and special characters
 5. **Flexible Styling** - Attribute support for custom CSS classes
