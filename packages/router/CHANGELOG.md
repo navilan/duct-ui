@@ -1,5 +1,14 @@
 # @duct-ui/router
 
+## 0.7.7
+
+### Patch Changes
+
+- [#62](https://github.com/navilan/duct-ui/pull/62) [`99b163e`](https://github.com/navilan/duct-ui/commit/99b163e7f91659196fc107119fb5ff877a6a2136) Thanks [@navilan](https://github.com/navilan)! - Better handling of excerpts
+
+- Updated dependencies [[`99b163e`](https://github.com/navilan/duct-ui/commit/99b163e7f91659196fc107119fb5ff877a6a2136)]:
+  - @duct-ui/core@0.7.7
+
 ## 0.7.6
 
 ### Patch Changes
