@@ -87,27 +87,44 @@ export async function loadConfig(cwd: string = process.cwd()): Promise<Required<
     path.join(cwd, 'duct.config.json')
   ]
 
+  // Find the first config file that exists
+  let foundConfigPath: string | null = null
   for (const configPath of configPaths) {
     try {
       await fs.access(configPath)
-
-      if (configPath.endsWith('.json')) {
-        const content = await fs.readFile(configPath, 'utf-8')
-        const config = JSON.parse(content)
-        return mergeConfig(DEFAULT_CONFIG, config)
-      } else {
-        // Dynamic import for JS/TS configs
-        const module = await import(configPath)
-        const config = module.default || module
-        return mergeConfig(DEFAULT_CONFIG, config)
-      }
+      foundConfigPath = configPath
+      break
     } catch {
       // Config file doesn't exist, continue checking
     }
   }
 
   // No config file found, return defaults
-  return DEFAULT_CONFIG as Required<DuctConfig>
+  if (!foundConfigPath) {
+    return DEFAULT_CONFIG as Required<DuctConfig>
+  }
+
+  // Parse the found config file
+  if (foundConfigPath.endsWith('.json')) {
+    const content = await fs.readFile(foundConfigPath, 'utf-8')
+    try {
+      const config = JSON.parse(content)
+      return mergeConfig(DEFAULT_CONFIG, config)
+    } catch (error) {
+      console.error(`Failed to parse JSON config at ${foundConfigPath}:`, error)
+      return DEFAULT_CONFIG as Required<DuctConfig>
+    }
+  } else {
+    // Dynamic import for JS/TS configs
+    try {
+      const module = await import(foundConfigPath)
+      const config = module.default || module
+      return mergeConfig(DEFAULT_CONFIG, config)
+    } catch (error) {
+      console.error(`Failed to import config at ${foundConfigPath}:`, error)
+      return DEFAULT_CONFIG as Required<DuctConfig>
+    }
+  }
 }
 
 /**

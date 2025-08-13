@@ -238,6 +238,9 @@ importers:
       daisyui:
         specifier: ^5.0.50
         version: 5.0.50
+      markdown-it-task-lists:
+        specifier: ^2.1.1
+        version: 2.1.1
     devDependencies:
       '@duct-ui/cli':
         specifier: workspace:*
@@ -1680,6 +1683,9 @@ packages:
   markdown-it-prism@3.0.0:
     resolution: {integrity: sha512-M0LQsbVzjbzufV95nYdtbs99Sm/8f7zLnqFblb5yQZtFTGLM+y6hxMZ8BdujY3FFqVvTbnZ52/uoicQUqZUYbg==}
     engines: {node: '>=20.0.0'}
+
+  markdown-it-task-lists@2.1.1:
+    resolution: {integrity: sha512-TxFAc76Jnhb2OUu+n3yz9RMu4CwGfaT788br6HhEDlvWfdeJcLUsxk1Hgw2yJio0OXsxv7pyIPmvECY7bMbluA==}
 
   markdown-it@14.1.0:
     resolution: {integrity: sha512-a54IwgWPaeBCAAsv13YgmALOF1elABB08FxO9i+r4VFk5Vl4pKokRPeX8u5TCgSsPi6ec1otfLjdOpVcgbpshg==}
@@ -3446,6 +3452,8 @@ snapshots:
   markdown-it-prism@3.0.0:
     dependencies:
       prismjs: 1.30.0
+
+  markdown-it-task-lists@2.1.1: {}
 
   markdown-it@14.1.0:
     dependencies:

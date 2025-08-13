@@ -4,6 +4,7 @@ import markdownItAttrs from 'markdown-it-attrs'
 import markdownItAnchor from 'markdown-it-anchor'
 import markdownItContainer from 'markdown-it-container'
 import markdownItFootnote from 'markdown-it-footnote'
+import markdownItTaskLists from 'markdown-it-task-lists'
 
 // Import Prism language components for syntax highlighting
 import 'prismjs/components/prism-javascript.js'
@@ -62,6 +63,12 @@ export function createMarkdownParser() {
 
   // Add footnotes support
   md.use(markdownItFootnote)
+
+  // Add task lists support
+  md.use(markdownItTaskLists, {
+    enabled: true,  // Enable clickable checkboxes
+    label: true     // Wrap task items in <label> elements
+  })
 
   // Add custom containers for callouts
   md.use(markdownItContainer, 'warning', {

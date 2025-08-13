@@ -3,7 +3,7 @@ import { parseMarkdown } from './src/markdown-parser.js'
 
 export default {
   pagesDir: './src/pages',
-  layoutsDir: './src/layouts', 
+  layoutsDir: './src/layouts',
   contentDir: './content',
   content: {
     excerptMarker: '<!--more-->',
