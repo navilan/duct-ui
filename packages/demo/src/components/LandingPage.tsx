@@ -122,7 +122,7 @@ function render(props: BaseProps<LandingPageProps>) {
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3">
                   <a
-                    href="starter.duct-ui.org"
+                    href="https://starter.duct-ui.org"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="btn btn-primary btn-sm"
