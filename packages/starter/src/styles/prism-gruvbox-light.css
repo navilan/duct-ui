@@ -1,0 +1,162 @@
+/**
+ * Gruvbox light theme
+ *
+ * Based on Gruvbox: https://github.com/morhetz/gruvbox
+ * Adapted from PrismJS gruvbox-dark theme: https://github.com/schnerring/prism-themes/blob/master/themes/prism-gruvbox-dark.css
+ *
+ * @author Michael Schnerring (https://schnerring.net)
+ * @version 1.0
+ */
+
+[data-theme="light"] code[class*="language-"],
+[data-theme="light"] pre[class*="language-"] {
+  color: #3c3836;
+  /* fg1 / fg */
+  font-family: Consolas, Monaco, "Andale Mono", monospace;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  line-height: 1.5;
+
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+[data-theme="light"] pre[class*="language-"]::-moz-selection,
+[data-theme="light"] pre[class*="language-"] ::-moz-selection,
+[data-theme="light"] code[class*="language-"]::-moz-selection,
+[data-theme="light"] code[class*="language-"] ::-moz-selection {
+  color: #282828;
+  /* fg0 */
+  background: #a89984;
+  /* bg4 */
+}
+
+[data-theme="light"] pre[class*="language-"]::selection,
+[data-theme="light"] pre[class*="language-"] ::selection,
+[data-theme="light"] code[class*="language-"]::selection,
+[data-theme="light"] code[class*="language-"] ::selection {
+  color: #282828;
+  /* fg0 */
+  background: #a89984;
+  /* bg4 */
+}
+
+/* Code blocks */
+[data-theme="light"] pre[class*="language-"] {
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
+}
+
+[data-theme="light"] :not(pre)>code[class*="language-"],
+[data-theme="light"] pre[class*="language-"] {
+  background: #f9f5d7;
+  /* bg0_h */
+}
+
+/* Inline code */
+[data-theme="light"] :not(pre)>code[class*="language-"] {
+  padding: 0.1em;
+  border-radius: 0.3em;
+}
+
+[data-theme="light"] .token.comment,
+[data-theme="light"] .token.prolog,
+[data-theme="light"] .token.cdata {
+  color: #7c6f64;
+  /* fg4 / gray1 */
+}
+
+[data-theme="light"] .token.delimiter,
+[data-theme="light"] .token.boolean,
+[data-theme="light"] .token.keyword,
+[data-theme="light"] .token.selector,
+[data-theme="light"] .token.important,
+[data-theme="light"] .token.atrule {
+  color: #9d0006;
+  /* red2 */
+}
+
+[data-theme="light"] .token.operator,
+[data-theme="light"] .token.punctuation,
+[data-theme="light"] .token.attr-name {
+  color: #7c6f64;
+  /* fg4 / gray1 */
+}
+
+[data-theme="light"] .token.tag,
+[data-theme="light"] .token.tag .punctuation,
+[data-theme="light"] .token.doctype,
+[data-theme="light"] .token.builtin {
+  color: #b57614;
+  /* yellow2 */
+}
+
+[data-theme="light"] .token.entity,
+[data-theme="light"] .token.number,
+[data-theme="light"] .token.symbol {
+  color: #8f3f71;
+  /* purple2 */
+}
+
+[data-theme="light"] .token.property,
+[data-theme="light"] .token.constant,
+[data-theme="light"] .token.variable {
+  color: #9d0006;
+  /* red2 */
+}
+
+[data-theme="light"] .token.string,
+[data-theme="light"] .token.char {
+  color: #797403;
+  /* green2 */
+}
+
+[data-theme="light"] .token.attr-value,
+[data-theme="light"] .token.attr-value .punctuation {
+  color: #7c6f64;
+  /* fg4 / gray1 */
+}
+
+[data-theme="light"] .token.url {
+  color: #797403;
+  /* green2 */
+  text-decoration: underline;
+}
+
+[data-theme="light"] .token.function {
+  color: #b57614;
+  /* yellow2 */
+}
+
+[data-theme="light"] .token.regex {
+  background: #797403;
+  /* green2 */
+}
+
+[data-theme="light"] .token.bold {
+  font-weight: bold;
+}
+
+[data-theme="light"] .token.italic {
+  font-style: italic;
+}
+
+[data-theme="light"] .token.inserted {
+  background: #7c6f64;
+  /* fg4 / gray1 */
+}
+
+[data-theme="light"] .token.deleted {
+  background: #9d0006;
+  /* red2 */
+}
