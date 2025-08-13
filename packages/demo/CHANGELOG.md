@@ -1,5 +1,16 @@
 # @duct-ui/demo
 
+## 0.7.6
+
+### Patch Changes
+
+- [#60](https://github.com/navilan/duct-ui/pull/60) [`5c30893`](https://github.com/navilan/duct-ui/commit/5c308936fc851e6950e8893fde834851e92581d7) Thanks [@navilan](https://github.com/navilan)! - Use relative module imports with js extension
+
+- Updated dependencies [[`5c30893`](https://github.com/navilan/duct-ui/commit/5c308936fc851e6950e8893fde834851e92581d7)]:
+  - @duct-ui/components@0.7.6
+  - @duct-ui/router@0.7.6
+  - @duct-ui/core@0.7.6
+
 ## 0.7.5
 
 ### Patch Changes
