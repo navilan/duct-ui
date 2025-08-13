@@ -1,16 +1,16 @@
 ---
 title: "Hello World!"
 slug: "hello-world"
-excerpt: "Welcome to the Duct Starter Template - your starting point for building amazing web applications."
 date: "2024-01-15"
 author: "Duct UI Team"
 tags: ["welcome", "getting-started", "article"]
 featured: true
 ---
 
-# Hello World!
 
 Welcome to the Duct Starter Template! This is your starting point for building amazing web applications with Duct UI.
+
+<!--more-->
 
 This starter template includes:
 

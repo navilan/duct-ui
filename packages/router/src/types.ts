@@ -122,6 +122,28 @@ export interface Route {
 }
 
 /**
+ * Content configuration
+ */
+export interface ContentConfig {
+  /** Marker to indicate end of excerpt in markdown content. Default: <!--more--> */
+  excerptMarker?: string
+  /** Custom markdown parser function. Receives markdown string and should return HTML string */
+  markdownParser?: (markdown: string) => string | Promise<string>
+}
+
+/**
+ * Parsed front matter result
+ */
+export interface ParsedContent {
+  /** Metadata extracted from front matter */
+  meta: ContentMeta
+  /** The markdown body content (without front matter) */
+  body: string
+  /** Parsed HTML excerpt if excerpt marker is found */
+  excerpt?: string
+}
+
+/**
  * Router configuration
  */
 export interface RouterConfig {
@@ -135,8 +157,8 @@ export interface RouterConfig {
   baseUrl?: string
   /** Environment variables to pass to page components */
   env?: Record<string, any>
-  /** Custom markdown parser function. Receives markdown string and should return HTML string */
-  markdownParser?: (markdown: string) => string | Promise<string>
+  /** Content configuration */
+  content?: ContentConfig
   /** Nunjucks environment configuration */
   nunjucks?: {
     /** Custom filters to add to the environment */

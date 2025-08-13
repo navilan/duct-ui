@@ -6,9 +6,10 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "duct build",
+    "build": "node node_modules/@duct-ui/cli/dist/cli.js build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "package": "pnpm -w build"
   },
   "dependencies": {
     "@duct-ui/components": "workspace:*",

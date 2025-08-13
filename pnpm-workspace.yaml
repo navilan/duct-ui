@@ -4,3 +4,4 @@ packages:
   - packages/router
   - packages/cli
   - packages/demo
+  - packages/starter
