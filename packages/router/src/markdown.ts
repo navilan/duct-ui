@@ -38,7 +38,7 @@ export async function parseMarkdown(
       // Fall back to default parser
     }
   }
-  
+
   // Use default markdown-it parser
   return defaultMarkdownIt.render(markdown)
 }
@@ -52,7 +52,7 @@ export async function parseFrontMatter(content: string, contentConfig?: ContentC
 
   let frontMatter = ''
   let body = content
-  
+
   if (match) {
     [, frontMatter, body] = match
   }
@@ -92,14 +92,14 @@ export async function parseFrontMatter(content: string, contentConfig?: ContentC
   // Extract excerpt if marker is present
   let excerpt: string | undefined
   const excerptMarker = contentConfig?.excerptMarker || '<!--more-->'
-  
+
   if (excerptMarker && body.includes(excerptMarker)) {
     const markerIndex = body.indexOf(excerptMarker)
     const excerptMarkdown = body.substring(0, markerIndex).trim()
-    
+
     // Parse the markdown excerpt to HTML
     excerpt = await parseMarkdown(excerptMarkdown, contentConfig?.markdownParser)
-    
+
     // If no description is provided in meta, use the parsed excerpt
     if (!meta.description && !meta.excerpt) {
       meta.excerpt = excerpt

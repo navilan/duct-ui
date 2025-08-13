@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import Icon, { type IconSource } from "../images/icon"
+import Icon, { type IconSource } from "../images/icon.js"
 
 export interface MenuItemEvents extends BaseComponentEvents {
   click: (el: HTMLElement, event: MouseEvent) => void

@@ -2,7 +2,7 @@ import { createBlueprint, type BaseProps } from '@duct-ui/core'
 import { createRef } from '@duct-ui/core'
 import { EventEmitter } from '@duct-ui/core/shared'
 import Modal, { ModalLogic } from '@duct-ui/components/layout/modal'
-import FormDataModal, { type FormDataModalLogic } from './FormDataModal'
+import FormDataModal, { type FormDataModalLogic } from './FormDataModal.js'
 
 interface ContactContainerProps { }
 

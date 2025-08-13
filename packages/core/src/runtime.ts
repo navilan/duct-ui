@@ -1,4 +1,4 @@
-import { DuctGlobal } from "./types/duct"
+import { DuctGlobal } from "./types/duct.js"
 import { isBrowser } from "./env.js"
 
 export type { DuctGlobal }

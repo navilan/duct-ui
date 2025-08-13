@@ -1,6 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import { TreeViewData, TreeNode, TreePath, hasChildren } from "./structure"
+import { TreeViewData, TreeNode, TreePath, hasChildren } from "./structure.js"
 
 export interface TreeViewEvents extends BaseComponentEvents {
   expanded: (el: HTMLElement, path: TreePath) => void

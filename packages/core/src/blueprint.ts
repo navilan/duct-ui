@@ -1,8 +1,8 @@
-import { getDuct } from "./runtime"
-import { observeLifecycle, cleanupLifecycleHandler } from "./lifecycle"
+import { getDuct } from "./runtime.js"
+import { observeLifecycle, cleanupLifecycleHandler } from "./lifecycle.js"
 import { ObservableV2 as Observable } from 'lib0/observable'
-import { MutableRef } from "./ref"
-import { EventEmitter } from "./shared"
+import { MutableRef } from "./ref.js"
+import { EventEmitter } from "./shared.js"
 import { isBrowser, hasDocument } from './env.js'
 
 export type BaseProps<Props> = Props & { "data-duct-id": string }
