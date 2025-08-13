@@ -1,6 +1,6 @@
 import { type BaseProps, createBlueprint } from "@duct-ui/core/blueprint"
-import { ButtonEvents, ButtonProps } from "./button"
-import Icon, { type IconSource, type IconSize } from "../images/icon"
+import { ButtonEvents, ButtonProps } from "./button.js"
+import Icon, { type IconSource, type IconSize } from "../images/icon.js"
 
 export type IconPosition = "start" | "end"
 
