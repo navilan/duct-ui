@@ -40,53 +40,8 @@
     {% if taggedPosts.length > 0 %}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {% for post in taggedPosts %}
-      <article class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
-        <div class="card-body">
-          <div class="flex justify-between items-start mb-2">
-            {% if post.meta.featured %}
-            <div class="badge badge-primary badge-sm">Featured</div>
-            {% else %}
-            <div></div>
-            {% endif %}
-            {% if post.meta.date %}
-            <time class="text-sm opacity-60" datetime="{{ post.meta.date }}">
-              {{ post.meta.date | date("MMM D") }}
-            </time>
-            {% endif %}
-          </div>
-
-          <h2 class="card-title">
-            <a href="/blog/{{ post.meta.slug or post.path | replace('content/blog/', '') | replace('.md', '') }}" 
-               class="link link-hover">
-              {{ post.meta.title or 'Untitled Post' }}
-            </a>
-          </h2>
-
-          {% if post.meta.excerpt %}
-          <p class="opacity-70 line-clamp-3">{{ post.meta.excerpt }}</p>
-          {% endif %}
-
-          <div class="card-actions justify-between items-center mt-4">
-            {% if post.meta.tags %}
-            <div class="flex flex-wrap gap-1">
-              {% for tag in post.meta.tags | slice(0, 2) %}
-              <div class="badge {% if tag == page.tag %}badge-primary{% else %}badge-outline{% endif %} badge-xs">
-                {{ tag }}
-              </div>
-              {% endfor %}
-              {% if post.meta.tags.length > 2 %}
-              <div class="badge badge-outline badge-xs opacity-50">+{{ post.meta.tags.length - 2 }}</div>
-              {% endif %}
-            </div>
-            {% endif %}
-
-            <a href="/blog/{{ post.meta.slug or post.path | replace('content/blog/', '') | replace('.md', '') }}" 
-               class="btn btn-primary btn-sm">
-              Read More
-            </a>
-          </div>
-        </div>
-      </article>
+      {% set currentTag = page.tag %}
+      {% include "_blog_listing_item.html" %}
       {% endfor %}
     </div>
 
@@ -95,7 +50,7 @@
     <div class="flex justify-center mt-12">
       <div class="join">
         {% if tagPagination.currentPage > 1 %}
-        <a href="{% if tagPagination.currentPage == 2 %}/blog/tag/{{ page.tagSlug }}{% else %}/blog/tag/{{ page.tagSlug }}/page/{{ tagPagination.currentPage - 1 }}{% endif %}" 
+        <a href="{% if tagPagination.currentPage == 2 %}/blog/tag/{{ page.tagSlug }}{% else %}/blog/tag/{{ page.tagSlug }}/page/{{ tagPagination.currentPage - 1 }}{% endif %}"
            class="join-item btn btn-outline">«</a>
         {% endif %}
 
@@ -103,13 +58,13 @@
         {% if page == tagPagination.currentPage %}
         <span class="join-item btn btn-active">{{ page }}</span>
         {% else %}
-        <a href="{% if page == 1 %}/blog/tag/{{ page.tagSlug }}{% else %}/blog/tag/{{ page.tagSlug }}/page/{{ page }}{% endif %}" 
+        <a href="{% if page == 1 %}/blog/tag/{{ page.tagSlug }}{% else %}/blog/tag/{{ page.tagSlug }}/page/{{ page }}{% endif %}"
            class="join-item btn btn-outline">{{ page }}</a>
         {% endif %}
         {% endfor %}
 
         {% if tagPagination.currentPage < tagPagination.totalPages %}
-        <a href="/blog/tag/{{ page.tagSlug }}/page/{{ tagPagination.currentPage + 1 }}" 
+        <a href="/blog/tag/{{ page.tagSlug }}/page/{{ tagPagination.currentPage + 1 }}"
            class="join-item btn btn-outline">»</a>
         {% endif %}
       </div>

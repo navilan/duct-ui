@@ -6,11 +6,11 @@
   <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 
-<body>
+<body class="min-h-screen grid grid-rows-[auto_1fr_auto]">
   {% include "_header.html" %}
 
   <!-- Static content container -->
-  <div id="content" class="flex-1">
+  <main id="content" class="w-full">
     <article class="max-w-4xl mx-auto px-4 py-8">
       <!-- Article Header -->
       <header class="mb-8 pb-8 border-b border-base-300">
@@ -19,7 +19,7 @@
         <div class="flex flex-wrap gap-4 text-sm opacity-70">
           {% if page.date %}
           <time datetime="{{ page.date }}">
-            {{ page.date | date("MMMM D, YYYY") }}
+            {{ page.date | date("LLLL d, yyyy") }}
           </time>
           {% endif %}
 
@@ -32,16 +32,13 @@
           {% endif %}
         </div>
 
-        {% if page.excerpt %}
-        <p class="text-xl opacity-80 mt-4">{{ page.excerpt }}</p>
-        {% endif %}
-
         <!-- Tags -->
         {% if page.tags %}
         <div class="flex flex-wrap gap-2 mt-6">
           {% for tag in page.tags %}
-          <a href="/blog/tag/{{ tag | lower | replace(' ', '-') }}" 
-             class="badge badge-primary badge-outline">
+          <a
+            href="/blog/tag/{{ tag | lower | replace(' ', '-') }}"
+            class="badge badge-primary badge-outline">
             {{ tag }}
           </a>
           {% endfor %}
@@ -51,7 +48,7 @@
 
       <!-- Article Content -->
       <div class="prose prose-lg max-w-none">
-        {{ page.content | safe }}
+        {{ staticContent | safe }}
       </div>
 
       <!-- Article Footer -->
@@ -60,25 +57,26 @@
           <a href="/blog" class="btn btn-outline">
             ← Back to Blog
           </a>
-          
+
           {% if page.tags %}
           <div class="text-sm">
             <span class="opacity-70">Tags: </span>
             {% for tag in page.tags %}
-            <a href="/blog/tag/{{ tag | lower | replace(' ', '-') }}" 
-               class="link link-primary">{{ tag }}</a>{% if not loop.last %}, {% endif %}
+            <a
+              href="/blog/tag/{{ tag | lower | replace(' ', '-') }}"
+              class="link link-primary">{{ tag }}</a>{% if not loop.last %}, {% endif %}
             {% endfor %}
           </div>
           {% endif %}
         </div>
       </footer>
     </article>
-  </div>
 
-  <!-- Interactive content container for Duct components -->
-  <div id="app">
-    {{ content | safe }}
-  </div>
+    <!-- Interactive content container for Duct components -->
+    <div id="app">
+      {{ interactiveContent | safe }}
+    </div>
+  </main>
 
   {% include "_footer.html" %}
 

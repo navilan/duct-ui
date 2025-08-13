@@ -131,7 +131,7 @@ export class DuctRouter {
         env: this.config.env || {}, // Add env variables to template context
         content: componentHtml,
         // For content pages, provide separate static and interactive content
-        staticContent: isContentPage ? await parseMarkdown((finalMeta as any).content || '', this.config.markdownParser) : null,
+        staticContent: isContentPage ? await parseMarkdown((finalMeta as any).content || '', this.config.content?.markdownParser) : null,
         interactiveContent: isContentPage ? componentHtml : null,
         collections: contentData // All content collections available to templates
       }

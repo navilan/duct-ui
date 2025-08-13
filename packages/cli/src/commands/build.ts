@@ -154,11 +154,8 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
             // Get content directory from component or use default
             const contentDir = component.getContentDir?.() || 'content'
 
-            // Get excerpt marker from config
-            const excerptMarker = resolvedConfig.content?.excerptMarker || '<!--more-->'
-
-            // Populate content routes
-            await generator.populateContentRoutes(route, contentDir, cwd, excerptMarker)
+            // Populate content routes with content config
+            await generator.populateContentRoutes(route, contentDir, cwd, resolvedConfig.content)
 
             if (route.staticPaths) {
               logger.indent().success(`Found ${Object.keys(route.staticPaths).length} content pages`)
@@ -212,7 +209,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
           ...resolvedConfig.env
         },
         nunjucks: resolvedConfig.nunjucks,
-        markdownParser: resolvedConfig.content?.markdownParser,
+        content: resolvedConfig.content,
         componentLoader
       })
 

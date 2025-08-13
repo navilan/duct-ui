@@ -11,7 +11,7 @@ import 'prismjs/components/prism-tsx.js'
 import 'prismjs/components/prism-css.js'
 import 'prismjs/components/prism-json.js'
 import 'prismjs/components/prism-bash.js'
-import type { ContentMeta } from './types.js'
+import type { ContentMeta, ContentConfig, ParsedContent } from './types.js'
 
 // Default markdown-it instance for fallback parsing
 const defaultMarkdownIt = new MarkdownIt({
@@ -46,7 +46,7 @@ export async function parseMarkdown(
 /**
  * Parse front-matter from markdown content and extract excerpt
  */
-export function parseFrontMatter(content: string, excerptMarker: string = '<!--more-->'): { meta: ContentMeta; body: string; excerpt?: string } {
+export async function parseFrontMatter(content: string, contentConfig?: ContentConfig): Promise<ParsedContent> {
   const frontMatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/
   const match = content.match(frontMatterRegex)
 
@@ -91,23 +91,18 @@ export function parseFrontMatter(content: string, excerptMarker: string = '<!--m
 
   // Extract excerpt if marker is present
   let excerpt: string | undefined
+  const excerptMarker = contentConfig?.excerptMarker || '<!--more-->'
+  
   if (excerptMarker && body.includes(excerptMarker)) {
     const markerIndex = body.indexOf(excerptMarker)
-    excerpt = body.substring(0, markerIndex).trim()
+    const excerptMarkdown = body.substring(0, markerIndex).trim()
     
-    // Remove markdown formatting from excerpt for a plain text version
-    const plainExcerpt = excerpt
-      .replace(/#{1,6}\s/g, '') // Remove headers
-      .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
-      .replace(/\*(.*?)\*/g, '$1') // Remove italic
-      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove links
-      .replace(/<[^>]+>/g, '') // Remove HTML tags
-      .replace(/\n+/g, ' ') // Replace newlines with spaces
-      .trim()
+    // Parse the markdown excerpt to HTML
+    excerpt = await parseMarkdown(excerptMarkdown, contentConfig?.markdownParser)
     
-    // If no description is provided in meta, use the excerpt
+    // If no description is provided in meta, use the parsed excerpt
     if (!meta.description && !meta.excerpt) {
-      meta.excerpt = plainExcerpt
+      meta.excerpt = excerpt
     }
   }
 
@@ -136,7 +131,7 @@ export interface ContentFile {
 export async function scanContentDirectory(
   contentDir: string,
   baseRoute: string = '/',
-  excerptMarker: string = '<!--more-->'
+  contentConfig?: ContentConfig
 ): Promise<ContentFile[]> {
   const files: ContentFile[] = []
 
@@ -149,7 +144,7 @@ export async function scanContentDirectory(
   for (const mdFile of mdFiles) {
     const filePath = path.join(contentDir, mdFile)
     const content = await fs.readFile(filePath, 'utf-8')
-    const { meta, body, excerpt } = parseFrontMatter(content, excerptMarker)
+    const { meta, body, excerpt } = await parseFrontMatter(content, contentConfig)
 
     // Generate URL path from file path
     const parsed = path.parse(mdFile)

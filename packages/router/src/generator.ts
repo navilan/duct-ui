@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs/promises'
 import { glob } from 'glob'
-import type { Route, PageMeta, ContentMeta } from './types.js'
+import type { Route, PageMeta, ContentMeta, ContentConfig } from './types.js'
 import { scanContentDirectory } from './markdown.js'
 
 /**
@@ -138,7 +138,7 @@ export class RouteGenerator {
     route: Route, 
     contentDir: string = 'content',
     projectRoot: string = process.cwd(),
-    excerptMarker: string = '<!--more-->'
+    contentConfig?: ContentConfig
   ): Promise<void> {
     if (!route.isContentPage) return
 
@@ -161,7 +161,7 @@ export class RouteGenerator {
     }
 
     // Scan for markdown files
-    const contentFiles = await scanContentDirectory(fullContentDir, route.path, excerptMarker)
+    const contentFiles = await scanContentDirectory(fullContentDir, route.path, contentConfig)
     console.info(`    Found ${contentFiles.length} markdown files`)
 
     // Convert to route format

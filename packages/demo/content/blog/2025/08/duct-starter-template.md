@@ -13,7 +13,7 @@ The Duct UI Starter Template is a feature-rich foundation that demonstrates best
 
 <!--more-->
 
-[![Duct Starter Template](/blog/2025/08/starter/duct-starter.png)](https://github.com/navilan/duct-ui/tree/main/packages/starter)
+[![Duct Starter Template](/blog/2025/08/starter/duct-starter.png)](https://starter.duct-ui.org)
 
 ## ✨ What's Included
 
