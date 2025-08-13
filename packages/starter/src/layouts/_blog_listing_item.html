@@ -15,11 +15,12 @@
     </div>
 
     <h2 class="card-title">
-      <a href="/blog/{{ post.meta.slug or post.path | replace('content/blog/', '') | replace('.md', '') }}" 
+      <a href="{{ post.urlPath }}"
          class="link link-hover">
         {{ post.meta.title or 'Untitled Post' }}
       </a>
     </h2>
+
 
     {% if post.meta.excerpt %}
     <p class="opacity-70 line-clamp-3">{{ post.meta.excerpt | safe }}</p>
@@ -39,7 +40,7 @@
       </div>
       {% endif %}
 
-      <a href="/blog/{{ post.meta.slug or post.path | replace('content/blog/', '') | replace('.md', '') }}" 
+      <a href="{{ post.urlPath }}"
          class="btn btn-primary btn-sm">
         Read More
       </a>

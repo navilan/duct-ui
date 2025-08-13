@@ -23,7 +23,7 @@ meta.image, body
         <!-- Post Header -->
         <header>
           <h2 class="card-title text-2xl mb-2">
-            <a href="{{ post.path }}" class="link link-hover">
+            <a href="{{ post.urlPath }}" class="link link-hover">
               {{ post.meta.title }}
             </a>
           </h2>
@@ -65,7 +65,7 @@ meta.image, body
 
         <!-- Read More -->
         <div class="card-actions justify-end">
-          <a href="{{ post.path }}" class="btn btn-primary btn-sm">
+          <a href="{{ post.urlPath }}" class="btn btn-primary btn-sm">
             Read More →
           </a>
         </div>
