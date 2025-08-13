@@ -1,11 +1,13 @@
 import { DateTime } from 'luxon'
+import { parseMarkdown } from './src/markdown-parser.js'
 
 export default {
   pagesDir: './src/pages',
   layoutsDir: './src/layouts', 
   contentDir: './content',
   content: {
-    excerptMarker: '<!--more-->'
+    excerptMarker: '<!--more-->',
+    markdownParser: parseMarkdown
   },
   env: {
     siteName: 'Duct Starter',
