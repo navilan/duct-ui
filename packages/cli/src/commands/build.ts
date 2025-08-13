@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as fs from 'fs/promises'
 import { build as viteBuild, loadConfigFromFile, InlineConfig } from 'vite'
 import { RouteGenerator, DuctRouter, findAssets } from '@duct-ui/router'
-import type { SubRouteComponent, ContentPageComponent, ContentItem } from '@duct-ui/router'
+import type { SubRouteModule, ContentPageModule, ContentFile } from '@duct-ui/router'
 import { loadConfig, resolveConfigPaths } from '../config.js'
 import * as logger from '../logger.js'
 
@@ -129,7 +129,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
 
       // Step 4: Load compiled components and resolve dynamic routes
       logger.step(4, 'Resolving dynamic routes...')
-      const componentLoader = async (componentPath: string) => {
+      const moduleLoader = async (componentPath: string) => {
         // Find the route entry that matches this component path
         for (const [entryName, route] of routeMap) {
           if (route.componentPath === componentPath) {
@@ -142,17 +142,17 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
       }
 
       // First pass: Load all content pages to collect content
-      const allContent = new Map<string, Array<ContentItem>>()
+      const allContent = new Map<string, Array<ContentFile>>()
 
       for (const route of routes) {
         if (route.isContentPage) {
           // Handle content pages (__content__.tsx)
           try {
-            const component = await componentLoader(route.componentPath) as ContentPageComponent
+            const pageModule = await moduleLoader(route.componentPath) as ContentPageModule
             logger.indent().info(`Loading content for ${route.componentPath}...`)
 
             // Get content directory from component or use default
-            const contentDir = component.getContentDir?.() || 'content'
+            const contentDir = pageModule.getContentDir?.() || 'content'
 
             // Populate content routes with content config
             await generator.populateContentRoutes(route, contentDir, cwd, resolvedConfig.content)
@@ -183,10 +183,10 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
         if (route.isDynamic && !route.isContentPage) {
           // Handle regular dynamic routes ([sub].tsx)
           try {
-            const component = await componentLoader(route.componentPath) as SubRouteComponent
-            if (component.getRoutes) {
+            const pageModule = await moduleLoader(route.componentPath) as SubRouteModule
+            if (pageModule.getRoutes) {
               logger.indent().info(`Loading routes for ${route.componentPath}...`)
-              route.staticPaths = await component.getRoutes(allContent)
+              route.staticPaths = await pageModule.getRoutes(allContent)
               logger.indent().success(`Found ${Object.keys(route.staticPaths).length} dynamic routes`)
             }
           } catch (error) {
@@ -210,7 +210,7 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
         },
         nunjucks: resolvedConfig.nunjucks,
         content: resolvedConfig.content,
-        componentLoader
+        moduleLoader
       })
 
       const pages = await router.generateStaticPages(routes)

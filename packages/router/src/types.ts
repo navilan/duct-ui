@@ -43,9 +43,9 @@ export interface FallbackResult {
 }
 
 /**
- * Page component interface
+ * Page module interface (contains page component and metadata functions)
  */
-export interface PageComponent {
+export interface DuctPageModule {
   /** Returns the layout configuration (optional) */
   getLayout?(): string | LayoutConfig
   /** Returns the page metadata for the layout template (optional) */
@@ -55,11 +55,11 @@ export interface PageComponent {
 }
 
 /**
- * Sub-route component interface (for dynamic routing)
+ * Sub-route module interface (for dynamic routing)
  */
-export interface SubRouteComponent extends PageComponent {
+export interface SubRouteModule extends DuctPageModule {
   /** Returns static paths to generate at build time with overlay page meta */
-  getRoutes(content?: Map<string, ContentItem[]>): Record<string, PageMeta> | Promise<Record<string, PageMeta>>
+  getRoutes(content?: Map<string, ContentFile[]>): Record<string, PageMeta> | Promise<Record<string, PageMeta>>
   /** Fallback handler for Cloudflare Worker (dynamic routes) (optional) */
   fallback?(request: Request): Promise<FallbackResult | undefined>
 }
@@ -82,17 +82,12 @@ export interface ContentMeta extends PageMeta {
   draft?: boolean
 }
 
-export interface ContentItem {
-  path: string
-  meta: ContentMeta
-  body: string
-}
 
 
 /**
- * Content page component interface (for markdown-based content)
+ * Content page module interface (for markdown-based content)
  */
-export interface ContentPageComponent extends PageComponent {
+export interface ContentPageModule extends DuctPageModule {
   /** Directory to scan for markdown files (defaults to 'content') */
   getContentDir?(): string
   /** Process and transform content metadata */
@@ -100,7 +95,25 @@ export interface ContentPageComponent extends PageComponent {
   /** Filter which content files to include */
   filterContent?(meta: ContentMeta, path: string): boolean
   /** Sort content items */
-  sortContent?<T extends ContentItem>(items: Array<T>): Array<T>
+  sortContent?<T extends ContentFile>(items: Array<T>): Array<T>
+}
+
+/**
+ * Content file information
+ */
+export interface ContentFile {
+  /** Relative path from content directory */
+  relativePath: string
+  /** URL path for the content */
+  urlPath: string
+  /** Parsed metadata from front-matter */
+  meta: ContentMeta
+  /** Markdown body content */
+  body: string
+  /** Parsed HTML excerpt if excerpt marker is found */
+  excerpt?: string
+  /** Full file path */
+  filePath: string
 }
 
 /**
@@ -118,7 +131,7 @@ export interface Route {
   /** Static paths for dynamic routes with their overlay meta */
   staticPaths?: Record<string, PageMeta>
   /** Content files for content pages */
-  contentFiles?: Array<{ path: string; meta: ContentMeta; body: string }>
+  contentFiles?: Array<ContentFile>
 }
 
 /**
