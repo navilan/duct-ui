@@ -9,9 +9,9 @@ meta.image, body
       <!-- Post Thumbnail (Left Column on desktop) -->
       <div class="md:w-1/3 lg:w-1/4 flex-shrink-0">
         <figure class="overflow-hidden rounded-lg">
-          <a href="{{ post.path }}" class="block">
+          <a href="{{ post.urlPath }}" class="block">
             <img src="{{ post.meta.image }}" alt="{{ post.meta.title }}"
-              class="w-full aspect-square object-cover hover:scale-105 transition-transform duration-300{% if post.meta.imageClass %} {{ post.meta.imageClass }}{% endif %}"
+              class="w-full aspect-square object-cover hover:scale-105 transition-transform duration-300 rounded-lg{% if post.meta.imageClass %} {{ post.meta.imageClass }}{% endif %}"
               loading="lazy" />
           </a>
         </figure>

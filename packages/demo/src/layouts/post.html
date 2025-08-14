@@ -55,7 +55,7 @@
         {% set allPosts = collections.blog | sort(true, false, 'meta.date') | reverse %}
         {% set currentIndex = -1 %}
         {% for post in allPosts %}
-        {% if post.urlPath == page.contentPath or post.path == page.path %}
+        {% if post.urlPath == page.contentPath or post.urlPath == page.urlPath %}
         {% if post.urlPath == page.contentPath %}
         {% set currentIndex = loop.index0 %}
         {% endif %}
@@ -70,7 +70,7 @@
         <div class="flex justify-between items-center mb-8">
           <!-- Previous Post -->
           {% if prevPost %}
-          <a href="{{ prevPost.path }}" class="group flex-1 max-w-sm">
+          <a href="{{ prevPost.urlPath }}" class="group flex-1 max-w-sm">
             <div class="text-sm text-base-content/60 mb-1">← Previous Post</div>
             <div class="text-lg font-semibold group-hover:text-primary transition-colors">
               {{ prevPost.meta.title }}
@@ -85,7 +85,7 @@
 
           <!-- Next Post -->
           {% if nextPost %}
-          <a href="{{ nextPost.path }}" class="group flex-1 max-w-sm text-right">
+          <a href="{{ nextPost.urlPath }}" class="group flex-1 max-w-sm text-right">
             <div class="text-sm text-base-content/60 mb-1">Next Post →</div>
             <div class="text-lg font-semibold group-hover:text-primary transition-colors">
               {{ nextPost.meta.title }}

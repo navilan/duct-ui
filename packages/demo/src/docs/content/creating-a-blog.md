@@ -10,7 +10,7 @@ Duct's static site generation (SSG) makes it easy to create content-driven websi
 > - Responsive design with DaisyUI themes
 > - Full-height layouts with proper footer placement
 > - Theme toggle functionality
-> 
+>
 > Copy the `packages/starter` directory as your starting point and customize from there! The implementation follows all the patterns described in this guide.
 
 ## Prerequisites
@@ -328,7 +328,7 @@ Create `src/layouts/_blog_listing_item.html` for individual post cards:
       {% if post.meta.image %}
       <div class="md:w-1/3 lg:w-1/4 flex-shrink-0">
         <figure class="overflow-hidden rounded-lg">
-          <a href="{{ post.path }}" class="block">
+          <a href="{{ post.urlPath }}" class="block">
             <img
               src="{{ post.meta.image }}"
               alt="{{ post.meta.title }}"
@@ -344,7 +344,7 @@ Create `src/layouts/_blog_listing_item.html` for individual post cards:
       <div class="{% if post.meta.image %}md:w-2/3 lg:w-3/4{% else %}w-full{% endif %}">
         <header>
           <h2 class="card-title text-2xl mb-2">
-            <a href="{{ post.path }}" class="link link-hover">
+            <a href="{{ post.urlPath }}" class="link link-hover">
               {{ post.meta.title }}
             </a>
           </h2>
@@ -384,7 +384,7 @@ Create `src/layouts/_blog_listing_item.html` for individual post cards:
 
         <!-- Read More -->
         <div class="card-actions justify-end">
-          <a href="{{ post.path }}" class="btn btn-primary btn-sm">
+          <a href="{{ post.urlPath }}" class="btn btn-primary btn-sm">
             Read More →
           </a>
         </div>
