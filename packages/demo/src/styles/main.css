@@ -270,3 +270,13 @@
 [data-theme="duct-dark"] .dark-invert {
   filter: invert(1) hue-rotate(180deg);
 }
+
+/* Blog image styling */
+.prose img:not(.no-rounded) {
+  @apply rounded-lg;
+}
+
+/* Override for images that should not have rounded corners */
+.prose img.no-rounded {
+  @apply rounded-none;
+}

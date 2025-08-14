@@ -11,7 +11,7 @@
           </svg>
           <div class="text-sm">
             <span class="font-medium text-base-content">Latest:</span>
-            <a href="{{ latestPost.path }}" class="link link-primary font-semibold hover:link-hover ml-2">
+            <a href="{{ latestPost.urlPath }}" class="link link-primary font-semibold hover:link-hover ml-2">
               {{ latestPost.meta.title }}
             </a>
             <span class="text-base-content/60 ml-2 hidden sm:inline">
@@ -39,19 +39,19 @@
   document.addEventListener('DOMContentLoaded', function() {
     const alert = document.querySelector('[data-blog-alert]');
     if (!alert) return;
-    
+
     // Check if alert was previously closed in this session
     if (sessionStorage.getItem('blogAlertClosed') === 'true') {
       alert.style.display = 'none';
       return;
     }
-    
+
     // Animate in after delay with fade
     setTimeout(() => {
       alert.style.transition = 'opacity 0.5s ease-out';
       alert.style.opacity = '1';
     }, 1500); // 1.5 second delay
-    
+
     // Handle close button
     const closeBtn = alert.querySelector('[data-close-alert]');
     if (closeBtn) {
