@@ -55,8 +55,10 @@
         {% set allPosts = collections.blog | sort(true, false, 'meta.date') | reverse %}
         {% set currentIndex = -1 %}
         {% for post in allPosts %}
-        {% if post.path == page.contentPath %}
+        {% if post.urlPath == page.contentPath or post.path == page.path %}
+        {% if post.urlPath == page.contentPath %}
         {% set currentIndex = loop.index0 %}
+        {% endif %}
         {% endif %}
         {% endfor %}
 
