@@ -1,5 +1,14 @@
 # @duct-ui/cli
 
+## 0.7.8
+
+### Patch Changes
+
+- [#67](https://github.com/navilan/duct-ui/pull/67) [`24ab2a4`](https://github.com/navilan/duct-ui/commit/24ab2a4eb1bca2e8aab990b2db54774dd4b00c3a) Thanks [@navilan](https://github.com/navilan)! - Default props to an empty object
+
+- Updated dependencies [[`24ab2a4`](https://github.com/navilan/duct-ui/commit/24ab2a4eb1bca2e8aab990b2db54774dd4b00c3a)]:
+  - @duct-ui/router@0.7.8
+
 ## 0.7.7
 
 ### Patch Changes
