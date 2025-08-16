@@ -31,13 +31,13 @@ function render(props: BaseProps<LandingPageProps>) {
 
             {/* Subtitle */}
             <p class="text-xl md:text-2xl text-base-content/80 mb-4 font-light">
-              A compact, DOM-first UI library
+              Web Framework for the Age of AI
             </p>
 
             {/* Tagline */}
-            <p class="text-lg text-base-content/70 mb-12 max-w-2xl mx-auto">
-              Build maintainable, explicit UI components with clear separation of concerns.
-              Perfect for teams that value debuggable code over complex abstractions.
+            <p class="text-lg text-base-content/70 mb-12 max-w-3xl mx-auto">
+              Built for clarity and explicitness, Duct makes your code understandable to both humans and AI.
+              Component library + static site generator with a philosophy that embraces the future of development.
             </p>
 
             {/* CTA Buttons */}
@@ -62,42 +62,156 @@ function render(props: BaseProps<LandingPageProps>) {
             </div>
           </div>
 
-          {/* Key Features */}
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <div class="text-center p-6 bg-base-100/50 backdrop-blur-sm rounded-xl border border-base-300/50">
-              <div class="w-16 h-16 mx-auto mb-4 bg-primary/20 rounded-full flex items-center justify-center">
-                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                </svg>
+          {/* Two Powerful Systems */}
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 max-w-6xl mx-auto">
+            {/* Component Library */}
+            <div class="bg-base-100/60 backdrop-blur-sm rounded-xl p-8 border border-primary/30">
+              <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
+                  <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+                  </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-base-content">Component Library</h2>
               </div>
-              <h3 class="text-xl font-semibold text-base-content/80 mb-3">Explicit & Debuggable</h3>
-              <p class="text-base-content/70 leading-relaxed">
-                No hidden magic or complex abstractions. Every component behavior is explicit and easy to trace.
+              <p class="text-base-content/80 mb-6">
+                Build interactive UI with explicit, debuggable components. Clear lifecycle management and direct DOM control.
               </p>
+              <div class="space-y-3">
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-base-content/70">Explicit render → bind → release lifecycle</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-base-content/70">TypeScript-first with full type safety</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-base-content/70">No virtual DOM - direct manipulation</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-base-content/70">Ready-to-use components with DaisyUI</span>
+                </div>
+              </div>
+              <div class="mt-6 pt-6 border-t border-base-300/50">
+                <a href="/docs/building-components" class="text-primary hover:text-primary-focus font-medium inline-flex items-center">
+                  Learn about components
+                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
             </div>
 
-            <div class="text-center p-6 bg-base-100/50 backdrop-blur-sm rounded-xl border border-base-300/50">
-              <div class="w-16 h-16 mx-auto mb-4 bg-primary/20 rounded-full flex items-center justify-center">
-                <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
+            {/* Static Site Generator */}
+            <div class="bg-base-100/60 backdrop-blur-sm rounded-xl p-8 border border-secondary/30">
+              <div class="flex items-center mb-6">
+                <div class="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center mr-4">
+                  <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-base-content">Static Site Generator</h2>
               </div>
-              <h3 class="text-xl font-semibold text-base-content/80 mb-3">Clean Architecture</h3>
-              <p class="text-base-content/70 leading-relaxed">
-                Clear separation between templates and logic. Blueprint pattern keeps code organized and maintainable.
+              <p class="text-base-content/80 mb-6">
+                Build fast, SEO-friendly websites with powerful content management. From blogs to documentation sites.
               </p>
+              <div class="space-y-3">
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-base-content/70">Markdown-based content management</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-base-content/70">Automatic routing and pagination</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-base-content/70">Nunjucks templates with custom filters</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-base-content/70">Selective reanimation for interactivity</span>
+                </div>
+              </div>
+              <div class="mt-6 pt-6 border-t border-base-300/50">
+                <a href="/docs/static-site-generation" class="text-secondary hover:text-secondary-focus font-medium inline-flex items-center">
+                  Learn about SSG
+                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
             </div>
+          </div>
 
-            <div class="text-center p-6 bg-base-100/50 backdrop-blur-sm rounded-xl border border-base-300/50">
-              <div class="w-16 h-16 mx-auto mb-4 bg-accent/20 rounded-full flex items-center justify-center">
-                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+          {/* Philosophy Section */}
+          <div class="bg-base-100/60 backdrop-blur-sm rounded-xl p-8 border border-base-300/50 mb-16 max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-center mb-8">Why Duct for the Age of AI?</h2>
+            <p class="text-center text-base-content/80 mb-8 max-w-3xl mx-auto">
+              When AI generates explicit, well-structured code, humans can easily understand, troubleshoot, and maintain it. 
+              Duct's philosophy ensures AI-generated code remains debuggable and maintainable by your team.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="text-center">
+                <div class="w-12 h-12 mx-auto mb-3 bg-primary/20 rounded-full flex items-center justify-center">
+                  <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Human-Friendly AI Code</h3>
+                <p class="text-sm text-base-content/70">
+                  Explicit patterns mean AI-generated code is instantly understandable. No magic to decipher.
+                </p>
               </div>
-              <h3 class="text-xl font-semibold text-base-content/80 mb-3">Direct DOM Control</h3>
-              <p class="text-base-content/70 leading-relaxed">
-                No virtual DOM overhead. Direct manipulation gives you predictable performance and full control.
-              </p>
+              <div class="text-center">
+                <div class="w-12 h-12 mx-auto mb-3 bg-secondary/20 rounded-full flex items-center justify-center">
+                  <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Easy Troubleshooting</h3>
+                <p class="text-sm text-base-content/70">
+                  Clear separation makes debugging straightforward, whether code is human or AI-written.
+                </p>
+              </div>
+              <div class="text-center">
+                <div class="w-12 h-12 mx-auto mb-3 bg-accent/20 rounded-full flex items-center justify-center">
+                  <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold mb-2">Maintainable Forever</h3>
+                <p class="text-sm text-base-content/70">
+                  Consistent patterns ensure your team can maintain and extend AI-generated code with confidence.
+                </p>
+              </div>
+            </div>
+            <div class="mt-6 text-center">
+              <a href="/docs/why-duct" class="text-primary hover:text-primary-focus font-medium inline-flex items-center">
+                Learn more about the Duct philosophy
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
             </div>
           </div>
 
@@ -222,7 +336,7 @@ on:click={...}
           {/* Footer */}
           <div class="mt-16 pt-8 border-t border-base-300/50 text-center">
             <p class="text-base-content/60">
-              Built with ❤️ for developers who value clarity over complexity
+              Built for the future of development where humans and AI collaborate seamlessly
             </p>
           </div>
         </div>

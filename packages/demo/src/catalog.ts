@@ -21,6 +21,8 @@ import DocsBuilding from "./docs/DocsBuilding"
 import DocsClaudeCode from "./docs/DocsClaudeCode"
 import DocsSSG from "./docs/DocsSSG"
 import DocsBlog from "./docs/DocsBlog"
+import DocsBuiltWithDuct from "./docs/DocsBuiltWithDuct"
+import DocsLayoutContext from "./docs/DocsLayoutContext"
 
 export interface PageInfo {
   id: string
@@ -104,7 +106,23 @@ export const sections: PageSection[] = [
         title: "Creating a Blog",
         description: "Complete guide to building a blog with markdown content, tagging, and pagination",
         component: () => {
-          return DocsBlog()
+          return DocsBlog({})
+        }
+      },
+      {
+        id: "layout-context",
+        title: "Layout Context Reference",
+        description: "Complete guide to Duct layouts, context variables, and Nunjucks templating",
+        component: () => {
+          return DocsLayoutContext({})
+        }
+      },
+      {
+        id: "built-with-duct",
+        title: "Built with Duct",
+        description: "Real-world websites and applications showcasing Duct features",
+        component: () => {
+          return DocsBuiltWithDuct({})
         }
       }
     ]
