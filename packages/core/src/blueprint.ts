@@ -56,9 +56,11 @@ function unbindInstanceHandlers(instanceId: string) {
 }
 
 // Extract and process on:* props from component props
-function extractEventProps<P extends Record<string, any>>(props: P) {
+function extractEventProps<P extends Record<string, any>>(_props: P) {
   const eventProps: Record<string, Function> = {}
   const regularProps: Record<string, any> = {}
+
+  const props = _props || {}
 
   Object.entries(props).forEach(([key, value]) => {
     if (key.startsWith('on:')) {

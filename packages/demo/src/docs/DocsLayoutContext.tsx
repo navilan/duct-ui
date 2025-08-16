@@ -1,17 +1,17 @@
 import { BindReturn, createBlueprint, type BaseProps } from "@duct-ui/core/blueprint"
 import Markdown from "@duct-ui/components/content/markdown/markdown"
 import "@duct-ui/components/content/markdown/markdown.css"
-import blogContent from './content/creating-a-blog.md?raw'
+import layoutContextContent from './content/layout-context.md?raw'
 
 function render(props: BaseProps<{}>) {
   return (
     <div class="prose prose-lg max-w-4xl p-8" {...props}>
-      <Markdown content={blogContent} />
+      <Markdown content={layoutContextContent} />
     </div>
   )
 }
 
-const id = { id: "docs/blog" }
+const id = { id: "docs/layout-context" }
 
 function bind(): BindReturn<any> {
   return {
@@ -19,6 +19,6 @@ function bind(): BindReturn<any> {
   }
 }
 
-const DocsBlog = createBlueprint(id, render, { bind })
+const DocsLayoutContext = createBlueprint(id, render, { bind })
 
-export default DocsBlog
+export default DocsLayoutContext

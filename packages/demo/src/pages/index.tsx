@@ -7,8 +7,8 @@ export function getLayout() {
 
 export function getPageMeta() {
   return {
-    title: 'Duct UI - Modern UI Framework',
-    description: 'A component-based UI framework with clear separation between templates and logic'
+    title: 'Duct UI - Web Framework for the Age of AI',
+    description: 'Built for clarity and explicitness. Component library + static site generator designed for seamless human-AI collaboration in web development.'
   }
 }
 
