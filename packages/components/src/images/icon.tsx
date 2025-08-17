@@ -1,4 +1,5 @@
 import { createBlueprint, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { cn } from "../utils/cn.js"
 
 export type IconSource = string | { default: string } | { src: string }
 export type IconSize = 'sm' | 'md' | 'lg' | 'xl'
@@ -44,7 +45,7 @@ function render(props: BaseProps<IconProps>) {
   } = props
 
   const sizeClasses = getSizeClasses(size)
-  const finalClasses = `${sizeClasses} ${className}`.trim()
+  const finalClasses = cn(sizeClasses, className)
 
   if (typeof icon === 'string') {
     return (

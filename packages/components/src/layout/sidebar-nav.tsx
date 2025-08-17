@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
+import { cn } from "../utils/cn.js"
 
 export interface SidebarNavEvents extends BaseComponentEvents {
   navigate: (el: HTMLElement, itemId: string) => void
@@ -73,7 +74,7 @@ function render(props: BaseProps<SidebarNavProps>) {
     ...moreProps
   } = props
 
-  const containerClasses = `sidebar-nav ${containerClass} ${className}`.trim()
+  const containerClasses = cn("sidebar-nav", containerClass, className)
 
   return (
     <div
@@ -81,18 +82,18 @@ function render(props: BaseProps<SidebarNavProps>) {
       {...moreProps}
     >
       {headerContent && (
-        <div class={`sidebar-nav-header ${headerClass}`.trim()}>
+        <div class={cn("sidebar-nav-header", headerClass)}>
           {headerContent}
         </div>
       )}
 
-      <nav class={`sidebar-nav-content ${contentClass}`.trim()}>
+      <nav class={cn("sidebar-nav-content", contentClass)}>
         {content.map((item, index) => {
           if ('type' in item && item.type === 'separator') {
             return (
-              <div data-key={`separator-${index}`} class={`sidebar-nav-separator ${separatorClass}`.trim()}>
+              <div data-key={`separator-${index}`} class={cn("sidebar-nav-separator", separatorClass)}>
                 {item.title && (
-                  <div class={`sidebar-nav-separator-title ${separatorTitleClass}`.trim()}>
+                  <div class={cn("sidebar-nav-separator-title", separatorTitleClass)}>
                     {item.title}
                   </div>
                 )}
@@ -101,22 +102,22 @@ function render(props: BaseProps<SidebarNavProps>) {
           } else {
             const section = item as SidebarNavSection
             return (
-              <div data-key={section.id} class={`sidebar-nav-section ${sectionClass}`.trim()}>
-                <div class={`sidebar-nav-section-title ${sectionTitleClass}`.trim()}>
+              <div data-key={section.id} class={cn("sidebar-nav-section", sectionClass)}>
+                <div class={cn("sidebar-nav-section-title", sectionTitleClass)}>
                   {section.title}
                 </div>
-                <ul class={`sidebar-nav-items ${itemsClass}`.trim()}>
+                <ul class={cn("sidebar-nav-items", itemsClass)}>
                   {section.items.map(navItem => (
-                    <li data-key={navItem.id} class={`sidebar-nav-item ${itemClass}`.trim()}>
+                    <li data-key={navItem.id} class={cn("sidebar-nav-item", itemClass)}>
                       <a
                         href={navItem.href || `/docs/${navItem.id}`}
-                        class={`sidebar-nav-item-link ${currentItem === navItem.id ? 'active' : ''} ${itemLinkClass}`.trim()}
+                        class={cn("sidebar-nav-item-link", currentItem === navItem.id && 'active', itemLinkClass)}
                         data-nav-item-id={navItem.id}
                       >
-                        <div class={`sidebar-nav-item-content ${itemContentClass}`.trim()}>
-                          <div class={`sidebar-nav-item-title ${itemTitleClass}`.trim()}>{navItem.title}</div>
+                        <div class={cn("sidebar-nav-item-content", itemContentClass)}>
+                          <div class={cn("sidebar-nav-item-title", itemTitleClass)}>{navItem.title}</div>
                           {navItem.description && (
-                            <div class={`sidebar-nav-item-description ${itemDescriptionClass}`.trim()}>{navItem.description}</div>
+                            <div class={cn("sidebar-nav-item-description", itemDescriptionClass)}>{navItem.description}</div>
                           )}
                         </div>
                       </a>

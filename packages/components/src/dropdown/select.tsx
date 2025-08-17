@@ -1,6 +1,7 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import Icon, { IconSize, type IconSource } from "../images/icon.js"
+import { cn } from "../utils/cn.js"
 
 export type SelectPlacement = 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end' | 'bottom' | 'top'
 
@@ -105,17 +106,17 @@ function render(props: BaseProps<SelectProps>) {
   }
 
   // Merge with user-provided class
-  const finalClasses = `${dropdownClasses} ${className}`.trim()
+  const finalClasses = cn(dropdownClasses, className)
 
   // Render items
   const itemElements = items.map((item, index) => {
-    const itemClasses = `select-item ${item.isDisabled ? 'disabled' : ''} ${itemClass}`.trim()
-    const anchorClasses = `select-item-anchor ${item.isDisabled ? 'disabled' : ''}`.trim()
-    const iconClasses = `select-item-icon ${iconClass}`.trim()
+    const itemClasses = cn("select-item", item.isDisabled && 'disabled', itemClass)
+    const anchorClasses = cn("select-item-anchor", item.isDisabled && 'disabled')
+    const iconClasses = cn("select-item-icon", iconClass)
     const iconElement = item.icon ? <>{renderIcon(item.icon, iconSize, iconClasses)}</> : null
     const selectedIconElement = item.isSelected ?
-      <span class={`select-selected-icon ${selectedIconClass}`.trim()}>{renderIcon(selectedIcon)}</span> :
-      <span class={`select-selected-icon ${selectedIconClass}`.trim()}></span>
+      <span class={cn("select-selected-icon", selectedIconClass)}>{renderIcon(selectedIcon)}</span> :
+      <span class={cn("select-selected-icon", selectedIconClass)}></span>
     const attributes = item.attributes || {}
 
     return (
@@ -124,9 +125,9 @@ function render(props: BaseProps<SelectProps>) {
           {selectedIconElement}
           {iconElement}
           <div class="select-item-content">
-            <div class={`select-item-label ${labelClass}`.trim()}>{item.label}</div>
+            <div class={cn("select-item-label", labelClass)}>{item.label}</div>
             {item.description && (
-              <div class={`select-item-description ${descriptionClass}`.trim()}>{item.description}</div>
+              <div class={cn("select-item-description", descriptionClass)}>{item.description}</div>
             )}
           </div>
         </a>
@@ -137,16 +138,16 @@ function render(props: BaseProps<SelectProps>) {
   return (
     <div
       data-select-open="false"
-      class={`select-dropdown ${finalClasses}`.trim()}
+      class={cn("select-dropdown", finalClasses)}
       {...moreProps}
     >
-      <div tabindex="0" role="button" class={`select-button ${buttonClasses}`.trim()} data-disabled={disabled}>
+      <div tabindex="0" role="button" class={cn("select-button", buttonClasses)} data-disabled={disabled}>
         <span class="select-button-label">{buttonLabel}</span>
         <span class="select-button-arrow">▼</span>
       </div>
       <ul
         tabindex="0"
-        class={`select-menu ${menuClass} dropdown-content absolute`.trim()}
+        class={cn("select-menu", menuClass, "dropdown-content absolute")}
         style="display: none;"
       >
         {itemElements}

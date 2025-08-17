@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
+import { cn } from "../utils/cn.js"
 
 export type MenuPlacement = 'bottom-start' | 'bottom-end' | 'top-start' | 'top-end' | 'bottom' | 'top'
 
@@ -40,7 +41,7 @@ function render(props: BaseProps<MenuProps>) {
     ...moreProps
   } = props
 
-  const buttonClasses = disabled ? `${buttonClass} btn-disabled` : buttonClass
+  const buttonClasses = cn(buttonClass, disabled && "btn-disabled")
 
   // Determine dropdown classes based on placement
   let dropdownClasses = "dropdown relative"
@@ -66,7 +67,7 @@ function render(props: BaseProps<MenuProps>) {
   }
 
   // Merge with user-provided class
-  const finalClasses = `${dropdownClasses} ${className}`.trim()
+  const finalClasses = cn(dropdownClasses, className)
 
   return (
     <div
@@ -79,7 +80,7 @@ function render(props: BaseProps<MenuProps>) {
       </div>
       <ul
         tabindex="0"
-        class={`${menuClass} dropdown-content absolute`}
+        class={cn(menuClass, "dropdown-content absolute")}
         style="display: none;"
       >
         {children}

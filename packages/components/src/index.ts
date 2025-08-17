@@ -28,3 +28,6 @@ export { default as Icon } from "./images/icon"
 
 // Content Components
 export { default as Markdown, createMarkdownInstance } from "./content/markdown/markdown"
+
+// Utility Functions
+export { cn } from "./utils/cn"

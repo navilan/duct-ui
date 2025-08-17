@@ -100,7 +100,7 @@ function render(props: BaseProps<LandingPageProps>) {
                   <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
-                  <span class="text-base-content/70">Ready-to-use components with DaisyUI</span>
+                  <span class="text-base-content/70">Works with any CSS framework or vanilla styles</span>
                 </div>
               </div>
               <div class="mt-6 pt-6 border-t border-base-300">
@@ -337,7 +337,7 @@ on:click={...}
           </div>
 
           {/* Footer */}
-          <div class="mt-16 pt-8 border-t border-base-300/50 text-center">
+          <div class="mt-16 pt-8 border-t border-base-300 text-center">
             <p class="text-base-content/60">
               Built for the future of development where humans and AI collaborate seamlessly
             </p>

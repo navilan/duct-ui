@@ -1,6 +1,7 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { TreeViewData, TreeNode, TreePath, hasChildren } from "./structure.js"
+import { cn } from "../utils/cn.js"
 
 export interface TreeViewEvents extends BaseComponentEvents {
   expanded: (el: HTMLElement, path: TreePath) => void
@@ -70,19 +71,19 @@ function TreeNodeComponent<T>(props: {
 
   return (
     <div
-      class={`tree-node ${nodeClass}`}
+      class={cn("tree-node", nodeClass)}
       data-node-path={pathKey}
       data-depth={depth}
       {...(nodeHasChildren ? { 'data-expandable': '' } : {})}
     >
-      <div class={`tree-node-content ${indentStyle} ${labelClass}`} data-node-clickable="true">
+      <div class={cn("tree-node-content", indentStyle, labelClass)} data-node-clickable="true">
         <span
-          class={`tree-expand-icon ${iconClass}`}
+          class={cn("tree-expand-icon", iconClass)}
         >
           {expandIcon}
         </span>
         {node.icon && (
-          <span class={`tree-node-icon ${iconClass}`}>{node.icon}</span>
+          <span class={cn("tree-node-icon", iconClass)}>{node.icon}</span>
         )}
         <span class="tree-node-label">{node.label}</span>
       </div>
@@ -116,7 +117,7 @@ function render<T>(props: BaseProps<TreeViewProps<T>>) {
   // Create set of initially expanded paths for quick lookup
   const expandedPaths = new Set(initialExpanded.map(path => path.join('.')))
 
-  const containerClasses = `tree-view ${className}`.trim()
+  const containerClasses = cn("tree-view", className)
 
   function renderNodeRecursive(node: TreeNode<T>, path: TreePath, depth: number): any {
     const pathKey = path.join('.')
