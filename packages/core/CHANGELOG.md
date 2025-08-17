@@ -1,5 +1,11 @@
 # @duct-ui/core
 
+## 0.7.9
+
+### Patch Changes
+
+- [#69](https://github.com/navilan/duct-ui/pull/69) [`53dba6f`](https://github.com/navilan/duct-ui/commit/53dba6fc5fdebdc1e9ddac76a92201ecd909ea0a) Thanks [@navilan](https://github.com/navilan)! - Use tailwind-merge and the cn pattern to merge classes
+
 ## 0.7.8
 
 ### Patch Changes
