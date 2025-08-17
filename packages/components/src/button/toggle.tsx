@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
+import { cn } from "../utils/cn.js"
 
 export type ToggleState = 'on' | 'off'
 
@@ -42,7 +43,7 @@ function render(props: BaseProps<ToggleProps>) {
 
   return (
     <button
-      class={`btn ${currentClass} ${additionalClass}`.trim()}
+      class={cn("btn", currentClass, additionalClass)}
       data-toggle-btn
       {...moreProps}
     >
@@ -71,7 +72,7 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<ToggleEvents>, props: 
     const newLabel = isOn ? onLabel : offLabel
 
     // Update button class including additional classes
-    toggleBtn.className = `btn ${newClass} ${additionalClass}`.trim()
+    toggleBtn.className = cn("btn", newClass, additionalClass)
     toggleBtn.textContent = newLabel
   }
 

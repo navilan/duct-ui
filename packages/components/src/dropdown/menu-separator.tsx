@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
+import { cn } from "../utils/cn.js"
 
 export interface MenuSeparatorEvents extends BaseComponentEvents { }
 
@@ -18,7 +19,7 @@ function render(props: BaseProps<MenuSeparatorProps>) {
   } = props
 
   return (
-    <li class={`menu-title ${className}`.trim()} {...moreProps}>
+    <li class={cn("menu-title", className)} {...moreProps}>
       <hr class="my-1" />
     </li>
   )

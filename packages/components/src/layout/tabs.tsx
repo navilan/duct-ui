@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
+import { cn } from "../utils/cn.js"
 
 export interface TabItem {
   id: string
@@ -48,11 +49,11 @@ function render(props: BaseProps<TabsProps>) {
         {items.map(item => {
           const isActive = item.id === currentActiveId
           const isDisabled = item.disabled || false
-          const tabClasses = [
+          const tabClasses = cn(
             tabClass,
-            isActive ? activeTabClass : '',
-            isDisabled ? 'tab-disabled' : ''
-          ].filter(Boolean).join(' ')
+            isActive && activeTabClass,
+            isDisabled && 'tab-disabled'
+          )
 
           return (
             <button
@@ -74,7 +75,7 @@ function render(props: BaseProps<TabsProps>) {
           return (
             <div
               data-tab-key={item.id}
-              class={`${contentClass} ${isActive ? 'block' : 'hidden'}`}
+              class={cn(contentClass, isActive ? 'block' : 'hidden')}
               data-tab-content={item.id}
             >
               {item.content()}
@@ -111,14 +112,11 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<TabsEvents>, props: an
       const isDisabled = item?.disabled || false
 
       // Rebuild classes completely
-      const classes = [tabClass]
-      if (isActive) {
-        classes.push(activeTabClass)
-      }
-      if (isDisabled) {
-        classes.push('tab-disabled')
-      }
-      btn.className = classes.join(' ')
+      btn.className = cn(
+        tabClass,
+        isActive && activeTabClass,
+        isDisabled && 'tab-disabled'
+      )
     })
 
     // Update tab content visibility
@@ -130,13 +128,10 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<TabsEvents>, props: an
         const isActive = tabId === activeTabId
 
         // Rebuild content classes
-        const classes = [contentClass]
-        if (isActive) {
-          classes.push('block')
-        } else {
-          classes.push('hidden')
-        }
-        content.className = classes.join(' ')
+        content.className = cn(
+          contentClass,
+          isActive ? 'block' : 'hidden'
+        )
       })
     }
   }

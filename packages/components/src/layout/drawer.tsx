@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
+import { cn } from "../utils/cn.js"
 
 export interface DrawerEvents extends BaseComponentEvents {
   open: () => void
@@ -46,7 +47,7 @@ function render(props: BaseProps<DrawerProps>) {
     ...moreProps
   } = props
 
-  const containerClasses = `drawer ${side === 'right' ? 'drawer-right' : 'drawer-left'} ${isOpen ? 'drawer-open' : ''} ${persistent ? 'drawer-persistent' : ''} ${className}`.trim()
+  const containerClasses = cn("drawer", side === 'right' ? 'drawer-right' : 'drawer-left', isOpen && 'drawer-open', persistent && 'drawer-persistent', className)
 
   return (
     <div
@@ -58,16 +59,16 @@ function render(props: BaseProps<DrawerProps>) {
     >
       {overlay && !persistent && (
         <div 
-          class={`drawer-overlay ${overlayClass}`.trim()}
+          class={cn("drawer-overlay", overlayClass)}
           data-drawer-overlay
         ></div>
       )}
       
-      <div class={`drawer-content ${drawerClass}`.trim()}>
+      <div class={cn("drawer-content", drawerClass)}>
         {drawerContent}
       </div>
       
-      <div class={`drawer-main ${contentClass}`.trim()}>
+      <div class={cn("drawer-main", contentClass)}>
         {mainContent}
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { createBlueprint, type BaseProps, type BindReturn, type BaseComponentEvents } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
+import { cn } from "../../utils/cn.js"
 import MarkdownIt from "markdown-it"
 import markdownItPrism from "markdown-it-prism"
 import markdownItAttrs from "markdown-it-attrs"
@@ -123,7 +124,7 @@ function render(props: BaseProps<MarkdownProps>) {
 
   return (
     <div
-      class={`markdown-content ${className}`}
+      class={cn("markdown-content", className)}
       data-markdown
       {...moreProps}
     >

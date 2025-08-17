@@ -1,5 +1,6 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
+import { cn } from "../utils/cn.js"
 
 export interface ModalEvents extends BaseComponentEvents {
   open: (el: HTMLElement) => void
@@ -50,16 +51,16 @@ function render(props: BaseProps<ModalProps>) {
 
   return (
     <div
-      class={`modal-container ${positionClass} ${isOpen ? 'modal-visible' : 'modal-hidden'}`}
+      class={cn("modal-container", positionClass, isOpen ? 'modal-visible' : 'modal-hidden')}
       data-modal-container
       {...moreProps}
     >
       <div
-        class={`modal-overlay ${overlayClass}`}
+        class={cn("modal-overlay", overlayClass)}
         data-modal-overlay
       ></div>
       <div
-        class={`modal-content ${contentClass}`}
+        class={cn("modal-content", contentClass)}
         data-modal-content
       >
         {children || (content && content())}
