@@ -103,7 +103,7 @@ function render(props: BaseProps<LandingPageProps>) {
                   <span class="text-base-content/70">Ready-to-use components with DaisyUI</span>
                 </div>
               </div>
-              <div class="mt-6 pt-6 border-t border-base-300/50">
+              <div class="mt-6 pt-6 border-t border-base-300">
                 <a href="/docs/building-components" class="text-primary hover:text-primary-focus font-medium inline-flex items-center">
                   Learn about components
                   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -152,7 +152,7 @@ function render(props: BaseProps<LandingPageProps>) {
                   <span class="text-base-content/70">Selective reanimation for interactivity</span>
                 </div>
               </div>
-              <div class="mt-6 pt-6 border-t border-base-300/50">
+              <div class="mt-6 pt-6 border-t border-base-300">
                 <a href="/docs/static-site-generation" class="text-secondary hover:text-secondary-focus font-medium inline-flex items-center">
                   Learn about SSG
                   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -205,7 +205,7 @@ function render(props: BaseProps<LandingPageProps>) {
                 </p>
               </div>
             </div>
-            <div class="mt-6 text-center">
+            <div class="mt-6 pt-6 border-t border-base-300 text-center">
               <a href="/docs/why-duct" class="text-primary hover:text-primary-focus font-medium inline-flex items-center">
                 Learn more about the Duct philosophy
                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
