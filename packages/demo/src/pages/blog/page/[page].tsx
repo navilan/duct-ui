@@ -1,4 +1,5 @@
 import type { PageProps, ContentFile } from '@duct-ui/router'
+import ThemeToggle from '@components/ThemeToggle'
 
 export function getLayout(): string {
   return 'blog-listing.html'
@@ -15,7 +16,7 @@ export function getPageMeta(): Record<string, any> {
 // Generate static paths for all blog pages
 export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<Record<string, any>> {
   const routes: Record<string, any> = {}
-  
+
   if (!content) {
     return routes
   }
@@ -43,7 +44,12 @@ const BlogPageComponent = ({ meta, path, env }: PageProps) => {
   // Extract page number from path
   const pageNum = parseInt(path.split('/').pop() || '1', 10)
 
-  return <div id="blog-listing" data-page={pageNum}></div>
+  return (
+    <>
+      <ThemeToggle />
+      <div id="blog-listing" data-page={pageNum}></div>
+    </>
+  )
 }
 
 export default BlogPageComponent
