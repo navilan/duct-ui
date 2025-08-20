@@ -1,6 +1,6 @@
 {
   "name": "@duct-ui/starter",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "type": "module",
   "description": "A starter project template for Duct UI applications",
   "private": true,
