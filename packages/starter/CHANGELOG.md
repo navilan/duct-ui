@@ -1,5 +1,16 @@
 # @duct-ui/starter
 
+## 0.1.7
+
+### Patch Changes
+
+- [#71](https://github.com/navilan/duct-ui/pull/71) [`b6ed971`](https://github.com/navilan/duct-ui/commit/b6ed971200c68a6ce2a6ad09003043cf88ee47ff) Thanks [@navilan](https://github.com/navilan)! - Fix relative imports in barrel files
+
+- Updated dependencies [[`b6ed971`](https://github.com/navilan/duct-ui/commit/b6ed971200c68a6ce2a6ad09003043cf88ee47ff)]:
+  - @duct-ui/components@0.7.10
+  - @duct-ui/core@0.7.10
+  - @duct-ui/router@0.7.10
+
 ## 0.1.6
 
 ### Patch Changes
