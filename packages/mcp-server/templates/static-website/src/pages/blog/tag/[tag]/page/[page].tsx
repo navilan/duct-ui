@@ -1,3 +1,4 @@
+import type { ContentFile } from '@duct-ui/router'
 import ThemeToggle from '@components/ThemeToggle'
 
 export function getLayout(): string {
@@ -6,44 +7,66 @@ export function getLayout(): string {
 
 export function getPageMeta(): Record<string, any> {
   return {
-    title: 'Blog Posts by Tag - Duct Starter',
+    title: 'Blog Posts by Tag - {{name}}',
     description: 'Browse blog posts by tag',
     postsPerPage: 5
   }
 }
 
 // Generate static paths for paginated tag pages
-export async function getRoutes(): Promise<Record<string, any>> {
+export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<Record<string, any>> {
   const routes: Record<string, any> = {}
 
-  // Based on our current blog posts, we have these tags:
-  // "welcome", "getting-started", "demo", "blog"
-  // With only 2 posts total, we don't need pagination yet.
-  // This will be useful when you have more posts per tag.
+  if (!content) {
+    return routes
+  }
+
+  // Count posts per tag
+  const tagCounts = new Map<string, number>()
+  const tagNames = new Map<string, string>() // slug -> original tag name
+
+  for (const [, contentItems] of content) {
+    for (const item of contentItems) {
+      if (item.meta.tags && Array.isArray(item.meta.tags)) {
+        for (const tag of item.meta.tags) {
+          if (typeof tag === 'string' && tag.trim()) {
+            const trimmedTag = tag.trim()
+            const slug = trimmedTag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+            
+            // Store original tag name for display
+            tagNames.set(slug, trimmedTag)
+            
+            // Count posts for this tag
+            const currentCount = tagCounts.get(slug) || 0
+            tagCounts.set(slug, currentCount + 1)
+          }
+        }
+      }
+    }
+  }
+
+  // Generate paginated routes for tags with more than 5 posts
+  const postsPerPage = 5
   
-  // Uncomment and modify when you have more posts:
-  // const knownTags = ['welcome', 'getting-started', 'demo', 'blog']
-  // 
-  // for (const tag of knownTags) {
-  //   const slug = tag.toLowerCase().replace(/\s+/g, '-')
-  //   
-  //   // Only generate if we expect to have more than 5 posts for this tag
-  //   const estimatedPostsForTag = 2 // Update based on actual content
-  //   const postsPerPage = 5
-  //   const totalPages = Math.ceil(estimatedPostsForTag / postsPerPage)
-  //   
-  //   for (let page = 2; page <= totalPages; page++) {
-  //     routes[`/blog/tag/${slug}/page/${page}`] = {
-  //       title: `Posts tagged "${tag}" - Page ${page} - Duct Starter`,
-  //       description: `Blog posts tagged with ${tag}, page ${page}`,
-  //       tag: tag,
-  //       tagSlug: slug,
-  //       currentPage: page,
-  //       postsPerPage: 5
-  //     }
-  //   }
-  // }
-  
+  for (const [slug, count] of tagCounts) {
+    const totalPages = Math.ceil(count / postsPerPage)
+    const originalTag = tagNames.get(slug) || slug
+    
+    // Only generate page 2+ routes (page 1 is handled by [tag].tsx)
+    for (let page = 2; page <= totalPages; page++) {
+      routes[`/blog/tag/${slug}/page/${page}`] = {
+        title: `Posts tagged "${originalTag}" - Page ${page} - {{name}}`,
+        description: `Blog posts tagged with ${originalTag}, page ${page}`,
+        tag: originalTag,
+        tagSlug: slug,
+        currentPage: page,
+        postsPerPage: 5
+      }
+    }
+  }
+
+  console.log(`Generated paginated routes for ${tagCounts.size} tags`)
+
   return routes
 }
 
