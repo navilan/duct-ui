@@ -4,7 +4,7 @@ date: 2025-08-14
 image: /blog/2025/08/navilan/navilan-duct-example.png
 ogPath: /blog/2025/08/navilan/navilan-duct-example.png
 author: navilan
-tags: [Examples, Tutorial, Real-World]
+tags: [Examples, Tutorial, Real-World, Article]
 ---
 
 See how Duct UI powers a production bilingual website with advanced pagination, custom markdown processing, and elegant navigation patterns. A comprehensive example showcasing real-world implementation.
@@ -15,7 +15,7 @@ See how Duct UI powers a production bilingual website with advanced pagination, 
 
 ## 🌐 Live Example: navilan.in
 
-**Website**: [https://navilan.in/](https://navilan.in/)  
+**Website**: [https://navilan.in/](https://navilan.in/)
 **Source Code**: [https://github.com/navilan/navilan.in](https://github.com/navilan/navilan.in)
 
 This personal website demonstrates Duct UI's capabilities in production, featuring bilingual content (English/Tamil), a comprehensive blog with dozens of posts across multiple pages, and sophisticated content management.
@@ -47,7 +47,7 @@ The blog features a robust pagination system handling dozens of posts across mul
 - Clean URL structure (`/en/writings/page/2`)
 - Maintains language context in pagination
 
-**See it in action**: 
+**See it in action**:
 - [Page 1](https://navilan.in/en/writings) - Latest posts
 - [Page 2](https://navilan.in/en/writings/page/2) - Continued posts
 - [Page 3](https://navilan.in/en/writings/page/3) - Older posts
@@ -82,7 +82,7 @@ The template system includes custom filters for enhanced content processing.
 
 **Available Filters:**
 - **Date formatting** with locale support
-- **Language URL generation** 
+- **Language URL generation**
 - **Path manipulation** (relative to absolute)
 - **Language detection** from paths
 - **Math operations** (min function)
@@ -119,7 +119,7 @@ navilan.in/
 └── tailwind.config.js   # Styling configuration
 ```
 
-**Asset Management**: 
+**Asset Management**:
 - Post images are stored alongside content files for easy management
 - Duct automatically copies them to the distribution directory during build
 - The `public/` directory is reserved for shared common assets
@@ -197,7 +197,7 @@ Visit [navilan.in](https://navilan.in) to experience these features firsthand, a
 
 ## 🤝 Share Your Duct UI Project!
 
-Have you built something with Duct UI? We'd love to see it! 
+Have you built something with Duct UI? We'd love to see it!
 
 **Join the conversation**: Share your projects, ask questions, and connect with the Duct UI community in our [GitHub Discussions](https://github.com/navilan/duct-ui/discussions).
 
