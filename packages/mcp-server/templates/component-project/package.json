@@ -1,0 +1,49 @@
+{
+  "name": "{{name}}",
+  "version": "0.1.0",
+  "description": "{{description}}",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    },
+    "./*/*.css": "./dist/*/*.css"
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json && pnpm run copy-css",
+    "copy-css": "find src -name '*.css' | while read file; do mkdir -p \"dist/$(dirname \"${file#src/}\")\"; cp \"$file\" \"dist/${file#src/}\"; done",
+    "clean": "tsc -b tsconfig.build.json --clean",
+    "check": "tsc -b tsconfig.build.json --noEmit",
+    "dev": "tsc -b tsconfig.build.json --watch"
+  },
+  "keywords": [
+    "ui",
+    "components",
+    "duct-ui",
+    "framework"
+  ],
+  "author": "{{author}}",
+  "license": "MIT",
+  "packageManager": "pnpm@10.13.1",
+  "dependencies": {
+    "@duct-ui/core": "^0.7.10",
+    "@kitajs/html": "^4.2.9",
+    "clsx": "^2.1.1",
+    "lib0": "^0.2.114",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

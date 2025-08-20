@@ -1,0 +1,35 @@
+<!-- Header -->
+<header class="bg-base-100 shadow-sm border-b border-base-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center">
+        <a href="/" class="text-xl font-bold hover:opacity-70">
+          {{ env.siteName }}
+        </a>
+      </div>
+      
+      <nav class="hidden md:flex space-x-8">
+        <a href="/" class="{% if page.path == '/' %}text-primary font-semibold{% else %}hover:text-primary{% endif %} transition-colors duration-200">
+          Home
+        </a>
+        <a href="/about" class="{% if page.path == '/about' %}text-primary font-semibold{% else %}hover:text-primary{% endif %} transition-colors duration-200">
+          About
+        </a>
+        <a href="/blog" class="{% if page.path.startsWith('/blog') %}text-primary font-semibold{% else %}hover:text-primary{% endif %} transition-colors duration-200">
+          Blog
+        </a>
+        <a href="/contact" class="{% if page.path == '/contact' %}text-primary font-semibold{% else %}hover:text-primary{% endif %} transition-colors duration-200">
+          Contact
+        </a>
+      </nav>
+      
+      <div class="md:hidden">
+        <button type="button" class="hover:text-primary">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

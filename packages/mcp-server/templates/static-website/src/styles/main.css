@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+@import "@duct-ui/components/layout/modal.css";
+@import "./prism-gruvbox-dark.css";
+@import "./prism-gruvbox-light.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@plugin "@tailwindcss/typography";
+
+@plugin "daisyui" {
+  themes: coffee --prefersdark, light --default;
+  root: "body";
+}
+
+
+@layer base {
+  html {
+    font-family: Inter, system-ui, sans-serif;
+  }
+
+}
+
+@layer components {
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    @apply font-semibold;
+  }
+
+  /* Task list styles for both themes */
+  .task-list-item {
+    @apply list-none relative flex items-start gap-2 mb-2;
+  }
+
+  /* Remove default checkbox appearance and style custom */
+  .task-list-item input[type="checkbox"] {
+    @apply appearance-none w-4 h-4 mt-1 flex-shrink-0 rounded border-2 cursor-pointer transition-all duration-200;
+  }
+
+  /* Light theme checkbox styles */
+  [data-theme="light"] .task-list-item input[type="checkbox"] {
+    @apply border-base-300 bg-base-100 hover:border-primary/50;
+  }
+
+  [data-theme="light"] .task-list-item input[type="checkbox"]:checked {
+    @apply bg-primary border-primary;
+  }
+
+  [data-theme="light"] .task-list-item input[type="checkbox"]:focus {
+    @apply ring-2 ring-primary/30 ring-offset-1 ring-offset-base-100;
+  }
+
+  /* Dark theme checkbox styles */
+  [data-theme="dark"] .task-list-item input[type="checkbox"] {
+    @apply border-base-300 bg-base-200 hover:border-primary/50;
+  }
+
+  [data-theme="dark"] .task-list-item input[type="checkbox"]:checked {
+    @apply bg-primary border-primary;
+  }
+
+  [data-theme="dark"] .task-list-item input[type="checkbox"]:focus {
+    @apply ring-2 ring-primary/30 ring-offset-1 ring-offset-base-100;
+  }
+
+  /* Checkmark for checked state */
+  .task-list-item input[type="checkbox"]:checked::after {
+    content: '';
+    @apply absolute inset-0 bg-primary;
+    mask: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z'/%3e%3c/svg%3e") center/contain no-repeat;
+  }
+
+  /* Task list text styling */
+  .task-list-item-checkbox ~ * {
+    @apply flex-1;
+  }
+
+  /* Ensure task list items don't have bullets */
+  ul.contains-task-list {
+    @apply list-none pl-0 space-y-1;
+  }
+
+  ul.contains-task-list li.task-list-item {
+    @apply list-none ml-0;
+  }
+
+  /* Nested task lists */
+  .task-list-item ul.contains-task-list {
+    @apply mt-2 ml-6;
+  }
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include "_meta_tags.html" %}
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body class="min-h-screen grid grid-rows-[auto_1fr_auto]">
+  {% include "_header.html" %}
+
+  <!-- Static content rendered by Nunjucks -->
+  <main class="max-w-6xl mx-auto px-4 py-8 w-full">
+    <div class="mb-12">
+      <nav class="breadcrumbs text-sm mb-4">
+        <ul>
+          <li><a href="/" class="link link-hover">Home</a></li>
+          <li><a href="/blog" class="link link-hover">Blog</a></li>
+          <li>{{ page.tag or 'Tag' }}</li>
+        </ul>
+      </nav>
+
+      <h1 class="text-4xl font-bold mb-4">
+        Posts tagged "{{ page.tag or 'Unknown Tag' }}"
+      </h1>
+      <p class="text-xl opacity-70">{{ page.description or 'All posts with this tag' }}</p>
+    </div>
+
+    <!-- Filter blog posts by tag -->
+    {% set taggedPosts = [] %}
+    {% if collections.blog and page.tag %}
+      {% for post in collections.blog %}
+        {% if post.meta.tags and page.tag in post.meta.tags %}
+          {% set taggedPosts = (taggedPosts.push(post), taggedPosts) %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    <!-- Blog Posts Grid -->
+    {% if taggedPosts.length > 0 %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for post in taggedPosts %}
+      {% set currentTag = page.tag %}
+      {% include "_blog_listing_item.html" %}
+      {% endfor %}
+    </div>
+
+    <!-- Pagination for tags (if needed) -->
+    {% if tagPagination and tagPagination.totalPages > 1 %}
+    <div class="flex justify-center mt-12">
+      <div class="join">
+        {% if tagPagination.currentPage > 1 %}
+        <a href="{% if tagPagination.currentPage == 2 %}/blog/tag/{{ page.tagSlug }}{% else %}/blog/tag/{{ page.tagSlug }}/page/{{ tagPagination.currentPage - 1 }}{% endif %}"
+           class="join-item btn btn-outline">«</a>
+        {% endif %}
+
+        {% for page in range(1, tagPagination.totalPages + 1) %}
+        {% if page == tagPagination.currentPage %}
+        <span class="join-item btn btn-active">{{ page }}</span>
+        {% else %}
+        <a href="{% if page == 1 %}/blog/tag/{{ page.tagSlug }}{% else %}/blog/tag/{{ page.tagSlug }}/page/{{ page }}{% endif %}"
+           class="join-item btn btn-outline">{{ page }}</a>
+        {% endif %}
+        {% endfor %}
+
+        {% if tagPagination.currentPage < tagPagination.totalPages %}
+        <a href="/blog/tag/{{ page.tagSlug }}/page/{{ tagPagination.currentPage + 1 }}"
+           class="join-item btn btn-outline">»</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="text-center py-16">
+      <div class="text-6xl mb-4 opacity-20">🏷️</div>
+      <h2 class="text-2xl font-bold mb-4">No posts found</h2>
+      <p class="opacity-70">No posts are tagged with "{{ page.tag }}"</p>
+      <div class="mt-6">
+        <a href="/blog" class="btn btn-primary">Browse All Posts</a>
+      </div>
+    </div>
+    {% endif %}
+  </main>
+
+  <!-- Interactive content container for Duct components -->
+  <div id="app">
+    {{ content | safe }}
+  </div>
+
+  {% include "_footer.html" %}
+
+  <!-- Scripts -->
+  {% for script in page.scripts %}
+  <script type="module" src="{{ script }}"></script>
+  {% endfor %}
+
+  {% if page.inlineScript %}
+  <script>{{ page.inlineScript | safe }}</script>
+  {% endif %}
+</body>
+
+</html>

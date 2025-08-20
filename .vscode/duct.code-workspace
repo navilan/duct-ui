@@ -27,7 +27,12 @@
     {
       "name": "Starter",
       "path": "../packages/starter"
+    },
+    {
+      "name": "MCP Server",
+      "path": "../packages/mcp-server"
     }
+
   ],
   "settings": {
     "editor.insertSpaces": true,
