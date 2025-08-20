@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include "_meta_tags.html" %}
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body>
+  {% include "_header.html" %}
+
+  <!-- Main Content -->
+  <main class="min-h-screen py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div id="app">
+        <!-- Duct component renders here -->
+        {{ content | safe }}
+      </div>
+    </div>
+  </main>
+
+  {% include "_footer.html" %}
+  <!-- Scripts -->
+  {% for script in page.scripts %}
+  <script type="module" src="{{ script }}"></script>
+  {% endfor %}
+
+  {% if page.inlineScript %}
+  <script>{ { page.inlineScript | safe } }</script>
+  {% endif %}
+</body>
+
+</html>

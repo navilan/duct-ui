@@ -1,0 +1,49 @@
+<!-- Blog Post Card - reusable component -->
+<article class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300">
+  <div class="card-body">
+    <div class="flex justify-between items-start mb-2">
+      {% if post.meta.featured %}
+      <div class="badge badge-primary badge-sm">Featured</div>
+      {% else %}
+      <div></div>
+      {% endif %}
+      {% if post.meta.date %}
+      <time class="text-sm opacity-60" datetime="{{ post.meta.date }}">
+        {{ post.meta.date | date("LLL d") }}
+      </time>
+      {% endif %}
+    </div>
+
+    <h2 class="card-title">
+      <a href="{{ post.urlPath }}"
+         class="link link-hover">
+        {{ post.meta.title or 'Untitled Post' }}
+      </a>
+    </h2>
+
+
+    {% if post.meta.excerpt %}
+    <p class="opacity-70 line-clamp-3">{{ post.meta.excerpt | safe }}</p>
+    {% endif %}
+
+    <div class="card-actions justify-between items-center mt-4">
+      {% if post.meta.tags %}
+      <div class="flex flex-wrap gap-1">
+        {% for tag in post.meta.tags | slice(0, 2) %}
+        <div class="badge {% if currentTag and tag == currentTag %}badge-primary{% else %}badge-outline{% endif %} badge-xs">
+          {{ tag }}
+        </div>
+        {% endfor %}
+        {% if post.meta.tags.length > 2 %}
+        <div class="badge badge-outline badge-xs opacity-50">+{{ post.meta.tags.length - 2 }}</div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <a href="{{ post.urlPath }}"
+         class="btn btn-primary btn-sm">
+        Read More
+      </a>
+    </div>
+  </div>
+</article>

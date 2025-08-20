@@ -1,0 +1,42 @@
+<!-- Footer -->
+<footer class="footer footer-center bg-base-200 text-base-content p-10">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 w-full">
+      <div class="md:col-span-2 text-left">
+        <h3 class="text-lg font-semibold mb-4">{{ env.siteName }}</h3>
+        <p class="opacity-70 max-w-md">
+          A modern website built with Duct UI - the component framework that prioritizes 
+          explicit patterns and developer experience.
+        </p>
+      </div>
+      
+      <div class="text-left">
+        <h4 class="text-sm font-semibold uppercase tracking-wider mb-4">
+          Navigation
+        </h4>
+        <ul class="space-y-2">
+          <li><a href="/" class="link link-hover">Home</a></li>
+          <li><a href="/about" class="link link-hover">About</a></li>
+          <li><a href="/blog" class="link link-hover">Blog</a></li>
+          <li><a href="/contact" class="link link-hover">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="text-left">
+        <h4 class="text-sm font-semibold uppercase tracking-wider mb-4">
+          Resources
+        </h4>
+        <ul class="space-y-2">
+          <li><a href="https://duct-ui.org/docs" target="_blank" rel="noopener noreferrer" class="link link-hover">Documentation</a></li>
+          <li><a href="https://github.com/navilan/duct-ui" target="_blank" rel="noopener noreferrer" class="link link-hover">GitHub</a></li>
+          <li><a href="https://duct-ui.org/demos" target="_blank" rel="noopener noreferrer" class="link link-hover">Examples</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+    <p class="opacity-70">
+      © {{ "now" | date("yyyy") }} {{ env.siteName }}. Built with Duct UI.
+    </p>
+  </div>
+</footer>

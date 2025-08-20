@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% include "_meta_tags.html" %}
+  <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+
+<body class="min-h-screen grid grid-rows-[auto_1fr_auto]">
+  {% include "_header.html" %}
+
+  <!-- Static content container -->
+  <main id="content" class="w-full">
+    <article class="max-w-4xl mx-auto px-4 py-8">
+      <!-- Article Header -->
+      <header class="mb-8 pb-8 border-b border-base-300">
+        <h1 class="text-4xl font-bold mb-4">{{ page.title or 'Untitled Post' }}</h1>
+
+        <div class="flex flex-wrap gap-4 text-sm opacity-70">
+          {% if page.date %}
+          <time datetime="{{ page.date }}">
+            {{ page.date | date("LLLL d, yyyy") }}
+          </time>
+          {% endif %}
+
+          {% if page.author %}
+          <span>By {{ page.author }}</span>
+          {% endif %}
+
+          {% if page.readingTime %}
+          <span>{{ page.readingTime }} min read</span>
+          {% endif %}
+        </div>
+
+        <!-- Tags -->
+        {% if page.tags %}
+        <div class="flex flex-wrap gap-2 mt-6">
+          {% for tag in page.tags %}
+          <a
+            href="/blog/tag/{{ tag | lower | replace(' ', '-') }}"
+            class="badge badge-primary badge-outline">
+            {{ tag }}
+          </a>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </header>
+
+      <!-- Article Content -->
+      <div class="prose prose-lg max-w-none">
+        {{ staticContent | safe }}
+      </div>
+
+      <!-- Article Footer -->
+      <footer class="mt-16 pt-8 border-t border-base-300">
+        <div class="flex justify-between items-center">
+          <a href="/blog" class="btn btn-outline">
+            ← Back to Blog
+          </a>
+
+          {% if page.tags %}
+          <div class="text-sm">
+            <span class="opacity-70">Tags: </span>
+            {% for tag in page.tags %}
+            <a
+              href="/blog/tag/{{ tag | lower | replace(' ', '-') }}"
+              class="link link-primary">{{ tag }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </footer>
+    </article>
+
+    <!-- Interactive content container for Duct components -->
+    <div id="app">
+      {{ interactiveContent | safe }}
+    </div>
+  </main>
+
+  {% include "_footer.html" %}
+
+  <!-- Scripts -->
+  {% for script in page.scripts %}
+  <script type="module" src="{{ script }}"></script>
+  {% endfor %}
+
+  {% if page.inlineScript %}
+  <script>{{ page.inlineScript | safe }}</script>
+  {% endif %}
+</body>
+
+</html>

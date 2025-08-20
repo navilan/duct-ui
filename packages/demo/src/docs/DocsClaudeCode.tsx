@@ -2,6 +2,7 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import DemoLayout from "@components/DemoLayout"
 import Markdown from "@duct-ui/components/content/markdown/markdown"
 import "@duct-ui/components/content/markdown/markdown.css"
+import mcpServerContent from "./content/claude-code/mcp-server.md?raw"
 import introductionContent from "./content/claude-code/introduction.md?raw"
 import trainingPromptContent from "./content/claude-code/training-prompt.md?raw"
 import agentsIntroContent from "./content/claude-code/agents-intro.md?raw"
@@ -28,6 +29,7 @@ function render(props: BaseProps<DocsClaudeCodeProps>) {
       >
         <>
           <div class="prose prose-lg max-w-none">
+            <Markdown content={mcpServerContent} />
             <Markdown content={introductionContent} />
 
             <div class="not-prose">

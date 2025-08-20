@@ -1,0 +1,37 @@
+{
+  "name": "@duct-ui/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for Duct UI framework - provides resources, tools and prompts for LLMs",
+  "type": "module",
+  "main": "dist/index.js",
+  "private": true,
+  "bin": {
+    "duct-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist"
+  },
+  "keywords": ["duct", "mcp", "model-context-protocol", "ai", "llm"],
+  "author": "navilan <navilan@folds.in>",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.3",
+    "glob": "^11.0.0",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "@duct-ui/core": "workspace:*",
+    "@duct-ui/components": "workspace:*",
+    "@kitajs/html": "^4.2.9",
+    "clsx": "^2.1.1",
+    "lib0": "^0.2.114",
+    "tailwind-merge": "^3.3.1"
+  }
+}

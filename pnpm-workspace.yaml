@@ -5,3 +5,4 @@ packages:
   - packages/cli
   - packages/demo
   - packages/starter
+  - packages/mcp-server
