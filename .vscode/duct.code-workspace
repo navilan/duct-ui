@@ -73,6 +73,13 @@
         "color": "terminal.ansiOrange",
         "commands": ["git status"]
       }
+    ],
+    "cSpell.words": [
+      "daisyui",
+      "lstrip",
+      "luxon",
+      "oklch",
+      "prefersdark"
     ]
   }
 }

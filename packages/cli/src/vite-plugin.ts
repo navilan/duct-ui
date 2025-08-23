@@ -354,6 +354,41 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
+        // Serve search-index.json and sitemap.xml if configured
+        try {
+          const config = await loadConfig()
+          
+          if (url === '/search-index.json' && config.search?.enabled) {
+            const searchIndexPath = path.join(process.cwd(), 'dist', 'search-index.json')
+            try {
+              const searchIndex = await fs.readFile(searchIndexPath, 'utf-8')
+              res.statusCode = 200
+              res.setHeader('Content-Type', 'application/json')
+              res.setHeader('Cache-Control', 'no-cache')
+              res.end(searchIndex)
+              return
+            } catch (error) {
+              // Search index not found, will continue to next middleware
+            }
+          }
+          
+          if (url === '/sitemap.xml' && config.sitemap?.enabled) {
+            const sitemapPath = path.join(process.cwd(), 'dist', 'sitemap.xml')
+            try {
+              const sitemap = await fs.readFile(sitemapPath, 'utf-8')
+              res.statusCode = 200
+              res.setHeader('Content-Type', 'application/xml')
+              res.setHeader('Cache-Control', 'no-cache')
+              res.end(sitemap)
+              return
+            } catch (error) {
+              // Sitemap not found, will continue to next middleware
+            }
+          }
+        } catch (error) {
+          // Config loading error, continue to next middleware
+        }
+
         // Serve content assets (images from markdown content) - try any path for potential assets
         if (url) {
           const ext = path.extname(url).toLowerCase()

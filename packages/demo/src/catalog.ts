@@ -14,6 +14,7 @@ import ModalDemo from "./demos/ModalDemo"
 import EmojiListDemo from "./demos/EmojiListDemo"
 import CounterDemo from "./demos/CounterDemo"
 import MarkdownDemo from "./demos/MarkdownDemo"
+import SearchDemo from "./demos/SearchDemo"
 import DocsIntro from "./docs/DocsIntro"
 import DocsWhyDuct from "./docs/DocsWhyDuct"
 import DocsComparison from "./docs/DocsComparison"
@@ -183,6 +184,14 @@ export const sections: PageSection[] = [
         description: "Click-to-edit input with keyboard shortcuts",
         component: () => {
           return EditableInputDemo({})
+        }
+      },
+      {
+        id: "search",
+        title: "Search",
+        description: "Full-text search with FlexSearch and real-time results",
+        component: () => {
+          return SearchDemo({})
         }
       }
     ]

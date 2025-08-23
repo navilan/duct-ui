@@ -19,3 +19,6 @@ CLAUDE.md
 .wrangler
 .duct
 .claude
+*-project.md
+*-tasks.md
+.claude-*.txt

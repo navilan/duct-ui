@@ -11,7 +11,7 @@ export default {
   },
   env: {
     siteName: 'Duct Starter',
-    siteUrl: 'https://example.com'
+    siteUrl: 'https://starter.duct-ui.org'
   },
   nunjucks: {
     filters: {

@@ -13,6 +13,7 @@
     "@duct-ui/components": "workspace:*",
     "@duct-ui/core": "workspace:*",
     "@duct-ui/router": "workspace:*",
+    "@duct-ui/client-search-provider": "workspace:*",
     "daisyui": "^5.0.50"
   },
   "devDependencies": {

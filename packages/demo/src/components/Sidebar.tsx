@@ -1,6 +1,9 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
+import { createRef } from "@duct-ui/core"
 import SidebarNav from "@duct-ui/components/layout/sidebar-nav"
+import Search, { type SearchLogic, type SearchResult } from "@duct-ui/components/search/search"
+import { ClientSearchProvider } from "@duct-ui/client-search-provider"
 import ductLogo from "../icons/duct-logo.svg"
 import { PageSection } from "../catalog"
 
@@ -9,9 +12,49 @@ export interface SidebarEvents extends BaseComponentEvents {
 }
 
 let eventEmitter: EventEmitter<SidebarEvents> | undefined
+const searchRef = createRef<SearchLogic>()
+let searchProvider: ClientSearchProvider | null = null
 
 function handleNavigate(navEl: HTMLElement, itemId: string): void {
   eventEmitter?.emit('navigate', itemId)
+}
+
+async function initializeSearch() {
+  if (typeof window === 'undefined') return
+
+  try {
+    searchProvider = new ClientSearchProvider()
+    await searchProvider.initialize({
+      indexUrl: '/search-index.json',
+      threshold: 0.3
+    })
+  } catch (error) {
+    console.error('Failed to initialize sidebar search provider:', error)
+  }
+}
+
+async function handleSidebarSearch(el: HTMLElement, query: string) {
+  if (!searchProvider || !query.trim()) {
+    searchRef.current?.setResults([])
+    return
+  }
+
+  try {
+    const results = await searchProvider.search(query, { limit: 10 })
+    searchRef.current?.setResults(results)
+  } catch (error) {
+    console.error('Sidebar search error:', error)
+    searchRef.current?.setResults([])
+  }
+}
+
+function handleSearchResultSelect(el: HTMLElement, result: SearchResult) {
+  // Navigate to the result if it's a local URL
+  if (result.url.startsWith('/')) {
+    window.location.href = result.url
+  } else {
+    window.open(result.url, '_blank')
+  }
 }
 
 export interface SidebarLogic {
@@ -98,12 +141,40 @@ function render(props: BaseProps<SidebarProps>) {
     </>
   )
 
+  // Update the headerContent to include search
+  const enhancedHeaderContent = (
+    <>
+      {headerContent}
+
+      {/* Search Component - positioned after header content */}
+      <div class="px-4 pb-4 mt-8">
+        <Search
+          ref={searchRef}
+          placeholder="Search&hellip;"
+          searchIcon="🔍"
+          searchIconSize="sm"
+          inputClass="input input-bordered input-sm text-sm w-full pl-8"
+          dropdownClass="absolute top-full left-0 right-0 mt-1 z-50 bg-base-100 shadow-xl border border-base-300 rounded-lg max-h-80 overflow-y-auto"
+          resultItemClass="px-3 py-2 hover:bg-base-200 transition-colors cursor-pointer border-b border-base-300 last:border-b-0"
+          resultTitleClass="font-medium text-base-content mb-1 text-sm truncate"
+          resultExcerptClass="text-base-content/70 text-xs mb-1 line-clamp-2"
+          resultUrlClass="text-primary text-xs truncate"
+          loadingClass="text-base-content/60 italic px-3 py-2 text-center text-xs"
+          noResultsClass="text-base-content/60 px-3 py-2 text-center text-xs"
+          on:search={handleSidebarSearch}
+          on:select={handleSearchResultSelect}
+        />
+      </div>
+    </>
+  )
+
   return (
     <div {...moreProps}>
       <SidebarNav
         content={content}
         currentItem={currentItem}
-        headerContent={headerContent}
+        headerContent={enhancedHeaderContent}
+        containerClass="!h-full"
         on:navigate={handleNavigate}
       />
     </div>
@@ -113,6 +184,9 @@ function render(props: BaseProps<SidebarProps>) {
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): BindReturn<SidebarLogic> {
   let currentDemo = ''
   eventEmitter = _eventEmitter
+
+  // Initialize search provider
+  initializeSearch()
 
   function updateCurrentItem(newDemo: string): void {
     currentDemo = newDemo
@@ -136,7 +210,9 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): Bind
     }
   }
 
-  function release() { }
+  function release(): void {
+    // No cleanup needed for simple implementation
+  }
 
   return {
     updateCurrentItem,

@@ -2,7 +2,6 @@
 
 import { Command } from 'commander'
 import { buildCommand } from './commands/build.js'
-import { ssgCommand } from './commands/ssg.js'
 
 const program = new Command()
 
@@ -13,6 +12,5 @@ program
 
 // Add commands
 program.addCommand(buildCommand)
-program.addCommand(ssgCommand)
 
 program.parse()
