@@ -151,12 +151,12 @@ function render(props: BaseProps<AppLayoutProps>) {
         data-header
       />
 
-      {/* Navigation header - matches content pages layout */}
-      <header class="border-b border-base-300 bg-base-100/80 backdrop-blur-sm flex-shrink-0">
+      {/* Desktop Navigation header - hidden on mobile */}
+      <header class="border-b border-base-300 bg-base-100/80 backdrop-blur-sm flex-shrink-0 hidden lg:block">
         <nav class="max-w-6xl mx-auto px-4 py-3">
           <div class="flex items-center justify-end">
             {/* Navigation Links */}
-            <div class="hidden md:flex items-center gap-6">
+            <div class="flex items-center gap-6">
               <a href="/" class="text-base-content hover:text-primary transition-colors font-medium">Home</a>
               <a href="/docs" class="text-base-content hover:text-primary transition-colors font-medium">Documentation</a>
               <a href="/demos" class="text-base-content hover:text-primary transition-colors font-medium">Demos</a>
@@ -167,22 +167,6 @@ function render(props: BaseProps<AppLayoutProps>) {
                 </svg>
                 GitHub
               </a>
-            </div>
-            
-            {/* Mobile Menu Button */}
-            <div class="dropdown dropdown-end md:hidden">
-              <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </div>
-              <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 z-50">
-                <li><a href="/">Home</a></li>
-                <li><a href="/docs">Documentation</a></li>
-                <li><a href="/demos">Demos</a></li>
-                <li><a href="/blog">Blog</a></li>
-                <li><a href="https://github.com/navilan/duct-ui" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-              </ul>
             </div>
           </div>
         </nav>
