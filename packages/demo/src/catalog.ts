@@ -47,11 +47,12 @@ export interface PageSeparator {
 
 export type PageSection = PageCategory | PageSeparator
 
-export const sections: PageSection[] = [
+// Documentation sections - properly categorized
+export const docsSections: PageSection[] = [
   {
     type: 'category',
-    id: "documentation",
-    title: "Documentation",
+    id: "getting-started",
+    title: "Getting Started",
     page: "docs",
     items: [
       {
@@ -77,7 +78,15 @@ export const sections: PageSection[] = [
         component: () => {
           return DocsComparison({})
         }
-      },
+      }
+    ]
+  },
+  {
+    type: 'category',
+    id: "core-concepts",
+    title: "Core Concepts",
+    page: "docs",
+    items: [
       {
         id: "building-components",
         title: "Building Components",
@@ -93,7 +102,15 @@ export const sections: PageSection[] = [
         component: () => {
           return DocsClaudeCode({})
         }
-      },
+      }
+    ]
+  },
+  {
+    type: 'category',
+    id: "static-site",
+    title: "Static Site Generation",
+    page: "docs",
+    items: [
       {
         id: "static-site-generation",
         title: "Static Site Generation",
@@ -117,7 +134,15 @@ export const sections: PageSection[] = [
         component: () => {
           return DocsLayoutContext({})
         }
-      },
+      }
+    ]
+  },
+  {
+    type: 'category',
+    id: "showcase",
+    title: "Showcase",
+    page: "docs",
+    items: [
       {
         id: "built-with-duct",
         title: "Built with Duct",
@@ -127,11 +152,11 @@ export const sections: PageSection[] = [
         }
       }
     ]
-  },
-  {
-    type: 'separator',
-    title: 'Component Demos'
-  },
+  }
+]
+
+// Demo sections
+export const demoSections: PageSection[] = [
   {
     type: 'category',
     id: "button",
@@ -318,18 +343,21 @@ export const sections: PageSection[] = [
   }
 ]
 
+// Combined sections for backward compatibility
+export const sections: PageSection[] = [...docsSections, ...demoSections]
+
 // Flatten all pages for easy lookup
 export const allPages: PageInfo[] = sections.flatMap(category =>
   'items' in category ? category.items : []
 )
 
 // Separate docs and component demos
-export const docsItems: PageInfo[] = sections
-  .filter(category => 'items' in category && category.page === 'docs')
+export const docsItems: PageInfo[] = docsSections
+  .filter(category => 'items' in category)
   .flatMap(category => (category as PageCategory).items)
 
-export const componentDemos: PageInfo[] = sections
-  .filter(category => 'items' in category && category.page === 'demos')
+export const componentDemos: PageInfo[] = demoSections
+  .filter(category => 'items' in category)
   .flatMap(category => (category as PageCategory).items)
 
 export function getItemById(id: string): PageInfo | undefined {

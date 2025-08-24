@@ -17,7 +17,7 @@ const DemosPage: DuctPageComponent = ({ meta, path, env }: PageProps) => {
   // For the index page, show the first demo
   const current = componentDemos[0]
 
-  return <AppLayout currentItem={current.id}>
+  return <AppLayout currentItem={current.id} category="demos">
     {current.component()}
   </AppLayout>
 }
