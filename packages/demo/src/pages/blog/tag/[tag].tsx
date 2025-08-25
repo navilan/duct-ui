@@ -45,7 +45,6 @@ export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<R
       }
     }
 
-    console.log(`Generated ${allTags.size} tag routes: ${Array.from(allTags).join(', ')}`)
   } else {
     console.warn('No content provided to getRoutes for tag generation')
   }

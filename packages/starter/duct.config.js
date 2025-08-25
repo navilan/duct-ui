@@ -13,6 +13,18 @@ export default {
     siteName: 'Duct Starter',
     siteUrl: 'https://starter.duct-ui.org'
   },
+  search: {
+    enabled: true,
+    outputPath: 'search-index.json',
+    includeContent: true,
+    contentTypes: ['blog'], // Include blog content in search
+    fields: {
+      title: { weight: 10 },
+      description: { weight: 5 },
+      content: { weight: 1 },
+      tags: { weight: 8 }
+    }
+  },
   nunjucks: {
     filters: {
       date: (date, format = 'LLL dd, yyyy') => {

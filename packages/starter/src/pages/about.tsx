@@ -1,6 +1,7 @@
 import type { PageProps } from '@duct-ui/router'
 import AboutContainer from '@components/AboutContainer'
 import ThemeToggle from '@components/ThemeToggle'
+import SearchModalProvider from '@components/SearchModalProvider'
 
 export function getLayout(): string {
   return 'page.html'
@@ -16,6 +17,7 @@ export function getPageMeta() {
 const AboutPage = ({ meta, path, env }: PageProps) => {
   return (
     <>
+      <SearchModalProvider />
       <AboutContainer />
       <ThemeToggle />
     </>

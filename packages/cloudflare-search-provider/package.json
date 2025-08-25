@@ -5,6 +5,9 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "duct-cf-search": "dist/cli.js"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -31,7 +34,8 @@
   "author": "navilan <navilan@folds.in>",
   "license": "MIT",
   "dependencies": {
-    "@duct-ui/search-core": "workspace:*"
+    "@duct-ui/search-core": "workspace:*",
+    "commander": "^12.1.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250823.0",

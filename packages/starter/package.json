@@ -14,7 +14,9 @@
   "dependencies": {
     "@duct-ui/components": "workspace:*",
     "@duct-ui/core": "workspace:*",
-    "@duct-ui/router": "workspace:*"
+    "@duct-ui/router": "workspace:*",
+    "@duct-ui/cloudflare-search-provider": "workspace:*",
+    "@duct-ui/client-search-provider": "workspace:*"
   },
   "devDependencies": {
     "@duct-ui/cli": "workspace:*",
@@ -35,7 +37,9 @@
     "prismjs": "^1.30.0",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2",
-    "vite": "^7.1.2"
+    "vite": "^7.1.2",
+    "wrangler": "^3.114.14",
+    "@cloudflare/workers-types": "^4.20250823.0"
   },
   "files": [
     "src",

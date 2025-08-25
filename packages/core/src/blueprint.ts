@@ -30,7 +30,7 @@ function bindEventToInstance<T extends (...args: any[]) => void>(
 ) {
   const wrappedHandler = (el: HTMLElement, ...args: any[]) => {
     const dataId = el?.dataset ? el.dataset['ductId'] : ""
-    if (dataId === instanceId) {
+    if (dataId === instanceId && handler) {
       handler(el, ...args)
     }
   }
@@ -167,7 +167,7 @@ export function createBlueprint<
     const { eventProps, regularProps } = extractEventProps(props)
 
     const fullProps = {
-      ...regularProps,
+      ...props,
       "data-duct-id": instanceId
     } as BaseProps<Props>
 

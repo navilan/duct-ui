@@ -125,7 +125,6 @@ function render(props: BaseProps<HomeDemoProps>) {
 }
 
 function bind(el: HTMLElement, eventEmitter: EventEmitter<HomeDemoEvents>): BindReturn<HomeDemoLogic> {
-  console.log("In bind")
   const demoArea = el.querySelector('#demo-area') as HTMLElement
   const demoToggleBtn = el.querySelector('#demo-toggle-btn') as HTMLButtonElement
   const hideDemoBtn = el.querySelector('#hide-demo-btn') as HTMLButtonElement
