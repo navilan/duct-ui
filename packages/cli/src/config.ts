@@ -1,6 +1,13 @@
 import * as path from 'path'
 import * as fs from 'fs/promises'
-import type { SearchConfig } from '@duct-ui/search-core'
+
+export interface SearchConfig {
+  enabled: boolean
+  generateIndex: boolean
+  indexPath: string
+  excludePaths: string[]
+  includeContent: boolean
+}
 
 export interface SitemapConfig {
   enabled: boolean
@@ -47,8 +54,6 @@ function mergeConfig(base: DuctConfig, override: DuctConfig): Required<DuctConfi
   if (override.search) {
     result.search = {
       enabled: override.search.enabled ?? result.search?.enabled ?? false,
-      provider: override.search.provider || result.search?.provider,
-      providerConfig: { ...(result.search?.providerConfig || {}), ...(override.search.providerConfig || {}) },
       generateIndex: override.search.generateIndex ?? result.search?.generateIndex ?? true,
       indexPath: override.search.indexPath || result.search?.indexPath || 'search-index.json',
       excludePaths: override.search.excludePaths || result.search?.excludePaths || [],
@@ -111,8 +116,6 @@ const DEFAULT_CONFIG: DuctConfig = {
   },
   search: {
     enabled: false,
-    provider: '@duct-ui/client-search-provider',
-    providerConfig: {},
     generateIndex: true,
     indexPath: 'search-index.json',
     excludePaths: [],

@@ -25,6 +25,7 @@ export const buildCommand = new Command('build')
       const config = await loadConfig(cwd)
       const resolvedConfig = resolveConfigPaths(config, cwd)
 
+
       // Load project's Vite config
       let baseViteConfig: any = {}
       const viteConfigFile = path.resolve(cwd, configFile)
@@ -93,10 +94,12 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
               configFile: false, // Don't load config file again
               logLevel: 'warn',
               root: originalCwd, // Use original project root
-              // Filter out ductSSGPlugin to prevent recursion
-              plugins: (baseViteConfig.plugins || []).filter((plugin: any) => 
-                plugin?.name !== 'vite-plugin-duct-ssg'
-              ),
+              // Filter out ductSSGPlugin to prevent recursion, but keep other plugins (including search plugin if user added it)
+              plugins: [
+                ...(baseViteConfig.plugins || []).filter((plugin: any) => 
+                  plugin?.name !== 'vite-plugin-duct-ssg'
+                )
+              ],
               resolve: {
                 ...(baseViteConfig.resolve || {}),
                 extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],

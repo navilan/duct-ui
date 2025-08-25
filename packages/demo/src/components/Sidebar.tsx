@@ -1,9 +1,8 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
-import { createRef } from "@duct-ui/core"
 import SidebarNav from "@duct-ui/components/layout/sidebar-nav"
-import Search, { type SearchLogic, type SearchResult } from "@duct-ui/components/search/search"
-import { ClientSearchProvider } from "@duct-ui/client-search-provider"
+import { type SearchResult } from "@duct-ui/components/search/search"
+import DemoSearch from "./DemoSearch"
 import ductLogo from "../icons/duct-logo.svg"
 import { PageSection, docsSections, demoSections } from "../catalog"
 import type { AppLayoutCategory } from "./AppLayout"
@@ -13,50 +12,11 @@ export interface SidebarEvents extends BaseComponentEvents {
 }
 
 let eventEmitter: EventEmitter<SidebarEvents> | undefined
-const searchRef = createRef<SearchLogic>()
-let searchProvider: ClientSearchProvider | null = null
 
 function handleNavigate(navEl: HTMLElement, itemId: string): void {
   eventEmitter?.emit('navigate', itemId)
 }
 
-async function initializeSearch() {
-  if (typeof window === 'undefined') return
-
-  try {
-    searchProvider = new ClientSearchProvider()
-    await searchProvider.initialize({
-      indexUrl: '/search-index.json',
-      threshold: 0.3
-    })
-  } catch (error) {
-    console.error('Failed to initialize sidebar search provider:', error)
-  }
-}
-
-async function handleSidebarSearch(el: HTMLElement, query: string) {
-  if (!searchProvider || !query.trim()) {
-    searchRef.current?.setResults([])
-    return
-  }
-
-  try {
-    const results = await searchProvider.search(query, { limit: 10 })
-    searchRef.current?.setResults(results)
-  } catch (error) {
-    console.error('Sidebar search error:', error)
-    searchRef.current?.setResults([])
-  }
-}
-
-function handleSearchResultSelect(el: HTMLElement, result: SearchResult) {
-  // Navigate to the result if it's a local URL
-  if (result.url.startsWith('/')) {
-    window.location.href = result.url
-  } else {
-    window.open(result.url, '_blank')
-  }
-}
 
 export interface SidebarLogic {
   updateCurrentItem: (currentDemo: string) => void
@@ -161,8 +121,7 @@ function render(props: BaseProps<SidebarProps>) {
 
       {/* Search Component - positioned after header content */}
       <div class="px-4 pb-4 mt-8">
-        <Search
-          ref={searchRef}
+        <DemoSearch
           placeholder="Search&hellip;"
           searchIcon="🔍"
           searchIconSize="sm"
@@ -174,8 +133,7 @@ function render(props: BaseProps<SidebarProps>) {
           resultUrlClass="text-primary text-xs truncate"
           loadingClass="text-base-content/60 italic px-3 py-2 text-center text-xs"
           noResultsClass="text-base-content/60 px-3 py-2 text-center text-xs"
-          on:search={handleSidebarSearch}
-          on:select={handleSearchResultSelect}
+          maxResults={10}
         />
       </div>
     </>
@@ -196,9 +154,6 @@ function render(props: BaseProps<SidebarProps>) {
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): BindReturn<SidebarLogic> {
   eventEmitter = _eventEmitter
-
-  // Initialize search provider
-  initializeSearch()
 
   function updateCurrentItem(newDemo: string): void {
     // Update the sidebar nav's current item attribute for consistency

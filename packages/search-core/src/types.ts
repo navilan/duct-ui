@@ -2,7 +2,7 @@ export interface SearchInitializeResult {
   indexSize: number
 }
 
-export interface SearchProvider {
+export interface SearchProvider<TIndexConfig = unknown> {
   name: string
   initialize(config: SearchProviderConfig): Promise<SearchInitializeResult>
   
@@ -10,8 +10,8 @@ export interface SearchProvider {
   search(query: string, options?: SearchOptions): Promise<SearchResult[]>
   
   // Index management (optional - for providers that manage their own index)
-  index?(entries: SearchIndexEntry[]): Promise<void>
-  updateIndex?(entries: SearchIndexEntry[]): Promise<void>
+  index?(entries: SearchIndexEntry[], config?: TIndexConfig): Promise<void>
+  updateIndex?(entries: SearchIndexEntry[], config?: TIndexConfig): Promise<void>
 }
 
 export interface SearchProviderConfig {
@@ -41,12 +41,3 @@ export interface SearchIndexEntry {
   keywords: string[]
 }
 
-export interface SearchConfig {
-  enabled: boolean
-  provider: string | SearchProvider
-  providerConfig?: SearchProviderConfig
-  generateIndex?: boolean
-  indexPath?: string
-  excludePaths?: string[]
-  includeContent?: boolean
-}

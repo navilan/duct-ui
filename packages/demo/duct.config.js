@@ -114,7 +114,6 @@ export default {
   // Search configuration
   search: {
     enabled: true,
-    provider: '@duct-ui/client-search-provider',
     generateIndex: true,
     indexPath: 'search-index.json',
     excludePaths: ['/404'],

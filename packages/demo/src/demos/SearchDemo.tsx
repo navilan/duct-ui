@@ -2,7 +2,7 @@ import { createBlueprint, type BindReturn, type BaseComponentEvents, type BasePr
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef, isBrowser } from "@duct-ui/core"
 import Search, { type SearchLogic, type SearchResult } from "@duct-ui/components/search/search"
-import { ClientSearchProvider } from "@duct-ui/client-search-provider"
+import { ClientSearchProvider } from '@duct-ui/client-search-provider'
 import DemoLayout from "@components/DemoLayout"
 import EventLog, { EventLogLogic } from "@components/EventLog"
 
@@ -22,7 +22,7 @@ export interface SearchDemoProps {
 const searchRef = createRef<SearchLogic>()
 const customSearchRef = createRef<SearchLogic>()
 const eventLogRef = createRef<EventLogLogic>()
-let searchProvider: ClientSearchProvider | null = null
+let provider: ClientSearchProvider | null = null
 
 async function initializeSearch() {
   if (!isBrowser) return
@@ -32,13 +32,14 @@ async function initializeSearch() {
   }
 
   try {
-    searchProvider = new ClientSearchProvider()
+    provider = new ClientSearchProvider()
 
     if (eventLogRef.current) {
+      eventLogRef.current.addEvent(`Using search provider: ${provider.name}`)
       eventLogRef.current.addEvent('Fetching search index from /search-index.json...')
     }
 
-    const result = await searchProvider.initialize({
+    const result = await provider.initialize({
       indexUrl: '/search-index.json',
       threshold: 0.3 // Filter out results with scores below 30% of the highest score
     })
@@ -55,9 +56,9 @@ async function initializeSearch() {
 }
 
 async function handleBasicSearch(el: HTMLElement, query: string) {
-  if (!searchProvider || !query.trim()) {
+  if (!provider || !query.trim()) {
     if (eventLogRef.current) {
-      eventLogRef.current.addEvent(`Basic search skipped - Provider: ${!!searchProvider}, Query: "${query.trim()}"`)
+      eventLogRef.current.addEvent(`Basic search skipped - Provider: ${!!provider}, Query: "${query.trim()}"`)
     }
     return
   }
@@ -67,7 +68,7 @@ async function handleBasicSearch(el: HTMLElement, query: string) {
   }
 
   try {
-    const results = await searchProvider.search(query, { limit: 10 })
+    const results = await provider.search(query, { limit: 10 })
     searchRef.current?.setResults(results)
     if (eventLogRef.current) {
       eventLogRef.current.addEvent(`Basic search found ${results.length} results for "${query}"`)
@@ -85,9 +86,9 @@ async function handleBasicSearch(el: HTMLElement, query: string) {
 }
 
 async function handleCustomSearch(el: HTMLElement, query: string) {
-  if (!searchProvider || !query.trim()) {
+  if (!provider || !query.trim()) {
     if (eventLogRef.current) {
-      eventLogRef.current.addEvent(`Custom search skipped - Provider: ${!!searchProvider}, Query: "${query.trim()}"`)
+      eventLogRef.current.addEvent(`Custom search skipped - Provider: ${!!provider}, Query: "${query.trim()}"`)
     }
     return
   }
@@ -97,7 +98,7 @@ async function handleCustomSearch(el: HTMLElement, query: string) {
   }
 
   try {
-    const results = await searchProvider.search(query, { limit: 10 })
+    const results = await provider.search(query, { limit: 10 })
     customSearchRef.current?.setResults(results)
     if (eventLogRef.current) {
       eventLogRef.current.addEvent(`Custom search found ${results.length} results for "${query}"`)

@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["examples", "src", "functions", "tests"],
+  "include": ["examples", "src", "functions", "tests", ".duct/types/**/*.d.ts"],
   "compilerOptions": {
     "moduleResolution": "bundler",
     "jsxImportSource": "@kitajs/html",

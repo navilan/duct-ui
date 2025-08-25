@@ -1,7 +1,6 @@
 import { createBlueprint, type BaseProps, type BindReturn } from "@duct-ui/core/blueprint"
-import { createRef } from "@duct-ui/core"
-import Search, { type SearchLogic, type SearchResult } from "@duct-ui/components/search/search"
-import { ClientSearchProvider } from "@duct-ui/client-search-provider"
+import { type SearchResult } from "@duct-ui/components/search/search"
+import DemoSearch from "./DemoSearch"
 import ductLogo from "../icons/duct-logo.svg"
 import ThemeToggle from "./ThemeToggle"
 
@@ -10,46 +9,6 @@ export interface NotFoundPageProps {
   'on:release'?: (el: HTMLElement) => void
 }
 
-const searchRef = createRef<SearchLogic>()
-let searchProvider: ClientSearchProvider | null = null
-
-async function initializeSearch() {
-  if (typeof window === 'undefined') return
-  
-  try {
-    searchProvider = new ClientSearchProvider()
-    await searchProvider.initialize({
-      indexUrl: '/search-index.json',
-      threshold: 0.3
-    })
-  } catch (error) {
-    console.error('Failed to initialize 404 search provider:', error)
-  }
-}
-
-async function handleSearch(el: HTMLElement, query: string) {
-  if (!searchProvider || !query.trim()) {
-    searchRef.current?.setResults([])
-    return
-  }
-
-  try {
-    const results = await searchProvider.search(query, { limit: 8 })
-    searchRef.current?.setResults(results)
-  } catch (error) {
-    console.error('404 search error:', error)
-    searchRef.current?.setResults([])
-  }
-}
-
-function handleSearchResultSelect(el: HTMLElement, result: SearchResult) {
-  // Navigate to the result
-  if (result.url.startsWith('/')) {
-    window.location.href = result.url
-  } else {
-    window.open(result.url, '_blank')
-  }
-}
 
 function render(props: BaseProps<NotFoundPageProps>) {
   return (
@@ -75,8 +34,7 @@ function render(props: BaseProps<NotFoundPageProps>) {
         <div class="fade-in-up mb-8">
           <h3 class="text-xl font-semibold text-base-content mb-4">Maybe search for what you need?</h3>
           <div class="max-w-md mx-auto">
-            <Search
-              ref={searchRef}
+            <DemoSearch
               placeholder="Search documentation, demos..."
               searchIcon="🔍"
               searchIconSize="sm"
@@ -88,8 +46,7 @@ function render(props: BaseProps<NotFoundPageProps>) {
               resultUrlClass="text-primary text-xs truncate text-left"
               loadingClass="text-base-content/60 italic px-4 py-3 text-center"
               noResultsClass="text-base-content/60 px-4 py-3 text-center"
-              on:search={handleSearch}
-              on:select={handleSearchResultSelect}
+              maxResults={8}
             />
           </div>
         </div>
@@ -231,9 +188,6 @@ function render(props: BaseProps<NotFoundPageProps>) {
 
 function bind(el: HTMLElement): BindReturn<any> {
   const goBackButton = el.querySelector('[data-go-back]') as HTMLButtonElement
-
-  // Initialize search provider
-  initializeSearch()
 
   function handleGoBack() {
     if (window.history.length > 1) {

@@ -23,7 +23,7 @@
 /* Search Dropdown */
 .search-dropdown {
   @apply absolute top-full left-0 right-0 mt-1 z-50;
-  @apply border rounded-lg shadow-lg;
+  @apply bg-base-100 border rounded-lg shadow-lg;
   @apply max-h-96 overflow-y-auto;
 }
 

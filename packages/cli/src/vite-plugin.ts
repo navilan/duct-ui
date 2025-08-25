@@ -115,6 +115,7 @@ async function copyContentAssets() {
   }
 }
 
+
 export function ductSSGPlugin(): Plugin {
   let htmlDir: string
   let generatedHtml: Map<string, string> = new Map()
