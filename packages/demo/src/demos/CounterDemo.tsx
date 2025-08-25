@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import Dexie, { type Table } from 'dexie'
 import DemoLayout from "@components/DemoLayout"
@@ -43,7 +43,7 @@ interface LoadedCounterData {
 
 function render(props: BaseProps<CounterDemoProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Counter with Async Loading"
         description="A simple counter that loads its initial value from IndexedDB using the new async load method"

@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { cn } from "../utils/cn.js"
 
 export type IconSource = string | { default: string } | { src: string }
@@ -49,7 +49,7 @@ function render(props: BaseProps<IconProps>) {
 
   if (typeof icon === 'string') {
     return (
-      <span class={className} {...moreProps}>
+      <span class={className} {...renderProps(moreProps)}>
         {icon}
       </span>
     )
@@ -59,13 +59,13 @@ function render(props: BaseProps<IconProps>) {
     if ('default' in icon) {
       // Imported SVG module
       return (
-        <img src={icon.default} alt="" class={finalClasses} {...moreProps} />
+        <img src={icon.default} alt="" class={finalClasses} {...renderProps(moreProps)} />
       )
     }
     if ('src' in icon) {
       // Direct URL/path
       return (
-        <img src={icon.src} alt="" class={finalClasses} {...moreProps} />
+        <img src={icon.src} alt="" class={finalClasses} {...renderProps(moreProps)} />
       )
     }
   }

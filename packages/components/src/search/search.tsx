@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { cn } from "../utils/cn.js"
 import Icon, { type IconSource, type IconSize } from "../images/icon.js"
@@ -78,7 +78,7 @@ function render(props: BaseProps<SearchProps>) {
     <div
       data-search-open="false"
       class={cn("search-container", containerClass, className)}
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <div class={cn("search-input-wrapper")}>
         {searchIconElement}
@@ -89,7 +89,7 @@ function render(props: BaseProps<SearchProps>) {
           data-search-input
         />
       </div>
-      <div 
+      <div
         class={cn(dropdownClass || "search-dropdown")}
         data-search-dropdown
         style="display: none;"
@@ -199,16 +199,16 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<SearchEvents>, props: 
   function renderResults() {
     hideLoading()
     clearResultItems()
-    
+
     if (searchResults.length === 0) {
       showNoResults()
       return
     }
-    
+
     hideNoResults()
-    
+
     // Create results HTML using SearchResult components
-    const resultElements = searchResults.map((result, index) => 
+    const resultElements = searchResults.map((result, index) =>
       SearchResultComponent({
         result,
         isActive: index === selectedIndex,
@@ -224,7 +224,7 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<SearchEvents>, props: 
         }
       })
     )
-    
+
     // Convert JSX elements to HTML and append
     resultElements.forEach(resultElement => {
       const htmlString = resultElement.toString()
@@ -241,7 +241,7 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<SearchEvents>, props: 
     if (debounceTimeout) {
       clearTimeout(debounceTimeout)
     }
-    
+
     debounceTimeout = setTimeout(() => {
       if (query.trim()) {
         showLoading()

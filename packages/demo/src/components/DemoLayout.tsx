@@ -1,4 +1,4 @@
-import { createBlueprint } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps } from "@duct-ui/core/blueprint"
 
 export interface DemoLayoutEvents extends Record<string, any> {
   bind: (el: HTMLElement) => void
@@ -28,7 +28,7 @@ function render(props: DemoLayoutProps & { "data-duct-id": string }) {
     <div
       data-duct-id={id}
       class="flex-1 overflow-y-auto bg-base-100"
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <div class="p-8">
         <div class="mb-8">

@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import DemoLayout from "@components/DemoLayout"
 import { escapeHtml } from "@kitajs/html"
 import Markdown from "@duct-ui/components/content/markdown/markdown"
@@ -19,7 +19,7 @@ export interface DocsComparisonProps {
 
 function render(props: BaseProps<DocsComparisonProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Duct vs Other Frameworks"
         description="How Duct compares to React, Vue, and Svelte"

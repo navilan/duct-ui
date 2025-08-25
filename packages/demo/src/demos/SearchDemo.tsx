@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef, isBrowser } from "@duct-ui/core"
 import Search, { type SearchLogic, type SearchResult } from "@duct-ui/components/search/search"
@@ -131,7 +131,7 @@ function handleResultSelect(el: HTMLElement, result: SearchResult) {
 
 function render(props: BaseProps<SearchDemoProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Search Component"
         description="Full-text search with FlexSearch and real-time results across documentation and demos"

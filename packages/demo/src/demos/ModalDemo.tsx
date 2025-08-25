@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import Modal, { ModalLogic, type ModalContentPosition } from "@duct-ui/components/layout/modal"
@@ -324,7 +324,7 @@ const bottomRightModalRef = createRef<ModalLogic>()
 
 function render(props: BaseProps<ModalDemoProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Modal Window Demo"
         description="Modal dialogs with customizable overlays and content"

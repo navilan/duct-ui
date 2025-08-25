@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { cn } from "../utils/cn.js"
 
@@ -44,7 +44,7 @@ function render(props: BaseProps<SearchResultProps>) {
   return (
     <div
       class={cn(itemClass || "search-result-item", isActive && "selected", className)}
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <div class={cn(titleClass || "search-result-title")}>
         {result.title}

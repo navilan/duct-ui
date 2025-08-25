@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps } from '@duct-ui/core'
+import { createBlueprint, renderProps, type BaseProps } from '@duct-ui/core'
 import type { BindReturn } from '@duct-ui/core/blueprint'
 
 export interface FeaturesSectionLogic {
@@ -13,7 +13,7 @@ function render(props: BaseProps<FeaturesSectionProps>) {
   const { ...moreProps } = props
 
   return (
-    <section class="py-24 bg-base-200 text-base-content" {...moreProps}>
+    <section class="py-24 bg-base-200 text-base-content" {...renderProps(moreProps)}>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-20">
           <h2 class="text-4xl md:text-5xl font-bold mb-6">

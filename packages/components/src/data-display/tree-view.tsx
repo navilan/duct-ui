@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { TreeViewData, TreeNode, TreePath, hasChildren } from "./structure.js"
 import { cn } from "../utils/cn.js"
@@ -153,7 +153,7 @@ function render<T>(props: BaseProps<TreeViewProps<T>>) {
       class={containerClasses}
       data-expanded-paths={JSON.stringify(Array.from(expandedPaths))}
       data-expand-on-label-click={expandOnLabelClick}
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       {data.nodes.map(node => {
         const path = [node.id]

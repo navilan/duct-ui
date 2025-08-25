@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps } from '@duct-ui/core'
+import { createBlueprint, type BaseProps, renderProps } from '@duct-ui/core'
 import type { BindReturn } from '@duct-ui/core/blueprint'
 
 export interface SiteSearchLogic {
@@ -18,7 +18,7 @@ function render(props: BaseProps<SiteSearchProps>) {
   } = props
 
   return (
-    <div class="site-search" {...moreProps}>
+    <div class="site-search" {...renderProps(moreProps)}>
       {/* Search trigger button */}
       {showButton && (
         <div class="flex flex-col sm:flex-row justify-center items-center gap-4">

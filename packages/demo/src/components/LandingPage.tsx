@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import ductLogo from "../icons/duct-logo.svg"
 import ThemeToggle from "./ThemeToggle"
 import { Markdown } from "@duct-ui/components"
@@ -12,7 +12,7 @@ export interface LandingPageProps {
 
 function render(props: BaseProps<LandingPageProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <div class="min-h-screen bg-gradient-to-br from-base-100 via-base-200 to-base-300">
         {/* Hero Section */}
         <div class="container mx-auto px-6 py-16">

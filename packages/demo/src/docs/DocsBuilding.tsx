@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import DemoLayout from "@components/DemoLayout"
 import Markdown from "@duct-ui/components/content/markdown/markdown"
 import "@duct-ui/components/content/markdown/markdown.css"
@@ -16,7 +16,7 @@ export interface DocsBuildingProps {
 
 function render(props: BaseProps<DocsBuildingProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Building Components in Duct"
         description="A comprehensive guide to creating Duct components"

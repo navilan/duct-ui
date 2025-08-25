@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps, createRef } from '@duct-ui/core'
+import { createBlueprint, type BaseProps, createRef, renderProps } from '@duct-ui/core'
 import type { BindReturn } from '@duct-ui/core/blueprint'
 import SiteSearch from './SiteSearch'
 import SearchModalProvider, { type SearchModalProviderLogic } from './SearchModalProvider'
@@ -24,7 +24,7 @@ function render(props: BaseProps<HeroSectionProps>) {
       {/* Search Modal Provider - rendered outside hero constraints at document level */}
       <SearchModalProvider />
 
-      <section class="hero bg-primary text-primary-content min-h-screen relative overflow-hidden" {...moreProps}>
+      <section class="hero bg-primary text-primary-content min-h-screen relative overflow-hidden" {...renderProps(moreProps)}>
         {/* Background decoration */}
         <div class="absolute inset-0 bg-grid-white/[0.05] bg-[size:40px_40px]"></div>
         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/10"></div>

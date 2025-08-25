@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps, createRef } from '@duct-ui/core'
+import { createBlueprint, type BaseProps, createRef, renderProps } from '@duct-ui/core'
 import type { BindReturn } from '@duct-ui/core/blueprint'
 import { SearchModal, type SearchModalLogic } from '@duct-ui/components'
 import { CloudflareSearchProvider } from '@duct-ui/cloudflare-search-provider'
@@ -66,7 +66,7 @@ function render(props: BaseProps<SearchModalProviderProps>) {
   } = props
 
   return (
-    <div class="search-modal-provider" {...moreProps}>
+    <div class="search-modal-provider" {...renderProps(moreProps)}>
       <SearchModal
         ref={searchModalRef}
         placeholder="Search pages, posts, and content..."

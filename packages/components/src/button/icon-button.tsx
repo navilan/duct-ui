@@ -1,4 +1,4 @@
-import { type BaseProps, createBlueprint } from "@duct-ui/core/blueprint"
+import { type BaseProps, createBlueprint, renderProps } from "@duct-ui/core/blueprint"
 import { ButtonEvents, ButtonProps } from "./button.js"
 import Icon, { type IconSource, type IconSize } from "../images/icon.js"
 
@@ -28,7 +28,7 @@ function render(props: BaseProps<IconButtonProps>) {
   const iconElement = renderIcon(icon, iconSize, iconClass)
 
   return (
-    <button {...moreProps}>
+    <button {...renderProps(moreProps)}>
       {(position === 'start' || !position) && iconElement}
       {label}
       {position === 'end' && iconElement}

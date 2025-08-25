@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 
 export interface EmojiItemEvents extends BaseComponentEvents {
@@ -39,7 +39,7 @@ function render(props: BaseProps<EmojiItemProps>) {
     <div
       class="flex items-center gap-3 p-3 rounded-lg bg-base-100 hover:bg-base-200 cursor-pointer transition-colors border border-base-300"
       data-emoji-key={itemKey}
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <div class="text-2xl" data-emoji>
         {item.emoji}

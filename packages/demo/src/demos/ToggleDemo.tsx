@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import Toggle, { type ToggleState } from "@duct-ui/components/button/toggle"
@@ -45,7 +45,7 @@ function handlePremiumToggle(_el: HTMLElement, state: ToggleState) {
 
 function render(props: BaseProps<ToggleDemoProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Toggle Component Demo"
         description="Interactive toggle buttons with different states and styling"

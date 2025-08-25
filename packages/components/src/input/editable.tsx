@@ -1,5 +1,5 @@
 
-import { createBlueprint, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 
 export type EditableMode = 'input' | 'label'
@@ -39,7 +39,7 @@ function render(props: BaseProps<InputProps>) {
   return (
     <div
       data-editable-mode="label"
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <label class={labelClass} style="display: block;">{text}</label>
       <input class={inputClass} type="text" value={text} style="display: none;" />

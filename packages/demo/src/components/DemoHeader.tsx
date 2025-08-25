@@ -1,4 +1,5 @@
 import IconButton from "@duct-ui/components/button/icon-button"
+import { renderProps } from "@duct-ui/core/blueprint"
 
 export interface DemoHeaderProps {
   isMenuOpen?: boolean
@@ -22,7 +23,7 @@ export default function DemoHeader(props: DemoHeaderProps) {
   } = props
 
   return (
-    <header class={`demo-header bg-base-100 border-b border-base-300 px-4 py-3 flex items-center justify-between lg:hidden ${className}`.trim()} {...moreProps}>
+    <header class={`demo-header bg-base-100 border-b border-base-300 px-4 py-3 flex items-center justify-between lg:hidden ${className}`.trim()} {...renderProps(moreProps)}>
       {/* Left side: Hamburger + Title */}
       <div class="flex items-center gap-4">
         <IconButton

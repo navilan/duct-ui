@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import SidebarNav from "@duct-ui/components/layout/sidebar-nav"
 import { type SearchResult } from "@duct-ui/components/search/search"
@@ -140,7 +140,7 @@ function render(props: BaseProps<SidebarProps>) {
   )
 
   return (
-    <div {...moreProps}>
+    <div {...renderProps(moreProps)}>
       <SidebarNav
         content={content}
         currentItem={currentItem}

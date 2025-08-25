@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 
 export interface ThemeToggleEvents extends BaseComponentEvents {
@@ -27,7 +27,7 @@ function render(props: BaseProps<ThemeToggleProps>) {
       data-theme={initialTheme}
       aria-label="Toggle theme"
       title="Toggle between light and dark theme"
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <svg
         class="sun-icon w-6 h-6"

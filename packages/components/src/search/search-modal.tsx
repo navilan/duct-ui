@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { createRef } from "@duct-ui/core"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { cn } from "../utils/cn.js"
@@ -59,7 +59,7 @@ function render(props: BaseProps<SearchModalProps>) {
     : hotkey.toUpperCase()
 
   return (
-    <div {...moreProps}>
+    <div {...renderProps(moreProps)}>
       <Modal
         ref={modalRef}
         isOpen={false}

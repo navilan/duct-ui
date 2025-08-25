@@ -1,5 +1,5 @@
 export { createRef, MutableRef, type RefEvents } from './ref.js'
-export { createBlueprint, type BaseProps, type BlueprintConfig, type ComponentProps } from './blueprint.js'
+export { createBlueprint, renderProps, type BaseProps, type BlueprintConfig, type ComponentProps } from './blueprint.js'
 export { observeLifecycle, cleanupLifecycleHandler, type LifecycleCallbacks } from './lifecycle.js'
 export { getDuct } from './runtime.js'
 export { EventEmitter } from './shared.js'

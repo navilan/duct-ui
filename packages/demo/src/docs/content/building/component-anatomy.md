@@ -31,7 +31,7 @@ function render(props: BaseProps<ButtonProps>) {
     <button
       class={`btn ${className}`}
       disabled={disabled}
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       {label}
     </button>
@@ -88,7 +88,7 @@ function render(props: BaseProps<ToggleProps>) {
       class={`toggle ${initialState} ${className}`}
       disabled={disabled}
       data-state={initialState}
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <span class="toggle-handle"></span>
     </button>

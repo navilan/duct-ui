@@ -1,10 +1,10 @@
-import { createBlueprint, type BaseProps } from '@duct-ui/core'
+import { createBlueprint, type BaseProps, renderProps } from '@duct-ui/core'
 
 interface AboutContainerProps { }
 
 function render(props: BaseProps<AboutContainerProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <div class="text-center mb-16">
         <h1 class="text-4xl md:text-5xl font-bold mb-6">
           About Us

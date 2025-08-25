@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import TreeView, { TreeViewLogic } from "@duct-ui/components/data-display/tree-view"
@@ -424,7 +424,7 @@ function loadProject2(el: HTMLElement, e: MouseEvent) {
 
 function render(props: BaseProps<TreeViewDemoProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="TreeView Component"
         description="Collapsible tree view for hierarchical data with expand/collapse functionality"

@@ -278,7 +278,7 @@ function render(props: BaseProps<MyComponentProps>) {
   const { title, ...moreProps } = props
 
   return (
-    <div class="card bg-base-100 shadow-xl" {...moreProps}>
+    <div class="card bg-base-100 shadow-xl" {...renderProps(moreProps)}>
       <div class="card-body">
         <h2 class="card-title" data-title>{title}</h2>
         <button class="btn btn-primary" data-button>

@@ -1,4 +1,4 @@
-import { BaseProps, createBlueprint, type BaseComponentEvents } from "@duct-ui/core/blueprint"
+import { BaseProps, createBlueprint, type BaseComponentEvents, renderProps } from "@duct-ui/core/blueprint"
 
 export interface ButtonEvents extends BaseComponentEvents {
   click: (el: HTMLElement, e: MouseEvent) => void
@@ -15,7 +15,7 @@ export type ButtonProps = {
 
 function render(props: BaseProps<ButtonProps>) {
   const { label, ...moreProps } = props
-  return <button {...moreProps}> {label} </button>
+  return <button {...renderProps(moreProps)}> {label} </button>
 }
 
 const id = { id: "duct/button" }

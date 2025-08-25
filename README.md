@@ -77,7 +77,7 @@ function render(props: BaseProps<MyComponentProps>) {
     <button
       class="btn"
       disabled={disabled}
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       {label}
     </button>

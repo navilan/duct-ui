@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { createRef } from "@duct-ui/core"
 import Search, { type SearchLogic, type SearchResult } from "@duct-ui/components/search/search"
 import { ClientSearchProvider } from '@duct-ui/client-search-provider'
@@ -80,7 +80,7 @@ function render(props: BaseProps<DemoSearchProps>) {
   } = props
 
   return (
-    <div data-max-results={maxResults.toString()} {...restProps}>
+    <div data-max-results={maxResults.toString()} {...renderProps(restProps)}>
       <Search
         ref={searchRef}
         placeholder={placeholder}

@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps } from '@duct-ui/core'
+import { createBlueprint, renderProps, type BaseProps } from '@duct-ui/core'
 import type { BindReturn } from '@duct-ui/core/blueprint'
 
 export interface CTASectionLogic {
@@ -13,7 +13,7 @@ function render(props: BaseProps<CTASectionProps>) {
   const { ...moreProps } = props
 
   return (
-    <section class="hero bg-primary text-primary-content py-24 relative overflow-hidden" {...moreProps}>
+    <section class="hero bg-primary text-primary-content py-24 relative overflow-hidden" {...renderProps(moreProps)}>
       <div class="absolute inset-0 bg-grid-white/[0.05] bg-[size:30px_30px]"></div>
       <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/10"></div>
 

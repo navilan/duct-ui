@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps, type BindReturn } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BaseProps, type BindReturn, renderProps } from "@duct-ui/core/blueprint"
 import { type SearchResult } from "@duct-ui/components/search/search"
 import DemoSearch from "./DemoSearch"
 import ductLogo from "../icons/duct-logo.svg"
@@ -12,7 +12,7 @@ export interface NotFoundPageProps {
 
 function render(props: BaseProps<NotFoundPageProps>) {
   return (
-    <div class="min-h-screen flex flex-col items-center justify-center p-8" {...props}>
+    <div class="min-h-screen flex flex-col items-center justify-center p-8" {...renderProps(props)}>
       <div class="text-center max-w-2xl mx-auto">
         {/* Logo */}
         <div class="logo-container mx-auto mb-8 float-animation">

@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps } from '@duct-ui/core'
+import { createBlueprint, type BaseProps, renderProps } from '@duct-ui/core'
 import { EventEmitter } from '@duct-ui/core/shared'
 import Button from '@duct-ui/components/button/button'
 import { BaseComponentEvents, BindReturn } from '@duct-ui/core/blueprint'
@@ -14,7 +14,7 @@ interface HomeDemoLogic {
 
 function render(props: BaseProps<HomeDemoProps>) {
   return (
-    <section class="py-16" {...props}>
+    <section class="py-16" {...renderProps(props)}>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold mb-4">

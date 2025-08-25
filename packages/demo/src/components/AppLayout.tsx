@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef, isBrowser } from "@duct-ui/core"
 import Drawer, { DrawerLogic } from "@duct-ui/components/layout/drawer"
@@ -144,7 +144,7 @@ function render(props: BaseProps<AppLayoutProps>) {
 
 
   return (
-    <div class="h-screen bg-base-100 flex flex-col" {...moreProps}>
+    <div class="h-screen bg-base-100 flex flex-col" {...renderProps(moreProps)}>
       <DemoHeader
         isMenuOpen={false}
         on:menuToggle={handleMenuToggle}

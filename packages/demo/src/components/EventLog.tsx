@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 
 export interface EventLogEvents extends BaseComponentEvents {
@@ -29,7 +29,7 @@ function render(props: BaseProps<EventLogProps>) {
   } = props
 
   return (
-    <div class={`p-4 bg-base-200 rounded-lg ${className}`.trim()} {...moreProps}>
+    <div class={`p-4 bg-base-200 rounded-lg ${className}`.trim()} {...renderProps(moreProps)}>
       <div class="flex justify-between items-center mb-2">
         <h3 class="text-lg font-medium">{title}</h3>
         <button 

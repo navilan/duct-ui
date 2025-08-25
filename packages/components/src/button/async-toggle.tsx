@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from '@duct-ui/core/blueprint'
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from '@duct-ui/core/blueprint'
 import { EventEmitter } from '@duct-ui/core/shared'
 import { cn } from "../utils/cn.js"
 
@@ -55,7 +55,7 @@ function render(props: BaseProps<AsyncToggleProps>) {
       class={cn("btn", className)}
       disabled={disabled}
       data-async-toggle
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <span data-toggle-label>{loadingLabel}</span>
     </button>

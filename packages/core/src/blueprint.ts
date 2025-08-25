@@ -115,6 +115,33 @@ export type ComponentProps<Props extends Record<string, any>> = Props & {
   ref?: MutableRef<any>
 }
 
+/**
+ * Filters props to only include renderable attributes (primitives)
+ * Excludes functions, objects, and other non-primitive values that shouldn't be rendered as HTML attributes
+ */
+export function renderProps(props: Record<string, any>): Record<string, string | number | boolean> {
+  const renderableProps: Record<string, string | number | boolean> = {}
+  
+  for (const [key, value] of Object.entries(props)) {
+    // Skip event handlers (on:* props)
+    if (key.startsWith('on:')) {
+      continue
+    }
+    
+    // Skip ref prop
+    if (key === 'ref') {
+      continue
+    }
+    
+    // Only include primitive values
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+      renderableProps[key] = value
+    }
+  }
+  
+  return renderableProps
+}
+
 // Create an event-aware component blueprint with automatic on:* prop parsing
 export function createBlueprint<
   Props extends Record<string, any>,
