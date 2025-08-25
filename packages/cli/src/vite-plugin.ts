@@ -129,6 +129,14 @@ export function ductSSGPlugin(): Plugin {
       viteMode = config.mode
     },
 
+    resolveId(id, importer) {
+      // Handle virtual reanimation modules
+      if (id.startsWith('/@duct/reanimate/')) {
+        return id
+      }
+      return null
+    },
+
     async buildStart(options) {
       // Skip plugin execution during --html-only builds to prevent recursion
       if (process.env.DUCT_HTML_ONLY === 'true') {
@@ -180,13 +188,6 @@ export function ductSSGPlugin(): Plugin {
       }
     },
 
-    resolveId(id) {
-      // Handle virtual reanimation modules
-      if (id.startsWith('/@duct/reanimate/')) {
-        return id
-      }
-      return null
-    },
 
     load(id) {
       // Generate reanimation script for virtual modules
@@ -230,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return null
     },
+
 
     async handleHotUpdate(ctx) {
       // Check if the changed file is a layout file
