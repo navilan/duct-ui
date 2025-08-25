@@ -1,4 +1,5 @@
 import ThemeToggle from '@components/ThemeToggle'
+import SearchModalProvider from '@components/SearchModalProvider'
 
 export function getLayout(): string {
   return 'blog-listing.html'
@@ -12,10 +13,14 @@ export function getPageMeta(): Record<string, any> {
   }
 }
 
-// Blog listing page component with theme toggle
+// Blog listing page component with theme toggle and search
 const BlogListingPage = () => {
-  // Include ThemeToggle component for interactivity
-  return <ThemeToggle />
+  return (
+    <>
+      <SearchModalProvider />
+      <ThemeToggle />
+    </>
+  )
 }
 
 export default BlogListingPage

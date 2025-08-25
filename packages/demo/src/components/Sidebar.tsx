@@ -1,8 +1,11 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import SidebarNav from "@duct-ui/components/layout/sidebar-nav"
+import { type SearchResult } from "@duct-ui/components/search/search"
+import DemoSearch from "./DemoSearch"
 import ductLogo from "../icons/duct-logo.svg"
-import { PageSection } from "../catalog"
+import { PageSection, docsSections, demoSections } from "../catalog"
+import type { AppLayoutCategory } from "./AppLayout"
 
 export interface SidebarEvents extends BaseComponentEvents {
   navigate: (el: HTMLElement, demoId: string) => void
@@ -14,13 +17,15 @@ function handleNavigate(navEl: HTMLElement, itemId: string): void {
   eventEmitter?.emit('navigate', itemId)
 }
 
+
 export interface SidebarLogic {
   updateCurrentItem: (currentDemo: string) => void
 }
 
 export interface SidebarProps {
-  sections: Array<PageSection>
+  sections?: Array<PageSection>
   currentItem: string
+  category?: AppLayoutCategory
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
   'on:navigate'?: (el: HTMLElement, demoId: string) => void
@@ -29,10 +34,21 @@ export interface SidebarProps {
 // SidebarNav is now imported directly
 
 function render(props: BaseProps<SidebarProps>) {
-  const { sections, currentItem, ...moreProps } = props
+  const { sections, currentItem, category, ...moreProps } = props
+
+  // Determine which sections to show based on category
+  let sectionsToUse: PageSection[]
+  if (category === 'docs') {
+    sectionsToUse = docsSections
+  } else if (category === 'demos') {
+    sectionsToUse = demoSections
+  } else {
+    // Default to showing the provided sections or all sections
+    sectionsToUse = sections || [...docsSections, ...demoSections]
+  }
 
   // Transform demo categories to sidebar content
-  const content = sections.map(section => {
+  const content = sectionsToUse.map(section => {
     if (section.type === 'separator') {
       return section
     } else {
@@ -98,12 +114,38 @@ function render(props: BaseProps<SidebarProps>) {
     </>
   )
 
+  // Update the headerContent to include search
+  const enhancedHeaderContent = (
+    <>
+      {headerContent}
+
+      {/* Search Component - positioned after header content */}
+      <div class="px-4 pb-4 mt-8">
+        <DemoSearch
+          placeholder="Search&hellip;"
+          searchIcon="🔍"
+          searchIconSize="sm"
+          inputClass="input input-bordered input-sm text-sm w-full pl-8"
+          dropdownClass="absolute top-full left-0 right-0 mt-1 z-50 bg-base-100 shadow-xl border border-base-300 rounded-lg max-h-80 overflow-y-auto"
+          resultItemClass="px-3 py-2 hover:bg-base-200 transition-colors cursor-pointer border-b border-base-300 last:border-b-0"
+          resultTitleClass="font-medium text-base-content mb-1 text-sm truncate"
+          resultExcerptClass="text-base-content/70 text-xs mb-1 line-clamp-2"
+          resultUrlClass="text-primary text-xs truncate"
+          loadingClass="text-base-content/60 italic px-3 py-2 text-center text-xs"
+          noResultsClass="text-base-content/60 px-3 py-2 text-center text-xs"
+          maxResults={10}
+        />
+      </div>
+    </>
+  )
+
   return (
     <div {...moreProps}>
       <SidebarNav
         content={content}
         currentItem={currentItem}
-        headerContent={headerContent}
+        headerContent={enhancedHeaderContent}
+        containerClass="!h-full"
         on:navigate={handleNavigate}
       />
     </div>
@@ -111,12 +153,9 @@ function render(props: BaseProps<SidebarProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): BindReturn<SidebarLogic> {
-  let currentDemo = ''
   eventEmitter = _eventEmitter
 
   function updateCurrentItem(newDemo: string): void {
-    currentDemo = newDemo
-
     // Update the sidebar nav's current item attribute for consistency
     const sidebarNavEl = el.querySelector('[data-duct-id*="sidebar-nav"]')
     if (sidebarNavEl) {
@@ -136,7 +175,9 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): Bind
     }
   }
 
-  function release() { }
+  function release(): void {
+    // No cleanup needed for simple implementation
+  }
 
   return {
     updateCurrentItem,

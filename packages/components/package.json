@@ -22,6 +22,7 @@
     "./layout/sidebar-nav.css": "./dist/layout/sidebar-nav.css",
     "./layout/drawer.css": "./dist/layout/drawer.css",
     "./layout/modal.css": "./dist/layout/modal.css",
+    "./search/search.css": "./dist/search/search.css",
     "./content/markdown/markdown.css": "./dist/content/markdown/markdown.css",
     "./*": {
       "import": "./dist/*.js",

@@ -100,6 +100,12 @@ function render(props: BaseProps<LandingPageProps>) {
                   <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
+                  <span class="text-base-content/70">JSX templating for familiar syntax</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
                   <span class="text-base-content/70">Works with any CSS framework or vanilla styles</span>
                 </div>
               </div>
@@ -144,6 +150,12 @@ function render(props: BaseProps<LandingPageProps>) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                   </svg>
                   <span class="text-base-content/70">Nunjucks templates with custom filters</span>
+                </div>
+                <div class="flex items-start">
+                  <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-base-content/70">Built-in search indexing and sitemaps</span>
                 </div>
                 <div class="flex items-start">
                   <svg class="w-5 h-5 text-success mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

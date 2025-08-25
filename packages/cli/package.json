@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@duct-ui/router": "workspace:*",
+    "@duct-ui/search-core": "workspace:*",
     "commander": "^14.0.0",
     "mime": "^4.0.7"
   },

@@ -1,6 +1,22 @@
 import * as path from 'path'
 import * as fs from 'fs/promises'
 
+export interface SearchConfig {
+  enabled: boolean
+  generateIndex: boolean
+  indexPath: string
+  excludePaths: string[]
+  includeContent: boolean
+}
+
+export interface SitemapConfig {
+  enabled: boolean
+  baseUrl: string
+  excludePaths?: string[]
+  changefreq?: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never'
+  priority?: number
+}
+
 /**
  * Deep merge two configuration objects
  */
@@ -34,6 +50,28 @@ function mergeConfig(base: DuctConfig, override: DuctConfig): Required<DuctConfi
     }
   }
   
+  // Deep merge search
+  if (override.search) {
+    result.search = {
+      enabled: override.search.enabled ?? result.search?.enabled ?? false,
+      generateIndex: override.search.generateIndex ?? result.search?.generateIndex ?? true,
+      indexPath: override.search.indexPath || result.search?.indexPath || 'search-index.json',
+      excludePaths: override.search.excludePaths || result.search?.excludePaths || [],
+      includeContent: override.search.includeContent ?? result.search?.includeContent ?? true
+    }
+  }
+  
+  // Deep merge sitemap
+  if (override.sitemap) {
+    result.sitemap = {
+      enabled: override.sitemap.enabled ?? result.sitemap?.enabled ?? false,
+      baseUrl: override.sitemap.baseUrl || result.sitemap?.baseUrl || 'https://example.com',
+      excludePaths: override.sitemap.excludePaths || result.sitemap?.excludePaths || [],
+      changefreq: override.sitemap.changefreq || result.sitemap?.changefreq || 'weekly',
+      priority: override.sitemap.priority ?? result.sitemap?.priority
+    }
+  }
+  
   return result
 }
 
@@ -58,6 +96,8 @@ export interface DuctConfig {
     /** Custom markdown parser function. Receives markdown string and should return HTML string */
     markdownParser?: (markdown: string) => string | Promise<string>
   }
+  search?: SearchConfig
+  sitemap?: SitemapConfig
 }
 
 const DEFAULT_CONFIG: DuctConfig = {
@@ -73,6 +113,19 @@ const DEFAULT_CONFIG: DuctConfig = {
   content: {
     excerptMarker: '<!--more-->',
     markdownParser: undefined // Will use default markdown parsing (just return raw markdown)
+  },
+  search: {
+    enabled: false,
+    generateIndex: true,
+    indexPath: 'search-index.json',
+    excludePaths: [],
+    includeContent: true
+  },
+  sitemap: {
+    enabled: false,
+    baseUrl: 'https://example.com',
+    excludePaths: [],
+    changefreq: 'weekly'
   }
 }
 

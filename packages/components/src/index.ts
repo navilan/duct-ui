@@ -7,6 +7,10 @@ export { default as AsyncToggle } from "./button/async-toggle.js"
 // Input Components
 export { default as Editable } from "./input/editable.js"
 
+// Search Components
+export { default as Search } from "./search/search.js"
+export { default as SearchModal } from "./search/search-modal.js"
+
 // Dropdown Components
 export { default as Menu } from "./dropdown/menu.js"
 export { default as MenuItem } from "./dropdown/menu-item.js"

@@ -1,5 +1,8 @@
 import type { PageProps } from '@duct-ui/router'
+import HeroSection from '@components/HeroSection'
+import FeaturesSection from '@components/FeaturesSection'
 import HomeDemo from '@components/HomeDemo'
+import CTASection from '@components/CTASection'
 import ThemeToggle from '@components/ThemeToggle'
 
 export function getLayout(): string {
@@ -16,7 +19,13 @@ export function getPageMeta() {
 const HomePage = ({ meta, path, env }: PageProps) => {
   return (
     <>
+      <HeroSection 
+        siteName={env.siteName}
+        siteUrl={env.siteUrl}
+      />
+      <FeaturesSection />
       <HomeDemo />
+      <CTASection />
       <ThemeToggle />
     </>
   )

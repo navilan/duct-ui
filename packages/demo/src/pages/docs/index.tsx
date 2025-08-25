@@ -17,7 +17,7 @@ const DocsPage: DuctPageComponent = ({ meta, path, env }: PageProps) => {
   // For the index page, show the first documentation page
   const firstDoc = docsItems[0]
 
-  return <AppLayout currentItem={firstDoc.id}>
+  return <AppLayout currentItem={firstDoc.id} category="docs">
     {firstDoc.component()}
   </AppLayout>
 }

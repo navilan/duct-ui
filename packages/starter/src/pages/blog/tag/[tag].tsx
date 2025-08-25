@@ -1,5 +1,6 @@
 import type { ContentFile } from '@duct-ui/router'
 import ThemeToggle from '@components/ThemeToggle'
+import SearchModalProvider from '@components/SearchModalProvider'
 
 export function getLayout(): string {
   return 'tag-listing.html'
@@ -45,7 +46,6 @@ export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<R
       }
     }
 
-    console.log(`Generated ${allTags.size} tag routes: ${Array.from(allTags).join(', ')}`)
   } else {
     console.warn('No content provided to getRoutes for tag generation')
   }
@@ -53,10 +53,14 @@ export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<R
   return routes
 }
 
-// Tag listing page component with theme toggle
+// Tag listing page component with theme toggle and search
 const TagListingPage = () => {
-  // Include ThemeToggle component for interactivity
-  return <ThemeToggle />
+  return (
+    <>
+      <SearchModalProvider />
+      <ThemeToggle />
+    </>
+  )
 }
 
 export default TagListingPage

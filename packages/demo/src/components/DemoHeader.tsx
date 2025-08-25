@@ -22,18 +22,27 @@ export default function DemoHeader(props: DemoHeaderProps) {
   } = props
 
   return (
-    <header class={`demo-header bg-base-100 border-b border-base-300 px-4 py-3 flex items-center gap-4 lg:hidden ${className}`.trim()} {...moreProps}>
-      <IconButton
-        icon={hamburgerIcon}
-        iconClass="w-8 h-8 text-xl"
-        class="btn btn-ghost btn-sm"
-        aria-label="Toggle menu"
-        aria-expanded={isMenuOpen}
-        data-drawer-trigger
-        on:click={onMenuToggle}
-      />
+    <header class={`demo-header bg-base-100 border-b border-base-300 px-4 py-3 flex items-center justify-between lg:hidden ${className}`.trim()} {...moreProps}>
+      {/* Left side: Hamburger + Title */}
+      <div class="flex items-center gap-4">
+        <IconButton
+          icon={hamburgerIcon}
+          iconClass="w-8 h-8 text-xl"
+          class="btn btn-ghost btn-sm"
+          aria-label="Toggle menu"
+          aria-expanded={isMenuOpen}
+          data-drawer-trigger
+          on:click={onMenuToggle}
+        />
+        <h1 class="text-lg font-semibold text-base-content h-full mx-0 my-auto align-middle pt-[2px]">{title}</h1>
+      </div>
 
-      <h1 class="text-lg font-semibold text-base-content h-full mx-0 my-auto align-middle pt-[2px]">{title}</h1>
+      {/* Right side: Navigation Links */}
+      <div class="flex items-center gap-3 text-sm">
+        <a href="/docs" class="text-base-content hover:text-primary transition-colors font-medium">Docs</a>
+        <a href="/demos" class="text-base-content hover:text-primary transition-colors font-medium">Demos</a>
+        <a href="/blog" class="text-base-content hover:text-primary transition-colors font-medium">Blog</a>
+      </div>
     </header>
   )
 }

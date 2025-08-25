@@ -1,5 +1,6 @@
 import type { PageProps, ContentMeta } from '@duct-ui/router'
 import ThemeToggle from '@components/ThemeToggle'
+import SearchModalProvider from '@components/SearchModalProvider'
 
 /**
  * Blog post content page component
@@ -8,7 +9,12 @@ import ThemeToggle from '@components/ThemeToggle'
  */
 const BlogPost = ({ meta }: PageProps) => {
   // Only render interactive components for the #app container
-  return <ThemeToggle />
+  return (
+    <>
+      <SearchModalProvider />
+      <ThemeToggle />
+    </>
+  )
 }
 
 // Use the post layout for blog articles

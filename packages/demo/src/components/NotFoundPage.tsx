@@ -1,4 +1,6 @@
 import { createBlueprint, type BaseProps, type BindReturn } from "@duct-ui/core/blueprint"
+import { type SearchResult } from "@duct-ui/components/search/search"
+import DemoSearch from "./DemoSearch"
 import ductLogo from "../icons/duct-logo.svg"
 import ThemeToggle from "./ThemeToggle"
 
@@ -6,6 +8,7 @@ export interface NotFoundPageProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
 }
+
 
 function render(props: BaseProps<NotFoundPageProps>) {
   return (
@@ -25,6 +28,27 @@ function render(props: BaseProps<NotFoundPageProps>) {
             <br class="hidden sm:block" />
             But don't worry – we'll help you get back on track!
           </p>
+        </div>
+
+        {/* Search Section */}
+        <div class="fade-in-up mb-8">
+          <h3 class="text-xl font-semibold text-base-content mb-4">Maybe search for what you need?</h3>
+          <div class="max-w-md mx-auto">
+            <DemoSearch
+              placeholder="Search documentation, demos..."
+              searchIcon="🔍"
+              searchIconSize="sm"
+              inputClass="input input-bordered w-full pl-10"
+              dropdownClass="absolute top-full left-0 right-0 mt-2 z-50 bg-base-100 shadow-xl border border-base-300 rounded-lg max-h-80 overflow-y-auto text-left"
+              resultItemClass="px-4 py-3 hover:bg-base-200 transition-colors cursor-pointer border-b border-base-300 last:border-b-0 text-left"
+              resultTitleClass="font-medium text-base-content mb-1 truncate text-left"
+              resultExcerptClass="text-base-content/70 text-sm mb-1 line-clamp-2 text-left"
+              resultUrlClass="text-primary text-xs truncate text-left"
+              loadingClass="text-base-content/60 italic px-4 py-3 text-center"
+              noResultsClass="text-base-content/60 px-4 py-3 text-center"
+              maxResults={8}
+            />
+          </div>
         </div>
 
         {/* Navigation Links */}

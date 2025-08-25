@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import "@duct-ui/components/layout/modal.css";
+@import "@duct-ui/components/search/search.css";
 @import "./prism-gruvbox-dark.css";
 @import "./prism-gruvbox-light.css";
 

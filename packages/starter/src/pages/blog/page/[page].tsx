@@ -1,5 +1,6 @@
 import type { PageProps } from '@duct-ui/router'
 import ThemeToggle from '@components/ThemeToggle'
+import SearchModalProvider from '@components/SearchModalProvider'
 
 export function getLayout(): string {
   return 'blog-listing.html'
@@ -46,6 +47,7 @@ const BlogPageComponent = ({ meta, path, env }: PageProps) => {
 
   return (
     <>
+      <SearchModalProvider />
       <ThemeToggle />
       <div id="blog-listing" data-page={pageNum}></div>
     </>

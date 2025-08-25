@@ -6,3 +6,6 @@ packages:
   - packages/demo
   - packages/starter
   - packages/mcp-server
+  - packages/search-core
+  - packages/client-search-provider
+  - packages/cloudflare-search-provider

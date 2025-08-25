@@ -35,7 +35,7 @@ const DemoPage: DuctPageComponent = ({ meta, path, env }: PageProps) => {
     return <div>Demo not found</div>
   }
 
-  return <AppLayout currentItem={demo.id}>
+  return <AppLayout currentItem={demo.id} category="demos">
     {demo.component()}
   </AppLayout>
 }
