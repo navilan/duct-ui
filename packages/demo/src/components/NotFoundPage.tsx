@@ -1,8 +1,7 @@
 import { createBlueprint, type BaseProps, type BindReturn, renderProps } from "@duct-ui/core/blueprint"
-import { type SearchResult } from "@duct-ui/components/search/search"
-import DemoSearch from "./DemoSearch"
 import ductLogo from "../icons/duct-logo.svg"
 import ThemeToggle from "./ThemeToggle"
+import SearchModalProvider from "./SearchModalProvider"
 
 export interface NotFoundPageProps {
   'on:bind'?: (el: HTMLElement) => void
@@ -34,20 +33,15 @@ function render(props: BaseProps<NotFoundPageProps>) {
         <div class="fade-in-up mb-8">
           <h3 class="text-xl font-semibold text-base-content mb-4">Maybe search for what you need?</h3>
           <div class="max-w-md mx-auto">
-            <DemoSearch
-              placeholder="Search documentation, demos..."
-              searchIcon="🔍"
-              searchIconSize="sm"
-              inputClass="input input-bordered w-full pl-10"
-              dropdownClass="absolute top-full left-0 right-0 mt-2 z-50 bg-base-100 shadow-xl border border-base-300 rounded-lg max-h-80 overflow-y-auto text-left"
-              resultItemClass="px-4 py-3 hover:bg-base-200 transition-colors cursor-pointer border-b border-base-300 last:border-b-0 text-left"
-              resultTitleClass="font-medium text-base-content mb-1 truncate text-left"
-              resultExcerptClass="text-base-content/70 text-sm mb-1 line-clamp-2 text-left"
-              resultUrlClass="text-primary text-xs truncate text-left"
-              loadingClass="text-base-content/60 italic px-4 py-3 text-center"
-              noResultsClass="text-base-content/60 px-4 py-3 text-center"
-              maxResults={8}
-            />
+            <button
+              data-duct-search-modal-trigger
+              class="btn btn-primary btn-lg w-full gap-2"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              Search documentation, demos...
+            </button>
           </div>
         </div>
 
@@ -182,6 +176,9 @@ function render(props: BaseProps<NotFoundPageProps>) {
       
       {/* Theme Toggle */}
       <ThemeToggle />
+      
+      {/* Search Modal Provider */}
+      <SearchModalProvider />
     </div>
   )
 }

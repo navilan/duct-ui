@@ -1,6 +1,7 @@
 import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import ductLogo from "../icons/duct-logo.svg"
 import ThemeToggle from "./ThemeToggle"
+import SearchModalProvider from "./SearchModalProvider"
 import { Markdown } from "@duct-ui/components"
 
 export interface LandingPageEvents extends BaseComponentEvents { }
@@ -394,6 +395,7 @@ on:click={...}
       </div>
 
       {/* Theme Toggle */}
+      <SearchModalProvider />
       <ThemeToggle />
     </div>
   )

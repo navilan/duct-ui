@@ -15,6 +15,7 @@ import EmojiListDemo from "./demos/EmojiListDemo"
 import CounterDemo from "./demos/CounterDemo"
 import MarkdownDemo from "./demos/MarkdownDemo"
 import SearchDemo from "./demos/SearchDemo"
+import SearchModalDemo from "./demos/SearchModalDemo"
 import DocsIntro from "./docs/DocsIntro"
 import DocsWhyDuct from "./docs/DocsWhyDuct"
 import DocsComparison from "./docs/DocsComparison"
@@ -210,13 +211,29 @@ export const demoSections: PageSection[] = [
         component: () => {
           return EditableInputDemo({})
         }
-      },
+      }
+    ]
+  },
+  {
+    type: 'category',
+    id: "search",
+    title: "Search",
+    page: "demos",
+    items: [
       {
         id: "search",
         title: "Search",
         description: "Full-text search with FlexSearch and real-time results",
         component: () => {
           return SearchDemo({})
+        }
+      },
+      {
+        id: "search-modal",
+        title: "Search Modal",
+        description: "Modal dialog for searching with keyboard shortcuts",
+        component: () => {
+          return SearchModalDemo({})
         }
       }
     ]

@@ -1,5 +1,6 @@
 import type { ContentFile } from '@duct-ui/router'
 import ThemeToggle from '@components/ThemeToggle'
+import SearchModalProvider from '@components/SearchModalProvider'
 
 export function getLayout(): string {
   return 'tag-listing.html'
@@ -68,10 +69,15 @@ export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<R
   return routes
 }
 
-// Paginated tag listing component with theme toggle
+// Paginated tag listing component with theme toggle and search
 const TagPageComponent = () => {
-  // Include ThemeToggle component for interactivity
-  return <ThemeToggle />
+  // Include ThemeToggle and SearchModalProvider components for interactivity
+  return (
+    <>
+      <SearchModalProvider />
+      <ThemeToggle />
+    </>
+  )
 }
 
 export default TagPageComponent
