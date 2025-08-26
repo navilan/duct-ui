@@ -1,0 +1,18 @@
+name = "starter-worker"
+main = "worker/worker.ts"
+compatibility_date = "2024-04-03"
+
+# KV namespace for search metadata
+[[kv_namespaces]]
+binding = "SEARCH_METADATA"
+id = "search-metadata-kv"
+
+# R2 bucket for search index storage
+[[r2_buckets]]
+binding = "SEARCH_INDEX"
+bucket_name = "search-index-bucket"
+
+# Environment variables
+# SEARCH_INDEX_AUTH_TOKEN should be set via:
+# - .env file for local development
+# - wrangler secret put SEARCH_INDEX_AUTH_TOKEN for production

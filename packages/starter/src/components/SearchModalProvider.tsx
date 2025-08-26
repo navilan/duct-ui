@@ -61,7 +61,7 @@ function handleSelect(_el: HTMLElement, result: any) {
 
 function render(props: BaseProps<SearchModalProviderProps>) {
   const {
-    workerUrl = import.meta.env.VITE_SEARCH_WORKER_URL || 'http://localhost:8787',
+    workerUrl = import.meta.env.VITE_SEARCH_WORKER_URL || '/api',
     ...moreProps
   } = props
 
@@ -82,7 +82,7 @@ function render(props: BaseProps<SearchModalProviderProps>) {
 }
 
 function bind(el: HTMLElement, eventEmitter: any, props: BaseProps<SearchModalProviderProps>): BindReturn<SearchModalProviderLogic> {
-  const workerUrl = props.workerUrl || import.meta.env.VITE_SEARCH_WORKER_URL || 'http://localhost:8787'
+  const workerUrl = props.workerUrl || import.meta.env.VITE_SEARCH_WORKER_URL || '/api'
 
   // Initialize search providers with fallback
   async function initializeSearchProviders() {

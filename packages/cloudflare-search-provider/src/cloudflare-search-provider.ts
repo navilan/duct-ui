@@ -119,12 +119,12 @@ export class CloudflareSearchProvider implements SearchProvider<CloudflareIndexC
   }
 
   /**
-   * Upload search index to Cloudflare Worker
-   * This method is typically called during build time
+   * Append entries to search index in Cloudflare Worker
+   * This method appends new entries without replacing existing ones
    */
-  async updateIndex(entries: SearchIndexEntry[], config?: CloudflareIndexConfig): Promise<void> {
+  async appendIndex(entries: SearchIndexEntry[], config?: CloudflareIndexConfig): Promise<void> {
     if (!config) {
-      throw new Error('CloudflareSearchProvider.updateIndex requires CloudflareIndexConfig')
+      throw new Error('CloudflareSearchProvider.appendIndex requires CloudflareIndexConfig')
     }
     try {
       const response = await fetch(`${config.workerUrl}/search/index`, {
