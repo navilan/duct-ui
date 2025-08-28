@@ -335,9 +335,14 @@ await searchProvider.appendIndex([
 ### Deploy to Cloudflare Workers
 
 ```bash
-cd worker
-wrangler deploy
+# Deploy from your project root (TypeScript is compiled automatically by Wrangler)
+wrangler deploy -c worker/wrangler.toml
+
+# Or if you have a package.json script
+npm run worker:deploy
 ```
+
+**Note**: Wrangler automatically compiles TypeScript files. You don't need to compile `.ts` files to `.js` before deployment.
 
 ### Configure Production Secrets
 

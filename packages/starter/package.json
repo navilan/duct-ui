@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "package": "pnpm -w build",
-    "worker:dev": "wrangler dev -c worker/wrangler.toml --port 8788 --local"
+    "worker:dev": "wrangler dev -c worker/wrangler.toml --port 8788 --local",
+    "worker:deploy": "wrangler deploy -c worker/wrangler.toml",
+    "worker:types": "wrangler types --config worker/wrangler.toml"
   },
   "dependencies": {
     "@duct-ui/client-search-provider": "workspace:*",

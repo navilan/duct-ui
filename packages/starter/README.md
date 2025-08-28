@@ -188,9 +188,11 @@ For larger sites, use Cloudflare Workers:
 
 4. **Deploy to Production**:
    ```bash
-   cd worker
-   wrangler deploy
-   wrangler secret put SEARCH_INDEX_AUTH_TOKEN
+   # Deploy the worker (TypeScript files are compiled automatically)
+   pnpm worker:deploy
+   
+   # Set production authentication token
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c worker/wrangler.toml
    ```
 
 ### Search Index Management
@@ -292,10 +294,12 @@ pnpm build
 ### Available Scripts
 
 - `pnpm dev` - Start development server
-- `pnpm build` - Build for production
+- `pnpm build` - Build for production (SSG)
 - `pnpm preview` - Preview production build
 - `pnpm typecheck` - Run TypeScript checks
-- `pnpm worker:dev` - Start Cloudflare Worker for search (optional)
+- `pnpm worker:dev` - Start Cloudflare Worker locally (optional)
+- `pnpm worker:deploy` - Deploy Worker to Cloudflare (optional)
+- `pnpm worker:types` - Generate TypeScript types for Worker (optional)
 
 ### Adding New Pages
 
