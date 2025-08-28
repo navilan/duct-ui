@@ -1,6 +1,7 @@
 name = "starter-worker"
-main = "worker/worker.ts"
+main = "worker.ts"
 compatibility_date = "2024-04-03"
+
 
 # KV namespace for search metadata
 [[kv_namespaces]]

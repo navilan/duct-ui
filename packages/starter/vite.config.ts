@@ -1,20 +1,10 @@
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import { ductSSGPlugin } from '@duct-ui/cli/vite-plugin'
-import { cloudflare } from '@cloudflare/vite-plugin'
 
 export default defineConfig({
   plugins: [
     ductSSGPlugin(),
-    cloudflare({
-      experimentalJsonConfig: true,
-      routes: [
-        {
-          pattern: "/api/*",
-          target: "worker"
-        }
-      ]
-    })
   ],
   resolve: {
     alias: {

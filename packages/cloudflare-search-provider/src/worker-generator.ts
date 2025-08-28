@@ -17,36 +17,55 @@ export async function generateWorkerTemplates(config: WorkerGeneratorConfig): Pr
   await fs.mkdir(outputDir, { recursive: true })
 
   // Generate minimal worker template (< 10 lines)
-  const workerCode = `// Minimal Cloudflare Worker for Duct UI Search
+  const workerCode = `// Cloudflare Worker for Duct UI Search API
 import { SearchWorkerHandler } from '@duct-ui/cloudflare-search-provider/worker'
 
 export default {
   async fetch(request, env) {
-    const handler = new SearchWorkerHandler(env)
-    return handler.handleRequest(request)
+    const url = new URL(request.url)
+    const pathname = url.pathname
+    
+    // Optional: Mount on /api prefix (remove if not needed)
+    if (pathname.startsWith('/api/')) {
+      const newUrl = new URL(request.url)
+      newUrl.pathname = pathname.substring(4) // Remove '/api'
+      const newRequest = new Request(newUrl, request)
+      
+      const handler = new SearchWorkerHandler(env)
+      return handler.handleRequest(newRequest)
+    }
+    
+    // Direct routing (use this if not mounting on /api)
+    // const handler = new SearchWorkerHandler(env)
+    // return handler.handleRequest(request)
+    
+    return new Response('Not Found', { status: 404 })
   }
 }`
 
   await fs.writeFile(path.join(outputDir, 'search-worker.template.ts'), workerCode)
 
   // Generate wrangler.toml template
-  const wranglerTemplate = `# Add these configurations to your existing wrangler.toml
-# or create a new wrangler.toml if you don't have one
-
+  const wranglerTemplate = `# Cloudflare Worker configuration for Duct UI Search
 name = "${projectName}-search-worker"
 main = "search-worker.ts"
-compatibility_date = "2024-01-01"
+compatibility_date = "2024-04-03" # Required for RPC support
 
 # KV namespace for search metadata
 [[kv_namespaces]]
 binding = "SEARCH_METADATA"
+id = "search-metadata-kv" # Will be auto-generated in production
 
 # R2 bucket for search index storage
 [[r2_buckets]]
 binding = "SEARCH_INDEX"
+bucket_name = "search-index-bucket" # Will be auto-generated in production
 
 # Environment variables
-# Set SEARCH_INDEX_AUTH_TOKEN as a secret in Cloudflare dashboard:
+# For local development, create a .env file:
+# SEARCH_INDEX_AUTH_TOKEN=your-dev-token
+#
+# For production, set via Cloudflare dashboard or:
 # wrangler secret put SEARCH_INDEX_AUTH_TOKEN`
 
   await fs.writeFile(path.join(outputDir, 'wrangler.toml.template'), wranglerTemplate)
@@ -164,7 +183,8 @@ The worker exposes these endpoints:
 | \`/search/execute?q=query\` | GET | Search the index |
 | \`/search/health\` | GET | Check worker status |
 | \`/search/stats\` | GET | Get index statistics |
-| \`/search/index\` | POST | Update search index (requires auth) |
+| \`/search/index\` | POST | Append entries to search index (requires auth) |
+| \`/search/sync-index\` | POST | Sync index from URL (requires auth) |
 
 ### Example API Calls
 
@@ -183,12 +203,34 @@ curl https://your-worker.workers.dev/search/health
 curl https://your-worker.workers.dev/search/stats
 \`\`\`
 
-**Update search index (post-deployment only):**
+**Sync search index from URL:**
+\`\`\`bash
+# Sync from default location (/search-index.json)
+curl -X POST https://your-worker.workers.dev/search/sync-index \\
+  -H "Authorization: Bearer YOUR_TOKEN"
+
+# Sync from custom URL
+curl -X POST https://your-worker.workers.dev/search/sync-index \\
+  -H "Authorization: Bearer YOUR_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"url": "https://your-site.com/search-index.json"}'
+\`\`\`
+
+**Append entries to search index:**
 \`\`\`bash
 curl -X POST https://your-worker.workers.dev/search/index \\
   -H "Authorization: Bearer YOUR_TOKEN" \\
   -H "Content-Type: application/json" \\
-  -d @dist/search-index.json
+  -d '{
+    "entries": [
+      {
+        "url": "/new-page",
+        "title": "New Page Title",
+        "description": "Page description",
+        "content": "Page content for search"
+      }
+    ]
+  }'
 \`\`\`
 
 ## 🔄 Deployment
@@ -212,15 +254,15 @@ curl -X POST https://your-worker.workers.dev/search/index \\
    wrangler deploy
    \`\`\`
 
-3. **Post-Deploy Phase** - Update search index
+3. **Post-Deploy Phase** - Sync search index
    \`\`\`bash
-   # After deployment is complete, update the search index
-   npm run update-search-index
+   # After deployment is complete, sync the search index
+   npm run sync-search-index
    # or manually:
-   curl -X POST https://your-worker.workers.dev/search/index \\
+   curl -X POST https://your-worker.workers.dev/search/sync-index \\
      -H "Authorization: Bearer $SEARCH_INDEX_AUTH_TOKEN" \\
      -H "Content-Type: application/json" \\
-     -d @dist/search-index.json
+     -d '{"url": "https://your-site.com/search-index.json"}'
    \`\`\`
 
 ### CI/CD Pipeline Example
@@ -234,12 +276,12 @@ steps:
   - name: Deploy to Cloudflare
     run: wrangler deploy
     
-  - name: Update Search Index
+  - name: Sync Search Index
     run: |
-      curl -X POST https://your-worker.workers.dev/search/index \\
+      curl -X POST https://your-worker.workers.dev/search/sync-index \\
         -H "Authorization: Bearer \${{ secrets.SEARCH_INDEX_AUTH_TOKEN }}" \\
         -H "Content-Type: application/json" \\
-        -d @dist/search-index.json
+        -d '{"url": "https://your-deployed-site.com/search-index.json"}'
 \`\`\`
 
 ## 🧪 Testing

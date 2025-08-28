@@ -9,7 +9,8 @@
     "build": "node node_modules/@duct-ui/cli/dist/cli.js build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "package": "pnpm -w build"
+    "package": "pnpm -w build",
+    "worker:dev": "wrangler dev -c worker/wrangler.toml --port 8788 --local"
   },
   "dependencies": {
     "@duct-ui/client-search-provider": "workspace:*",

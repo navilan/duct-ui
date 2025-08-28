@@ -73,7 +73,6 @@ function render(props: BaseProps<SearchModalProviderProps>) {
         hotkey="k"
         hotkeyCombination={["cmd"]}
         data-search-modal
-        data-worker-url={workerUrl}
         on:search={performSearch}
         on:select={handleSelect}
       />
