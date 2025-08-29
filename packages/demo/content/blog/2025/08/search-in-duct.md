@@ -12,6 +12,8 @@ Search is table stakes for modern websites. Users expect to find content instant
 
 <!--more-->
 
+![Duct Search](/blog/2025/08/search/duct-search.png) {.dark-invert}
+
 ## The Problem with Search
 
 Adding search to a static site traditionally meant choosing between:
