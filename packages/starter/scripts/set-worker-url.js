@@ -5,8 +5,12 @@
  * This script runs before the build to set the correct worker URL
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Get Cloudflare environment variables
 const CF_PAGES_BRANCH = process.env.CF_PAGES_BRANCH;
