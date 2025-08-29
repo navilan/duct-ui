@@ -1,6 +1,6 @@
 {
   "name": "@duct-ui/search-core",
-  "version": "0.7.10",
+  "version": "1.0.0",
   "description": "Core search interfaces and utilities for Duct UI",
   "type": "module",
   "main": "./dist/index.js",
@@ -30,7 +30,7 @@
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
-    "@duct-ui/core": "^0.7.10"
+    "@duct-ui/core": "^0.8.0"
   },
   "repository": {
     "type": "git",

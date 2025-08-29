@@ -1,6 +1,6 @@
 {
   "name": "@duct-ui/core",
-  "version": "0.7.10",
+  "version": "0.8.0",
   "description": "Core runtime and blueprint system for Duct UI components",
   "publishConfig": {
     "access": "public",
