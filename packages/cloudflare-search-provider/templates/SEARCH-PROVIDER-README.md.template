@@ -20,13 +20,13 @@ npm install @duct-ui/cloudflare-search-provider flexsearch dotenv
 
 ```bash
 # Create production KV namespace
-wrangler kv namespace create "starter-search-metadata-prod"
-# Output: Created namespace with title "your-worker-starter-search-metadata-prod"
+wrangler kv namespace create "{{projectName}}-search-metadata-prod"
+# Output: Created namespace with title "your-worker-{{projectName}}-search-metadata-prod"
 # Copy the "id" value to wrangler.toml
 
 # Create preview KV namespace
-wrangler kv namespace create "starter-search-metadata-preview"  
-# Output: Created namespace with title "your-worker-starter-search-metadata-preview"
+wrangler kv namespace create "{{projectName}}-search-metadata-preview"  
+# Output: Created namespace with title "your-worker-{{projectName}}-search-metadata-preview"
 # Copy the "id" value to wrangler.preview.toml
 ```
 
@@ -34,10 +34,10 @@ wrangler kv namespace create "starter-search-metadata-preview"
 
 ```bash
 # Create production R2 bucket
-wrangler r2 bucket create starter-search-index-prod
+wrangler r2 bucket create {{projectName}}-search-index-prod
 
 # Create preview R2 bucket  
-wrangler r2 bucket create starter-search-index-preview
+wrangler r2 bucket create {{projectName}}-search-index-preview
 ```
 
 ### 3. Update Configuration Files with Resource IDs
@@ -52,7 +52,7 @@ id = "production-kv-namespace-id" # Use ID from production KV namespace
 
 [[r2_buckets]]
 binding = "SEARCH_INDEX"
-bucket_name = "starter-search-index-prod"
+bucket_name = "{{projectName}}-search-index-prod"
 ```
 
 **Update `wrangler.preview.toml` (Preview):**
@@ -63,7 +63,7 @@ id = "preview-kv-namespace-id" # Use ID from preview KV namespace
 
 [[r2_buckets]]
 binding = "SEARCH_INDEX"
-bucket_name = "starter-search-index-preview"
+bucket_name = "{{projectName}}-search-index-preview"
 ```
 
 ## 🚀 Setup Instructions
@@ -129,7 +129,7 @@ If you already have a Cloudflare Worker:
    
    [[r2_buckets]]
    binding = "SEARCH_INDEX"
-   bucket_name = "starter-search-index-prod"
+   bucket_name = "{{projectName}}-search-index-prod"
    ```
    
    **Add to preview `wrangler.preview.toml`:**
@@ -140,7 +140,7 @@ If you already have a Cloudflare Worker:
    
    [[r2_buckets]]
    binding = "SEARCH_INDEX"
-   bucket_name = "starter-search-index-preview"
+   bucket_name = "{{projectName}}-search-index-preview"
    ```
 
 4. **Set authentication tokens**

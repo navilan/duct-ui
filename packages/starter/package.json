@@ -14,7 +14,8 @@
     "worker:deploy": "wrangler deploy -c worker/wrangler.toml",
     "worker:deploy:preview": "wrangler versions upload -c worker/wrangler.preview.toml --preview-alias staging",
     "worker:types": "wrangler types --config worker/wrangler.toml",
-    "worker:types:preview": "wrangler types --config worker/wrangler.preview.toml"
+    "worker:types:preview": "wrangler types --config worker/wrangler.preview.toml",
+    "search:sync": "node worker/sync-search-index.js"
   },
   "dependencies": {
     "@duct-ui/client-search-provider": "workspace:*",
@@ -32,6 +33,7 @@
     "@types/node": "^24.3.0",
     "autoprefixer": "^10.4.21",
     "daisyui": "^5.0.50",
+    "dotenv": "^17.2.1",
     "luxon": "^3.7.1",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
