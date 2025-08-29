@@ -23,14 +23,12 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "flexsearch": "^0.8.205"
+    "flexsearch": "^0.8.205",
+    "@duct-ui/core": "workspace:*"
   },
   "devDependencies": {
     "rimraf": "^6.0.1",
     "typescript": "^5.9.2"
-  },
-  "peerDependencies": {
-    "@duct-ui/core": "^0.8.0"
   },
   "repository": {
     "type": "git",

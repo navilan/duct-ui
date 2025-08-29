@@ -317,8 +317,8 @@ importers:
   packages/search-core:
     dependencies:
       '@duct-ui/core':
-        specifier: ^0.7.10
-        version: 0.7.10
+        specifier: workspace:*
+        version: link:../core
       flexsearch:
         specifier: ^0.8.205
         version: 0.8.205
@@ -590,9 +590,6 @@ packages:
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
-
-  '@duct-ui/core@0.7.10':
-    resolution: {integrity: sha512-x7C0k++6tHFUNsCDn9PXHO5q25Mzel1w2aq8m6fKpAJpgUffiiWWZ/X7/NdHjprJjAbZuKValsiEJr7Ks5s7HA==}
 
   '@emnapi/runtime@1.4.5':
     resolution: {integrity: sha512-++LApOtY0pEEz1zrd9vy1/zXVaVJJ/EbAF3u0fXIzPJEDtnITsBGbbK0EkM72amhl/R5b+5xx0Y/QhcVOpuulg==}
@@ -3324,11 +3321,6 @@ snapshots:
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
-
-  '@duct-ui/core@0.7.10':
-    dependencies:
-      '@kitajs/html': 4.2.9
-      lib0: 0.2.114
 
   '@emnapi/runtime@1.4.5':
     dependencies:
