@@ -6,7 +6,7 @@ compatibility_date = "2024-04-03" # Required for RPC support
 # KV namespace for search metadata
 [[kv_namespaces]]
 binding = "SEARCH_METADATA"
-id = "starter-search-metadata-prod" # Production KV namespace ID
+id = "440b52d9d3f741fe826b1f7f5d41f0d5" # Production KV namespace ID
 
 # R2 bucket for search index storage
 [[r2_buckets]]

@@ -5,11 +5,13 @@ This directory contains template files for integrating Duct UI search with Cloud
 ## 📦 Prerequisites
 
 ### Required Dependencies
+
 ```bash
 npm install @duct-ui/cloudflare-search-provider flexsearch dotenv
 ```
 
 ### Required Cloudflare Resources
+
 - Cloudflare account with Workers enabled
 - R2 storage enabled (for search index)
 - KV storage enabled (for metadata)
@@ -25,7 +27,7 @@ wrangler kv namespace create "starter-search-metadata-prod"
 # Copy the "id" value to wrangler.toml
 
 # Create preview KV namespace
-wrangler kv namespace create "starter-search-metadata-preview"  
+wrangler kv namespace create "starter-search-metadata-preview"
 # Output: Created namespace with title "your-worker-starter-search-metadata-preview"
 # Copy the "id" value to wrangler.preview.toml
 ```
@@ -36,7 +38,7 @@ wrangler kv namespace create "starter-search-metadata-preview"
 # Create production R2 bucket
 wrangler r2 bucket create starter-search-index-prod
 
-# Create preview R2 bucket  
+# Create preview R2 bucket
 wrangler r2 bucket create starter-search-index-preview
 ```
 
@@ -45,6 +47,7 @@ wrangler r2 bucket create starter-search-index-preview
 After creating resources:
 
 **Update `wrangler.toml` (Production):**
+
 ```toml
 [[kv_namespaces]]
 binding = "SEARCH_METADATA"
@@ -56,6 +59,7 @@ bucket_name = "starter-search-index-prod"
 ```
 
 **Update `wrangler.preview.toml` (Preview):**
+
 ```toml
 [[kv_namespaces]]
 binding = "SEARCH_METADATA"
@@ -73,6 +77,7 @@ bucket_name = "starter-search-index-preview"
 If you don't have an existing Cloudflare Worker:
 
 1. **Copy template files**
+
    ```bash
    cp search-worker.template.ts search-worker.ts
    cp wrangler.toml.template wrangler.toml
@@ -80,10 +85,11 @@ If you don't have an existing Cloudflare Worker:
    ```
 
 2. **Set authentication tokens**
+
    ```bash
    # For production
    wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.toml
-   
+
    # For preview
    wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.preview.toml
    ```
@@ -93,26 +99,28 @@ If you don't have an existing Cloudflare Worker:
 If you already have a Cloudflare Worker:
 
 1. **Copy the search worker code**
+
    ```bash
    cp search-worker.template.ts search-worker.ts
    ```
 
 2. **Update your existing worker's request handler**
-   
+
    In your main worker file, add the search handler:
+
    ```typescript
    import { SearchWorkerHandler } from '@duct-ui/cloudflare-search-provider/worker'
-   
+
    export default {
      async fetch(request, env) {
        const url = new URL(request.url)
-       
+
        // Route /search/* endpoints to the search handler
        if (url.pathname.startsWith('/search/')) {
          const searchHandler = new SearchWorkerHandler(env)
          return searchHandler.handleRequest(request)
        }
-       
+
        // Your existing worker logic
        return yourExistingHandler(request, env)
      }
@@ -120,35 +128,38 @@ If you already have a Cloudflare Worker:
    ```
 
 3. **Add configurations to your existing wrangler files**
-   
+
    **Add to production `wrangler.toml`:**
+
    ```toml
    [[kv_namespaces]]
    binding = "SEARCH_METADATA"
    id = "your-production-kv-id"
-   
+
    [[r2_buckets]]
    binding = "SEARCH_INDEX"
    bucket_name = "starter-search-index-prod"
    ```
-   
+
    **Add to preview `wrangler.preview.toml`:**
+
    ```toml
    [[kv_namespaces]]
    binding = "SEARCH_METADATA"
    id = "your-preview-kv-id"
-   
+
    [[r2_buckets]]
    binding = "SEARCH_INDEX"
    bucket_name = "starter-search-index-preview"
    ```
 
 4. **Set authentication tokens**
+
    ```bash
    # For production
    wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.toml
-   
-   # For preview  
+
+   # For preview
    wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.preview.toml
    ```
 
@@ -166,11 +177,13 @@ SEARCH_INDEX_AUTH_TOKEN=your-auth-token-here
 ```
 
 **Environment Variable Descriptions:**
+
 - `SITE_URL`: The URL where your built site is hosted (where search-index.json is accessible)
 - `WORKER_URL`: The URL of your Cloudflare Worker (for local dev or deployed worker)
 - `SEARCH_INDEX_AUTH_TOKEN`: Authentication token for updating the search index (same as set in wrangler secrets)
 
 **For different environments:**
+
 ```bash
 # Local development
 SITE_URL=http://localhost:5173
@@ -224,21 +237,25 @@ The worker exposes these endpoints:
 ### Example API Calls
 
 **Search for content:**
+
 ```bash
 curl https://your-worker.workers.dev/search/execute?q=getting+started
 ```
 
 **Check health status:**
+
 ```bash
 curl https://your-worker.workers.dev/search/health
 ```
 
 **Get index statistics:**
+
 ```bash
 curl https://your-worker.workers.dev/search/stats
 ```
 
 **Sync search index from URL:**
+
 ```bash
 # Sync from default location (/search-index.json)
 curl -X POST https://your-worker.workers.dev/search/sync-index \
@@ -252,6 +269,7 @@ curl -X POST https://your-worker.workers.dev/search/sync-index \
 ```
 
 **Append entries to search index:**
+
 ```bash
 curl -X POST https://your-worker.workers.dev/search/index \
   -H "Authorization: Bearer YOUR_TOKEN" \
@@ -312,27 +330,30 @@ npm run search:sync
 ### Build and Deploy Flow
 
 1. **Build Phase** - Generates search index
+
    ```bash
    npm run build
    # Creates dist/search-index.json
    ```
 
 2. **Deploy Phase** - Deploys worker and site
-   
+
    **Automatic (via Cloudflare CI):**
    - Push to GitHub
    - Cloudflare deploys worker and site
 
    **Manual:**
+
    ```bash
    wrangler deploy
    ```
 
 3. **Post-Deploy Phase** - Sync search index
+
    ```bash
    # Using npm script (recommended)
    npm run search:sync
-   
+
    # Or manually with environment variables:
    WORKER_URL=https://your-worker.workers.dev SITE_URL=https://your-site.com node sync-search-index.js
    ```
@@ -344,10 +365,10 @@ npm run search:sync
 steps:
   - name: Build
     run: npm run build
-    
+
   - name: Deploy to Cloudflare
     run: wrangler deploy
-    
+
   - name: Sync Search Index
     run: npm run search:sync
     env:
@@ -359,11 +380,13 @@ steps:
 ## 🧪 Testing
 
 ### Local Development
+
 ```bash
 wrangler dev search-worker.ts
 ```
 
 ### Test Endpoints
+
 ```bash
 # Test search
 curl http://localhost:8787/search/execute?q=test
