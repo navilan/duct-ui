@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import Icon, { type IconSource } from "../images/icon.js"
 
@@ -43,7 +43,7 @@ function render(props: BaseProps<MenuItemProps>) {
   const iconElement = icon ? renderIcon(icon) : null
 
   return (
-    <li class={itemClasses} {...moreProps}>
+    <li class={itemClasses} {...renderProps(moreProps)}>
       <a class={disabled ? 'disabled' : ''}>
         {iconElement}{label}
       </a>

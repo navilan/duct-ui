@@ -1,0 +1,41 @@
+{
+  "name": "@duct-ui/search-core",
+  "version": "0.7.10",
+  "description": "Core search interfaces and utilities for Duct UI",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./index-generator": {
+      "import": "./dist/index-generator.js",
+      "types": "./dist/index-generator.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "flexsearch": "^0.8.205"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.2"
+  },
+  "peerDependencies": {
+    "@duct-ui/core": "^0.7.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/navilan/duct"
+  },
+  "author": "navilan<navilan@folds.in>",
+  "license": "MIT"
+}

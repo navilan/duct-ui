@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps } from '@duct-ui/core'
+import { createBlueprint, renderProps, type BaseProps } from '@duct-ui/core'
 import type { BindReturn } from '@duct-ui/core/blueprint'
 
 interface Contact {
@@ -80,7 +80,7 @@ function render(props: BaseProps<FormDataModalProps>) {
   const hasData = !!formData
 
   return (
-    <div class="p-6 max-w-lg" {...moreProps}>
+    <div class="p-6 max-w-lg" {...renderProps(moreProps)}>
       {/* Empty state */}
       <div class={`empty-state ${hasData ? 'hidden' : ''}`} data-state="empty">
         <div class="flex items-center justify-between mb-4">

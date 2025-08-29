@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import Tabs, { type TabItem } from "@duct-ui/components/layout/tabs"
@@ -337,7 +337,7 @@ function render(props: BaseProps<TabsDemoProps>) {
   ]
 
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Tabs Component Demo"
         description="Tabbed interface with dynamic content and nested tabs"

@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import AsyncToggle, { type AsyncToggleState, type AsyncToggleLogic } from "@duct-ui/components/button/async-toggle"
@@ -125,7 +125,7 @@ function render(props: BaseProps<AsyncToggleDemoProps>) {
   }
 
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Async Toggle Component"
         description="Toggle button with asynchronous state management and custom async operations"

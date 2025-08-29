@@ -1,0 +1,21 @@
+# Cloudflare Worker configuration for Duct UI Search (Preview)
+name = "{{projectName}}-search-worker-preview"
+main = "search-worker.ts"
+compatibility_date = "2024-04-03" # Required for RPC support
+
+# KV namespace for search metadata
+[[kv_namespaces]]
+binding = "SEARCH_METADATA"
+id = "{{projectName}}-search-metadata-preview" # Preview KV namespace ID
+
+# R2 bucket for search index storage
+[[r2_buckets]]
+binding = "SEARCH_INDEX"
+bucket_name = "{{projectName}}-search-index-preview" # Preview bucket name
+
+# Environment variables
+# For local development, create a .env file:
+# SEARCH_INDEX_AUTH_TOKEN=your-dev-token
+#
+# For preview deployment, set via:
+# wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.preview.toml

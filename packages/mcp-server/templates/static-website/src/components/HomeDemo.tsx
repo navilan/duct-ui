@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps } from '@duct-ui/core'
+import { createBlueprint, type BaseProps, renderProps } from '@duct-ui/core'
 import { EventEmitter } from '@duct-ui/core/shared'
 import Button from '@duct-ui/components/button/button'
 import { BaseComponentEvents, BindReturn } from '@duct-ui/core/blueprint'
@@ -14,7 +14,7 @@ interface HomeDemoLogic {
 
 function render(props: BaseProps<HomeDemoProps>) {
   return (
-    <section class="py-16" {...props}>
+    <section class="py-16" {...renderProps(props)}>
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold mb-4">
@@ -125,14 +125,12 @@ function render(props: BaseProps<HomeDemoProps>) {
 }
 
 function bind(el: HTMLElement, eventEmitter: EventEmitter<HomeDemoEvents>): BindReturn<HomeDemoLogic> {
-  console.log("In bind")
   const demoArea = el.querySelector('#demo-area') as HTMLElement
   const demoToggleBtn = el.querySelector('#demo-toggle-btn') as HTMLButtonElement
   const hideDemoBtn = el.querySelector('#hide-demo-btn') as HTMLButtonElement
   const docsBtn = el.querySelector('#docs-btn') as HTMLButtonElement
 
   function showDemo() {
-    console.log("Showing demo")
     if (demoArea) {
       const isHidden = demoArea.classList.contains('hidden')
       demoArea.classList.toggle('hidden')

@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { cn } from "../utils/cn.js"
 
@@ -55,7 +55,7 @@ function render(props: BaseProps<DrawerProps>) {
       data-drawer-open={isOpen}
       data-drawer-side={side}
       data-drawer-persistent={persistent}
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       {overlay && !persistent && (
         <div 

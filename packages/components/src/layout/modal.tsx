@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { cn } from "../utils/cn.js"
 
@@ -53,7 +53,7 @@ function render(props: BaseProps<ModalProps>) {
     <div
       class={cn("modal-container", positionClass, isOpen ? 'modal-visible' : 'modal-hidden')}
       data-modal-container
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <div
         class={cn("modal-overlay", overlayClass)}

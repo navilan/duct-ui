@@ -1,5 +1,6 @@
 import type { ContentFile } from '@duct-ui/router'
 import ThemeToggle from '@components/ThemeToggle'
+import SearchModalProvider from '@components/SearchModalProvider'
 
 export function getLayout(): string {
   return 'tag-listing.html'
@@ -32,10 +33,10 @@ export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<R
           if (typeof tag === 'string' && tag.trim()) {
             const trimmedTag = tag.trim()
             const slug = trimmedTag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
-            
+
             // Store original tag name for display
             tagNames.set(slug, trimmedTag)
-            
+
             // Count posts for this tag
             const currentCount = tagCounts.get(slug) || 0
             tagCounts.set(slug, currentCount + 1)
@@ -47,11 +48,11 @@ export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<R
 
   // Generate paginated routes for tags with more than 5 posts
   const postsPerPage = 5
-  
+
   for (const [slug, count] of tagCounts) {
     const totalPages = Math.ceil(count / postsPerPage)
     const originalTag = tagNames.get(slug) || slug
-    
+
     // Only generate page 2+ routes (page 1 is handled by [tag].tsx)
     for (let page = 2; page <= totalPages; page++) {
       routes[`/blog/tag/${slug}/page/${page}`] = {
@@ -65,15 +66,18 @@ export async function getRoutes(content?: Map<string, ContentFile[]>): Promise<R
     }
   }
 
-  console.log(`Generated paginated routes for ${tagCounts.size} tags`)
 
   return routes
 }
 
-// Paginated tag listing component with theme toggle
+// Paginated tag listing component with theme toggle and search
 const TagPageComponent = () => {
-  // Include ThemeToggle component for interactivity
-  return <ThemeToggle />
+  return (
+    <>
+      <SearchModalProvider />
+      <ThemeToggle />
+    </>
+  )
 }
 
 export default TagPageComponent

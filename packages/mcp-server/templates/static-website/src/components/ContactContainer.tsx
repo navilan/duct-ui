@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps } from '@duct-ui/core'
+import { createBlueprint, type BaseProps, renderProps } from '@duct-ui/core'
 import { createRef } from '@duct-ui/core'
 import { EventEmitter } from '@duct-ui/core/shared'
 import Modal, { ModalLogic } from '@duct-ui/components/layout/modal'
@@ -19,7 +19,7 @@ const formDataRef = createRef<FormDataModalLogic>()
 
 function render(props: BaseProps<ContactContainerProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <div class="text-center mb-16">
         <h1 class="text-4xl md:text-5xl font-bold mb-6">
           Contact Us

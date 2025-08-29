@@ -4,7 +4,7 @@ import { ductSSGPlugin } from '@duct-ui/cli/vite-plugin'
 
 export default defineConfig({
   plugins: [
-    ductSSGPlugin()
+    ductSSGPlugin(),
   ],
   resolve: {
     alias: {

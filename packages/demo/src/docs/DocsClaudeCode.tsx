@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import DemoLayout from "@components/DemoLayout"
 import Markdown from "@duct-ui/components/content/markdown/markdown"
 import "@duct-ui/components/content/markdown/markdown.css"
@@ -21,7 +21,7 @@ export interface DocsClaudeCodeProps {
 function render(props: BaseProps<DocsClaudeCodeProps>) {
 
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Using Claude Code with Duct"
         description="How to train Claude Code to generate high-quality Duct components"

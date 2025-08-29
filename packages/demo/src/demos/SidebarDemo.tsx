@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import DemoLayout from "@components/DemoLayout"
 
@@ -17,7 +17,7 @@ export interface SidebarDemoProps {
 
 function render(props: BaseProps<SidebarDemoProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Sidebar Navigation Component"
         description="Navigation sidebar with sections and hierarchical items"

@@ -109,5 +109,22 @@ export default {
     // Marker to indicate end of excerpt in markdown files
     // When present, content before the marker becomes the excerpt
     excerptMarker: '<!--more-->'
+  },
+
+  // Search configuration
+  search: {
+    enabled: true,
+    generateIndex: true,
+    indexPath: 'search-index.json',
+    excludePaths: ['/404'],
+    includeContent: true
+  },
+
+  // Sitemap configuration
+  sitemap: {
+    enabled: true,
+    baseUrl: 'https://duct-ui.org',
+    excludePaths: ['/404'],
+    changefreq: 'weekly'
   }
 }

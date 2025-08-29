@@ -1,15 +1,17 @@
-import { createBlueprint, type BaseProps, type BindReturn } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BaseProps, type BindReturn, renderProps } from "@duct-ui/core/blueprint"
 import ductLogo from "../icons/duct-logo.svg"
 import ThemeToggle from "./ThemeToggle"
+import SearchModalProvider from "./SearchModalProvider"
 
 export interface NotFoundPageProps {
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
 }
 
+
 function render(props: BaseProps<NotFoundPageProps>) {
   return (
-    <div class="min-h-screen flex flex-col items-center justify-center p-8" {...props}>
+    <div class="min-h-screen flex flex-col items-center justify-center p-8" {...renderProps(props)}>
       <div class="text-center max-w-2xl mx-auto">
         {/* Logo */}
         <div class="logo-container mx-auto mb-8 float-animation">
@@ -25,6 +27,22 @@ function render(props: BaseProps<NotFoundPageProps>) {
             <br class="hidden sm:block" />
             But don't worry – we'll help you get back on track!
           </p>
+        </div>
+
+        {/* Search Section */}
+        <div class="fade-in-up mb-8">
+          <h3 class="text-xl font-semibold text-base-content mb-4">Maybe search for what you need?</h3>
+          <div class="max-w-md mx-auto">
+            <button
+              data-duct-search-modal-trigger
+              class="btn btn-primary btn-lg w-full gap-2"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              Search documentation, demos...
+            </button>
+          </div>
         </div>
 
         {/* Navigation Links */}
@@ -158,6 +176,9 @@ function render(props: BaseProps<NotFoundPageProps>) {
       
       {/* Theme Toggle */}
       <ThemeToggle />
+      
+      {/* Search Modal Provider */}
+      <SearchModalProvider />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef, isBrowser } from "@duct-ui/core"
 import Button from "@duct-ui/components/button/button"
@@ -38,7 +38,7 @@ function render(props: BaseProps<ButtonDemoProps>) {
 
 
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Button Component"
         description="Basic button component with click event handling"

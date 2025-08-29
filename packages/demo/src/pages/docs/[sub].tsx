@@ -35,7 +35,7 @@ const DocsPage: DuctPageComponent = ({ meta, path, env }: PageProps) => {
 
   // If no doc found, render empty layout
   if (!doc) {
-    return <AppLayout currentItem={docId}>
+    return <AppLayout currentItem={docId} category="docs">
       <div class="p-8">
         <h1 class="text-2xl font-bold">Documentation not found</h1>
         <p class="text-base-content/70">The documentation page "{docId}" could not be found.</p>
@@ -44,7 +44,7 @@ const DocsPage: DuctPageComponent = ({ meta, path, env }: PageProps) => {
   }
 
   // Render the app layout with the specific documentation component as children
-  return <AppLayout currentItem={docId}>
+  return <AppLayout currentItem={docId} category="docs">
     {doc.component()}
   </AppLayout>
 }

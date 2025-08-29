@@ -1,4 +1,4 @@
-import { createBlueprint, type BaseProps, type BindReturn } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BaseProps, type BindReturn } from "@duct-ui/core/blueprint"
 import { createRef, type MutableRef } from "@duct-ui/core"
 import Markdown, { createMarkdownInstance, type MarkdownLogic } from "@duct-ui/components/content/markdown/markdown"
 import "@duct-ui/components/content/markdown/markdown.css"
@@ -187,7 +187,7 @@ function render(props: BaseProps<{}>) {
   const markdownRef: MutableRef<MarkdownLogic> = createRef()
 
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Markdown Component"
         description="A powerful markdown rendering component with syntax highlighting, customizable parsing, and full TypeScript support. This is the same component used throughout the Duct UI documentation."

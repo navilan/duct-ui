@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { getDuct } from "@duct-ui/core/runtime"
 import { EventEmitter } from "@duct-ui/core/shared"
 
@@ -40,7 +40,7 @@ function render<Items extends Record<string, any>, ItemProps>(props: BaseProps<L
 
   // Render loading state initially - items will be populated after load
   return (
-    <div class={containerClass} {...moreProps}>
+    <div class={containerClass} {...renderProps(moreProps)}>
       <div class="loading loading-spinner loading-md" data-list-loading></div>
     </div>
   )

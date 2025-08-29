@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import IconButton from "@duct-ui/components/button/icon-button"
@@ -39,7 +39,7 @@ function render(props: BaseProps<IconButtonDemoProps>) {
 
 
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Icon Button Component"
         description="Button component with icon support and flexible positioning"

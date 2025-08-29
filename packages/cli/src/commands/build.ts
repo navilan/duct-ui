@@ -5,6 +5,7 @@ import { build as viteBuild, loadConfigFromFile, InlineConfig } from 'vite'
 import { RouteGenerator, DuctRouter, findAssets } from '@duct-ui/router'
 import type { SubRouteModule, ContentPageModule, ContentFile } from '@duct-ui/router'
 import { loadConfig, resolveConfigPaths } from '../config.js'
+import { IndexBuilder, SitemapBuilder } from '../search/index.js'
 import * as logger from '../logger.js'
 
 export const buildCommand = new Command('build')
@@ -23,6 +24,7 @@ export const buildCommand = new Command('build')
       // Load and resolve config
       const config = await loadConfig(cwd)
       const resolvedConfig = resolveConfigPaths(config, cwd)
+
 
       // Load project's Vite config
       let baseViteConfig: any = {}
@@ -92,10 +94,12 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
               configFile: false, // Don't load config file again
               logLevel: 'warn',
               root: originalCwd, // Use original project root
-              // Filter out ductSSGPlugin to prevent recursion
-              plugins: (baseViteConfig.plugins || []).filter((plugin: any) => 
-                plugin?.name !== 'vite-plugin-duct-ssg'
-              ),
+              // Filter out ductSSGPlugin to prevent recursion, but keep other plugins (including search plugin if user added it)
+              plugins: [
+                ...(baseViteConfig.plugins || []).filter((plugin: any) => 
+                  plugin?.name !== 'vite-plugin-duct-ssg'
+                )
+              ],
               resolve: {
                 ...(baseViteConfig.resolve || {}),
                 extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json'],
@@ -403,6 +407,47 @@ export { default } from '${relativePath.replace(/\\/g, '/')}'`)
         }
       } catch (error) {
         logger.warn('Failed to copy content assets:', error)
+      }
+
+      // Step 10: Generate search index (if enabled)
+      if (resolvedConfig.search?.enabled && resolvedConfig.search.generateIndex) {
+        logger.step(10, 'Generating search index...')
+        
+        try {
+          const distPath = path.join(cwd, 'dist')
+          
+          const indexBuilder = new IndexBuilder(distPath, {
+            excludePaths: resolvedConfig.search.excludePaths,
+            includeContent: resolvedConfig.search.includeContent,
+            indexPath: resolvedConfig.search.indexPath
+          })
+          
+          await indexBuilder.build(pages, allContent)
+          logger.success('Search index generated!')
+        } catch (error) {
+          logger.error('Failed to generate search index:', error)
+        }
+      }
+
+      // Step 11: Generate sitemap and robots.txt (if enabled)
+      if (resolvedConfig.sitemap?.enabled) {
+        logger.step(11, 'Generating sitemap...')
+        
+        try {
+          const distPath = path.join(cwd, 'dist')
+          
+          const sitemapBuilder = new SitemapBuilder(distPath, {
+            baseUrl: resolvedConfig.sitemap.baseUrl,
+            excludePaths: resolvedConfig.sitemap.excludePaths,
+            changefreq: resolvedConfig.sitemap.changefreq,
+            priority: resolvedConfig.sitemap.priority
+          })
+          
+          await sitemapBuilder.build(pages)
+          logger.success('Sitemap and robots.txt generated!')
+        } catch (error) {
+          logger.error('Failed to generate sitemap:', error)
+        }
       }
 
       logger.success('Build complete!')

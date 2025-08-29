@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import DemoLayout from "@components/DemoLayout"
 import { escapeHtml } from "@kitajs/html"
@@ -18,7 +18,7 @@ export interface DrawerDemoProps {
 
 function render(props: BaseProps<DrawerDemoProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Drawer Component"
         description="Responsive drawer component for mobile and desktop layouts"

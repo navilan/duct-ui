@@ -9,7 +9,7 @@ function render(props: BaseProps<InputProps>) {
   } = props
 
   return (
-    <div class="input-container" {...moreProps}>
+    <div class="input-container" {...renderProps(moreProps)}>
       <input
         type="text"
         class={`input ${className}`}

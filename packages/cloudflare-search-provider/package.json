@@ -1,0 +1,54 @@
+{
+  "name": "@duct-ui/cloudflare-search-provider",
+  "version": "0.7.10",
+  "description": "Cloudflare Worker search provider for Duct UI",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "duct-cf-search": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./worker": {
+      "import": "./dist/worker.js",
+      "types": "./dist/worker.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "duct-ui",
+    "search",
+    "cloudflare",
+    "worker"
+  ],
+  "author": "navilan <navilan@folds.in>",
+  "license": "MIT",
+  "dependencies": {
+    "@duct-ui/search-core": "workspace:*",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250823.0",
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2",
+    "wrangler": "^4.32.0"
+  },
+  "peerDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/navilan/duct-ui.git",
+    "directory": "packages/cloudflare-search-provider"
+  }
+}

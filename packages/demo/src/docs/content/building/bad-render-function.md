@@ -14,7 +14,7 @@ function render(props: BaseProps<InputProps>) {
   return (
     <input
       onClick={handleClick} // DON'T: Inline handlers
-      {...props}
+      {...renderProps(props)}
     />
   )
 }

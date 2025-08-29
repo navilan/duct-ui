@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import EditableInput from "@duct-ui/components/input/editable"
@@ -92,7 +92,7 @@ function getCurrentText(el: HTMLElement, e: MouseEvent) {
 
 function render(props: BaseProps<EditableInputDemoProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Editable Input Component"
         description="Click-to-edit input with keyboard shortcuts and programmatic control"

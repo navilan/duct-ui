@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import Menu from "@duct-ui/components/dropdown/menu"
@@ -62,7 +62,7 @@ function editMenuItemHandler(el: HTMLElement, e: MouseEvent) {
 
 function render(props: BaseProps<MenuDemoProps>) {
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="Menu & MenuItem Components"
         description="Dropdown menus with customizable placement, icons, and action-oriented behavior"

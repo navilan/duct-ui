@@ -1,8 +1,9 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps, renderProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import SidebarNav from "@duct-ui/components/layout/sidebar-nav"
 import ductLogo from "../icons/duct-logo.svg"
-import { PageSection } from "../catalog"
+import { PageSection, docsSections, demoSections } from "../catalog"
+import type { AppLayoutCategory } from "./AppLayout"
 
 export interface SidebarEvents extends BaseComponentEvents {
   navigate: (el: HTMLElement, demoId: string) => void
@@ -14,13 +15,15 @@ function handleNavigate(navEl: HTMLElement, itemId: string): void {
   eventEmitter?.emit('navigate', itemId)
 }
 
+
 export interface SidebarLogic {
   updateCurrentItem: (currentDemo: string) => void
 }
 
 export interface SidebarProps {
-  sections: Array<PageSection>
+  sections?: Array<PageSection>
   currentItem: string
+  category?: AppLayoutCategory
   'on:bind'?: (el: HTMLElement) => void
   'on:release'?: (el: HTMLElement) => void
   'on:navigate'?: (el: HTMLElement, demoId: string) => void
@@ -29,10 +32,21 @@ export interface SidebarProps {
 // SidebarNav is now imported directly
 
 function render(props: BaseProps<SidebarProps>) {
-  const { sections, currentItem, ...moreProps } = props
+  const { sections, currentItem, category, ...moreProps } = props
+
+  // Determine which sections to show based on category
+  let sectionsToUse: PageSection[]
+  if (category === 'docs') {
+    sectionsToUse = docsSections
+  } else if (category === 'demos') {
+    sectionsToUse = demoSections
+  } else {
+    // Default to showing the provided sections or all sections
+    sectionsToUse = sections || [...docsSections, ...demoSections]
+  }
 
   // Transform demo categories to sidebar content
-  const content = sections.map(section => {
+  const content = sectionsToUse.map(section => {
     if (section.type === 'separator') {
       return section
     } else {
@@ -98,12 +112,14 @@ function render(props: BaseProps<SidebarProps>) {
     </>
   )
 
+
   return (
-    <div {...moreProps}>
+    <div {...renderProps(moreProps)}>
       <SidebarNav
         content={content}
         currentItem={currentItem}
         headerContent={headerContent}
+        containerClass="!h-full"
         on:navigate={handleNavigate}
       />
     </div>
@@ -111,12 +127,9 @@ function render(props: BaseProps<SidebarProps>) {
 }
 
 function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): BindReturn<SidebarLogic> {
-  let currentDemo = ''
   eventEmitter = _eventEmitter
 
   function updateCurrentItem(newDemo: string): void {
-    currentDemo = newDemo
-
     // Update the sidebar nav's current item attribute for consistency
     const sidebarNavEl = el.querySelector('[data-duct-id*="sidebar-nav"]')
     if (sidebarNavEl) {
@@ -136,7 +149,9 @@ function bind(el: HTMLElement, _eventEmitter: EventEmitter<SidebarEvents>): Bind
     }
   }
 
-  function release() { }
+  function release(): void {
+    // No cleanup needed for simple implementation
+  }
 
   return {
     updateCurrentItem,

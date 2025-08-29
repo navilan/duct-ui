@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { createRef } from "@duct-ui/core"
 import List, { type ListLogic } from "@duct-ui/components/data-display/list"
@@ -198,7 +198,7 @@ function render(props: BaseProps<EmojiListDemoProps>) {
   ]
 
   return (
-    <div {...props}>
+    <div {...renderProps(props)}>
       <DemoLayout
         title="List Component Demo"
         description="Interactive emoji list with filtering, pagination, and component logic access"

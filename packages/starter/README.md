@@ -6,6 +6,7 @@ A modern, feature-rich starter template for building web applications with [Duct
 
 - **🎨 Modern Design** - Clean, responsive UI with DaisyUI themes
 - **🌗 Theme Toggle** - Light/dark mode with system preference detection
+- **🔍 Full-Text Search** - Cmd+K search with server/client fallback
 - **📝 Blog System** - Complete blog with markdown content, tagging, and pagination
 - **📱 Responsive Layout** - Mobile-first design that works on all devices
 - **⚡ Static Site Generation** - Built-in SSG for optimal performance
@@ -13,6 +14,7 @@ A modern, feature-rich starter template for building web applications with [Duct
 - **🔧 TypeScript Support** - Full TypeScript integration with strict typing
 - **🎪 Component Library** - Uses Duct UI components for consistency
 - **📊 Semantic Colors** - DaisyUI semantic color system throughout
+- **☁️ Cloudflare Ready** - Optional Cloudflare Workers integration for search
 
 ## 🚀 Quick Start
 
@@ -105,6 +107,7 @@ starter/
 
 ### Components
 
+- **SearchModalProvider** - Global search with Cmd+K hotkey
 - **ThemeToggle** - Floating theme switcher (light/dark)
 - **ContactContainer** - Interactive contact form
 - **FormDataModal** - Modal for displaying form submissions
@@ -136,6 +139,84 @@ The template includes a theme toggle that switches between light and dark modes:
 - Persists user choice in localStorage
 - Smooth transitions between themes
 - Semantic color system works with all themes
+
+## 🔍 Search Functionality
+
+The starter template includes a powerful search system with automatic fallback:
+
+### Features
+
+- **Cmd+K Global Search** - Quick search modal accessible from anywhere
+- **Server/Client Fallback** - CloudflareSearchProvider with ClientSearchProvider fallback
+- **Full-Text Search** - Search through titles, content, descriptions, and tags
+- **Auto-Generated Index** - Search index built during static generation
+- **Highlighted Results** - Search terms highlighted in results
+
+### Search Providers
+
+#### Client-Side Search (Default)
+Works out of the box with no configuration:
+- Loads `/search-index.json` generated during build
+- Fast, in-browser search using FlexSearch
+- Perfect for sites with < 1000 pages
+
+#### Server-Side Search (Optional)
+For larger sites, use Cloudflare Workers:
+
+1. **Option A: Use Existing Worker** (already configured in this starter):
+   ```bash
+   # Start local worker
+   pnpm worker:dev
+   
+   # Worker runs at http://localhost:8788/api
+   ```
+
+2. **Option B: Generate Fresh Worker** (for custom projects):
+   ```bash
+   # Generate worker templates using CLI
+   npx @duct-ui/cloudflare-search-provider init --output ./worker
+   
+   # Follow the generated SEARCH-PROVIDER-README.md for setup
+   ```
+
+3. **Environment Variables**:
+   ```bash
+   # .env for local development
+   SEARCH_INDEX_AUTH_TOKEN=dev-token-for-local-testing
+   VITE_SEARCH_WORKER_URL=http://localhost:8788/api
+   ```
+
+4. **Deploy to Production**:
+   ```bash
+   # Deploy the worker (TypeScript files are compiled automatically)
+   pnpm worker:deploy
+   
+   # Set production authentication token
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c worker/wrangler.toml
+   ```
+
+### Search Index Management
+
+The search index is automatically generated during build:
+- Located at `dist/search-index.json`
+- Includes all pages and blog posts
+- Updates on every build
+
+For Cloudflare Worker, sync the index:
+```bash
+# Sync search index to worker
+curl -X POST "http://localhost:8788/api/search/sync-index" \
+  -H "Authorization: Bearer dev-token-for-local-testing" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "http://localhost:5173/search-index.json"}'
+```
+
+### Customizing Search
+
+Edit `src/components/SearchModalProvider.tsx` to customize:
+- Search providers and fallback logic
+- Search UI and behavior
+- Result formatting and navigation
 
 ## 📝 Content Management
 
@@ -213,9 +294,14 @@ pnpm build
 ### Available Scripts
 
 - `pnpm dev` - Start development server
-- `pnpm build` - Build for production
+- `pnpm build` - Build for production (SSG)
 - `pnpm preview` - Preview production build
 - `pnpm typecheck` - Run TypeScript checks
+- `pnpm worker:dev` - Start Cloudflare Worker locally using preview config (optional)
+- `pnpm worker:deploy` - Deploy Worker to Cloudflare production (optional)
+- `pnpm worker:deploy:preview` - Deploy Worker to Cloudflare preview/versions (optional)
+- `pnpm worker:types` - Generate TypeScript types for production Worker (optional)
+- `pnpm worker:types:preview` - Generate TypeScript types for preview Worker (optional)
 
 ### Adding New Pages
 
@@ -278,7 +364,7 @@ function render(props: BaseProps<MyComponentProps>) {
   const { title, ...moreProps } = props
 
   return (
-    <div class="card bg-base-100 shadow-xl" {...moreProps}>
+    <div class="card bg-base-100 shadow-xl" {...renderProps(moreProps)}>
       <div class="card-body">
         <h2 class="card-title" data-title>{title}</h2>
         <button class="btn btn-primary" data-button>

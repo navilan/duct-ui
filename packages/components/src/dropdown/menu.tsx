@@ -1,4 +1,4 @@
-import { createBlueprint, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BindReturn, type BaseComponentEvents, type BaseProps } from "@duct-ui/core/blueprint"
 import { EventEmitter } from "@duct-ui/core/shared"
 import { cn } from "../utils/cn.js"
 
@@ -73,7 +73,7 @@ function render(props: BaseProps<MenuProps>) {
     <div
       data-menu-open="false"
       class={finalClasses}
-      {...moreProps}
+      {...renderProps(moreProps)}
     >
       <div tabindex="0" role="button" class={buttonClasses} data-disabled={disabled}>
         {label}

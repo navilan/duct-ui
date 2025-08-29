@@ -115,6 +115,7 @@ async function copyContentAssets() {
   }
 }
 
+
 export function ductSSGPlugin(): Plugin {
   let htmlDir: string
   let generatedHtml: Map<string, string> = new Map()
@@ -126,6 +127,14 @@ export function ductSSGPlugin(): Plugin {
 
     configResolved(config) {
       viteMode = config.mode
+    },
+
+    resolveId(id, importer) {
+      // Handle virtual reanimation modules
+      if (id.startsWith('/@duct/reanimate/')) {
+        return id
+      }
+      return null
     },
 
     async buildStart(options) {
@@ -179,13 +188,6 @@ export function ductSSGPlugin(): Plugin {
       }
     },
 
-    resolveId(id) {
-      // Handle virtual reanimation modules
-      if (id.startsWith('/@duct/reanimate/')) {
-        return id
-      }
-      return null
-    },
 
     load(id) {
       // Generate reanimation script for virtual modules
@@ -229,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return null
     },
+
 
     async handleHotUpdate(ctx) {
       // Check if the changed file is a layout file
@@ -352,6 +355,41 @@ document.addEventListener('DOMContentLoaded', () => {
           } catch (error) {
             // Asset not found in dist/assets, continue to next middleware
           }
+        }
+
+        // Serve search-index.json and sitemap.xml if configured
+        try {
+          const config = await loadConfig()
+          
+          if (url === '/search-index.json' && config.search?.enabled) {
+            const searchIndexPath = path.join(process.cwd(), 'dist', 'search-index.json')
+            try {
+              const searchIndex = await fs.readFile(searchIndexPath, 'utf-8')
+              res.statusCode = 200
+              res.setHeader('Content-Type', 'application/json')
+              res.setHeader('Cache-Control', 'no-cache')
+              res.end(searchIndex)
+              return
+            } catch (error) {
+              // Search index not found, will continue to next middleware
+            }
+          }
+          
+          if (url === '/sitemap.xml' && config.sitemap?.enabled) {
+            const sitemapPath = path.join(process.cwd(), 'dist', 'sitemap.xml')
+            try {
+              const sitemap = await fs.readFile(sitemapPath, 'utf-8')
+              res.statusCode = 200
+              res.setHeader('Content-Type', 'application/xml')
+              res.setHeader('Cache-Control', 'no-cache')
+              res.end(sitemap)
+              return
+            } catch (error) {
+              // Sitemap not found, will continue to next middleware
+            }
+          }
+        } catch (error) {
+          // Config loading error, continue to next middleware
         }
 
         // Serve content assets (images from markdown content) - try any path for potential assets
