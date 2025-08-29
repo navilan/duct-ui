@@ -1,6 +1,6 @@
 {
   "name": "@duct-ui/search-core",
-  "version": "1.0.0",
+  "version": "0.8.0",
   "description": "Core search interfaces and utilities for Duct UI",
   "type": "module",
   "main": "./dist/index.js",
