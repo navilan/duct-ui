@@ -14,6 +14,58 @@ npm install @duct-ui/cloudflare-search-provider flexsearch
 - R2 storage enabled (for search index)
 - KV storage enabled (for metadata)
 
+## ☁️ Creating Cloudflare Resources
+
+### 1. Create KV Namespaces (for metadata)
+
+```bash
+# Create production KV namespace
+wrangler kv namespace create "starter-search-metadata-prod"
+# Output: Created namespace with title "your-worker-starter-search-metadata-prod"
+# Copy the "id" value to wrangler.toml
+
+# Create preview KV namespace
+wrangler kv namespace create "starter-search-metadata-preview"  
+# Output: Created namespace with title "your-worker-starter-search-metadata-preview"
+# Copy the "id" value to wrangler.preview.toml
+```
+
+### 2. Create R2 Buckets (for search index)
+
+```bash
+# Create production R2 bucket
+wrangler r2 bucket create starter-search-index-prod
+
+# Create preview R2 bucket  
+wrangler r2 bucket create starter-search-index-preview
+```
+
+### 3. Update Configuration Files with Resource IDs
+
+After creating resources:
+
+**Update `wrangler.toml` (Production):**
+```toml
+[[kv_namespaces]]
+binding = "SEARCH_METADATA"
+id = "production-kv-namespace-id" # Use ID from production KV namespace
+
+[[r2_buckets]]
+binding = "SEARCH_INDEX"
+bucket_name = "starter-search-index-prod"
+```
+
+**Update `wrangler.preview.toml` (Preview):**
+```toml
+[[kv_namespaces]]
+binding = "SEARCH_METADATA"
+id = "preview-kv-namespace-id" # Use ID from preview KV namespace
+
+[[r2_buckets]]
+binding = "SEARCH_INDEX"
+bucket_name = "starter-search-index-preview"
+```
+
 ## 🚀 Setup Instructions
 
 ### Option A: New Worker Setup
@@ -24,11 +76,16 @@ If you don't have an existing Cloudflare Worker:
    ```bash
    cp search-worker.template.ts search-worker.ts
    cp wrangler.toml.template wrangler.toml
+   cp wrangler.preview.toml.template wrangler.preview.toml
    ```
 
-2. **Set authentication token**
+2. **Set authentication tokens**
    ```bash
-   wrangler secret put SEARCH_INDEX_AUTH_TOKEN
+   # For production
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.toml
+   
+   # For preview
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.preview.toml
    ```
 
 ### Option B: Existing Worker Integration
@@ -62,19 +119,37 @@ If you already have a Cloudflare Worker:
    }
    ```
 
-3. **Add configurations to your existing wrangler.toml**
+3. **Add configurations to your existing wrangler files**
+   
+   **Add to production `wrangler.toml`:**
    ```toml
-   # Add these to your existing wrangler.toml
    [[kv_namespaces]]
    binding = "SEARCH_METADATA"
+   id = "your-production-kv-id"
    
    [[r2_buckets]]
    binding = "SEARCH_INDEX"
+   bucket_name = "starter-search-index-prod"
+   ```
+   
+   **Add to preview `wrangler.preview.toml`:**
+   ```toml
+   [[kv_namespaces]]
+   binding = "SEARCH_METADATA"
+   id = "your-preview-kv-id"
+   
+   [[r2_buckets]]
+   binding = "SEARCH_INDEX"
+   bucket_name = "starter-search-index-preview"
    ```
 
-4. **Set authentication token**
+4. **Set authentication tokens**
    ```bash
-   wrangler secret put SEARCH_INDEX_AUTH_TOKEN
+   # For production
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.toml
+   
+   # For preview  
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.preview.toml
    ```
 
 ## ⚙️ Configuration
@@ -97,8 +172,9 @@ export default {
 
 | File | Purpose |
 |------|---------|
-| `search-worker.template.ts` | Minimal worker implementation |
-| `wrangler.toml.template` | Cloudflare configuration |
+| `search-worker.template.ts` | Worker implementation with /api prefix support |
+| `wrangler.toml.template` | Production Cloudflare configuration |
+| `wrangler.preview.toml.template` | Preview Cloudflare configuration |
 | `SEARCH-PROVIDER-README.md` | This documentation |
 
 ## 🔍 API Endpoints
@@ -110,7 +186,8 @@ The worker exposes these endpoints:
 | `/search/execute?q=query` | GET | Search the index |
 | `/search/health` | GET | Check worker status |
 | `/search/stats` | GET | Get index statistics |
-| `/search/index` | POST | Update search index (requires auth) |
+| `/search/index` | POST | Append entries to search index (requires auth) |
+| `/search/sync-index` | POST | Sync index from URL (requires auth) |
 
 ### Example API Calls
 
@@ -129,12 +206,73 @@ curl https://your-worker.workers.dev/search/health
 curl https://your-worker.workers.dev/search/stats
 ```
 
-**Update search index (post-deployment only):**
+**Sync search index from URL:**
+```bash
+# Sync from default location (/search-index.json)
+curl -X POST https://your-worker.workers.dev/search/sync-index \
+  -H "Authorization: Bearer YOUR_TOKEN"
+
+# Sync from custom URL
+curl -X POST https://your-worker.workers.dev/search/sync-index \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://your-site.com/search-index.json"}'
+```
+
+**Append entries to search index:**
 ```bash
 curl -X POST https://your-worker.workers.dev/search/index \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d @dist/search-index.json
+  -d '{
+    "entries": [
+      {
+        "url": "/new-page",
+        "title": "New Page Title",
+        "description": "Page description",
+        "content": "Page content for search"
+      }
+    ]
+  }'
+```
+
+## 📝 Package.json Scripts
+
+Add these scripts to your `package.json` for easier development and deployment:
+
+```json
+{
+  "scripts": {
+    "worker:dev": "wrangler dev -c worker/wrangler.preview.toml --port 8788 --local",
+    "worker:deploy": "wrangler deploy -c worker/wrangler.toml",
+    "worker:deploy:preview": "wrangler versions upload -c worker/wrangler.preview.toml",
+    "worker:types": "wrangler types --config worker/wrangler.toml",
+    "worker:types:preview": "wrangler types --config worker/wrangler.preview.toml",
+    "search:sync": "node -e \"const url = process.env.WORKER_URL || 'http://localhost:8788'; const token = process.env.SEARCH_INDEX_AUTH_TOKEN; const siteUrl = process.env.SITE_URL || 'http://localhost:5173'; require('child_process').exec(`curl -X POST \$\{url\}/search/sync-index -H \\"Authorization: Bearer \$\{token\}\\" -H \\"Content-Type: application/json\\" -d '{\\"url\\": \\"\$\{siteUrl\}/search-index.json\\"}'`, (e,o,s) => console.log(o || s))\"
+  }
+}
+```
+
+### Script Usage
+
+```bash
+# Start local worker (using preview config)
+npm run worker:dev
+
+# Deploy to production
+npm run worker:deploy
+
+# Deploy to preview (Cloudflare Versions)
+npm run worker:deploy:preview
+
+# Generate TypeScript types for production
+npm run worker:types
+
+# Generate TypeScript types for preview
+npm run worker:types:preview
+
+# Sync search index (requires environment variables)
+WORKER_URL=https://your-worker.workers.dev SITE_URL=https://your-site.com npm run search:sync
 ```
 
 ## 🔄 Deployment
@@ -158,15 +296,16 @@ curl -X POST https://your-worker.workers.dev/search/index \
    wrangler deploy
    ```
 
-3. **Post-Deploy Phase** - Update search index
+3. **Post-Deploy Phase** - Sync search index
    ```bash
-   # After deployment is complete, update the search index
-   npm run update-search-index
-   # or manually:
-   curl -X POST https://your-worker.workers.dev/search/index \
+   # Using npm script (recommended)
+   WORKER_URL=https://your-worker.workers.dev SITE_URL=https://your-site.com npm run search:sync
+   
+   # Or manually:
+   curl -X POST https://your-worker.workers.dev/search/sync-index \
      -H "Authorization: Bearer $SEARCH_INDEX_AUTH_TOKEN" \
      -H "Content-Type: application/json" \
-     -d @dist/search-index.json
+     -d '{"url": "https://your-site.com/search-index.json"}'
    ```
 
 ### CI/CD Pipeline Example
@@ -180,12 +319,12 @@ steps:
   - name: Deploy to Cloudflare
     run: wrangler deploy
     
-  - name: Update Search Index
-    run: |
-      curl -X POST https://your-worker.workers.dev/search/index \
-        -H "Authorization: Bearer ${{ secrets.SEARCH_INDEX_AUTH_TOKEN }}" \
-        -H "Content-Type: application/json" \
-        -d @dist/search-index.json
+  - name: Sync Search Index
+    run: npm run search:sync
+    env:
+      WORKER_URL: https://your-worker.workers.dev
+      SITE_URL: https://your-deployed-site.com
+      SEARCH_INDEX_AUTH_TOKEN: ${{ secrets.SEARCH_INDEX_AUTH_TOKEN }}
 ```
 
 ## 🧪 Testing

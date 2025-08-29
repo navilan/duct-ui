@@ -297,9 +297,11 @@ pnpm build
 - `pnpm build` - Build for production (SSG)
 - `pnpm preview` - Preview production build
 - `pnpm typecheck` - Run TypeScript checks
-- `pnpm worker:dev` - Start Cloudflare Worker locally (optional)
-- `pnpm worker:deploy` - Deploy Worker to Cloudflare (optional)
-- `pnpm worker:types` - Generate TypeScript types for Worker (optional)
+- `pnpm worker:dev` - Start Cloudflare Worker locally using preview config (optional)
+- `pnpm worker:deploy` - Deploy Worker to Cloudflare production (optional)
+- `pnpm worker:deploy:preview` - Deploy Worker to Cloudflare preview/versions (optional)
+- `pnpm worker:types` - Generate TypeScript types for production Worker (optional)
+- `pnpm worker:types:preview` - Generate TypeScript types for preview Worker (optional)
 
 ### Adding New Pages
 

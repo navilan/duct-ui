@@ -1,19 +1,18 @@
-name = "starter-worker"
+# Cloudflare Worker configuration for Duct UI Search (Production)
+name = "starter-search-worker"
 main = "worker.ts"
-compatibility_date = "2024-04-03"
-
+compatibility_date = "2024-04-03" # Required for RPC support
 
 # KV namespace for search metadata
 [[kv_namespaces]]
 binding = "SEARCH_METADATA"
-id = "search-metadata-kv"
+id = "starter-search-metadata-prod" # Production KV namespace ID
 
 # R2 bucket for search index storage
 [[r2_buckets]]
 binding = "SEARCH_INDEX"
-bucket_name = "search-index-bucket"
+bucket_name = "starter-search-index-prod" # Production bucket name
 
 # Environment variables
-# SEARCH_INDEX_AUTH_TOKEN should be set via:
-# - .env file for local development
-# - wrangler secret put SEARCH_INDEX_AUTH_TOKEN for production
+# Set via Cloudflare dashboard or:
+# wrangler secret put SEARCH_INDEX_AUTH_TOKEN

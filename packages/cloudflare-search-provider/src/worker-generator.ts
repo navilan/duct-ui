@@ -45,8 +45,8 @@ export default {
 
   await fs.writeFile(path.join(outputDir, 'search-worker.template.ts'), workerCode)
 
-  // Generate wrangler.toml template
-  const wranglerTemplate = `# Cloudflare Worker configuration for Duct UI Search
+  // Generate production wrangler.toml template
+  const wranglerTemplate = `# Cloudflare Worker configuration for Duct UI Search (Production)
 name = "${projectName}-search-worker"
 main = "search-worker.ts"
 compatibility_date = "2024-04-03" # Required for RPC support
@@ -54,21 +54,43 @@ compatibility_date = "2024-04-03" # Required for RPC support
 # KV namespace for search metadata
 [[kv_namespaces]]
 binding = "SEARCH_METADATA"
-id = "search-metadata-kv" # Will be auto-generated in production
+id = "${projectName}-search-metadata-prod" # Production KV namespace ID
 
 # R2 bucket for search index storage
 [[r2_buckets]]
 binding = "SEARCH_INDEX"
-bucket_name = "search-index-bucket" # Will be auto-generated in production
+bucket_name = "${projectName}-search-index-prod" # Production bucket name
+
+# Environment variables
+# Set via Cloudflare dashboard or:
+# wrangler secret put SEARCH_INDEX_AUTH_TOKEN`
+
+  await fs.writeFile(path.join(outputDir, 'wrangler.toml.template'), wranglerTemplate)
+
+  // Generate preview wrangler.toml template
+  const wranglerPreviewTemplate = `# Cloudflare Worker configuration for Duct UI Search (Preview)
+name = "${projectName}-search-worker-preview"
+main = "search-worker.ts"
+compatibility_date = "2024-04-03" # Required for RPC support
+
+# KV namespace for search metadata
+[[kv_namespaces]]
+binding = "SEARCH_METADATA"
+id = "${projectName}-search-metadata-preview" # Preview KV namespace ID
+
+# R2 bucket for search index storage
+[[r2_buckets]]
+binding = "SEARCH_INDEX"
+bucket_name = "${projectName}-search-index-preview" # Preview bucket name
 
 # Environment variables
 # For local development, create a .env file:
 # SEARCH_INDEX_AUTH_TOKEN=your-dev-token
 #
-# For production, set via Cloudflare dashboard or:
-# wrangler secret put SEARCH_INDEX_AUTH_TOKEN`
+# For preview deployment, set via:
+# wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.preview.toml`
 
-  await fs.writeFile(path.join(outputDir, 'wrangler.toml.template'), wranglerTemplate)
+  await fs.writeFile(path.join(outputDir, 'wrangler.preview.toml.template'), wranglerPreviewTemplate)
 
   // Generate integration instructions
   const readme = `# Duct UI Search - Cloudflare Worker Integration
@@ -87,6 +109,58 @@ npm install @duct-ui/cloudflare-search-provider flexsearch
 - R2 storage enabled (for search index)
 - KV storage enabled (for metadata)
 
+## ☁️ Creating Cloudflare Resources
+
+### 1. Create KV Namespaces (for metadata)
+
+\`\`\`bash
+# Create production KV namespace
+wrangler kv namespace create "${projectName}-search-metadata-prod"
+# Output: Created namespace with title "your-worker-${projectName}-search-metadata-prod"
+# Copy the "id" value to wrangler.toml
+
+# Create preview KV namespace
+wrangler kv namespace create "${projectName}-search-metadata-preview"  
+# Output: Created namespace with title "your-worker-${projectName}-search-metadata-preview"
+# Copy the "id" value to wrangler.preview.toml
+\`\`\`
+
+### 2. Create R2 Buckets (for search index)
+
+\`\`\`bash
+# Create production R2 bucket
+wrangler r2 bucket create ${projectName}-search-index-prod
+
+# Create preview R2 bucket  
+wrangler r2 bucket create ${projectName}-search-index-preview
+\`\`\`
+
+### 3. Update Configuration Files with Resource IDs
+
+After creating resources:
+
+**Update \`wrangler.toml\` (Production):**
+\`\`\`toml
+[[kv_namespaces]]
+binding = "SEARCH_METADATA"
+id = "production-kv-namespace-id" # Use ID from production KV namespace
+
+[[r2_buckets]]
+binding = "SEARCH_INDEX"
+bucket_name = "${projectName}-search-index-prod"
+\`\`\`
+
+**Update \`wrangler.preview.toml\` (Preview):**
+\`\`\`toml
+[[kv_namespaces]]
+binding = "SEARCH_METADATA"
+id = "preview-kv-namespace-id" # Use ID from preview KV namespace
+
+[[r2_buckets]]
+binding = "SEARCH_INDEX"
+bucket_name = "${projectName}-search-index-preview"
+\`\`\`
+
 ## 🚀 Setup Instructions
 
 ### Option A: New Worker Setup
@@ -97,11 +171,16 @@ If you don't have an existing Cloudflare Worker:
    \`\`\`bash
    cp search-worker.template.ts search-worker.ts
    cp wrangler.toml.template wrangler.toml
+   cp wrangler.preview.toml.template wrangler.preview.toml
    \`\`\`
 
-2. **Set authentication token**
+2. **Set authentication tokens**
    \`\`\`bash
-   wrangler secret put SEARCH_INDEX_AUTH_TOKEN
+   # For production
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.toml
+   
+   # For preview
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.preview.toml
    \`\`\`
 
 ### Option B: Existing Worker Integration
@@ -135,19 +214,37 @@ If you already have a Cloudflare Worker:
    }
    \`\`\`
 
-3. **Add configurations to your existing wrangler.toml**
+3. **Add configurations to your existing wrangler files**
+   
+   **Add to production \`wrangler.toml\`:**
    \`\`\`toml
-   # Add these to your existing wrangler.toml
    [[kv_namespaces]]
    binding = "SEARCH_METADATA"
+   id = "your-production-kv-id"
    
    [[r2_buckets]]
    binding = "SEARCH_INDEX"
+   bucket_name = "${projectName}-search-index-prod"
+   \`\`\`
+   
+   **Add to preview \`wrangler.preview.toml\`:**
+   \`\`\`toml
+   [[kv_namespaces]]
+   binding = "SEARCH_METADATA"
+   id = "your-preview-kv-id"
+   
+   [[r2_buckets]]
+   binding = "SEARCH_INDEX"
+   bucket_name = "${projectName}-search-index-preview"
    \`\`\`
 
-4. **Set authentication token**
+4. **Set authentication tokens**
    \`\`\`bash
-   wrangler secret put SEARCH_INDEX_AUTH_TOKEN
+   # For production
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.toml
+   
+   # For preview  
+   wrangler secret put SEARCH_INDEX_AUTH_TOKEN -c wrangler.preview.toml
    \`\`\`
 
 ## ⚙️ Configuration
@@ -170,8 +267,9 @@ export default {
 
 | File | Purpose |
 |------|---------|
-| \`search-worker.template.ts\` | Minimal worker implementation |
-| \`wrangler.toml.template\` | Cloudflare configuration |
+| \`search-worker.template.ts\` | Worker implementation with /api prefix support |
+| \`wrangler.toml.template\` | Production Cloudflare configuration |
+| \`wrangler.preview.toml.template\` | Preview Cloudflare configuration |
 | \`SEARCH-PROVIDER-README.md\` | This documentation |
 
 ## 🔍 API Endpoints
@@ -233,6 +331,45 @@ curl -X POST https://your-worker.workers.dev/search/index \\
   }'
 \`\`\`
 
+## 📝 Package.json Scripts
+
+Add these scripts to your \`package.json\` for easier development and deployment:
+
+\`\`\`json
+{
+  "scripts": {
+    "worker:dev": "wrangler dev -c worker/wrangler.preview.toml --port 8788 --local",
+    "worker:deploy": "wrangler deploy -c worker/wrangler.toml",
+    "worker:deploy:preview": "wrangler versions upload -c worker/wrangler.preview.toml",
+    "worker:types": "wrangler types --config worker/wrangler.toml",
+    "worker:types:preview": "wrangler types --config worker/wrangler.preview.toml",
+    "search:sync": "node -e \\"const url = process.env.WORKER_URL || 'http://localhost:8788'; const token = process.env.SEARCH_INDEX_AUTH_TOKEN; const siteUrl = process.env.SITE_URL || 'http://localhost:5173'; require('child_process').exec(\`curl -X POST \\$\\{url\\}/search/sync-index -H \\\\"Authorization: Bearer \\$\\{token\\}\\\\" -H \\\\"Content-Type: application/json\\\\" -d '{\\\\"url\\\\": \\\\"\\$\\{siteUrl\\}/search-index.json\\\\"}'\`, (e,o,s) => console.log(o || s))\\"
+  }
+}
+\`\`\`
+
+### Script Usage
+
+\`\`\`bash
+# Start local worker (using preview config)
+npm run worker:dev
+
+# Deploy to production
+npm run worker:deploy
+
+# Deploy to preview (Cloudflare Versions)
+npm run worker:deploy:preview
+
+# Generate TypeScript types for production
+npm run worker:types
+
+# Generate TypeScript types for preview
+npm run worker:types:preview
+
+# Sync search index (requires environment variables)
+WORKER_URL=https://your-worker.workers.dev SITE_URL=https://your-site.com npm run search:sync
+\`\`\`
+
 ## 🔄 Deployment
 
 ### Build and Deploy Flow
@@ -256,9 +393,10 @@ curl -X POST https://your-worker.workers.dev/search/index \\
 
 3. **Post-Deploy Phase** - Sync search index
    \`\`\`bash
-   # After deployment is complete, sync the search index
-   npm run sync-search-index
-   # or manually:
+   # Using npm script (recommended)
+   WORKER_URL=https://your-worker.workers.dev SITE_URL=https://your-site.com npm run search:sync
+   
+   # Or manually:
    curl -X POST https://your-worker.workers.dev/search/sync-index \\
      -H "Authorization: Bearer $SEARCH_INDEX_AUTH_TOKEN" \\
      -H "Content-Type: application/json" \\
@@ -277,11 +415,11 @@ steps:
     run: wrangler deploy
     
   - name: Sync Search Index
-    run: |
-      curl -X POST https://your-worker.workers.dev/search/sync-index \\
-        -H "Authorization: Bearer \${{ secrets.SEARCH_INDEX_AUTH_TOKEN }}" \\
-        -H "Content-Type: application/json" \\
-        -d '{"url": "https://your-deployed-site.com/search-index.json"}'
+    run: npm run search:sync
+    env:
+      WORKER_URL: https://your-worker.workers.dev
+      SITE_URL: https://your-deployed-site.com
+      SEARCH_INDEX_AUTH_TOKEN: \${{ secrets.SEARCH_INDEX_AUTH_TOKEN }}
 \`\`\`
 
 ## 🧪 Testing
@@ -357,7 +495,8 @@ curl https://your-worker.workers.dev/search/stats
   console.log(`
 Template files created:
 - search-worker.template.ts (worker implementation)
-- wrangler.toml.template (Cloudflare configuration)
+- wrangler.toml.template (production configuration)
+- wrangler.preview.toml.template (preview configuration)
 - SEARCH-PROVIDER-README.md (integration instructions)
 
 No existing files were modified. Please review SEARCH-PROVIDER-README.md for integration steps.

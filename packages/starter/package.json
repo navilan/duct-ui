@@ -9,10 +9,13 @@
     "build": "node node_modules/@duct-ui/cli/dist/cli.js build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "package": "pnpm -w build",
-    "worker:dev": "wrangler dev -c worker/wrangler.toml --port 8788 --local",
+    "set-worker-url": "node scripts/set-worker-url.js",
+    "package": "node scripts/set-worker-url.js && pnpm -w build",
+    "worker:dev": "wrangler dev -c worker/wrangler.preview.toml --port 8788 --local",
     "worker:deploy": "wrangler deploy -c worker/wrangler.toml",
-    "worker:types": "wrangler types --config worker/wrangler.toml"
+    "worker:deploy:preview": "wrangler versions upload -c worker/wrangler.preview.toml",
+    "worker:types": "wrangler types --config worker/wrangler.toml",
+    "worker:types:preview": "wrangler types --config worker/wrangler.preview.toml"
   },
   "dependencies": {
     "@duct-ui/client-search-provider": "workspace:*",
