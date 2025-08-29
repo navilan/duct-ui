@@ -1,6 +1,6 @@
 {
   "name": "@duct-ui/search-core",
-  "version": "0.7.10",
+  "version": "1.0.0",
   "description": "Core search interfaces and utilities for Duct UI",
   "type": "module",
   "main": "./dist/index.js",
@@ -23,14 +23,12 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "flexsearch": "^0.8.205"
+    "flexsearch": "^0.8.205",
+    "@duct-ui/core": "workspace:*"
   },
   "devDependencies": {
     "rimraf": "^6.0.1",
     "typescript": "^5.9.2"
-  },
-  "peerDependencies": {
-    "@duct-ui/core": "^0.7.10"
   },
   "repository": {
     "type": "git",
