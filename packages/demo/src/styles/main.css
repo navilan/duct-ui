@@ -3,6 +3,7 @@
 @import "@duct-ui/components/layout/drawer.css";
 @import "@duct-ui/components/layout/modal.css";
 @import "@duct-ui/components/search/search.css";
+@import "@duct-ui/components/content/markdown/markdown.css";
 @import "./prism-duct-light.css";
 @import "./prism-duct-dark.css";
 

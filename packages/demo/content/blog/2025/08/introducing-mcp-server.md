@@ -3,6 +3,7 @@ title: "Duct UI Now Has an MCP Server"
 date: 2025-08-20
 image: /blog/2025/08/mcp/duct-mcp.png
 ogPath: /blog/2025/08/mcp/duct-mcp.png
+imageClass: dark-invert
 author: navilan
 tags: [Tools, MCP, Claude Code, Article, Tutorial]
 ---
@@ -11,7 +12,7 @@ Duct UI now includes a Model Context Protocol (MCP) server. This lets AI assista
 
 <!--more-->
 
-![Duct MCP Server](/blog/2025/08/mcp/duct-mcp.png)
+![Duct MCP Server](/blog/2025/08/mcp/duct-mcp.png) {.dark-invert}
 
 ## What It Does
 

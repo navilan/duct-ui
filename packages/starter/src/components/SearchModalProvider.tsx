@@ -1,6 +1,6 @@
 import { createBlueprint, type BaseProps, createRef, renderProps } from '@duct-ui/core'
 import type { BindReturn } from '@duct-ui/core/blueprint'
-import { SearchModal, type SearchModalLogic } from '@duct-ui/components'
+import SearchModal, { type SearchModalLogic } from '@duct-ui/components/search/search-modal'
 import { CloudflareSearchProvider } from '@duct-ui/cloudflare-search-provider'
 import { ClientSearchProvider } from '@duct-ui/client-search-provider'
 
@@ -87,13 +87,11 @@ function bind(el: HTMLElement, eventEmitter: any, props: BaseProps<SearchModalPr
   async function initializeSearchProviders() {
     // Try Cloudflare search provider first (server-side)
     try {
-      cloudflareSearchProvider = new CloudflareSearchProvider({
-        workerUrl: workerUrl,
-        timeout: 5000 // Shorter timeout for fallback scenario
-      })
+      cloudflareSearchProvider = new CloudflareSearchProvider()
 
       const result = await cloudflareSearchProvider.initialize({
-        workerUrl: workerUrl
+        workerUrl: workerUrl,
+        timeout: 5000 // Shorter timeout for fallback scenario
       })
 
       activeSearchProvider = cloudflareSearchProvider

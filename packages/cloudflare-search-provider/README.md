@@ -126,14 +126,12 @@ npm run worker:dev
 ```typescript
 import { CloudflareSearchProvider } from '@duct-ui/cloudflare-search-provider'
 
-const searchProvider = new CloudflareSearchProvider({
-  workerUrl: 'http://localhost:8788/api', // or your production URL
-  timeout: 5000
-})
+const searchProvider = new CloudflareSearchProvider()
 
 // Initialize the provider
 await searchProvider.initialize({
-  workerUrl: 'http://localhost:8788/api'
+  workerUrl: 'http://localhost:8788/api', // or your production URL
+  timeout: 5000
 })
 ```
 
@@ -166,10 +164,11 @@ let activeProvider
 
 // Try server-side search first
 try {
-  const cloudflareProvider = new CloudflareSearchProvider({
-    workerUrl: '/api'
+  const cloudflareProvider = new CloudflareSearchProvider()
+  await cloudflareProvider.initialize({ 
+    workerUrl: '/api',
+    timeout: 5000
   })
-  await cloudflareProvider.initialize({ workerUrl: '/api' })
   activeProvider = cloudflareProvider
 } catch (error) {
   // Fallback to client-side search
@@ -355,9 +354,12 @@ wrangler secret put SEARCH_INDEX_AUTH_TOKEN
 In your Duct UI application:
 
 ```typescript
-const searchProvider = new CloudflareSearchProvider({
+const searchProvider = new CloudflareSearchProvider()
+
+await searchProvider.initialize({
   workerUrl: 'https://search-api.your-domain.workers.dev',
-  apiKey: process.env.SEARCH_API_KEY // Optional additional security
+  apiKey: process.env.SEARCH_API_KEY, // Optional additional security
+  timeout: 5000
 })
 ```
 

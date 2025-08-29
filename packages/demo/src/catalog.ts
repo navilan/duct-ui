@@ -25,6 +25,7 @@ import DocsSSG from "./docs/DocsSSG"
 import DocsBlog from "./docs/DocsBlog"
 import DocsBuiltWithDuct from "./docs/DocsBuiltWithDuct"
 import DocsLayoutContext from "./docs/DocsLayoutContext"
+import DocsSearch from "./docs/DocsSearch"
 
 export interface PageInfo {
   id: string
@@ -134,6 +135,14 @@ export const docsSections: PageSection[] = [
         description: "Complete guide to Duct layouts, context variables, and Nunjucks templating",
         component: () => {
           return DocsLayoutContext({})
+        }
+      },
+      {
+        id: "search",
+        title: "Add Search to Your Website",
+        description: "Add instant search to your Duct site with configurable providers",
+        component: () => {
+          return DocsSearch({})
         }
       }
     ]

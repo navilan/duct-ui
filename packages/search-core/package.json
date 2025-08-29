@@ -9,6 +9,10 @@
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./index-generator": {
+      "import": "./dist/index-generator.js",
+      "types": "./dist/index-generator.d.ts"
     }
   },
   "files": [

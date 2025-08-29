@@ -58,11 +58,10 @@ export class CloudflareSearchProvider implements SearchProvider<CloudflareIndexC
   private config: CloudflareSearchConfig
   private initialized = false
 
-  constructor(config?: Partial<CloudflareSearchConfig>) {
+  constructor() {
     this.config = {
       workerUrl: '',
-      timeout: 5000,
-      ...config
+      timeout: 5000
     }
   }
 

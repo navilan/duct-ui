@@ -262,10 +262,11 @@ class SearchProviderWithFallback {
   async initialize() {
     // Try server-side first (faster for large indexes)
     try {
-      const cloudflare = new CloudflareSearchProvider({
-        workerUrl: '/api'
+      const cloudflare = new CloudflareSearchProvider()
+      await cloudflare.initialize({ 
+        workerUrl: '/api',
+        timeout: 5000
       })
-      await cloudflare.initialize({ workerUrl: '/api' })
       this.providers.push(cloudflare)
     } catch (e) {
       console.log('Server search unavailable')

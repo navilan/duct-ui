@@ -117,8 +117,8 @@ export class ClientSearchProvider implements SearchProvider {
       
       const data: CacheData = JSON.parse(cached)
       
-      // Check if cache is still valid (24 hours)
-      const maxAge = 24 * 60 * 60 * 1000 // 24 hours
+      // Check if cache is still valid (1 hour)
+      const maxAge = 60 * 60 * 1000 // 1 hour
       if (Date.now() - data.timestamp > maxAge) {
         localStorage.removeItem(this.config.cacheKey!)
         return null
@@ -157,8 +157,8 @@ export class ClientSearchProvider implements SearchProvider {
             return
           }
           
-          // Check cache validity (24 hours)
-          const maxAge = 24 * 60 * 60 * 1000
+          // Check cache validity (1 hour)
+          const maxAge = 60 * 60 * 1000
           if (Date.now() - data.timestamp > maxAge) {
             // Clean up expired cache
             const deleteTransaction = db.transaction(['search-index'], 'readwrite')

@@ -1,6 +1,5 @@
-import { BindReturn, createBlueprint, renderProps, type BaseProps } from "@duct-ui/core/blueprint"
+import { createBlueprint, renderProps, type BaseProps } from "@duct-ui/core/blueprint"
 import Markdown from "@duct-ui/components/content/markdown/markdown"
-import "@duct-ui/components/content/markdown/markdown.css"
 import layoutContextContent from './content/layout-context.md?raw'
 
 function render(props: BaseProps<{}>) {
@@ -13,12 +12,7 @@ function render(props: BaseProps<{}>) {
 
 const id = { id: "docs/layout-context" }
 
-function bind(): BindReturn<any> {
-  return {
-    release: () => { }
-  }
-}
 
-const DocsLayoutContext = createBlueprint(id, render, { bind })
+const DocsLayoutContext = createBlueprint(id, render, {})
 
 export default DocsLayoutContext

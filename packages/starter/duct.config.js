@@ -15,15 +15,10 @@ export default {
   },
   search: {
     enabled: true,
-    outputPath: 'search-index.json',
-    includeContent: true,
-    contentTypes: ['blog'], // Include blog content in search
-    fields: {
-      title: { weight: 10 },
-      description: { weight: 5 },
-      content: { weight: 1 },
-      tags: { weight: 8 }
-    }
+    generateIndex: true,
+    indexPath: 'search-index.json',
+    excludePaths: ['/404'],
+    includeContent: true
   },
   nunjucks: {
     filters: {
