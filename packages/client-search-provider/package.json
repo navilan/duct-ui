@@ -1,6 +1,6 @@
 {
   "name": "@duct-ui/client-search-provider",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Client-side search provider for Duct UI using FlexSearch",
   "type": "module",
   "main": "./dist/index.js",
