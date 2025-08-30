@@ -1,5 +1,14 @@
 # @duct-ui/cloudflare-search-provider
 
+## 0.8.2
+
+### Patch Changes
+
+- [#79](https://github.com/navilan/duct-ui/pull/79) [`1c2ef42`](https://github.com/navilan/duct-ui/commit/1c2ef4256c5b4d7a7a7f5ca3cac6f7877841aba5) Thanks [@navilan](https://github.com/navilan)! - Add defensive code to guard against invalid search index entries
+
+- Updated dependencies [[`1c2ef42`](https://github.com/navilan/duct-ui/commit/1c2ef4256c5b4d7a7a7f5ca3cac6f7877841aba5)]:
+  - @duct-ui/search-core@0.8.2
+
 ## 0.8.1
 
 ### Patch Changes
