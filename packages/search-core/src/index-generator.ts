@@ -80,6 +80,7 @@ export function serializeSearchIndex(entries: SearchIndexEntry[]): string {
 
 /**
  * Deserializes search index from storage/transmission
+ * Ensures all entries have proper structure with safe defaults
  */
 export function deserializeSearchIndex(data: string): SearchIndexEntry[] {
   try {
@@ -87,7 +88,16 @@ export function deserializeSearchIndex(data: string): SearchIndexEntry[] {
     if (!Array.isArray(parsed)) {
       throw new Error('Invalid search index format')
     }
-    return parsed
+    
+    // Validate and normalize each entry
+    return parsed.map((entry: any): SearchIndexEntry => ({
+      url: typeof entry.url === 'string' ? entry.url : '',
+      title: typeof entry.title === 'string' ? entry.title : 'Untitled',
+      description: typeof entry.description === 'string' ? entry.description : '',
+      content: typeof entry.content === 'string' ? entry.content : '',
+      tags: Array.isArray(entry.tags) ? entry.tags : [],
+      keywords: Array.isArray(entry.keywords) ? entry.keywords : []
+    })).filter(entry => entry.url) // Remove entries without valid URLs
   } catch (error) {
     console.error('Failed to deserialize search index:', error)
     return []

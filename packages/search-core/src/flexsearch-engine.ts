@@ -61,8 +61,37 @@ export class FlexSearchEngine {
     // Clear and populate entries
     this.indexEntries.clear()
     for (const entry of entries) {
-      this.searchIndex.add(entry as FlexSearchEntry)
-      this.indexEntries.set(entry.url, entry)
+      if (!entry) continue // Skip undefined/null entries
+      const safeEntry = this.validateEntry(entry)
+      if (safeEntry.url) { // Only add entries with valid URLs
+        this.searchIndex.add(safeEntry as FlexSearchEntry)
+        this.indexEntries.set(safeEntry.url, safeEntry)
+      }
+    }
+  }
+
+  /**
+   * Validates and normalizes a search index entry to ensure safety
+   */
+  private validateEntry(entry: any): SearchIndexEntry {
+    if (!entry || typeof entry !== 'object') {
+      return {
+        url: '',
+        title: 'Untitled',
+        description: '',
+        content: '',
+        tags: [],
+        keywords: []
+      }
+    }
+
+    return {
+      url: typeof entry.url === 'string' ? entry.url : '',
+      title: typeof entry.title === 'string' ? entry.title : 'Untitled',
+      description: typeof entry.description === 'string' ? entry.description : '',
+      content: typeof entry.content === 'string' ? entry.content : '',
+      tags: Array.isArray(entry.tags) ? entry.tags : [],
+      keywords: Array.isArray(entry.keywords) ? entry.keywords : []
     }
   }
 
@@ -134,10 +163,11 @@ export class FlexSearchEngine {
     let score = 0
 
     // Score based on matches in different fields (weighted)
-    const title = entry.title.toLowerCase()
-    const description = entry.description.toLowerCase()
-    const content = entry.content.toLowerCase()
-    const tags = entry.tags.join(' ').toLowerCase()
+    // Safely handle potentially missing or invalid properties
+    const title = (entry.title || '').toLowerCase()
+    const description = (entry.description || '').toLowerCase()
+    const content = (entry.content || '').toLowerCase()
+    const tags = Array.isArray(entry.tags) ? entry.tags.join(' ').toLowerCase() : ''
 
     for (const term of queryTerms) {
       if (title.includes(term)) score += 10
@@ -162,12 +192,19 @@ export class FlexSearchEngine {
    * Generate excerpt from entry content
    */
   private generateExcerpt(entry: SearchIndexEntry, query: string, maxLength: number = 200): string {
+    // Safely handle potentially missing properties
+    const description = entry.description || ''
+    const content = entry.content || ''
+    
     // Use description if available, otherwise generate from content
-    if (entry.description.trim()) {
-      return entry.description
+    if (description.trim()) {
+      return description
     }
 
-    const content = entry.content
+    if (!content) {
+      return ''
+    }
+
     const queryIndex = content.toLowerCase().indexOf(query.toLowerCase())
     
     if (queryIndex === -1) {
