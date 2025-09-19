@@ -4,8 +4,6 @@
 
 A DOM-first UI framework with JSX templates, standard component library and explicit lifecycle management.
 
-> **⚠️ Under Construction**: This library is currently in early development and may exhibit unexpected behavior. APIs are subject to change and components may not be fully stable. Use with caution in production environments.
-
 ## Quick Start
 
 ```bash
