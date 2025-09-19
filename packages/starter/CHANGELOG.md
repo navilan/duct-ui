@@ -1,5 +1,18 @@
 # @duct-ui/starter
 
+## 0.2.3
+
+### Patch Changes
+
+- [#81](https://github.com/navilan/duct-ui/pull/81) [`40cfa08`](https://github.com/navilan/duct-ui/commit/40cfa086de9af1d932989f285ac263bc59b0e58a) Thanks [@navilan](https://github.com/navilan)! - Remove under construction note
+
+- Updated dependencies [[`40cfa08`](https://github.com/navilan/duct-ui/commit/40cfa086de9af1d932989f285ac263bc59b0e58a)]:
+  - @duct-ui/components@0.8.3
+  - @duct-ui/core@0.8.3
+  - @duct-ui/client-search-provider@0.8.3
+  - @duct-ui/cloudflare-search-provider@0.8.3
+  - @duct-ui/router@0.8.3
+
 ## 0.2.2
 
 ### Patch Changes
