@@ -4,8 +4,6 @@
 
 A comprehensive component library for Duct UI with buttons, forms, navigation, layout, and data display components.
 
-> **⚠️ Under Construction**: This library is currently in early development and may exhibit unexpected behavior. APIs are subject to change and components may not be fully stable. Use with caution in production environments.
-
 ## Installation
 
 ```bash

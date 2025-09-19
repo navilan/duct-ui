@@ -2,8 +2,6 @@
 
 The command-line interface and build tools for Duct UI static site generation.
 
-> **⚠️ Under Construction**: This library is currently in early development and may exhibit unexpected behavior. APIs are subject to change and components may not be fully stable. Use with caution in production environments.
-
 ## Installation
 
 ```bash
@@ -134,7 +132,7 @@ export function getPageContext(): Record<string, any> {
 // Generate static paths at build time
 export async function getRoutes(): Promise<Record<string, any>> {
   const posts = await fetchBlogPosts()
-  
+
   const routes: Record<string, any> = {}
   for (const post of posts) {
     routes[`/blog/${post.slug}`] = {
@@ -147,7 +145,7 @@ export async function getRoutes(): Promise<Record<string, any>> {
       }
     }
   }
-  
+
   return routes
 }
 
@@ -168,17 +166,17 @@ Layout templates use Nunjucks templating with access to page context:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+
   <title>{{ page.title }}</title>
   <meta name="description" content="{{ page.description }}">
-  
+
   <!-- Open Graph tags -->
   {% if page.openGraph %}
   <meta property="og:title" content="{{ page.openGraph.title }}">
   <meta property="og:description" content="{{ page.openGraph.description }}">
   <meta property="og:image" content="{{ page.openGraph.image }}">
   {% endif %}
-  
+
   <!-- Stylesheets -->
   {% if page.styles %}
     {% for style in page.styles %}
@@ -188,7 +186,7 @@ Layout templates use Nunjucks templating with access to page context:
 </head>
 <body>
   <div id="app"></div>
-  
+
   <!-- Scripts -->
   {% if page.scripts %}
     {% for script in page.scripts %}
