@@ -58,5 +58,22 @@ export const galleryItems: GalleryItem[] = [
       "Production Deployment - Real-world performance optimization",
       "Clean URL Structure - SEO-friendly paths"
     ]
+  },
+  {
+    title: "Echoes of Each Other",
+    website: "https://eoeo.one",
+    source: "https://github.com/navilan/eoeo",
+    screenshot: "/docs/gallery/eoeo-one.png",
+    description: "An interactive single-page app exploring connections through dynamic data-driven SVG visualizations.",
+    features: [
+      "Interactive Single-Page App - Full client-side interactivity",
+      "Custom State Management - Event-driven state synchronization",
+      "Dynamic SVG Visualization - Data-driven visual representations",
+      "Drawer Component - Navigation using Duct's drawer component",
+      "Select Component - Interactive controls with Duct's select",
+      "Event-Driven Architecture - Component communication through events",
+      "Real-time Updates - Live data visualization updates",
+      "Responsive Visualization - Adaptive graphics for all screen sizes"
+    ]
   }
 ]
