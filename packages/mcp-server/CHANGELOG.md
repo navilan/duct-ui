@@ -1,5 +1,11 @@
 # @duct-ui/mcp-server
 
+## 0.2.4
+
+### Patch Changes
+
+- [#83](https://github.com/navilan/duct-ui/pull/83) [`cd40426`](https://github.com/navilan/duct-ui/commit/cd40426f43a244de57024ebc74587338531d15d5) Thanks [@navilan](https://github.com/navilan)! - Minor UI tweaks
+
 ## 0.2.3
 
 ### Patch Changes
