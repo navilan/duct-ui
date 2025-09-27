@@ -1,6 +1,6 @@
 {
   "name": "@duct-ui/cloudflare-search-provider",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Cloudflare Worker search provider for Duct UI",
   "type": "module",
   "main": "dist/index.js",

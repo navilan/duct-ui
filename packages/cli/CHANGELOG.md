@@ -1,5 +1,15 @@
 # @duct-ui/cli
 
+## 0.8.4
+
+### Patch Changes
+
+- [#83](https://github.com/navilan/duct-ui/pull/83) [`cd40426`](https://github.com/navilan/duct-ui/commit/cd40426f43a244de57024ebc74587338531d15d5) Thanks [@navilan](https://github.com/navilan)! - Minor UI tweaks
+
+- Updated dependencies [[`cd40426`](https://github.com/navilan/duct-ui/commit/cd40426f43a244de57024ebc74587338531d15d5)]:
+  - @duct-ui/router@0.8.4
+  - @duct-ui/search-core@0.8.4
+
 ## 0.8.3
 
 ### Patch Changes
