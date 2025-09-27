@@ -159,6 +159,7 @@ function render(props: BaseProps<SelectProps>) {
 function bind(el: HTMLElement, eventEmitter: EventEmitter<SelectEvents>): BindReturn<SelectLogic> {
   const button = el.querySelector('[role="button"]') as HTMLElement
   const menu = el.querySelector('ul') as HTMLElement
+  const arrow = el.querySelector('.select-button-arrow') as HTMLElement
 
   if (!button || !menu) {
     throw new Error('Select component missing required button or menu elements')
@@ -172,12 +173,14 @@ function bind(el: HTMLElement, eventEmitter: EventEmitter<SelectEvents>): BindRe
 
     el.dataset.selectOpen = 'true'
     menu.style.display = 'block'
+    if (arrow) arrow.style.transform = 'rotate(180deg)'
     eventEmitter.emit('open')
   }
 
   function close() {
     el.dataset.selectOpen = 'false'
     menu.style.display = 'none'
+    if (arrow) arrow.style.transform = 'rotate(0deg)'
     eventEmitter.emit('close')
   }
 

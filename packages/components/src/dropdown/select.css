@@ -1,0 +1,22 @@
+/* Select Component Styles */
+
+.select-button-arrow {
+  transition: transform 200ms ease-in-out;
+}
+
+.select-menu {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Alternative shadow options for different design systems */
+.select-menu.shadow-light {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.select-menu.shadow-medium {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.select-menu.shadow-heavy {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
