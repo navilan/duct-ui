@@ -366,6 +366,22 @@ export const demoSections: PageSection[] = [
         }
       }
     ]
+  },
+  {
+    type: 'category',
+    id: "showcase",
+    title: "Showcase",
+    page: "docs",
+    items: [
+      {
+        id: "built-with-duct",
+        title: "Built with Duct",
+        description: "Real-world websites and applications showcasing Duct features",
+        component: () => {
+          return DocsBuiltWithDuct({})
+        }
+      }
+    ]
   }
 ]
 
