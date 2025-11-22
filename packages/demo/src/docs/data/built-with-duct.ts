@@ -75,5 +75,24 @@ export const galleryItems: GalleryItem[] = [
       "Real-time Updates - Live data visualization updates",
       "Responsive Visualization - Adaptive graphics for all screen sizes"
     ]
+  },
+  {
+    title: "Fourdle",
+    website: "https://fourdle.puthir.org",
+    source: "https://github.com/puthirali/fourdle",
+    screenshot: "/docs/gallery/fourdle-puthir-org.png",
+    description: "A multi-board word puzzle demonstrating advanced Duct UI patterns including granular observable state management, component refs, and SSG with client - side hydration.",
+    features: [
+      "Observable State Service - Centralized state with granular event subscriptions (slot: board: entry: slot pattern)",
+      "Render/Bind Separation - Pure render functions with side effects isolated in bind lifecycle",
+      "Component Refs Pattern - Parent-child communication using createRef for modal control",
+      "Manual DOM Updates - Direct element manipulation in bind for surgical UI updates",
+      "Event-Driven Architecture - Custom event emitters for component communication",
+      "Memory Management - Explicit cleanup with release() pattern for subscriptions and listeners",
+      "SSG-Compatible Components - LocalStorage access in bind(), pure rendering for static generation",
+      "Duct UI Components - Modal and Select components from @duct-ui/components",
+      "Dynamic Re-rendering - innerHTML updates with event listener re-attachment pattern",
+      "CSS-Only Animations - Flip animations and auto-animate without React animation libraries"
+    ]
   }
 ]
