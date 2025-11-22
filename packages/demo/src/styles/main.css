@@ -75,7 +75,7 @@
   --color-secondary-content: oklch(15% 0.02 300);
 
   /* Accent using brighter blue for dark mode */
-  --color-accent: oklch(65% 0.20 240);
+  --color-accent: oklch(65% 0.2 240);
   --color-accent-content: oklch(15% 0.02 240);
 
   /* Neutral tones - inverted for dark mode */
@@ -106,8 +106,6 @@
   --border: 1px;
 }
 
-
-
 @source inline('relative');
 @source inline('absolute');
 @source inline('dropdown');
@@ -121,8 +119,6 @@
 @source inline('text-secondary');
 @source inline('text-success');
 @source inline('text-warning');
-
-
 
 @layer base {
   h1 {
@@ -282,4 +278,18 @@
 /* Override for images that should not have rounded corners */
 .prose img.no-rounded {
   @apply rounded-none;
+}
+
+.prose .header-anchor {
+  @apply opacity-0 ml-2 text-accent no-underline;
+  @apply transition-opacity duration-200;
+}
+
+.prose h1:hover .header-anchor,
+.prose h2:hover .header-anchor,
+.prose h3:hover .header-anchor,
+.prose h4:hover .header-anchor,
+.prose h5:hover .header-anchor,
+.prose h6:hover .header-anchor {
+  @apply opacity-100;
 }

@@ -2,6 +2,8 @@
  * Duct CLI configuration
  * @type {import('@duct-ui/cli/config').DuctConfig}
  */
+import { parseMarkdown } from './markdown-parser.js'
+
 export default {
   pagesDir: 'src/pages',
   layoutsDir: 'src/layouts',
@@ -108,7 +110,8 @@ export default {
   content: {
     // Marker to indicate end of excerpt in markdown files
     // When present, content before the marker becomes the excerpt
-    excerptMarker: '<!--more-->'
+    excerptMarker: '<!--more-->',
+    markdownParser: parseMarkdown
   },
 
   // Search configuration
